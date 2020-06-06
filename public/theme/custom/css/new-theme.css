@@ -1,0 +1,41 @@
+.bg-blue {
+    background-color: #59AEE9;
+}
+
+.nav-tabs .nav-link {
+    border-radius: 0px;
+    border: 0px;
+    color: white;
+    padding: 20px 50px;
+}
+
+.nav-tabs .nav-link:hover {
+    background: #408dc1;
+}
+
+.nav-tabs .nav-link.active {
+    background: #408dc1;
+    color: white;
+}
+
+.containerfluid-light{
+    background: #EBF1F5;
+}
+
+.service-card {
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+    border: 0px;
+}
+
+.fa-icon {
+    width: 110px;
+    height: 110px;
+    color: white;
+    background: #59aee9;
+    font-size: 45px;
+    padding-top: 25px;
+    border-radius: 100px;
+    margin-top: -40px;
+    border: 5px solid white;
+    transition: all 0.4s;
+}

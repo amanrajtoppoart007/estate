@@ -1,0 +1,79 @@
+<?php
+
+namespace App\DataTable\Filters;
+
+use Illuminate\Database\Eloquent\Builder;
+class MaintenanceWork
+{
+    /**
+     * Apply a given search value to the builder instance.
+     *
+     * @param Builder $builder
+     * @param $key
+     * @param mixed $value
+     * @return Builder $builder
+     */
+    public static function apply(Builder $builder,$key, $value)
+    {
+        if(method_exists(__CLASS__,$key))
+        {
+            $class = __CLASS__;
+            return $class::$key($builder,$value);
+        }
+         return $builder;
+    }
+    public static  function search(Builder $builder,$value)
+    {
+        $filter = new Filter();
+        if(is_array($value))
+        {
+            if(!empty($value['value']))
+            {
+               return $builder->where("category", 'LIKE', '%' . $filter->keyword . '%');
+            }
+          return $builder;
+        }
+        else
+        {
+            return $builder->where("category", 'LIKE', '%' . $value. '%');
+        }
+
+    }
+    public static function order(Builder $builder, $value)
+    {
+         $filter = new Filter();
+        if(is_array($value))
+        {
+            $column      = $dir = null;
+            $attributes  = ['id','category','created_at','updated','status'];
+            if(in_array($filter->column,$attributes))
+            {
+               $column      = $filter->column;
+               $dir         = $filter->dir;
+            }
+            if((!empty($column))&&(!empty($dir)))
+            {
+                return $builder->orderBy($column, $dir);
+            }
+        }
+        return $builder;
+    }
+    public static function tenant(Builder $builder, $value)
+    {
+       if(!empty($value))
+       {
+           $builder->where(['applicant_id'=>$value,'applicant_type'=>'tenant']);
+       }
+        return $builder;
+    }
+    public static function owner(Builder $builder, $value)
+    {
+       if(!empty($value))
+       {
+           $builder->where(['applicant_id'=>$value,'applicant_type'=>'owner']);
+       }
+        return $builder;
+    }
+
+
+}

@@ -1,0 +1,409 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <a href="{{route('admin.dashboard')}}" class="brand-link">
+      <img src="{{asset('assets/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">ESTATE</span>
+    </a>
+    <div class="sidebar">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{asset('assets/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="javascript:void(0)" class="d-block">{{Auth::guard('admin')->user()->name}}</a>
+        </div>
+      </div>
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link active">
+              <i class="nav-icon fa fa-cog"></i>
+              <p>
+                Setting
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('country.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Countries</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('state.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>State/Emirates</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('city.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Cities</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('settings')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Settings</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-credit-card"></i>
+              <p>
+                Accounting
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('acc.chart.of.accounts')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Chart of Accounts</p>
+                </a>
+              </li> <li class="nav-item">
+                <a href="{{route('acc.bank.accounts')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bank Accounts</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('acc.invoices')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Invoices</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('acc.bills')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bills</p>
+                </a>
+              </li>
+
+
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-building"></i>
+              <p>
+                Property Management
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('property.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Properties</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('property.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Property</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('property.unit.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Unit Listing</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('propertyType.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Property Types</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('feature.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Features</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('property.allotted')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Rented Property</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Tenant
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('tenant.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Tenant</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('tenant.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Tenant</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('tenancy.renewal.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon text-warning"></i>
+                  <p>Renew Tenancy</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('tenant.remove.req')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon text-danger"></i>
+                  <p>Remove Tenant Request</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-users"></i>
+              <p>
+                Owners
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('owner.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Owner List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('owner.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Owners</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-users"></i>
+              <p>
+                Buyers
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('buyer.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Buyer List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('buyer.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Buyers</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-money-check-alt"></i>
+              <p>
+                Sales
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('propertySales.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sales List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('propertySales.buyer.list')}}" class="nav-link">
+                  <i class="far fa-user nav-icon"></i>
+                  <p>Buyer List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-at"></i>
+              <p>
+                Agents
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('agent.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Agent List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('agent.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Agent</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-tasks"></i>
+              <p>
+                Task
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('task.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Taks</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-align-justify"></i>
+              <p>
+                Attendance
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('attendance.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Attendanc List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('attendance.search')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Search Attendance</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('attendance.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Take Attendance</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-building"></i>
+              <p>
+                Department
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('department.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Department List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-address-card"></i>
+              <p>
+                Employee
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('employee.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Employee List</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('employee.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Employee</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-th-list"></i>
+              <p>
+                Designation
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('designation.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Designation List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-wallet"></i>
+              <p>
+                Salary
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('create.salary.sheet')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Create Salary Sheet</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('salary.sheet.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Salary Sheet List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('booking-request.list')}}" class="nav-link">
+              <i class="nav-icon fa fa-question-circle"></i>
+              <p>
+                Booking Queries
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('contact-request.list')}}" class="nav-link">
+              <i class="nav-icon fa fa-question"></i>
+              <p>
+                Contact Requests
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>

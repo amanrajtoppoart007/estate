@@ -1,0 +1,98 @@
+@media screen and (min-width: 250px) and (max-width: 768px) {
+
+	
+
+	.mob-hide {
+
+		display: none !important;
+
+	}
+
+
+
+	.service-card {
+
+		margin-bottom: 20px !important;
+
+	}
+
+
+
+	.topbar2 {
+
+		background-color: transparent !important;
+
+		margin-bottom: 10px
+	}
+
+
+
+	.topbar2 .navbar-nav .nav-link {
+
+		color: #408dc1 !important;
+
+	}
+
+
+
+	.nav-tabs .nav-link {
+
+		padding: 10px 25px !important;
+
+	}
+
+
+
+	.title,
+
+	.title-h4 {
+
+		font-size: 24px !important;
+
+	}
+
+
+
+	section {
+
+		padding: 20px 0px !important;
+
+	}
+
+
+
+	.footer {
+
+		padding: 20px 0px !important;
+
+	}
+
+
+
+	.containerfluid-light {
+
+		margin-bottom: 20px !important;
+
+	}
+
+
+
+	.fa-icon {
+
+		margin-top: 0px !important;
+
+	}
+
+
+
+	.top50 {
+
+		top: 0px !important;
+
+	}
+
+
+
+
+
+}

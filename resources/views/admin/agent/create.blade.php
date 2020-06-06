@@ -1,0 +1,218 @@
+@extends('admin.layout.app')
+@section('breadcrumb')
+<div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Add Property Agent</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+              <li class="breadcrumb-item active">Add property Agent</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+@endsection
+@section('content')
+ <div class="card">
+     <div class="card-body">
+         {{Form::open(['route'=>'owner.store','id'=>'add_data_form'])}}
+       <h4>Basic Detail</h4>
+          <div class="row">
+            <div class="col-sm-6 col-md-8 row">
+                <div class="form-group col-md-6">
+                    <label for="name">Name</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="name" id="name" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="mobile">Mobile</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        </div>
+                        <input type="text" class="form-control numeric" name="mobile" id="mobile" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="email" id="email" value="" data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="password" id="password" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="emirates_id">Emirates Id</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-id-card-alt"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="emirates_id" id="emirates_id" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="text-center">
+                  <div class="user_photo">
+                    <img id="profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
+                    <div class=" ml-5 d-table" style="margin-left: 6rem!important;">
+                      <label class="btn btn-primary mb-0 mr-3" for="profile_image">Upload File</label>
+                      <input id="profile_image" class="hide" type="file" name="photo">
+                      <button type="button" id="remove_profile_image" class="btn btn-primary">Delete Photo
+                      </button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="my-2">Account Detail</h4>
+        <div class="row">
+          <div class="form-group col-md-4">
+              <label for="bank_name">Bank Name</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="bank_name" id="bank_name" value="">
+              </div>
+          </div>
+          <div class="form-group col-md-4">
+              <label for="bank_ifsc_code">Bank IFSC Code</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-sort-numeric-up"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="bank_ifsc_code" id="bank_ifsc_code" value="">
+              </div>
+          </div>
+          <div class="col-md-4"></div>
+          <div class="form-group col-md-4">
+              <label for="bank_account">A/C Number</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="bank_account" id="bank_account" value="">
+              </div>
+          </div>
+          <div class="form-group col-md-4">
+              <label for="banking_name">Name (According to Passbook)</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="banking_name" id="banking_name" value="">
+              </div>
+          </div>
+        </div>
+        <h4 class="my-2">Address Detail</h4>
+        <div class="row">
+          <div class="form-group col-md-4">
+              <label for="country">Country</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="country" id="country" value="">
+              </div>
+          </div>
+          <div class="form-group col-md-4">
+              <label for="state">State</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="state" id="state" value="">
+              </div>
+          </div>
+          <div class="col-md-4"></div>
+          <div class="form-group col-md-4">
+              <label for="city">City</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-city"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="city" id="city" value="">
+              </div>
+          </div>
+          <div class="form-group col-md-4">
+              <label for="address">Address</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="address" id="address" value="">
+              </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-success float-right" type="submit">Save</button>
+            </div>
+        </div>
+        {{Form::close()}}
+     </div>
+ </div>
+@endsection
+@section('js')
+<script src="{{asset('assets/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>
+@endsection
+@section('script')
+  <script>
+       $(document).ready(function(){
+           $('[data-mask]').inputmask();
+           function render_image(input) 
+            {
+                if(input.files && input.files[0])
+                {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#profile_image_grid').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#profile_image").change(function(){
+                render_image(this);
+            });
+            $("#remove_profile_image").click(function(){
+                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                var file = document.getElementById("profile_image");
+                file.value = file.defaultValue;
+            });
+            $("#add_data_form").on('submit',function(e){
+                e.preventDefault();
+                var url = "{{route('agent.store')}}";
+                var params = new FormData(document.getElementById('add_data_form'));
+                function fn_success(result)
+                {
+                   toast('success',result.message,'bottom-right'); 
+                   $("#add_data_form")[0].reset();
+                };
+                function fn_error(result)
+                {
+                    toast('error',result.message,'bottom-right');  
+                };
+                $.fn_ajax_multipart(url,params,fn_success,fn_error);
+            });
+       });
+  </script>
+@endsection
