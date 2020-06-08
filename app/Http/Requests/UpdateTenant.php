@@ -30,13 +30,12 @@ class UpdateTenant extends FormRequest
 
         $validate = [
             'tenant_type'=>'required',
+            'country'=>'required|numeric',
             'city'=>'required',
             'address'=>'required',
             'tenant_name'=>'required',
             'email'=>'required|email',
             'mobile'=>'required|numeric|digits:10',
-            'country'=>'required',
-            'bank_passbook'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
             'passport'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
             'visa'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
             'emirates_id'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
@@ -67,13 +66,13 @@ class UpdateTenant extends FormRequest
             $validate['rel_passport.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
             $validate['rel_visa.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
         }
-        else 
+        else
         {
             $validate['tenant_count'] = 'required|numeric|digits:1';
             $validate['no_sharing_agreement'] = 'mimes:jpeg,jpg,png,gif,pdf|max:10000';
         }
         return $validate;
-        
+
     }
     protected function failedValidation(Validator $validator)
     {

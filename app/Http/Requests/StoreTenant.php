@@ -30,13 +30,12 @@ class StoreTenant extends FormRequest
 
         $validate = [
             'tenant_type'=>'required',
+            'country'=>'required|numeric',
             'city'=>'required',
             'address'=>'required',
             'tenant_name'=>'required',
             'email'=>'required|email|unique:tenants',
             'mobile'=>'required|numeric|digits:10|unique:tenants',
-            'country'=>'required',
-            'bank_passbook'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
             'passport'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
             'visa'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
             'emirates_id'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',

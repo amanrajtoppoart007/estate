@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-          {{Form::open(['route'=>'tenant.store','method'=>'post','autocomplete'=>'off'])}}
+          {{Form::open(['route'=>'tenant.store','id'=>'add_data_form','method'=>'post','autocomplete'=>'off'])}}
              <div class="card card-info">
                 <div class="card-header">
                     <h6>Basic Detail</h6>
@@ -137,7 +137,7 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
                                          </div>
-                                         <input type="text" name="tenant_count" class="form-control numeric" placeholder="Enter number of tenants">
+                                         <input type="text" name="tenant_count" id="tenant_count" class="form-control numeric" placeholder="Enter number of tenants">
                                      </div>
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <div class="card card-info">
+            <div class="card card-info company_extra_detail">
                 <div class="card-header">
                     <h6>Company Detail</h6>
                 </div>
@@ -307,9 +307,9 @@
           </div>
                 </div>
             </div>
-            <div class="card card-info">
+            <div class="card card-info extra_relation_detail">
                 <div class="card-header">
-                    <h6>Family Detail</h6>
+                    <h6 id="extra_relation_detail_title">Family Detail</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -349,7 +349,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 bachelor_extra_detail">
                            <div class="form-group">
                                <label for="no_sharing_agreement">No sharing agreement</label>
                                <div class="input-group">
@@ -362,7 +362,7 @@
                                </div>
                            </div>
                        </div>
-                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 family_hs_extra_detail">
                            <div class="form-group">
                                <label for="marriage_certificate">Marriage Certificate</label>
                                <div class="input-group">
@@ -381,8 +381,170 @@
                 <div class="form-group text-right">
                     <button class="btn btn-primary">Save</button>
                 </div>
-            
+
         {{Form::close()}}
         </div>
     </div>
+@endsection
+ @section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+@endsection
+@section('js')
+<script src="{{asset('assets/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>
+<script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
+@endsection
+@section('script')
+<script>
+    $(document).ready(function(){
+
+        function applied_class_hide(elements)
+        {
+            elements.forEach(function(item){
+                $(`.${item}`).hide();
+            });
+
+        }
+        function applied_class_show(elements)
+        {
+            elements.forEach(function(item){
+                $(`.${item}`).show();
+            });
+        }
+     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
+     let pickers =
+               [
+                   'emirates_id_exp_date',
+                   'visa_exp_date',
+                   'passport_exp_date',
+                   'bank_passbook_exp_date',
+               ];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+           });
+		$("#tenant_type").on('change',function(e){
+			if(!$.trim($("#tenant_type").val()).length)
+			{
+				toast('error','Please select tenant type','bottom-right');
+				$("#tenant_type").css({'border-color':'aqua'}).focus();
+			}
+			else
+			{
+				let tenant_type = $("#tenant_type").val();
+				$("#tenant_count").val('').prop({readonly:false});
+				switch(tenant_type)
+				{
+					case 'family_husband_wife':
+						applied_class_show(['family_hs_extra_detail','extra_relation_detail']);
+						applied_class_hide(['company_extra_detail','bachelor_extra_detail']);
+						$("#extra_relation_detail_title").text("Family Detail");
+					break;
+					case 'family_brother_sister':
+						applied_class_show(['extra_relation_detail']);
+						applied_class_hide(['family_hs_extra_detail','company_extra_detail','bachelor_extra_detail']);
+						$("#extra_relation_detail_title").text("Family Detail");
+					break;
+					case 'company':
+
+						applied_class_show(['extra_relation_detail','company_extra_detail']);
+						applied_class_hide(['family_hs_extra_detail','bachelor_extra_detail']);
+						$("#extra_relation_detail_title").text("Employees Detail");
+					break;
+					case 'bachelor':
+						applied_class_show(['bachelor_extra_detail']);
+						applied_class_hide(['family_hs_extra_detail','extra_relation_detail','company_extra_detail']);
+						$("#tenant_count").val(1).prop({readonly:true});
+					break;
+					default:
+						applied_class_show(['bachelor_extra_detail']);
+						applied_class_show(['family_hs_extra_detail','extra_relation_detail','company_extra_detail','bachelor_extra_detail']);
+					break;
+
+				}
+			}
+		})
+     $('#add_data_form').on("submit",function(e){
+	  e.preventDefault();
+
+      let params = new FormData($(this)[0]);
+      let url    = '{{route('tenant.store')}}';
+      function fn_success(result)
+      {
+          toast('success', result.message, 'bottom-right');
+          window.location.href = result.next_url;
+
+      }
+      function fn_error(result)
+      {
+             if(result.response=='validation_error')
+            {
+                toast('error', result.message, 'bottom-right');
+            }
+            else
+            {
+                  toast('error', result.message, 'bottom-right');
+            }
+      }
+    $.fn_ajax_multipart(url,params,fn_success,fn_error);
+  });
+  function render_family_detail_form()
+{
+	var str = `<tr><td>#</td>
+    <td> <input type="text" class="form-control" name="rel_name[]" value=""> </td>
+    <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
+    <td><input type="file" class="form-control" name="rel_amirates_id[]"></td>
+    <td><input type="file" class="form-control" name="rel_passport[]"></td>
+    <td><input type="file" class="form-control" name="rel_visa[]"></td>
+    <td>
+        <a class="btn-sm btn-success text-white add_more_family_member"><i class="fa fa-plus"></i></a>
+        <a class="btn-sm btn-danger text-white remove_tr"><i class="fa fa-times"></i></a>
+    </td>
+</tr>`;
+		let html = $($.parseHTML(str));
+		$("#family_detail_grid").append(html);
+
+}
+
+$("#tenant_count").on("change",function(){
+    $("#family_detail_grid").html('');
+     let counter = $("#tenant_count").val();
+    if(counter>1)
+    {
+        for(i=0;i<(counter-1);i++)
+        {
+            render_family_detail_form();
+        }
+    }
+});
+$(document).on('click','.add_more_family_member',function(e){
+    e.preventDefault();
+    render_family_detail_form();
+});
+$(document).on('click','.remove_tr',function(e){
+    e.preventDefault();
+    $(this).closest('tr').remove();
+});
+function render_image(input)
+  {
+    if(input.files && input.files[0])
+	{
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#profile_image_grid').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#profile_image").change(function(){
+    render_image(this);
+  });
+  $("#remove_profile_image").click(function(){
+    $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+    var file = document.getElementById("profile_image");
+    file.value = file.defaultValue;
+  });
+   $("#profile_image_grid").on('click',function(){
+      $("#profile_image").click();
+  });
+    });
+</script>
 @endsection
