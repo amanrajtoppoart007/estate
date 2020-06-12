@@ -101,11 +101,10 @@ class TenantController extends Controller
         $tenant            = Tenant::find($id);
         if(!empty($tenant))
         {
-            $data               = array();
-            $data['state']      = State::where('is_disabled', '0')->get();
-            $data['countries']  = Country::where('is_disabled', '0')->get();
-            $data['tenant']     = $tenant;
-            return view('admin.tenant.edit')->with($data);
+
+            $state      = State::where('is_disabled', '0')->get();
+            $countries  = Country::where('is_disabled', '0')->get();
+            return view('admin.tenant.edit',compact('state','countries','tenant'));
         }
         else
         {

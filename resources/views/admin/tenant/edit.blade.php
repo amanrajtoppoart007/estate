@@ -1,174 +1,418 @@
 @extends('admin.layout.app')
 @section('content')
-<h4 class="color-primary mb-4">Tenant Information</h4>
-<div class="dashboard_personal_info p-5 bg-white">
-    {{Form::open(['route'=>'tenant.store','id'=>'edit_data_form','class'=>'form2','enctype'=>"multipart/form-data"])}}
-     <input type="hidden" name="tenant_id" value={{$tenant->id}}>
-    <h5 class="color-primary">Basic Detail</h5>
-        <hr>
-        <div class="row mt-4">
-            <div class="col-lg-6 col-md-12">
-                <div class="form-group">
-                       <label><strong>Tenant Type</strong></label> 
-                        <?php 
-                           $array = array('family_husband_wife'=>'Family(Husband & Wife)','family_brother_sister'=>'Family(Brother & Sister)','company'=>'Company','bachelor'=>'Bachelor');
-                           $tenant_type = '';
-                           foreach($array as $tkey=>$tval){
-                               if(($tkey==$tenant->tenant_type))
-                               {
-                                   $tenant_type = $tval;
-                               }    
-                        ?>
-                        <div class="px-1">{{$tenant_type}}</div>
-                           <?php } ?>
-                              <input type="hidden" name="tenant_type" value="{{$tenant->tenant_type}}">
+    <div class="card">
+        <div class="card-body">
+          {{Form::open(['route'=>'tenant.store','id'=>'add_data_form','method'=>'post','autocomplete'=>'off'])}}
+             <div class="card card-info">
+                <div class="card-header">
+                    <h6>Basic Detail</h6>
                 </div>
-                <div class="form-group">
-                    <label>Tenant Name</label>
-                <input type="text" class="form-control"  name="tenant_name" value="{{$tenant->name}}"  autocomplete="off">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label  for="tenant_type">Tenant Type <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                        <select name="tenant_type" id="tenant_type" class="form-control">
+                                            <option value="">Select Tenancy</option>
+                                            @php $tenancy  =
+                                              [
+                                                  'family_husband_wife'=>'Family(Husband-Wife)',
+                                                  'family_brother_sister'=>'Family(Brother-Sister)',
+                                                  'company'=>'Company',
+                                                  'bachelor'=>'Bachelor',
+                                              ];
+                                            @endphp
+                                            @foreach($tenancy as $key=>$value)
+                                                @php $selected = ($key==$tenant->tenant_type)?'selected':''; @endphp
+                                                <option value="{{$key}}" {{$selected}}>{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                     </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="tenant_name">Tenant Name <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                        <input class="form-control" name="tenant_name" id="tenant_name" type="text"  value="{{$tenant->name}}" autocomplete="off">
+                                     </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="email">Email <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                        <input type="text" name="email" id="email" class="form-control" autocomplete="off" value="{{$tenant->email}}">
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="password">Password <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                       <input type="text" name="password" class="choose_file form-control" autocomplete="off" value="">
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="mobile">Mobile <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text">
+                                                 <select  name="country_code" id="country_code" class="phone_code">
+                                                      @foreach($countries as $country)
+                                                          @php $selected = ($tenant->country->code==$country->code)?'selected':''; @endphp
+                                                         <option value="{{$country->id}}" {{$selected}}>+{{$country->code}}</option>
+                                                     @endforeach
+                                                  </select>
+                                             </span>
+                                         </div>
+                                        <input type="text" name="mobile" id="mobile" class="form-control numeric" autocomplete="off" value="{{$tenant->mobile}}">
+                                     </div>
+                                    </div>
+                                </div>
+                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="country">Nationality <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                             <select name="country" id="country" class="form-control">
+                                                 <option>Select Country</option>
+                                                 @foreach($countries as $country)
+                                                          @php $selected = ($tenant->country->code==$country->code)?'selected':''; @endphp
+                                                         <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
+                                                     @endforeach
+                                             </select>
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="city">City <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                         <input type="text" name="city" class="form-control" value="{{($tenant->profile)?$tenant->profile->city:null}}">
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="address">Address <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                         <textarea type="text" name="address" id="address" class="form-control">
+                                             {{($tenant->profile)?$tenant->profile->address:null}}
+                                         </textarea>
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="dob">Date Of Birth</label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                         <input type="text" name="dob" id="dob" class="form-control" value="{{($tenant->profile)?$tenant->profile->dob:null}}" placeholder="DD-MM-YY (Optional)">
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="tenant_count">Tenant Count <span class="text-danger">*</span> <small>(Including the applicant/primary tenant)</small></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                         <input type="text" name="tenant_count" id="tenant_count" class="form-control numeric" placeholder="Enter number of tenants" value="{{($tenant->profile)?$tenant->profile->tenant_count:0}}">
+                                     </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
+                            @php
+                                if(!empty($tenant->profile->profile_image))
+                                {
+                                    $img = route('get.doc',base64_encode($tenant->profile->profile_image));
+                                }
+                                else
+                                {
+                                    $img = asset('theme/default/images/dashboard/4.png');
+                                }
+                            @endphp
+                            <img id="profile_image_grid" src="{{$img}}"
+                                 style="width: 250px;margin-bottom: 10px;" alt="">
+                            <div>
+                                <label class="btn btn-primary mb-0 mr-2" for="profile_image">Upload Icon</label>
+                                <input id="profile_image" class="hide" type="file" name="profile_image">
+                                <button type="button" id="remove_profile_image" class="btn btn-danger">Delete Icon
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="text" name="email" class="form-control"  value="{{$tenant->email}}" autocomplete="off">
+            </div>
+
+            <div class="card card-info company_extra_detail">
+                <div class="card-header">
+                    <h6>Company Detail</h6>
                 </div>
-                <div class="form-group position-relative">
-                    <label>Phone Number</label>
-                    <select name="country_code" class="phone_code">
-                        @foreach($countries as $country)
-                         <?php $selected = ($country->code==$tenant->profile->country_code)?'selected=""':'';?>
-                         <option value="{{$country->code}}">{{$country->code}}</option>
-                        @endforeach	
-                    </select>
-                    <input autocomplete="off" style="padding-left: 82px;" type="text" name="mobile" value="{{$tenant->mobile}}" class="form-control numeric">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 com-md-3 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                               <label for="company_name">Company Name</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="company_name" id="company_name" value="{{($tenant->profile)?$tenant->profile->company_name:null}}">
+                               </div>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6 com-md-3 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                               <label for="trade_licence">Trade Certificate</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="trade_licence" id="trade_licence" value="">
+                                   @php
+                                       $trade_licence = 'javascript:void(0)';
+                                        if(!empty($tenant->profile->trade_lincense))
+                                        {
+                                            $trade_licence = route('get.doc',base64_encode($tenant->profile->trade_lincense));
+                                        }
+                                   @endphp
+                                   <div class="input-group-append">
+                                       <span class="input-group-text">
+                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$trade_licence}}" {{($tenant->profile->trade_lincense)?'target=_blank':''}}>
+                                               <i class="fa fa-file"></i>
+                                           </a>
+                                       </span>
+                                   </div>
+                               </div>
+                           </div>
+                        </div>
+                    </div>
                 </div>
-        <div class="more_info">
-          <h5 class="color-primary">More Info</h5>
-          <hr>
-          <div class="form-group">
-            <label>Country</label>
-            <select name="country" class="form-control">
-				<option>Select Country</option>
-                @foreach($countries as $country)
-                <?php $selected = ($country->id==$tenant->profile->country)?'selected=""':'';?>
-				<option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
-				@endforeach								
-            </select>
+            </div>
+            <div class="card card-info">
+                <div class="card-header">
+                    <h6>Documents</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                 <div class="form-group">
+                     <label for="emirates_id">Emirates Id </label>
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-passport"></i>
+                            </span>
+                        </div>
+                     <input type="file" class="form-control" name="emirates_id" id="emirates_id" value="">
+                         @php
+                             $emirates_id = 'javascript:void(0)';
+                              if(!empty($tenant->profile->emirates_id))
+                              {
+                                  $doc = pluck_single_value('tenant_documents','id',$tenant->profile->emirates_id,'doc_url');
+
+                                  $emirates_id = route('get.doc',base64_encode($doc));
+                              }
+                         @endphp
+                         <div class="input-group-append">
+                               <span class="input-group-text">
+                                   <a data-toggle="tooltip" title="Click to view the file" href="{{$emirates_id}}" {{($tenant->profile->emirates_id)?'target=_blank':''}}>
+                                       <i class="fa fa-file"></i>
+                                   </a>
+                               </span>
+                         </div>
+                     </div>
+                 </div>
+              </div>
+                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="passport">Passport</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="passport" id="passport" value="">
+                                   @php
+                                       $passport = 'javascript:void(0)';
+                                        if(!empty($tenant->profile->passport))
+                                        {
+                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->passport,'doc_url');
+
+                                            $passport = route('get.doc',base64_encode($doc));
+                                        }
+                                   @endphp
+                                   <div class="input-group-append">
+                                       <span class="input-group-text">
+                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$passport}}" {{($tenant->profile->passport)?'target=_blank':''}}>
+                                               <i class="fa fa-file"></i>
+                                           </a>
+                                       </span>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="visa">Visa</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="visa" id="visa" value="">
+                                   @php
+                                       $visa = 'javascript:void(0)';
+                                        if(!empty($tenant->profile->visa))
+                                        {
+                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->visa,'doc_url');
+
+                                            $visa = route('get.doc',base64_encode($doc));
+                                        }
+                                   @endphp
+                                   <div class="input-group-append">
+                                       <span class="input-group-text">
+                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$visa}}" {{($tenant->profile->visa)?'target=_blank':''}}>
+                                               <i class="fa fa-file"></i>
+                                           </a>
+                                       </span>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="bank_passbook">Bank Statement</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="bank_passbook" id="bank_passbook" value="">
+                                    @php
+                                       $bank_passbook = 'javascript:void(0)';
+                                        if(!empty($tenant->profile->bank_passbook))
+                                        {
+                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->bank_passbook,'doc_url');
+
+                                            $bank_passbook = route('get.doc',base64_encode($doc));
+                                        }
+                                   @endphp
+                                   <div class="input-group-append">
+                                       <span class="input-group-text">
+                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$bank_passbook}}" {{($tenant->profile->bank_passbook)?'target=_blank':''}}>
+                                               <i class="fa fa-file"></i>
+                                           </a>
+                                       </span>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
           </div>
-          
           <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label>City / State</label>
-                <input type="text" name="city" class="form-control" value="{{$tenant->profile->mobile}}">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                 <div class="form-group">
+                     <label for="emirates_id_exp_date">Emirates Id(Expiry Date) </label>
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-passport"></i>
+                            </span>
+                        </div>
+                     <input type="text" class="form-control" name="emirates_id_exp_date" id="emirates_id_exp_date" value="{{$tenant->profile->emirates_id_exp_date ? date('d-m-Y',strtotime($tenant->profile->emirates_id_exp_date)):null}}">
+                     </div>
+                 </div>
               </div>
+                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="passport_exp_date">Passport (Expiry Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="{{$tenant->profile->passport_exp_date ? date('d-m-Y',strtotime($tenant->profile->passport_exp_date)):null}}">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="visa_exp_date">Visa (Expiry Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="{{$tenant->profile->visa_exp_date ? date('d-m-Y',strtotime($tenant->profile->visa_exp_date)):null}}">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="bank_passbook_exp_date">Bank Statement (Expiry Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="bank_passbook_exp_date" id="bank_passbook_exp_date" value="{{$tenant->profile->bank_passbook_exp_date ? date('d-m-Y',strtotime($tenant->profile->bank_passbook_exp_date)):null}}">
+                               </div>
+                           </div>
+                       </div>
+          </div>
+                </div>
             </div>
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label>Zip Code</label>
-                <input type="text" name="zip" class="form-control numeric" value="{{$tenant->profile->zip}}">
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Address</label>
-            <textarea  name="address" class="form-control" placeholder="Enter address">{{$tenant->profile->address}}</textarea>
-          </div>
-          <div class="form-group">
-            <label>DOB</label>
-            <input type="text" name="dob" class="form-control" placeholder="DD-MM-YY (Optional)" value="{{date('d-m-Y',strtotime($tenant->profile->dob))}}">
-          </div>
-          
-          <div class="form-group">
-            <label>Number of tenants </label>
-          <input type="text" name="tenant_count" class="form-control numeric" placeholder="Enter number of tenants" required="" value="{{$tenant->profile->tenant_count}}">
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-5 col-md-12">
-        <div class="user_photo" >
-             @php
-                if(!empty($tenant->profile))
-                {
-                    $img = route('get.doc',base64_encode($tenant->profile->profile_image));
-                }
-                else 
-                {
-                    $img = asset('theme/default/images/dashboard/4.png');
-                } 
-            @endphp
-          <img id="profile_image_grid" src="{{$img}}" style="width: 250px;margin-bottom: 10px;" alt="">
-          <div class="d-table">
-            <label class="btn btn-primary mb-0 mr-2" for="profile_image">Upload File</label>
-            <input id="profile_image" class="hide" type="file" name="profile_image">
-            <button type="button" id="remove_profile_image" class="btn btn-primary">Delete Photo
-            </button>
-          </div>
-          <hr>
-          <h5 class="color-primary">Documents</h5>
-          <hr>
-          <div class="form-group">
-            <label>Passport</label>
-            <input type="file" name="passport" class="choose_file form-control">
-          </div>
-          <div class="form-group">
-            <label>Visa</label>
-            <input type="file" name="visa" class="choose_file form-control">
-          </div>
-          <div class="form-group">
-            <label for="emirates_id">UAE Identity Card (ID)</label>
-            <input type="file" name="emirates_id" class="choose_file form-control">
-          </div>
-          <div class="form-group">
-            <label for="bank_passbook">Bank Salary Transfer Statement (Last 3 month)</label>
-            <input  type="file" name="bank_passbook" class="choose_file form-control">
-          </div>
-          <div class="form-group">
-            <label for="last_sewa_id">Previous SEWA final closing bill</label>
-            <input type="file" name="last_sewa_id" class="choose_file form-control">
-          </div>
-        </div>
-      </div>
-    </div>
-			<h6>Extra Detail</h6>
-			<div class="row" id="company_extra_detail">
-				<div class="col">
-					<div class="form-group">
-                      <label>Company Name</label>
-                      <input class="form-control"  name="company_name" type="text" autocomplete="off">
-                   </div>
-				</div>
-				<div class="col">
-					<div class="form-group">
-					<label for="trade_licence">Trade Certificate *</label>
-					  <input type="file" name="trade_license" class="choose_file form-control">
-					</div>
-				</div>
-			</div>
-			<div class="row" id="bachelor_extra_detail">
-				<div class="col-6">
-					<div class="form-group">
-						<label>No sharinge agreement</label>
-						<input type="file" name="no_sharing_agreement" class="choose_file form-control">
-					</div>
-				</div>
-			</div>
-			<div class="row" id="family_hs_extra_detail">
-				<div class="col-6">
-					<div class="form-group">
-						<label for="marriage_certificate">Merrige Certificate *</label>
-						<input type="file" name="marriage_certificate" class="choose_file form-control">
-					</div>
-				</div>
-			</div>
-		
-    <div class="row" id="extra_relation_detail">
-        <div class="col-md-12">
-            <div class="card">
-            <div class="card-header">
-                <h5>Family Details</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
+
+            <div class="card card-info extra_relation_detail" {{($tenant->profile->tenant_count>1)?'':'style=display:block'}}>
+                <div class="card-header">
+                    <h6 id="extra_relation_detail_title">Family Detail</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -182,86 +426,209 @@
                             </tr>
                         </thead>
                         <tbody id="family_detail_grid">
+                        @if(!($tenant->relations->isEmpty()))
+                          @foreach($tenant->relations as $relation)
+                              @php
+                                $rel_amirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
+                                   if(!empty($relation->emirates_id))
+                                   {
+                                       $rel_amirates_id = route('get.doc',base64_encode($relation->emirates_id));
+                                   }
+                                   if(!empty($relation->passport))
+                                   {
+                                       $rel_passport = route('get.doc',base64_encode($relation->passport));
+                                   }
+                                   if(!empty($relation->visa))
+                                   {
+                                       $rel_visa = route('get.doc',base64_encode($relation->visa));
+                                   }
+                              @endphp
                             <tr>
-                                <td>#</td>
-                                <td> <input type="text" class="form-control"  name="rel_name[]" value=""> </td>
-                                <td><input type="text" class="form-control"  name="rel_relationship[]" value=""></td>
-                                <td><input type="file" class="form-control"  name="rel_amirates_id[]"></td>
-                                <td><input type="file" class="form-control"  name="rel_passport[]"></td>
-                                <td><input type="file" class="form-control"  name="rel_visa[]"></td>
+                                <td><input type="hidden" name="rel_id[]" value="{{$relation->id}}"> # </td>
+                                <td> <input type="text" class="form-control"  name="rel_name[]" value="{{$relation->name}}"> </td>
+                                <td><input type="text" class="form-control"  name="rel_relationship[]" value="{{$relation->relationship}}"></td>
+                                <td>
+                                    <div class="input group">
+                                        <input type="file" class="form-control"  name="rel_amirates_id[]">
+                                        <div class="input-group-append">
+                                           <span class="input-group-text">
+                                               <a data-toggle="tooltip" title="Click to view the file"
+                                                  href="{{$rel_amirates_id}}" {{($relation->amirates_id)?'target=_blank':''}}>
+                                                   <i class="fa fa-file"></i>
+                                               </a>
+                                           </span>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="input group">
+                                        <input type="file" class="form-control"  name="rel_passport[]">
+                                        <div class="input-group-append">
+                                           <span class="input-group-text">
+                                               <a data-toggle="tooltip" title="Click to view the file"
+                                                  href="{{$rel_passport}}" {{($relation->passport)?'target=_blank':''}}>
+                                                   <i class="fa fa-file"></i>
+                                               </a>
+                                           </span>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="input group">
+                                        <input type="file" class="form-control"  name="rel_visa[]">
+                                        <div class="input-group-append">
+                                           <span class="input-group-text">
+                                               <a data-toggle="tooltip" title="Click to view the file"
+                                                  href="{{$rel_visa}}" {{($relation->visa)?'target=_blank':''}}>
+                                                   <i class="fa fa-file"></i>
+                                               </a>
+                                           </span>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>
                                     <a class="btn-sm btn-success text-white add_more_family_member"><i class="fa fa-plus"></i></a>
                                     <a class="btn-sm btn-danger text-white"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
+                          @endforeach
+                        @else
+                        <tr>
+                              <td><input type="hidden" name="rel_id[]" value=""> #</td>
+                              <td><input type="text" class="form-control" name="rel_name[]" value=""></td>
+                              <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
+                              <td><input type="file" class="form-control" name="rel_amirates_id[]"></td>
+                              <td><input type="file" class="form-control" name="rel_passport[]"></td>
+                              <td><input type="file" class="form-control" name="rel_visa[]"></td>
+                              <td>
+                                  <a class="btn-sm btn-success text-white add_more_family_member"><i
+                                          class="fa fa-plus"></i></a>
+                                  <a class="btn-sm btn-danger text-white"><i class="fa fa-times"></i></a>
+                              </td>
+                          </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
+                </div>
             </div>
-        </div>
+
+            <div class="card card-info">
+                <div class="card-header">
+                    <h6>Extra Detail</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 bachelor_extra_detail">
+                           <div class="form-group">
+                               <label for="no_sharing_agreement">No sharing agreement</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="no_sharing_agreement" id="no_sharing_agreement" value="">
+                                   @php
+                                       $no_sharing_agreement = 'javascript:void(0)';
+                                        if(!empty($tenant->profile->no_sharing_agreement))
+                                        {
+                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->no_sharing_agreement,'doc_url');
+
+                                            $no_sharing_agreement = route('get.doc',base64_encode($doc));
+                                        }
+                                   @endphp
+                                   <div class="input-group-append">
+                                       <span class="input-group-text">
+                                           <a data-toggle="tooltip" title="Click to view the file"
+                                              href="{{$no_sharing_agreement}}" {{($tenant->profile->no_sharing_agreement)?'target=_blank':''}}>
+                                               <i class="fa fa-file"></i>
+                                           </a>
+                                       </span>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 family_hs_extra_detail">
+                           <div class="form-group">
+                               <label for="marriage_certificate">Marriage Certificate</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="marriage_certificate" id="marriage_certificate" value="">
+                                   @php
+                                       $marriage_certificate = 'javascript:void(0)';
+                                        if(!empty($tenant->profile->marriage_certificate))
+                                        {
+                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->marriage_certificate,'doc_url');
+
+                                            $marriage_certificate = route('get.doc',base64_encode($doc));
+                                        }
+                                   @endphp
+                                   <div class="input-group-append">
+                                       <span class="input-group-text">
+                                           <a data-toggle="tooltip" title="Click to view the file"
+                                              href="{{$marriage_certificate}}" {{($tenant->profile->marriage_certificate)?'target=_blank':''}}>
+                                               <i class="fa fa-file"></i>
+                                           </a>
+                                       </span>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+                <div class="form-group text-right">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+
+        {{Form::close()}}
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <button type="submit" class="btn btn-success float-left">Save</button>
-            </div>
-        </div>
-    </div>
-    {{Form::close()}}
-</div>
 @endsection
-@section('head')
-  <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+ @section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
 @endsection
 @section('js')
- <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
+<script src="{{asset('assets/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>
+<script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 @endsection
 @section('script')
 <script>
     $(document).ready(function(){
-        function switch_tenant_type(tenant_type)
-        {
-            switch(tenant_type)
-				{
-					case 'family_husband_wife':
-						$("#family_hs_extra_detail").show();
-						$("#extra_relation_detail").show();
-						$("#company_extra_detail").hide();
-						$("#bachelor_extra_detail").hide();
-					break;
-					case 'family_brother_sister':
-						$("#family_hs_extra_detail").hide();
-						$("#extra_relation_detail").show();
-						$("#company_extra_detail").hide();
-						$("#bachelor_extra_detail").hide();
-					break;
-					case 'company':
-						$("#family_hs_extra_detail").hide();
-						$("#extra_relation_detail").show();
-						$("#company_extra_detail").show();
-						$("#bachelor_extra_detail").hide();
-					break;
-					case 'bachelor':
-						$("#family_hs_extra_detail").hide();
-						$("#extra_relation_detail").hide();
-						$("#company_extra_detail").hide();
-						$("#bachelor_extra_detail").show();
-					break;
-					default:
-						$("#family_hs_extra_detail").show();
-						$("#extra_relation_detail").show();
-						$("#company_extra_detail").show();
-						$("#bachelor_extra_detail").show();	
-					break;
 
-				}
+        function applied_class_hide(elements)
+        {
+            elements.forEach(function(item){
+                $(`.${item}`).hide();
+            });
+
         }
-      let start_date =  $('input[name="dob"]').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',
-            maxDate : '{{now()->format('d-m-Y')}}',
-            value   : '{{date('Y-m-d',strtotime($tenant->profile->dob))}}', 
-		});
+        function applied_class_show(elements)
+        {
+            elements.forEach(function(item){
+                $(`.${item}`).show();
+            });
+        }
+     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
+     let pickers =
+               [
+                   'emirates_id_exp_date',
+                   'visa_exp_date',
+                   'passport_exp_date',
+                   'bank_passbook_exp_date',
+               ];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+           });
 		$("#tenant_type").on('change',function(e){
+		    $("#family_detail_grid").html('');
 			if(!$.trim($("#tenant_type").val()).length)
 			{
 				toast('error','Please select tenant type','bottom-right');
@@ -269,20 +636,54 @@
 			}
 			else
 			{
-                let tenant_type = $("#tenant_type").val();
-                switch_tenant_type(tenant_type);		
+				let tenant_type = $("#tenant_type").val();
+				$("#tenant_count").val('').prop({readonly:false});
+				display(tenant_type);
+
 			}
 		})
-         $('#edit_data_form').submit(function(event){
-	  event.preventDefault();
- 
-      var params = new FormData($(this)[0]);
-      var url    = '{{route('tenant.update',$tenant->id)}}';
+        function display(tenant_type)
+        {
+            switch(tenant_type)
+				{
+					case 'family_husband_wife':
+						applied_class_show(['family_hs_extra_detail','extra_relation_detail']);
+						applied_class_hide(['company_extra_detail','bachelor_extra_detail']);
+						$("#extra_relation_detail_title").text("Family Detail");
+					break;
+					case 'family_brother_sister':
+						applied_class_show(['extra_relation_detail']);
+						applied_class_hide(['family_hs_extra_detail','company_extra_detail','bachelor_extra_detail']);
+						$("#extra_relation_detail_title").text("Family Detail");
+					break;
+					case 'company':
+
+						applied_class_show(['extra_relation_detail','company_extra_detail']);
+						applied_class_hide(['family_hs_extra_detail','bachelor_extra_detail']);
+						$("#extra_relation_detail_title").text("Employees Detail");
+					break;
+					case 'bachelor':
+						applied_class_show(['bachelor_extra_detail']);
+						applied_class_hide(['family_hs_extra_detail','extra_relation_detail','company_extra_detail']);
+						$("#tenant_count").val(1).prop({readonly:true});
+					break;
+					default:
+						applied_class_show(['bachelor_extra_detail']);
+						applied_class_show(['family_hs_extra_detail','extra_relation_detail','company_extra_detail','bachelor_extra_detail']);
+					break;
+
+				}
+        }
+     $('#add_data_form').on("submit",function(e){
+	  e.preventDefault();
+
+      let params = new FormData($(this)[0]);
+      let url    = '{{route('tenant.update',['id'=>$tenant->id])}}';
       function fn_success(result)
       {
           toast('success', result.message, 'bottom-right');
           window.location.href = result.next_url;
-         
+
       }
       function fn_error(result)
       {
@@ -312,8 +713,20 @@
 </tr>`;
 		let html = $($.parseHTML(str));
 		$("#family_detail_grid").append(html);
-			
+
 }
+
+$("#tenant_count").on("change",function(){
+    $("#family_detail_grid").html('');
+     let counter = $("#tenant_count").val();
+    if(counter>1)
+    {
+        for(i=0;i<(counter-1);i++)
+        {
+            render_family_detail_form();
+        }
+    }
+});
 $(document).on('click','.add_more_family_member',function(e){
     e.preventDefault();
     render_family_detail_form();
@@ -322,7 +735,7 @@ $(document).on('click','.remove_tr',function(e){
     e.preventDefault();
     $(this).closest('tr').remove();
 });
-function render_image(input) 
+function render_image(input)
   {
     if(input.files && input.files[0])
 	{
@@ -344,7 +757,8 @@ function render_image(input)
    $("#profile_image_grid").on('click',function(){
       $("#profile_image").click();
   });
-  switch_tenant_type('{{$tenant->tenant_type}}');
+
+   display('{{$tenant->tenant_type}}');
     });
 </script>
 @endsection

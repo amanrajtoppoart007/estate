@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="tenant_count">Tenant Count <span class="text-danger">*</span></label>
+                                        <label for="tenant_count">Tenant Count <span class="text-danger">*</span> <small>(Including the applicant/primary tenant)</small></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -422,6 +422,7 @@
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
            });
 		$("#tenant_type").on('change',function(e){
+		    $("#family_detail_grid").html('');
 			if(!$.trim($("#tenant_type").val()).length)
 			{
 				toast('error','Please select tenant type','bottom-right');

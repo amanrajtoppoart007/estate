@@ -49,22 +49,28 @@ class UpdateTenant extends FormRequest
         }
         else if($request['tenant_type']=='family_husband_wife')
         {
-            $validate['marriage_certificate'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
-            $validate['tenant_count'] = 'required|numeric';
-            $validate['rel_name.*'] = 'required';
-            $validate['rel_relationship.*'] = 'required';
-            $validate['rel_amirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
-            $validate['rel_passport.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
-            $validate['rel_visa.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            if($request['tenant_count']>1)
+            {
+                $validate['marriage_certificate'] = 'mimes:jpeg,jpg,png,gif,pdf|max:10000';
+                $validate['tenant_count'] = 'required|numeric';
+                $validate['rel_name.*'] = 'required';
+                $validate['rel_relationship.*'] = 'required';
+                $validate['rel_amirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+                $validate['rel_passport.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+                $validate['rel_visa.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            }
+
         }
         else if($request['tenant_type']=='family_brother_sister')
         {
-            $validate['tenant_count'] = 'required|numeric';
-            $validate['rel_name.*'] = 'required';
-            $validate['rel_relationship.*'] = 'required';
-            $validate['rel_amirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
-            $validate['rel_passport.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
-            $validate['rel_visa.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            if($request['tenant_count']>1) {
+                $validate['tenant_count'] = 'required|numeric';
+                $validate['rel_name.*'] = 'required';
+                $validate['rel_relationship.*'] = 'required';
+                $validate['rel_amirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+                $validate['rel_passport.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+                $validate['rel_visa.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            }
         }
         else
         {

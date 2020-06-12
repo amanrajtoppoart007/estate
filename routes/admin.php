@@ -302,3 +302,12 @@ Route::prefix('system-setting')->group(function () {
 Route::prefix('contact-request')->group(function () {
     Route::get('list', 'Admin\ContactRequestController@index')->name('contact-request.list');
 });
+
+/*------------maintenance routes ------------------*/
+Route::prefix('maintenance')->group(function () {
+Route::get('/list', 'Admin\MaintenanceController@index')->name('maintenance.list');
+Route::get('/create', 'Admin\MaintenanceController@create')->name('maintenance.create');
+Route::post('/store', 'Admin\MaintenanceController@store')->name('maintenance.store');
+Route::post('/fetch', 'Admin\MaintenanceController@fetch')->name('maintenance.fetch');
+Route::get('/view/{id}', 'Admin\MaintenanceController@view')->name('maintenance.view');
+});
