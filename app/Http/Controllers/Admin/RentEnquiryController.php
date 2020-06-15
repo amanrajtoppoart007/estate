@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Agent;
+use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\RentEnquiry;
 use Illuminate\Http\Request;
@@ -17,7 +18,14 @@ class RentEnquiryController extends Controller
 
     public function index()
     {
+       return view('admin.rentEnquiry.index');
+    }
 
+     public function fetch(Request $request)
+    {
+        $model = new RentEnquiry();
+        $api    = new \App\DataTable\Api($model,$request);
+        echo json_encode($api->apply());
     }
 
     public function create()
@@ -48,6 +56,13 @@ class RentEnquiryController extends Controller
          {
              $store = $request->only(['name','email','mobile','country_code','address','category',
                  'property_type','preferred_location','bedroom','budget','tenancy_type','tenant_count','agent_id','source']);
+
+             if($request->hasFile('photo'))
+             {
+                 $mobile = $request->mobile;
+                 $folder = "enquiries/rent/$mobile";
+                 $store['photo']  = GlobalHelper::singleFileUpload($request,'local','photo',$folder);
+             }
              if($rentEnquiry = RentEnquiry::create($store))
              {
                   $result = ['status'=>1,'response' => 'success', 'message' => 'Rent enquiry created successfully'];

@@ -4,12 +4,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Create Rent Inquiry</h4>
+            <h4 class="m-0 text-dark">Create Sales Inquiry</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Create Rent Inquiry</li>
+              <li class="breadcrumb-item active">Create Sales Inquiry</li>
             </ol>
           </div>
         </div>
@@ -139,6 +139,17 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>Preferred City</th>
+                            <td>
+                                <select name="preferred_city" id="preferred_city" class="form-control">
+                                    <option value="">Select City</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{$city->id}}">{{$city->name}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Preferred Location</th>
                             <td>
                                 <input type="text" class="form-control" name="preferred_location" id="preferred_location" value="">
@@ -156,24 +167,7 @@
                                 <input type="text" class="form-control numeric" name="budget" id="budget" value="">
                             </td>
                         </tr>
-                        <tr>
-                            <th>Tenancy Type</th>
-                            <td>
-                                <select name="tenancy_type" id="tenancy_type" class="form-control">
-                                    <option value="">Select Tenancy</option>
-                                    <option value="family_hus_wife">Family (Husband & Wife)</option>
-                                    <option value="family_bro_sis">Family (Brother & Sister)</option>
-                                    <option value="company">Company</option>
-                                    <option value="bachelor">Bachelor</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Number Of Tenants</th>
-                            <td>
-                                <input type="text" class="form-control numeric" name="tenant_count" id="tenant_count" value="">
-                            </td>
-                        </tr>
+
                         <tr>
                             <th>Agent</th>
                             <td>
@@ -200,6 +194,97 @@
                     </table>
                 </div>
             </div>
+            <div class="card card-info">
+            <div class="card-header">
+                <h6>Documents</h6>
+            </div>
+            <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                 <div class="form-group">
+                     <label for="emirates_id_doc">Emirates Id </label>
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-passport"></i>
+                            </span>
+                        </div>
+                     <input type="file" class="form-control" name="emirates_id_doc" id="emirates_id_doc" value="">
+                     </div>
+                 </div>
+              </div>
+                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="passport">Passport</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="passport" id="passport" value="">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="visa">Visa</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="visa" id="visa" value="">
+                               </div>
+                           </div>
+                       </div>
+
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                 <div class="form-group">
+                     <label for="emirates_exp_date">Validity </label>
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-passport"></i>
+                            </span>
+                        </div>
+                     <input type="text" class="form-control" name="emirates_exp_date" id="emirates_exp_date" value="">
+                     </div>
+                 </div>
+              </div>
+                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="passport_exp_date">Validity</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="visa_exp_date">Validity</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="">
+                               </div>
+                           </div>
+                       </div>
+
+          </div>
+            </div>
+        </div>
             <div class="form-group text-right">
                 <button class="btn btn-primary">Save</button>
             </div>
@@ -207,12 +292,30 @@
         </div>
     </div>
 @endsection
+ @section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+@endsection
+@section('js')
+<script src="{{asset('assets/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>
+<script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
+@endsection
 @section('script')
     <script>
         $(document).ready(function(){
+
+            let pickers =
+               [
+                   'emirates_exp_date',
+                   'visa_exp_date',
+                   'passport_exp_date',
+               ];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+           });
+
             function render_image(input) {
                 if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+                    let reader = new FileReader();
                     reader.onload = function (e) {
                         $('#profile_image_grid').attr('src', e.target.result);
                     }
@@ -225,7 +328,7 @@
             });
             $("#remove_profile_image").click(function () {
                 $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                var file = document.getElementById("profile_image");
+                let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#profile_image_grid").on('click', function () {
@@ -234,7 +337,7 @@
 
             $("#add_data_form").on("submit",function(e){
                 e.preventDefault();
-                let url = "{{route('rentEnquiry.store')}}";
+                let url = "{{route('salesEnquiry.store')}}";
                 let params = new FormData(document.getElementById("add_data_form"));
                 function fn_success(result)
                 {

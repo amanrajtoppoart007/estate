@@ -183,7 +183,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('booking-request.list')}}" class="nav-link">
+                <a href="{{route('rentEnquiry.list')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Rent Inquiry List</p>
                 </a>
@@ -194,21 +194,21 @@
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
-               Sale Inquiry
+               Sales Inquiry
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('tenant.list')}}" class="nav-link">
+                <a href="{{route('salesEnquiry.create')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add Sale Inquiry</p>
+                  <p>Add Sales Inquiry</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('booking-request.list')}}" class="nav-link">
+                <a href="{{route('salesEnquiry.list')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Sale Inquiry List</p>
+                  <p>Sales Inquiry List</p>
                 </a>
               </li>
             </ul>

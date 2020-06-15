@@ -306,7 +306,16 @@ Route::prefix('rent-inquiry')->group(function () {
     Route::get('list', 'Admin\RentEnquiryController@index')->name('rentEnquiry.list');
     Route::get('create', 'Admin\RentEnquiryController@create')->name('rentEnquiry.create');
     Route::post('store', 'Admin\RentEnquiryController@store')->name('rentEnquiry.store');
+    Route::post('fetch', 'Admin\RentEnquiryController@fetch')->name('rentEnquiry.fetch');
 });
+
+Route::prefix('sales-inquiry')->group(function () {
+    Route::get('list', 'Admin\SalesEnquiryController@index')->name('salesEnquiry.list');
+    Route::get('create', 'Admin\SalesEnquiryController@create')->name('salesEnquiry.create');
+    Route::post('store', 'Admin\SalesEnquiryController@store')->name('salesEnquiry.store');
+    Route::post('fetch', 'Admin\SalesEnquiryController@fetch')->name('salesEnquiry.fetch');
+});
+
 /*------------maintenance routes ------------------*/
 Route::prefix('maintenance')->group(function () {
 Route::get('/list', 'Admin\MaintenanceController@index')->name('maintenance.list');

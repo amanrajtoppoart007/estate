@@ -4,12 +4,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Rent Enquiry List</h4>
+            <h4 class="m-0 text-dark">Sales Enquiry List</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Rent Enquiry List</li>
+              <li class="breadcrumb-item active">Sales Enquiry List</li>
             </ol>
           </div>
         </div>
@@ -57,7 +57,7 @@
                     stateSave: true,
                     "order": [[ 0, "desc" ]],
                         ajax  : {
-                       url    : "{{route('rentEnquiry.fetch')}}",
+                       url    : "{{route('salesEnquiry.fetch')}}",
                        type   : "POST",
                        data   : null,
                        error  : function(jqXHR,textStatus,errorThrown)

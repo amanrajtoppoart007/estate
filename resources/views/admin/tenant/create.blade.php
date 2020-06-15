@@ -528,7 +528,7 @@ function render_image(input)
   {
     if(input.files && input.files[0])
 	{
-      var reader = new FileReader();
+      let reader = new FileReader();
       reader.onload = function (e) {
         $('#profile_image_grid').attr('src', e.target.result);
       }
@@ -540,7 +540,7 @@ function render_image(input)
   });
   $("#remove_profile_image").click(function(){
     $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-    var file = document.getElementById("profile_image");
+    let file = document.getElementById("profile_image");
     file.value = file.defaultValue;
   });
    $("#profile_image_grid").on('click',function(){
