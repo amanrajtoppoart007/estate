@@ -33,7 +33,7 @@ class MaintenanceController extends Controller
     public function create()
     {
         $buildings = Property::whereHas('allotment',function($query){
-            $query->where('tenant_id',auth('tenant')->user()->id);
+            $query->whereIn('status',auth('tenant')->user()->id);
         })->get();
         $categories = MaintenanceWorkCategory::all();
        return view('tenant.maintenance.create',compact('buildings','categories'));
@@ -79,6 +79,7 @@ class MaintenanceController extends Controller
                       $doc['referrer_id']   = $referrer_id;
                       $doc['referrer_type'] = $referrer_type;
                       $doc['file_url']      = $document['file_url'];
+                      $doc['remark']        = 'completed';
                       $doc['extension']     = $document['extension'];
                       Document::create($doc);
                   }

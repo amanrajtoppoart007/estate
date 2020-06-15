@@ -1,6 +1,6 @@
 (function ($) {
-    var csrf_token = $('meta[name="csrf-token"]').attr('content');
-    var base_url = $('meta[name="base-url"]').attr('content');
+    let csrf_token = $('meta[name="csrf-token"]').attr('content');
+    let base_url = $('meta[name="base-url"]').attr('content');
     $.fn_ajax = function fn_ajax(url, params, fn_success, fn_error) {
         jQuery.ajaxSetup({ headers: { 'X-CSRF-TOKEN': csrf_token, } });
         jQuery.ajax({
@@ -8,13 +8,13 @@
             type: 'POST',
             data: params,
             dataType: 'json',
-            success: function (result) 
+            success: function (result)
             {
-                if (result.status == 1) 
+                if (result.status === "1")
                 {
                     fn_success(result);
                 }
-                else 
+                else
                 {
                     fn_error(result);
                 }
@@ -35,13 +35,13 @@
             contentType: false,
             cache: false,
             processData: false,
-            success: function (result) 
+            success: function (result)
             {
-                if (result.status == 1) 
+                if (result.status === 1)
                 {
                     fn_success(result);
                 }
-                else 
+                else
                 {
                     fn_error(result);
                 }
@@ -53,23 +53,23 @@
         });
     };
     $.validation_errors = function validation_errors(result) {
-        if (result.response =="validation_error") {
+        if (result.response ==="validation_error") {
             $.each(result.message,function(index,item){
                 toast('error', item, 'bottom-right');
-            }); 
+            });
         }
     };
-     search = function(keyword) 
+     search = function(keyword)
     {
          $('.search-data-container').empty();
         keyword = keyword.trim();
-        if(keyword.length>=4) 
+        if(keyword.length>=4)
         {
             $(".search-div").fadeIn("fast");
             $(".loader-container").fadeIn("fast");
             $(".search-data-container").fadeOut("fast");
-            var params = {search : keyword};
-            var url = base_url + '/search/property/listing';
+            let params = {search : keyword};
+            let url = base_url + '/search/property/listing';
             function fn_success(result)
             {
                  render_property(result.data);
@@ -82,9 +82,9 @@
                 toast('error', result.message, 'bottom-right');
             };
             $.fn_ajax(url,params,fn_success,fn_error);
-            
+
         }
-         else 
+         else
          {
             $(".search-div").fadeOut("fast");
         }

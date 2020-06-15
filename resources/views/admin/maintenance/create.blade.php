@@ -147,7 +147,7 @@
                                           <div class="input-group-prepend">
                                               <span class="input-group-text"><i class="fa fa-calendar-day"></i></span>
                                           </div>
-                                          <input type="text" class="form-control" name="name" id="name" value="{{auth('tenant')->user()->name}}"/>
+                                          <input type="text" class="form-control" name="name" id="name" value=""/>
 
                                       </div>
                                   </div>
@@ -159,7 +159,7 @@
                                           <div class="input-group-prepend">
                                               <span class="input-group-text"><i class="fa fa-clock"></i></span>
                                           </div>
-                                          <input type="text" class="form-control numeric" name="contact" id="contact" value="{{auth('tenant')->user()->mobile}}"/>
+                                          <input type="text" class="form-control numeric" name="contact" id="contact" value=""/>
                                       </div>
                                   </div>
                               </div>

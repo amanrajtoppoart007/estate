@@ -21,4 +21,9 @@ class MaintenanceWork extends Model
     {
         return $this->morphTo();
     }
+
+     public function images()
+     {
+         return $this->morphMany(Document::class, 'referrer');
+     }
 }

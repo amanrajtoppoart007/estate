@@ -167,6 +167,52 @@
               </li>
             </ul>
           </li>
+            <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+               Rent Inquiry
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('rentEnquiry.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Rent Inquiry</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('booking-request.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Rent Inquiry List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+            <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+               Sale Inquiry
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('tenant.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Sale Inquiry</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('booking-request.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sale Inquiry List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fa fa-users"></i>
@@ -272,6 +318,29 @@
                 <a href="{{route('task.list')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Taks</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+              <li class="nav-item has-treeview menu-close">
+            <a href="javascript:void(0)" class="nav-link">
+              <i class="nav-icon fa fa-tasks"></i>
+              <p>
+                Maintenance Request Quotation
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('maintenance.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Quotation List</p>
+                </a>
+              </li>
+                <li class="nav-item">
+                <a title="Maintenance Request Quotation" href="{{route('maintenance.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Quotation</p>
                 </a>
               </li>
             </ul>
@@ -387,14 +456,7 @@
             </ul>
           </li>
 
-          <li class="nav-item">
-            <a href="{{route('booking-request.list')}}" class="nav-link">
-              <i class="nav-icon fa fa-question-circle"></i>
-              <p>
-                Booking Queries
-              </p>
-            </a>
-          </li>
+
           <li class="nav-item">
             <a href="{{route('contact-request.list')}}" class="nav-link">
               <i class="nav-icon fa fa-question"></i>

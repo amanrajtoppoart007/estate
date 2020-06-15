@@ -52,7 +52,7 @@
         }
         function renderActionBtn(data)
         {
-            return `<a  href="${data.tenant_view_url}"  class="text-primary"><i class="fa fa-eye"></i></a>`;
+            return `<a  href="${data.view_url}"  class="text-primary"><i class="fa fa-eye"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         let dataTable = $("#dataTable").dataTable({
@@ -63,7 +63,7 @@
                     stateSave: true,
                     "order": [[ 0, "desc" ]],
                         ajax  : {
-                       url    : "{{route('tenant.maintenance.fetch')}}",
+                       url    : "{{route('maintenance.fetch')}}",
                        type   : "POST",
                        data   : function(d){
                         d.admin = {{auth('admin')->user()->id}}

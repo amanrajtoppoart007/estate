@@ -81,6 +81,7 @@ class MaintenanceController extends Controller
                       $doc['referrer_id']   = $referrer_id;
                       $doc['referrer_type'] = $referrer_type;
                       $doc['file_url']      = $document['file_url'];
+                      $doc['remark']        = 'completed';
                       $doc['extension']     = $document['extension'];
                       Document::create($doc);
                   }

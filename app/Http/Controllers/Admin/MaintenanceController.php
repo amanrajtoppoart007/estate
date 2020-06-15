@@ -32,9 +32,7 @@ class MaintenanceController extends Controller
     }
     public function create()
     {
-        $buildings = Property::whereHas('allotment',function($query){
-            $query->where('tenant_id',auth('tenant')->user()->id);
-        })->get();
+        $buildings  = Property::all();
         $categories = MaintenanceWorkCategory::all();
        return view('admin.maintenance.create',compact('buildings','categories'));
     }
@@ -55,10 +53,10 @@ class MaintenanceController extends Controller
         if(!$validator->fails())
         {
             $store= $request->only(['property_id','property_unit_id','category','description']);
-            $store['applicant_id'] = auth('tenant')->user()->id;
+            $store['applicant_id'] = auth('admin')->user()->id;
             $code                  = new GenerateWorkOrderNo($request->all());
             $store['work_order_no'] = $code->execute();
-            $store['applicant_type'] = 'tenant';
+            $store['applicant_type'] = 'admin';
             $store['appointment_date'] = date('Y-m-d',strtotime($request->appointment_date));
             $store['appointment_time_from'] = date('H:i:s',strtotime($request->appointment_time_from));
             $store['appointment_time_to'] = date('H:i:s',strtotime($request->appointment_time_to));
@@ -79,6 +77,7 @@ class MaintenanceController extends Controller
                       $doc['referrer_id']   = $referrer_id;
                       $doc['referrer_type'] = $referrer_type;
                       $doc['file_url']      = $document['file_url'];
+                      $doc['remark']        = 'completed';
                       $doc['extension']     = $document['extension'];
                       Document::create($doc);
                   }

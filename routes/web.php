@@ -79,3 +79,5 @@ Route::prefix('owner')->group(function () {
 Route::prefix('master')->group(function () {
     Route::post('fetch-all-task', 'Admin\TaskController@fetch_all_task')->name('admin.task.fetch');
 });
+
+Route::post('/get/property/unit/list', 'Common\CommonController@get_property_units')->name('get.unit.list');

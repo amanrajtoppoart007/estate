@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
             'manager' => \App\Admin::class,
             'rent' => \App\PropertyUnitAllotment::class,
             'sale' => \App\PropertySale::class,
+            'maintenance' => \App\MaintenanceWork::class,
         ]);
     }
 }

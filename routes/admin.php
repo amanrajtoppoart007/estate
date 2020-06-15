@@ -302,7 +302,11 @@ Route::prefix('system-setting')->group(function () {
 Route::prefix('contact-request')->group(function () {
     Route::get('list', 'Admin\ContactRequestController@index')->name('contact-request.list');
 });
-
+Route::prefix('rent-inquiry')->group(function () {
+    Route::get('list', 'Admin\RentEnquiryController@index')->name('rentEnquiry.list');
+    Route::get('create', 'Admin\RentEnquiryController@create')->name('rentEnquiry.create');
+    Route::post('store', 'Admin\RentEnquiryController@store')->name('rentEnquiry.store');
+});
 /*------------maintenance routes ------------------*/
 Route::prefix('maintenance')->group(function () {
 Route::get('/list', 'Admin\MaintenanceController@index')->name('maintenance.list');

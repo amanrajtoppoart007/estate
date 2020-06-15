@@ -8,7 +8,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('tenant.dashboard')}}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
               <li class="breadcrumb-item active">Maintenance Work Detail</li>
             </ol>
           </div>
@@ -19,204 +19,305 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <table class="table table-striped">
-                <tbody>
-                <tr>
-                    <th>Building Name</th>
-                    <td>{{$maintenance->property->title}}</td>
-                </tr>
-                <tr>
-                    <th>Flat Number</th>
-                    <td>{{$maintenance->property_unit->unitcode}}</td>
-                </tr>
-                <tr>
-                    <th>Category</th>
-                    <td>{{$maintenance->category}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Building Name</th>
+                            <td>{{$maintenance->property->title}}</td>
+                        </tr>
+                        <tr>
+                            <th>Flat Number</th>
+                            <td>{{$maintenance->property_unit->unitcode}}</td>
+                        </tr>
+                        <tr>
+                            <th>Category</th>
+                            <td>{{$maintenance->category}}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{$maintenance->description}}</td>
+                        </tr>
+                        <tr>
+                            <th>Appointment</th>
+                            <td>
+                                {{$maintenance->appointment_date}}
+                                From <span class="font-weight-bold">{{$maintenance->appointment_time_from}}</span>
+                                To <span class="font-weight-bold">{{$maintenance->appointment_time_to}}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        @foreach($maintenance->images as $image)
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                                @php   $url = ($image->file_url)?route('get.doc',base64_encode($image->file_url)):asset('theme/default/images/dashboard/4.png'); @endphp
+                                <img src="{{$url}}" alt="" class="img250x150 m-1">
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card">
         <div class="card-header">
-            <h6 class="card-title">Status of your request</h6>
+            <h6 class="card-title">Work Order Detail</h6>
         </div>
         <div class="card-body">
-            <div class="md-stepper-horizontal orange">
-    <div class="md-step active done">
-      <div class="md-step-circle"><span>1</span></div>
-      <div class="md-step-title">Checkout</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div>
-    <div class="md-step active editable">
-      <div class="md-step-circle"><span>2</span></div>
-      <div class="md-step-title">Shipping</div>
-      <div class="md-step-optional">Optional</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div>
-    <div class="md-step active">
-      <div class="md-step-circle"><span>3</span></div>
-      <div class="md-step-title">Payment</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div>
-    <div class="md-step">
-      <div class="md-step-circle"><span>4</span></div>
-      <div class="md-step-title">Review</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div>
-  </div>
-
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Assignee Name</th>
+                            <td>
+                                <select name="assignee_id" id="assignee_id" class="form-control">
+                                    <option value="">Select Assignee</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Assistant Assignee</th>
+                            <td>
+                                <select name="assistant" id="assistant" class="form-control">
+                                    <option value="">Select Assistant</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Due Date</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Required Material</th>
+                            <td>
+                                <textarea name="required_material" id="required_material" cols="30" rows="10"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>OwnerShip</th>
+                            <td>
+                                <select name="ownership" id="ownership" class="form-control">
+                                    <option value=""></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-primary">Create Quotation</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary">View Quotation</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card">
+        <div class="card-header">
+            <h6 class="card-title">Status Update</h6>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                       <tr>
-                          <th>Date</th>
-                          <th>Time</th>
+                          <th></th>
                           <th>Status</th>
+                          <th>Date</th>
                           <th>Remark</th>
                       </tr>
                     </thead>
+                    <tbody>
+                      <tr>
+                          <td>Information Recieved</td>
+                          <td>
+                              <select class="form-control" name="" id="">
+                                  <option value="">Select Status</option>
+                                  <option value="1">Completed</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text">
+                          </td>
+                          <td>
+                              <input class="form-control" name="" id="">
+                          </td>
+                      </tr>
+                     <tr>
+                          <td>Appointment</td>
+                          <td>
+                              <select class="form-control" name="" id="">
+                                  <option value="">Select Status</option>
+                                  <option value="1">Completed</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text">
+                          </td>
+                          <td>
+                              <input class="form-control" name="" id="">
+                          </td>
+                      </tr>
+                    <tr>
+                          <td>Material Request (If Any)</td>
+                          <td>
+                              <select class="form-control" name="" id="">
+                                  <option value="">Select Status</option>
+                                  <option value="1">Completed</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text">
+                          </td>
+                          <td>
+                              <input class="form-control" name="" id="">
+                          </td>
+                      </tr>
+                    <tr>
+                          <td>Quotation  Approval (If Owner/Admin)</td>
+                          <td>
+                              <select class="form-control" name="" id="">
+                                  <option value="">Select Status</option>
+                                  <option value="1">Completed</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text">
+                          </td>
+                          <td>
+                              <input class="form-control" name="" id="">
+                          </td>
+                      </tr>
+                     <tr>
+                          <td>Quotation  Approval (If Owner/Admin)</td>
+                          <td>
+                              <select class="form-control" name="" id="">
+                                  <option value="">Select Status</option>
+                                  <option value="1">Completed</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text">
+                          </td>
+                          <td>
+                              <input class="form-control" name="" id="">
+                          </td>
+                      </tr>
+                    <tr>
+                          <td>Completion Of Work </td>
+                          <td>
+                              <select class="form-control" name="" id="">
+                                  <option value="">Select Status</option>
+                                  <option value="1">Completed</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text">
+                          </td>
+                          <td>
+                              <input class="form-control" name="" id="">
+                          </td>
+                      </tr>
+                     <tr>
+                          <td>Closing </td>
+                          <td>
+                              <select class="form-control" name="" id="">
+                                  <option value="">Select Status</option>
+                                  <option value="1">Completed</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text">
+                          </td>
+                          <td>
+                              <input class="form-control" name="" id="">
+                          </td>
+                      </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <div class="card">
+        <div class="card-header">
+            <h6>Work Completion Images</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="browse_submit">
+                        <input type="file" name="images[]" id="images" class="hide" value="" multiple>
+                        <label class="fileupload_label text-center w-100" for="images">Drag and Drop to
+                            Add Photo (770x390)</label>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="property_thumbnails mt-5">
+                        <div class="row" id="gallery">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
-@section('css')
-    <style>
-        html {
-	-webkit-font-smoothing: antialiased!important;
-	-moz-osx-font-smoothing: grayscale!important;
-	-ms-font-smoothing: antialiased!important;
-}
-body {
-  font-family: 'Open Sans', sans-serif;
-  font-size:16px;
-  color:#555555;
-}
-.md-stepper-horizontal {
-	display:table;
-	width:100%;
-	margin:0 auto;
-	background-color:#FFFFFF;
-	box-shadow: 0 3px 8px -6px rgba(0,0,0,.50);
-}
-.md-stepper-horizontal .md-step {
-	display:table-cell;
-	position:relative;
-	padding:24px;
-}
-.md-stepper-horizontal .md-step:hover,
-.md-stepper-horizontal .md-step:active {
-	background-color:rgba(0,0,0,0.04);
-}
-.md-stepper-horizontal .md-step:active {
-	border-radius: 15% / 75%;
-}
-.md-stepper-horizontal .md-step:first-child:active {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
-.md-stepper-horizontal .md-step:last-child:active {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-}
-.md-stepper-horizontal .md-step:hover .md-step-circle {
-	background-color:#757575;
-}
-.md-stepper-horizontal .md-step:first-child .md-step-bar-left,
-.md-stepper-horizontal .md-step:last-child .md-step-bar-right {
-	display:none;
-}
-.md-stepper-horizontal .md-step .md-step-circle {
-	width:60px;
-	height:60px;
-	margin:0 auto;
-	background-color:#999999;
-	border-radius: 50%;
-	text-align: center;
-	line-height:60px;
-	font-size: 16px;
-	font-weight: 600;
-	color:#FFFFFF;
-}
-.md-stepper-horizontal.green .md-step.active .md-step-circle {
-	background-color:#00AE4D;
-}
-.md-stepper-horizontal.orange .md-step.active .md-step-circle {
-	background-color: #f91f02;
-}
-.md-stepper-horizontal .md-step.active .md-step-circle {
-	background-color: rgb(33,150,243);
-}
-.md-stepper-horizontal .md-step.done .md-step-circle:before {
-	font-family:'FontAwesome';
-	font-weight:100;
-	content: "\f00c";
-}
-.md-stepper-horizontal .md-step.done .md-step-circle *,
-.md-stepper-horizontal .md-step.editable .md-step-circle * {
-	display:none;
-}
-.md-stepper-horizontal .md-step.editable .md-step-circle {
-	-moz-transform: scaleX(-1);
-	-o-transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
-	transform: scaleX(-1);
-}
-.md-stepper-horizontal .md-step.editable .md-step-circle:before {
-    font-family: 'FontAwesome';
-	font-weight:100;
-	content: "\f040";
-}
-.md-stepper-horizontal .md-step .md-step-title {
-	margin-top:16px;
-	font-size:16px;
-	font-weight:600;
-}
-.md-stepper-horizontal .md-step .md-step-title,
-.md-stepper-horizontal .md-step .md-step-optional {
-	text-align: center;
-	color:rgba(0,0,0,.26);
-}
-.md-stepper-horizontal .md-step.active .md-step-title {
-	font-weight: 600;
-	color:rgba(0,0,0,.87);
-}
-.md-stepper-horizontal .md-step.active.done .md-step-title,
-.md-stepper-horizontal .md-step.active.editable .md-step-title {
-	font-weight:600;
-}
-.md-stepper-horizontal .md-step .md-step-optional {
-	font-size:12px;
-}
-.md-stepper-horizontal .md-step.active .md-step-optional {
-	color:rgba(0,0,0,.54);
-}
-.md-stepper-horizontal .md-step .md-step-bar-left,
-.md-stepper-horizontal .md-step .md-step-bar-right {
-	position:absolute;
-    top: 53px;
-	height:1px;
-	border-top:1px solid #DDDDDD;
-}
-.md-stepper-horizontal .md-step .md-step-bar-right {
-	right:0;
-	left:50%;
-	margin-left:20px;
-}
-.md-stepper-horizontal .md-step .md-step-bar-left {
-	left:0;
-	right:50%;
-	margin-right:20px;
-}
-    </style>
+ @section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+@endsection
+@section('js')
+<script src="{{asset('assets/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>
+<script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function(){
+       $(".select_date").each(function(){
+           $(this).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+       });
+
+
+        });
+    </script>
+    <script>
+          $(function() {
+		// Multiple images preview in browser
+		let imagesPreview = function(input, placeToInsertImagePreview) {
+
+			if (input.files) {
+				let filesAmount = input.files.length;
+
+				for (i = 0; i < filesAmount; i++) {
+					let reader = new FileReader();
+
+					reader.onload = function(event)
+					{
+						let parentDiv = $($.parseHTML('<div>')).attr({'class': 'm-2 col-lg-2 col-md-4 col-6'});
+						$($.parseHTML('<img>')).attr({'src':event.target.result,'class':'img250x150'}).appendTo(parentDiv);
+						parentDiv.appendTo(placeToInsertImagePreview);
+					}
+
+					reader.readAsDataURL(input.files[i]);
+				}
+			}
+
+		};
+
+		$('#images').on('change', function() {
+			if ($("div#gallery").length > 0) {
+				$("#gallery").empty();
+			}
+			imagesPreview(this, 'div#gallery');
+		});
+	});
+    </script>
 @endsection
 
