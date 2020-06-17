@@ -105,22 +105,60 @@ class AgentController extends Controller
     public function update(\App\Http\Requests\EditAgent $request, $id)
     {
         $request->validated();
-        $admin = new \App\Library\UpdateAdmin($request->agent_id);
-        $admin->execute($request);
-        $data  = $request->only(['name','mobile','email','emirates_id','bank_name','bank_ifsc_code','bank_account','banking_name','country','state','city','address']);
+
+        $update  = $request->only(['agent_type','name','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address']);
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {
-            $data['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
+            $update['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
         }
-        $data['admin_id'] = Auth::guard('admin')->user()->id;
-        if(Agent::where(['id'=>$id])->update($data))
+         if($request->agent_type=='company')
         {
-          return response()->json(['status'=>'1','response'=>'success','message'=>'Agent successfully updated'],200);
+            $company = $request->only(['owner_name','owner_email','owner_mobile']);
+            $update   = array_merge($update,$company);
+            if($request->hasFile('owner_photo'))
+            {
+                $update['owner_photo']    = GlobalHelper::singleFileUpload($request,'local','owner_photo',"agents/$folder");
+            }
+
+            if($request->hasFile('trade_license'))
+            {
+                $update['trade_license']  = GlobalHelper::singleFileUpload($request,'local','trade_license',"agents/$folder");
+            }
+
+            if($request->hasFile('vat_number'))
+            {
+                 $update['vat_number']     = GlobalHelper::singleFileUpload($request,'local','vat_number',"agents/$folder");
+            }
+        }
+
+
+        if($request->hasFile('emirates_id_doc'))
+        {
+            $update['emirates_id_doc']    = GlobalHelper::singleFileUpload($request,'local','emirates_id_doc',"agents/$folder");
+
+            $update['emirates_exp_date']  = date('Y-m-d',strtotime($request->emirates_exp_date));
+        }
+
+         if($request->hasFile('passport'))
+         {
+              $update['passport']    = GlobalHelper::singleFileUpload($request,'local','passport',"agents/$folder");
+              $update['passport_exp_date']  = date('Y-m-d',strtotime($request->passport_exp_date));
+         }
+
+         if($request->hasFile('visa'))
+         {
+             $update['visa']    = GlobalHelper::singleFileUpload($request,'local','visa',"agents/$folder");
+             $update['visa_exp_date']  = date('Y-m-d',strtotime($request->visa_exp_date));
+         }
+          $update['admin_id'] = Auth::guard('admin')->user()->id;
+        if(Agent::where(['id'=>$id])->update($update))
+        {
+          return response()->json(['status'=>1,'response'=>'success','message'=>'Agent successfully updated'],200);
         }
         else
         {
-            return response()->json(['status'=>'0','response'=>'error','message'=>'Agent updation failed'],200);
+            return response()->json(['status'=>0,'response'=>'error','message'=>'Agent updation failed'],200);
         }
     }
 

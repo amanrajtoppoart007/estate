@@ -28,6 +28,21 @@
               <div class="card-body">
                   <div class="row">
             <div class="col-sm-6 col-md-8 row">
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <div class="form-group">
+                                <label for="owner_type">Agent Type</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <select   class="form-control" name="agent_type" id="agent_type" disabled>
+                                        <option value="">Owner Type</option>
+                                        <option value="individual" selected>individual</option>
+                                    </select>
+                                    <input type="hidden" name="agent_type" value="individual">
+                                </div>
+                            </div>
+                        </div>
                 <div class="form-group col-md-6">
                     <label for="name">Name</label>
                     <div class="input-group">

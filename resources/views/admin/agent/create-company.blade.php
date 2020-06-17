@@ -193,7 +193,7 @@
                   <div class="row">
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="emirates_id_doc">Emirates Id(scanned copay) </label>
+                              <label for="emirates_id_doc">Emirates Id</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -207,7 +207,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="passport">Passport (scanned copay)</label>
+                              <label for="passport">Passport </label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -221,7 +221,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="visa">Visa (scanned copay)</label>
+                              <label for="visa">Visa </label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -237,7 +237,7 @@
                   <div class="row">
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="emirates_exp_date">Emirates Id(Expiry Date) </label>
+                              <label for="emirates_exp_date">Emirates Id </label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -292,6 +292,15 @@
             <div class="card-body">
 
         <div class="row">
+            <div class="form-group col-md-4">
+              <label for="banking_name">Account Holder Name</label>
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="banking_name" id="banking_name" value="">
+              </div>
+          </div>
           <div class="form-group col-md-4">
               <label for="bank_name">Bank Name</label>
               <div class="input-group">
@@ -301,6 +310,7 @@
                   <input type="text" class="form-control" name="bank_name" id="bank_name" value="">
               </div>
           </div>
+            <div class="col-md-4"></div>
           <div class="form-group col-md-4">
               <label for="bank_swift_code">Bank Swift Code</label>
               <div class="input-group">
@@ -310,7 +320,7 @@
                   <input type="text" class="form-control" name="bank_swift_code" id="bank_swift_code" value="">
               </div>
           </div>
-          <div class="col-md-4"></div>
+
           <div class="form-group col-md-4">
               <label for="bank_account">A/C Number</label>
               <div class="input-group">
@@ -320,15 +330,7 @@
                   <input type="text" class="form-control" name="bank_account" id="bank_account" value="">
               </div>
           </div>
-          <div class="form-group col-md-4">
-              <label for="banking_name">Name (According to Passbook)</label>
-              <div class="input-group">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  </div>
-                  <input type="text" class="form-control" name="banking_name" id="banking_name" value="">
-              </div>
-          </div>
+
         </div>
             </div>
         </div>

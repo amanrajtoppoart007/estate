@@ -20,6 +20,7 @@
  <div class="card">
      <div class="card-body">
          {{Form::open(['url'=>route('agent.update',$agent->id),'id'=>'edit_data_form'])}}
+         <input type="hidden" id="id" name="id" value="{{$agent->id}}">
        <div class="card card-info">
            <div class="card-header">
                <h6>Agent Detail</h6>

@@ -30,8 +30,7 @@ class EditAgent extends FormRequest
             'id'=>'required|numeric',
             'name'=>'required',
             'mobile'=>'required|unique:owners,mobile|',
-            'email'=>'required|email|unique:owners,email|unique:admins,email',
-            'password'=>'required',
+            'email'=>'required|email',
             'bank_name'=>'required',
             'bank_swift_code'=>'required',
             'bank_account'=>'required',
@@ -40,10 +39,10 @@ class EditAgent extends FormRequest
             'state'=>'required',
             'city'=>'required',
             'address'=>'required',
-            'photo'=>'required|image|mimes:jpeg,png,jpg|max:10048',
+            'photo'=>'image|mimes:jpeg,png,jpg|max:10048',
 
         ];
-        
+
         if(request()->agent_type=='company')
         {
             $rules['owner_name'] = 'required';
