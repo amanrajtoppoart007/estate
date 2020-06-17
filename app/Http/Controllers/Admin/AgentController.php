@@ -98,8 +98,15 @@ class AgentController extends Controller
     public function edit($id)
     {
         $agent = Agent::find($id);
-        return view('admin.agent.edit',compact('agent'));
+        $view  = 'admin.agent.edit';
+        if ($agent->agent_type == 'company') {
+            $view = 'admin.agent.edit-company';
+        }
+        $countries  = Country::where('is_disabled', '0')->get();
+        return view($view, compact('agent','countries'));
     }
+
+
 
 
     public function update(\App\Http\Requests\EditAgent $request, $id)
