@@ -53,7 +53,7 @@
                         dom   : '<"dt-buttons"Bf><"clear">lirtp',
                  processing   : true,
                    serverSide : true,
-                    responsive: true,
+                    responsive: false,
                     stateSave: true,
                     "order": [[ 0, "desc" ]],
                         ajax  : {

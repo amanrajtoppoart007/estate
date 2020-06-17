@@ -25,22 +25,47 @@ class EditAgent extends FormRequest
      */
     public function rules()
     {
-        return [
-            'agent_id'=>'required|numeric',
+
+            $rules = [
+            'id'=>'required|numeric',
             'name'=>'required',
-            'mobile'=>'required',
-            'email'=>'required',
-            'emirates_id'=>'required',
+            'mobile'=>'required|unique:owners,mobile|',
+            'email'=>'required|email|unique:owners,email|unique:admins,email',
+            'password'=>'required',
             'bank_name'=>'required',
-            'bank_ifsc_code'=>'required',
+            'bank_swift_code'=>'required',
             'bank_account'=>'required',
             'banking_name'=>'required',
             'country'=>'required',
             'state'=>'required',
             'city'=>'required',
             'address'=>'required',
-            'photo'=>'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
+            'photo'=>'required|image|mimes:jpeg,png,jpg|max:10048',
+
         ];
+        
+        if(request()->agent_type=='company')
+        {
+            $rules['owner_name'] = 'required';
+            $rules['owner_email'] = 'required|email';
+            $rules['owner_mobile'] = 'required';
+            $rules['trade_license'] = 'required|mimes:jpeg,png,jpg,pdf|max:10048';
+            $rules['vat_number'] = 'required|mimes:jpeg,png,jpg,pdf|max:10048';
+
+        }
+        if(request()->hasFile('emirates_id_doc'))
+        {
+            $rules['emirates_exp_date'] = 'required|date';
+        }
+         if(request()->hasFile('passport'))
+        {
+            $rules['passport_exp_date'] = 'required|date';
+        }
+         if(request()->hasFile('visa'))
+        {
+            $rules['visa_exp_date'] = 'required|date';
+        }
+        return $rules;
     }
     protected function failedValidation(Validator $validator)
     {

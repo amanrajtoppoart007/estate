@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Add Property Agent (Company)</h1>
+            <h4 class="m-0 text-dark">Add Property Agent (Company)</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -28,7 +28,23 @@
               <div class="card-body">
                   <div class="row">
             <div class="col-sm-6 col-md-8 row">
-                <div class="form-group col-md-6">
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <div class="form-group">
+                                <label for="owner_type">Agent Type</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <select   class="form-control" name="agent_type" id="agent_type" disabled>
+                                        <option value="">Owner Type</option>
+                                        <option value="individual">individual</option>
+                                        <option value="company" selected>Company</option>
+                                    </select>
+                                    <input type="hidden" name="agent_type" value="company">
+                                </div>
+                            </div>
+                        </div>
+                <div class="form-group col-md-8">
                     <label for="name">Company Name</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -100,7 +116,7 @@
                     <div class=" ml-5 d-table" style="margin-left: 4rem!important;">
                       <label class="btn btn-primary mb-0 mr-3" for="profile_image">Upload Icon</label>
                       <input id="profile_image" class="hide" type="file" name="photo">
-                      <button type="button" id="remove_profile_image" class="btn btn-primary font-weight-bold">Delete Icon
+                      <button type="button" id="remove_profile_image" class="btn btn-danger font-weight-bold">Delete Icon
                       </button>
                     </div>
                   </div>
@@ -118,7 +134,7 @@
                   <div class="row">
             <div class="col-sm-6 col-md-8 row">
                 <div class="form-group col-md-12">
-                    <label for="owner_name">Company Name</label>
+                    <label for="owner_name">Owner Name</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -156,11 +172,11 @@
             <div class="col-sm-6 col-md-4">
                 <div class="text-center">
                   <div class="user_photo">
-                    <img id="profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
+                    <img id="owner_profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
                     <div class=" ml-5 d-table" style="margin-left: 4rem!important;">
-                      <label class="btn btn-primary mb-0 mr-3" for="profile_image">Upload Icon</label>
-                      <input id="profile_image" class="hide" type="file" name="photo">
-                      <button type="button" id="remove_profile_image" class="btn btn-primary font-weight-bold">Delete Icon
+                      <label class="btn btn-primary mb-0 mr-3" for="owner_profile_image">Upload Icon</label>
+                      <input id="owner_profile_image" class="hide" type="file" name="owner_photo">
+                      <button type="button" id="remove_owner_profile_image" class="btn btn-danger font-weight-bold">Delete Icon
                       </button>
                     </div>
                   </div>
@@ -286,12 +302,12 @@
               </div>
           </div>
           <div class="form-group col-md-4">
-              <label for="bank_ifsc_code">Bank IFSC Code</label>
+              <label for="bank_swift_code">Bank Swift Code</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-sort-numeric-up"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="bank_ifsc_code" id="bank_ifsc_code" value="">
+                  <input type="text" class="form-control" name="bank_swift_code" id="bank_swift_code" value="">
               </div>
           </div>
           <div class="col-md-4"></div>
@@ -383,7 +399,7 @@
                                   <input type="text" class="form-control" value="trade-license" readonly>
                               </td>
                               <td>
-                                  <input type="file" class="form-control">
+                                  <input type="file" name="trade_license" class="form-control">
                               </td>
                           </tr>
                           <tr>
@@ -391,7 +407,7 @@
                                   <input type="text" class="form-control" value="vat-number" readonly>
                               </td>
                               <td>
-                                  <input type="file" class="form-control">
+                                  <input type="file" name="vat_number" class="form-control">
                               </td>
                           </tr>
                          </tbody>
@@ -408,47 +424,76 @@
      </div>
  </div>
 @endsection
+ @section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+@endsection
 @section('js')
 <script src="{{asset('assets/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>
+<script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 @endsection
 @section('script')
   <script>
        $(document).ready(function(){
+
+           let pickers =
+               [
+                   'emirates_exp_date',
+                   'visa_exp_date',
+                   'passport_exp_date',
+                   'license_expiry_date',
+               ];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+           });
+
            $('[data-mask]').inputmask();
-           function render_image(input)
+
+           function render_image(input,element)
             {
                 if(input.files && input.files[0])
                 {
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function (e) {
-                    $('#profile_image_grid').attr('src', e.target.result);
+                    $(`#${element}`).attr('src', e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
                 }
             }
             $("#profile_image").change(function(){
-                render_image(this);
+                render_image(this,'profile_image_grid');
+            });
+            $("#owner_profile_image").change(function(){
+                render_image(this,'owner_profile_image_grid');
             });
             $("#remove_profile_image").click(function(){
                 $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                var file = document.getElementById("profile_image");
+                let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
+            $("#remove_owner_profile_image").click(function () {
+               $('#owner_profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+               let file = document.getElementById("owner_profile_image");
+               file.value = file.defaultValue;
+           });
             $("#add_data_form").on('submit',function(e){
                 e.preventDefault();
-                var url = "{{route('agent.store')}}";
-                var params = new FormData(document.getElementById('add_data_form'));
+                let url = "{{route('agent.store')}}";
+                let params = new FormData(document.getElementById('add_data_form'));
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
+                   $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                   $('#owner_profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
                    $("#add_data_form")[0].reset();
-                };
+                }
                 function fn_error(result)
                 {
                     toast('error',result.message,'bottom-right');
-                };
+                }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             });
+
+
        });
   </script>
 @endsection

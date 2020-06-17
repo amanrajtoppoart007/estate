@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Agent;
-use Auth;
-use App\Library\CreateAdmin;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers\GlobalHelper;
 class AgentController extends Controller
 {
 
@@ -45,20 +45,46 @@ class AgentController extends Controller
     public function store(\App\Http\Requests\StoreAgent $request)
     {
         $request->validated();
-        $admin = new \App\Library\CreateAdmin('agent');
-        $data   = $request->only(['name','mobile','email','emirates_id','bank_name','bank_ifsc_code','bank_account','banking_name','country','state','city','address']);
+        $store   = $request->only(['agent_type','name','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address']);
         $folder = Str::studly(strtolower($request->name));
-        $data['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
-        $data['admin_id'] = Auth::guard('admin')->user()->id;
-        $data['agent_id'] = $admin->execute($request);
-        $action = Agent::create($data);
-        if($action->id)
+        if($request->agent_type=='company')
         {
-            return response()->json(['status'=>'1','response'=>'success','message'=>'Agent successfully created'],200);
+            $company = $request->only(['owner_name','owner_email','owner_mobile']);
+            $store   = array_merge($store,$company);
+            $store['owner_photo']    = GlobalHelper::singleFileUpload($request,'local','owner_photo',"agents/$folder");
+            $store['trade_license']  = GlobalHelper::singleFileUpload($request,'local','trade_license',"agents/$folder");
+            $store['vat_number']     = GlobalHelper::singleFileUpload($request,'local','vat_number',"agents/$folder");
+        }
+
+        $store['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
+
+        if($request->hasFile('emirates_id_doc'))
+        {
+            $store['emirates_id_doc']    = GlobalHelper::singleFileUpload($request,'local','emirates_id_doc',"agents/$folder");
+
+            $store['emirates_exp_date']  = date('Y-m-d',strtotime($request->emirates_exp_date));
+        }
+
+         if($request->hasFile('passport'))
+         {
+              $store['passport']    = GlobalHelper::singleFileUpload($request,'local','passport',"agents/$folder");
+              $store['passport_exp_date']  = date('Y-m-d',strtotime($request->passport_exp_date));
+         }
+
+         if($request->hasFile('visa'))
+         {
+             $store['visa']    = GlobalHelper::singleFileUpload($request,'local','visa',"agents/$folder");
+             $store['visa_exp_date']  = date('Y-m-d',strtotime($request->visa_exp_date));
+         }
+
+        $store['admin_id'] = Auth::guard('admin')->user()->id;
+        if(Agent::create($store))
+        {
+            return response()->json(['status'=>1,'response'=>'success','message'=>'Agent successfully created'],200);
         }
         else
         {
-            return response()->json(['status'=>'0','response'=>'error','message'=>'Agent creattion failed'],200);
+            return response()->json(['status'=>0,'response'=>'error','message'=>'Agent creattion failed'],200);
         }
     }
 
@@ -71,8 +97,8 @@ class AgentController extends Controller
 
     public function edit($id)
     {
-        $data = Agent::find($id);
-        return view('admin.agent.edit',compact('data'));
+        $agent = Agent::find($id);
+        return view('admin.agent.edit',compact('agent'));
     }
 
 
