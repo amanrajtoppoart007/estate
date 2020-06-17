@@ -108,7 +108,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <button class="btn btn-primary">Create Quotation</button>
+                                <a href="{{route('maintenance.quotation.create')}}" class="btn btn-primary">Create Quotation</a>
                             </td>
                             <td>
                                 <button class="btn btn-primary">View Quotation</button>
