@@ -248,7 +248,7 @@ $("#addmore").click(function () {
 
 
     $.ajax({
-        url: "{{route('invoice.create')}}",
+        url: "{{route('invoice.create.post')}}",
         type: 'POST',
         dataType: 'json',
         data: formData,

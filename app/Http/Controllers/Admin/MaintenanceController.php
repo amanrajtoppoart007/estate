@@ -36,6 +36,12 @@ class MaintenanceController extends Controller
         $categories = MaintenanceWorkCategory::all();
        return view('admin.maintenance.create',compact('buildings','categories'));
     }
+    public function create_quotation()
+    {
+        $buildings  = Property::all();
+        $categories = MaintenanceWorkCategory::all();
+       return view('admin.maintenance.createQuotation',compact('buildings','categories'));
+    }
 
 
 
