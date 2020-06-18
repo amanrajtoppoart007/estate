@@ -9,6 +9,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('agent.index')}}">Agents</a></li>
               <li class="breadcrumb-item active">Agent List</li>
             </ol>
           </div>
@@ -48,7 +49,7 @@
         }
         function renderActionBtn(data)
         {
-            return `<a target="_blank" href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-eye text-white"></i></a>`;
+            return `<a href="${data.edit_url}"  class="text-primary"><i class="fa fa-edit"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         var dataTable = $("#dataTable").dataTable({

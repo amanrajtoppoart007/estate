@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Add Property Agent (Company)</h4>
+            <h4 class="m-0 text-dark">Edit Property Agent (Company)</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -20,7 +20,8 @@
 @section('content')
  <div class="card">
      <div class="card-body">
-         {{Form::open(['route'=>'owner.store','id'=>'add_data_form'])}}
+         {{Form::open(['route'=>'owner.store','id'=>'edit_data_form'])}}
+         <input type="hidden" name="id" value="{{$agent->id}}">
           <div class="card card-info">
               <div class="card-header">
                  <h4>Company Detail</h4>
@@ -50,7 +51,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="name" id="name" value="">
+                        <input type="text" class="form-control" name="name" id="name" value="{{$agent->name}}">
                     </div>
                 </div>
 
@@ -60,7 +61,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                         </div>
-                        <input type="text" class="form-control numeric" name="mobile" id="mobile" value="">
+                        <input type="text" class="form-control numeric" name="mobile" id="mobile" value="{{$agent->mobile}}">
                     </div>
                 </div>
                 <div class="form-group col-md-6">
@@ -69,7 +70,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="email" id="email" value="" data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
+                        <input type="text" class="form-control" name="email" id="email" value="{{$agent->email}}" data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
                     </div>
                 </div>
                 <div class="form-group col-md-6">
@@ -87,7 +88,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="license_expiry_date" id="license_expiry_date" value="">
+                        <input type="text" class="form-control" name="license_expiry_date" id="license_expiry_date" value="{{$agent->license_expiry_date? date('d-m-Y',strtotime($agent->license_expiry_date)): null}}">
                     </div>
                 </div>
                 <div class="form-group col-md-12">
@@ -96,23 +97,26 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
                         </div>
-                        <textarea rows="3" type="text" class="form-control" name="address" id="address"></textarea>
+                        <textarea rows="3" type="text" class="form-control" name="address" id="address">
+                            {{$agent->address}}
+                        </textarea>
                     </div>
                 </div>
-                {{--<div class="form-group col-md-6">
-                    <label for="emirates_id">Emirates Id</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-id-card-alt"></i></span>
-                        </div>
-                        <input type="text" class="form-control" name="emirates_id" id="emirates_id" value="">
-                    </div>
-                </div>--}}
             </div>
             <div class="col-sm-6 col-md-4">
                 <div class="text-center">
                   <div class="user_photo">
-                    <img id="profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
+                       @php
+                         if(!empty($agent->photo))
+                         {
+                             $img = route('get.doc',base64_encode($agent->photo));
+                         }
+                         else
+                         {
+                             $img = asset('theme/default/images/dashboard/4.png');
+                         }
+                      @endphp
+                    <img id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
                     <div class=" ml-5 d-table" style="margin-left: 4rem!important;">
                       <label class="btn btn-primary mb-0 mr-3" for="profile_image">Upload Icon</label>
                       <input id="profile_image" class="hide" type="file" name="photo">
@@ -139,14 +143,15 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="owner_name" id="owner_name" value="">
+                        <input type="text" class="form-control" name="owner_name" id="owner_name" value="{{$agent->owner_name}}">
                     </div>
                 </div>
                 <div class="form-group position-relative col-md-6">
                     <label>Country Code Number</label>
                     <select name="country_code" class="form-control" class="phone_code">
                         @foreach($countries as $country)
-                          <option value="{{$country->code}}">+{{$country->code}}</option>
+                            @php $selected = ($country->code==$agent->owner_country_code) ? "selected":"";@endphp
+                          <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -156,7 +161,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                         </div>
-                        <input type="text" class="form-control numeric" name="owner_mobile" id="owner_mobile" value="">
+                        <input type="text" class="form-control numeric" name="owner_mobile" id="owner_mobile" value="{{$agent->owner_mobile}}">
                     </div>
                 </div>
                 <div class="form-group col-md-6">
@@ -165,20 +170,31 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="owner_email" id="owner_email" value="" data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
+                        <input type="text" class="form-control" name="owner_email" id="owner_email" value="{{$agent->owner_email}}" data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-4">
                 <div class="text-center">
                   <div class="user_photo">
-                    <img id="owner_profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
-                    <div class=" ml-5 d-table" style="margin-left: 4rem!important;">
-                      <label class="btn btn-primary mb-0 mr-3" for="owner_profile_image">Upload Icon</label>
-                      <input id="owner_profile_image" class="hide" type="file" name="owner_photo">
-                      <button type="button" id="remove_owner_profile_image" class="btn btn-danger font-weight-bold">Delete Icon
-                      </button>
-                    </div>
+                       @php
+                         if(!empty($agent->owner_photo))
+                         {
+                             $img = route('get.doc',base64_encode($agent->owner_photo));
+                         }
+                         else
+                         {
+                             $img = asset('theme/default/images/dashboard/4.png');
+                         }
+                      @endphp
+                    <img id="owner_profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
+                      <div class=" ml-5 d-table" style="margin-left:4rem!important;">
+                          <label class="btn btn-primary mb-0 mr-3" for="owner_profile_image">Upload Icon</label>
+                          <input id="owner_profile_image" class="hide" type="file" name="owner_photo">
+                          <button type="button" id="remove_owner_profile_image" class="btn btn-danger font-weight-bold">
+                              Delete Icon
+                          </button>
+                      </div>
                   </div>
                 </div>
             </div>
@@ -200,8 +216,24 @@
                                     <i class="fa fa-passport"></i>
                                     </span>
                                   </div>
+                                  @php
+                                      $emirates_id_doc =   'javascript:void(0)';
+                                       if(!empty($agent->emirates_id_doc))
+                                       {
+                                           $emirates_id_doc = route('get.doc',base64_encode($agent->emirates_id_doc));
+                                       }
+                                  @endphp
                                   <input type="file" class="form-control" name="emirates_id_doc"
                                          id="emirates_id_doc" value="">
+                                  @if(!empty($agent->emirates_id_doc))
+                                     <div class="input-group-append" data-toggle="tooltip" title="click to view file">
+                                         <div class="input-group-text">
+                                             <a href="{{$emirates_id_doc}}" target="{{($agent->emirates_id_doc)?'_blank':'#'}}">
+                                                 <i class="fa fa-file"></i>
+                                             </a>
+                                         </div>
+                                     </div>
+                                 @endif
                               </div>
                           </div>
                       </div>
@@ -214,8 +246,23 @@
                                     <i class="fa fa-passport"></i>
                                     </span>
                                   </div>
-                                  <input type="file" class="form-control" name="passport" id="passport"
-                                         value="">
+                                  @php
+                                      $passport =   'javascript:void(0)';
+                                       if(!empty($agent->passport))
+                                       {
+                                           $passport = route('get.doc',base64_encode($agent->passport));
+                                       }
+                                  @endphp
+                                  <input type="file" class="form-control" name="passport" id="passport" value="">
+                                  @if(!empty($agent->passport))
+                                     <div class="input-group-append" data-toggle="tooltip" title="click to view file">
+                                         <div class="input-group-text">
+                                             <a href="{{$passport}}" target="{{($agent->passport)?'_blank':'#'}}">
+                                                 <i class="fa fa-file"></i>
+                                             </a>
+                                         </div>
+                                     </div>
+                                 @endif
                               </div>
                           </div>
                       </div>
@@ -298,7 +345,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="banking_name" id="banking_name" value="">
+                  <input type="text" class="form-control" name="banking_name" id="banking_name" value="{{$agent->banking_name}}">
               </div>
           </div>
           <div class="form-group col-md-4">
@@ -307,7 +354,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="bank_name" id="bank_name" value="">
+                  <input type="text" class="form-control" name="bank_name" id="bank_name" value="{{$agent->bank_name}}">
               </div>
           </div>
             <div class="col-md-4"></div>
@@ -317,7 +364,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-sort-numeric-up"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="bank_swift_code" id="bank_swift_code" value="">
+                  <input type="text" class="form-control" name="bank_swift_code" id="bank_swift_code" value="{{$agent->bank_swift_code}}">
               </div>
           </div>
 
@@ -327,7 +374,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="bank_account" id="bank_account" value="">
+                  <input type="text" class="form-control" name="bank_account" id="bank_account" value="{{$agent->bank_account}}">
               </div>
           </div>
 
@@ -347,7 +394,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-flag"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="country" id="country" value="">
+                  <input type="text" class="form-control" name="country" id="country" value="{{$agent->country}}">
               </div>
           </div>
           <div class="form-group col-md-4">
@@ -356,7 +403,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="state" id="state" value="">
+                  <input type="text" class="form-control" name="state" id="state" value="{{$agent->state}}">
               </div>
           </div>
           <div class="col-md-4"></div>
@@ -366,16 +413,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-city"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="city" id="city" value="">
-              </div>
-          </div>
-          <div class="form-group col-md-4">
-              <label for="address">Address</label>
-              <div class="input-group">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
-                  </div>
-                  <input type="text" class="form-control" name="address" id="address" value="">
+                  <input type="text" class="form-control" name="city" id="city" value="{{$agent->city}}">
               </div>
           </div>
         </div>
@@ -477,16 +515,16 @@
                let file = document.getElementById("owner_profile_image");
                file.value = file.defaultValue;
            });
-            $("#add_data_form").on('submit',function(e){
+            $("#edit_data_form").on('submit',function(e){
                 e.preventDefault();
                 let url = "{{route('agent.store')}}";
-                let params = new FormData(document.getElementById('add_data_form'));
+                let params = new FormData(document.getElementById('edit_data_form'));
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
                    $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
                    $('#owner_profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                   $("#add_data_form")[0].reset();
+                   $("#edit_data_form")[0].reset();
                 }
                 function fn_error(result)
                 {
