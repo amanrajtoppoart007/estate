@@ -4,14 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTable\Api;
 use App\Document;
+use App\Employee;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\Library\GenerateWorkOrderNo;
 use App\MaintenanceWork;
 use App\MaintenanceWorkCategory;
 use App\Property;
+use App\Library\CreateMaintenanceWorkProgress;
+use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UpdateMaintenanceWorkOrder;
 
 class MaintenanceController extends Controller
 {
@@ -87,7 +91,7 @@ class MaintenanceController extends Controller
                       $doc['extension']     = $document['extension'];
                       Document::create($doc);
                   }
-                  $result = ['status'=>'1','response' => 'success', 'message' => 'Maintenance request sent to administrator'];
+                  $result = ['status'=>1,'response' => 'success', 'message' => 'Maintenance request sent to administrator'];
              }
              else
              {
@@ -106,11 +110,43 @@ class MaintenanceController extends Controller
         $maintenance = MaintenanceWork::find($id);
         if(!empty($maintenance))
         {
-             return view('admin.maintenance.view',compact('maintenance'));
+             $employees  = Employee::where(['status'=>1])->get();
+             $status_list = ['pending'=>'pending','completed'=>'completed','on_hold'=>'on hold','work_in_progress'=>'work in progress'];
+             return view('admin.maintenance.view',compact('maintenance','employees','status_list'));
         }
         else
         {
             show_error();
         }
+    }
+
+    public function updateWorkProgress(UpdateMaintenanceWorkOrder $request)
+    {
+        $request->validated();
+        $update = $request->only(['assignee_id','asst_assignee_id']);
+        $update['due_date'] = $request->due_date ?date('Y-m-d',strtotime($request->due_date)) : null;
+
+        try {
+           $result = MaintenanceWork::where(['id'=>$request->maintenance_work_order_id])->update($update);
+            $count = count($request->status['status_type']);
+            for($i=0;$i<$count;$i++)
+            {
+                $status = array();
+                $status['work_order_id'] = $request->maintenance_work_order_id;
+                $status['status_type']   = $request->status['status_type'][$i];
+                $status['work_status']   = (!empty($request->status['work_status'][$i]))?$request->status['work_status'][$i]:null;
+                $status['due_date']      =  (!empty($request->status['due_date'][$i]))?$request->status['due_date'][$i]:null;
+                $status['completed_at']  =  (!empty($request->status['completed_at'][$i]))?$request->status['completed_at'][$i]:null;
+                $status['remark']        =  (!empty($request->status['remark'][$i]))?$request->status['remark'][$i]:null;
+                $progress = new CreateMaintenanceWorkProgress($status,$request->maintenance_work_order_id);
+                $progress->execute();
+            }
+             $result = ['status'=>1,'response' => 'success', 'message' => 'Maintenance status updated'];
+        }
+        catch (\Exception $exception)
+        {
+              $result = ['status'=>'0','response' => 'error', 'message' =>$exception->getMessage()];
+        }
+       return response()->json($result,200);
     }
 }

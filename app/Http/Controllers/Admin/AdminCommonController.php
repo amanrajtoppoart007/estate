@@ -22,7 +22,7 @@ class AdminCommonController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-   
+
 public function checkcode($code)
 {
 
@@ -71,14 +71,14 @@ public function checkcode($code)
               }
               else
               {
-                  $x='1';
+                  $x=1;
                   $x = str_pad($x,get_systemSetting('property_code_length'), '0', STR_PAD_LEFT);//adding 0 as system setting
                   $code.=$x;
               }
               $code = $this->checkcode($code);//calling recursive function
 
 
-            $data=array('status'=>'1','msg'=>  'Successfully Generated',);
+            $data=array('status'=>1,'msg'=>  'Successfully Generated',);
             $data['code'] = $code;
             return json_encode($data);
           }
@@ -98,7 +98,7 @@ public function checkcode($code)
           }
           else
           {
-              $data=array('status'=>'1','msg'=>  'MSG',);
+              $data=array('status'=>1,'msg'=>  'MSG',);
               return json_encode($data);
           }
     }

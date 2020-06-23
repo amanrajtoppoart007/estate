@@ -34,13 +34,13 @@ class AttendanceController extends Controller
     {
          $validator = Validator::make($request->all(),['employee_id' => 'required|numeric','date'=>'required']);
         if(!$validator->fails())
-        { 
+        {
              $date = date('Y-m-d',strtotime($request->date));
             if($check = Attendance::where(['employee_id'=>$request->employee_id,'date'=>$date])->first())
             {
                Attendance::where(['employee_id'=>$request->employee_id,'date'=>$date])->update(['attendance'=>$request->attendance]);
             }
-            else 
+            else
             {
                 Attendance::create(['employee_id'=>$request->employee_id,'date'=>$date,'attendance'=>$request->attendance]);
             }
@@ -50,7 +50,7 @@ class AttendanceController extends Controller
     }
     public function index(Request $request)
     {
-        
+
         $date  = ($request->date)?date('d-m-Y',strtotime($request->date)):date('d-m-Y');
         $carbon = new Carbon($date);
         $daysCountInMonth = Carbon::parse($carbon->format('Y-m-d'))->daysInMonth;
@@ -71,7 +71,7 @@ class AttendanceController extends Controller
     {
         $employees = Employee::whereDoesntHave('attendances',function(Builder $query){
             $query->where('date',date('Y-m-d'));
-        })->where(['status'=>'1'])->get();
+        })->where(['status'=>1])->get();
         return view('admin.attendance.create',\compact('employees'));
     }
 
@@ -87,7 +87,7 @@ class AttendanceController extends Controller
             'employee_id.*' => 'required|numeric',
         ]);
         if(!$validator->fails())
-        {  
+        {
             $i   = 0;
             $cnt = 0;
             foreach($request->employee_id as $key=>$value)

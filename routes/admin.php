@@ -323,6 +323,7 @@ Route::get('/create', 'Admin\MaintenanceController@create')->name('maintenance.c
 Route::post('/store', 'Admin\MaintenanceController@store')->name('maintenance.store');
 Route::post('/fetch', 'Admin\MaintenanceController@fetch')->name('maintenance.fetch');
 Route::get('/view/{id}', 'Admin\MaintenanceController@view')->name('maintenance.view');
+Route::post('/update', 'Admin\MaintenanceController@updateWorkProgress')->name('maintenance.update');
 
 Route::get('/quotation/create', 'Admin\MaintenanceController@create_quotation')->name('maintenance.quotation.create');
 });

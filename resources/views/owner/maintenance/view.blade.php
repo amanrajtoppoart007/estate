@@ -19,7 +19,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <table class="table table-striped">
+            <table class="table">
                 <tbody>
                 <tr>
                     <th>Building Name</th>
@@ -39,36 +39,21 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h6 class="card-title">Status of your request</h6>
+            <h6 class="card-title text-bold">Status Of Your Request</h6>
         </div>
         <div class="card-body">
-            <div class="md-stepper-horizontal orange">
-    <div class="md-step active done">
-      <div class="md-step-circle"><span>1</span></div>
-      <div class="md-step-title">Checkout</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div>
-    <div class="md-step active editable">
-      <div class="md-step-circle"><span>2</span></div>
-      <div class="md-step-title">Shipping</div>
-      <div class="md-step-optional">Optional</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div>
-    <div class="md-step active">
-      <div class="md-step-circle"><span>3</span></div>
-      <div class="md-step-title">Payment</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div>
-    <div class="md-step">
-      <div class="md-step-circle"><span>4</span></div>
-      <div class="md-step-title">Review</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div>
-  </div>
+
+            <div class="row justify-content-center">
+                <div class="col-11 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center p-0">
+                    <div class="px-0 pt-4 pb-0 mt-3 mb-3">
+                        <ul id="progressbar">
+                            @foreach($maintenance->maintenance_work_progress as $progress)
+                                <li class="{{$progress->work_status}}"><strong>{{ucwords(str_replace("_"," ",$progress->status_type))}}</strong></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -78,12 +63,22 @@
                 <table class="table">
                     <thead>
                       <tr>
+                          <th>Task</th>
                           <th>Date</th>
-                          <th>Time</th>
                           <th>Status</th>
                           <th>Remark</th>
                       </tr>
                     </thead>
+                    <tbody>
+                    @foreach($maintenance->maintenance_work_progress as $progress)
+                        <tr>
+                            <td>{{ucwords(str_replace("_"," ",$progress->status_type))}}</td>
+                            <td>{{$progress->completed_at? date('d-m-Y',strtotime($progress->completed_at)):null}}</td>
+                            <td>{{ucwords(str_replace("_"," ",$progress->work_status))}}</td>
+                            <td>{{$progress->remark}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -91,132 +86,111 @@
 @endsection
 @section('css')
     <style>
-        html {
-	-webkit-font-smoothing: antialiased!important;
-	-moz-osx-font-smoothing: grayscale!important;
-	-ms-font-smoothing: antialiased!important;
-}
-body {
-  font-family: 'Open Sans', sans-serif;
-  font-size:16px;
-  color:#555555;
-}
-.md-stepper-horizontal {
-	display:table;
-	width:100%;
-	margin:0 auto;
-	background-color:#FFFFFF;
-	box-shadow: 0 3px 8px -6px rgba(0,0,0,.50);
-}
-.md-stepper-horizontal .md-step {
-	display:table-cell;
-	position:relative;
-	padding:24px;
-}
-.md-stepper-horizontal .md-step:hover,
-.md-stepper-horizontal .md-step:active {
-	background-color:rgba(0,0,0,0.04);
-}
-.md-stepper-horizontal .md-step:active {
-	border-radius: 15% / 75%;
-}
-.md-stepper-horizontal .md-step:first-child:active {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
-.md-stepper-horizontal .md-step:last-child:active {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-}
-.md-stepper-horizontal .md-step:hover .md-step-circle {
-	background-color:#757575;
-}
-.md-stepper-horizontal .md-step:first-child .md-step-bar-left,
-.md-stepper-horizontal .md-step:last-child .md-step-bar-right {
-	display:none;
-}
-.md-stepper-horizontal .md-step .md-step-circle {
-	width:60px;
-	height:60px;
-	margin:0 auto;
-	background-color:#999999;
-	border-radius: 50%;
-	text-align: center;
-	line-height:60px;
-	font-size: 16px;
-	font-weight: 600;
-	color:#FFFFFF;
-}
-.md-stepper-horizontal.green .md-step.active .md-step-circle {
-	background-color:#00AE4D;
-}
-.md-stepper-horizontal.orange .md-step.active .md-step-circle {
-	background-color: #f91f02;
-}
-.md-stepper-horizontal .md-step.active .md-step-circle {
-	background-color: rgb(33,150,243);
-}
-.md-stepper-horizontal .md-step.done .md-step-circle:before {
-	font-family:'FontAwesome';
-	font-weight:100;
-	content: "\f00c";
-}
-.md-stepper-horizontal .md-step.done .md-step-circle *,
-.md-stepper-horizontal .md-step.editable .md-step-circle * {
-	display:none;
-}
-.md-stepper-horizontal .md-step.editable .md-step-circle {
-	-moz-transform: scaleX(-1);
-	-o-transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
-	transform: scaleX(-1);
-}
-.md-stepper-horizontal .md-step.editable .md-step-circle:before {
-    font-family: 'FontAwesome';
-	font-weight:100;
-	content: "\f040";
-}
-.md-stepper-horizontal .md-step .md-step-title {
-	margin-top:16px;
-	font-size:16px;
-	font-weight:600;
-}
-.md-stepper-horizontal .md-step .md-step-title,
-.md-stepper-horizontal .md-step .md-step-optional {
-	text-align: center;
-	color:rgba(0,0,0,.26);
-}
-.md-stepper-horizontal .md-step.active .md-step-title {
-	font-weight: 600;
-	color:rgba(0,0,0,.87);
-}
-.md-stepper-horizontal .md-step.active.done .md-step-title,
-.md-stepper-horizontal .md-step.active.editable .md-step-title {
-	font-weight:600;
-}
-.md-stepper-horizontal .md-step .md-step-optional {
-	font-size:12px;
-}
-.md-stepper-horizontal .md-step.active .md-step-optional {
-	color:rgba(0,0,0,.54);
-}
-.md-stepper-horizontal .md-step .md-step-bar-left,
-.md-stepper-horizontal .md-step .md-step-bar-right {
-	position:absolute;
-    top: 53px;
-	height:1px;
-	border-top:1px solid #DDDDDD;
-}
-.md-stepper-horizontal .md-step .md-step-bar-right {
-	right:0;
-	left:50%;
-	margin-left:20px;
-}
-.md-stepper-horizontal .md-step .md-step-bar-left {
-	left:0;
-	right:50%;
-	margin-right:20px;
-}
+        .card {
+            z-index: 0;
+            border: none;
+            position: relative
+        }
+        #progressbar {
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: lightgrey
+        }
+        #progressbar .completed {
+            font-weight: bolder;
+            color: #049d01;
+        }
+         #progressbar .pending {
+            font-weight: bolder;
+            color: #ff0d0d;
+        }
+        #progressbar .on_hold {
+            font-weight: bolder;
+            color: #bbbe00;
+        }
+        #progressbar .work_in_progress {
+            font-weight: bolder;
+            color: #00beac;
+        }
+        #progressbar li {
+            list-style-type: none;
+            font-size: 15px;
+            width: 16%;
+            float: left;
+            position: relative;
+            font-weight: 400
+        }
+        #progressbar .completed:before {
+            font-family: "Font Awesome\ 5 Free";
+            font-style: normal;
+            font-weight: 900;
+            content: "\f00c"
+        }
+        #progressbar .pending:before {
+            font-family: "Font Awesome\ 5 Free";
+            font-style: normal;
+            font-weight: 900;
+            content: "\f00d"
+        }
+        #progressbar .on_hold:before {
+            font-family: "Font Awesome\ 5 Free";;
+            font-style: normal;
+            font-weight: 900;
+            content: "\f04c"
+        }
+        #progressbar .work_in_progress:before {
+            font-family: "Font Awesome\ 5 Free";;
+            font-style: normal;
+            font-weight: 900;
+            content: "\f017"
+        }
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 20px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+        #progressbar li.completed:before,
+        #progressbar li.completed:after {
+            background: #049d01;
+        }
+        #progressbar li.pending:before,
+        #progressbar li.pending:after {
+            background: #ff0d0d;
+        }
+        #progressbar li.on_hold:before,
+        #progressbar li.on_hold:after {
+            background: #bbbe00;
+        }
+        #progressbar li.work_in_progress:before,
+        #progressbar li.work_in_progress:after {
+            background: #00beac;
+        }
+        .progress {
+            height: 20px
+        }
+        .progress-bar {
+            background-color: #673AB7
+        }
+        .fit-image {
+            width: 100%;
+            object-fit: cover
+        }
     </style>
 @endsection
-

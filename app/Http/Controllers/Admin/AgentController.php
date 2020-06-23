@@ -182,10 +182,10 @@ class AgentController extends Controller
         ]);
         if(!$validator->fails())
         {
-            $status = ($request->is_disabled) ? '0' : '1';
+            $status = ($request->is_disabled) ? '0' : 1;
             if (Agent::where(['id' => $request->id])->update(['is_disabled' => $status]))
             {
-                return response()->json(['status'=>'1','response' => 'success', 'data' => ['is_disabled' => $status, 'id' => $request->id], 'message' => 'Status updated successfully.']);
+                return response()->json(['status'=>1,'response' => 'success', 'data' => ['is_disabled' => $status, 'id' => $request->id], 'message' => 'Status updated successfully.']);
             }
              else
             {

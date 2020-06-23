@@ -17,6 +17,8 @@
     </div>
 @endsection
 @section('content')
+   {{Form::open(['route'=>'maintenance.update','id'=>'edit_data_form','method'=>'post','autocomplete'=>'off'])}}
+   <input type="hidden" name="maintenance_work_order_id" value="{{$maintenance->id}}">
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -77,14 +79,22 @@
                             <td>
                                 <select name="assignee_id" id="assignee_id" class="form-control">
                                     <option value="">Select Assignee</option>
+                                    @foreach($employees as $employee)
+                                        @php $selected = ($maintenance->assignee_id==$employee->id)?'selected':''; @endphp
+                                        <option value="{{$employee->id}}" {{$selected}}>{{$employee->name}}</option>
+                                    @endforeach
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <th>Assistant Assignee</th>
                             <td>
-                                <select name="assistant" id="assistant" class="form-control">
+                                <select name="asst_assignee_id" id="asst_assignee_id" class="form-control">
                                     <option value="">Select Assistant</option>
+                                    @foreach($employees as $employee)
+                                        @php $selected = ($maintenance->asst_assignee_id==$employee->id)?'selected':''; @endphp
+                                        <option value="{{$employee->id}}" {{$selected}}>{{$employee->name}}</option>
+                                    @endforeach
                                 </select>
                             </td>
                         </tr>
@@ -129,118 +139,159 @@
                 <table class="table">
                     <thead>
                       <tr>
-                          <th></th>
+                          <th>#</th>
                           <th>Status</th>
                           <th>Date</th>
                           <th>Remark</th>
                       </tr>
                     </thead>
                     <tbody>
+                    @if(!$maintenance->maintenance_work_progress->isEmpty())
+                        @foreach($maintenance->maintenance_work_progress as $progress)
+                        <tr>
+                          <td>
+                              {{ucwords(str_replace("_"," ",$progress->status_type))}}
+                              <input type="hidden" name="status[status_type][]" value="{{$progress->status_type}}">
+                          </td>
+                          <td>
+                              <select class="form-control" name="status[work_status][]">
+                                  <option value="">Select Status</option>
+                                  @foreach($status_list as $stat_key=>$stat_val)
+                                      @php $selected = ($stat_key==$progress->work_status)?'selected':'';  @endphp
+                                      <option value="{{$stat_key}}" {{$selected}}>{{$stat_val}}</option>
+                                  @endforeach
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text" name="status[completed_at][]" value="{{$progress->completed_at ? date('d-m-Y',strtotime($progress->completed_at)):null}}">
+                          </td>
+                          <td>
+                              <input class="form-control" name="status[remark][]" value="{{$progress->remark}}">
+                          </td>
+                      </tr>
+                        @endforeach
+                        @else
                       <tr>
-                          <td>Information Recieved</td>
                           <td>
-                              <select class="form-control" name="" id="">
+                              Information Received
+                              <input type="hidden" name="status[status_type][]" value="information_received">
+                          </td>
+                          <td>
+                              <select class="form-control" name="status[work_status][]">
                                   <option value="">Select Status</option>
-                                  <option value="1">Completed</option>
+                                  @foreach($status_list as $stat_key=>$stat_val)
+                                      <option value="{{$stat_key}}">{{$stat_val}}</option>
+                                  @endforeach
                               </select>
                           </td>
                           <td>
-                              <input class="form-control select_date" type="text">
+                              <input class="form-control select_date" type="text" name="status[completed_at][]">
                           </td>
                           <td>
-                              <input class="form-control" name="" id="">
+                              <input class="form-control" name="status[remark][]">
                           </td>
                       </tr>
                      <tr>
-                          <td>Appointment</td>
                           <td>
-                              <select class="form-control" name="" id="">
+                              Appointment
+                              <input type="hidden" name="status[status_type][]" value="appointment">
+                          </td>
+                          <td>
+                              <select class="form-control" name="status[work_status][]">
                                   <option value="">Select Status</option>
-                                  <option value="1">Completed</option>
+                                  @foreach($status_list as $stat_key=>$stat_val)
+                                      <option value="{{$stat_key}}">{{$stat_val}}</option>
+                                  @endforeach
                               </select>
                           </td>
                           <td>
-                              <input class="form-control select_date" type="text">
+                              <input class="form-control select_date" type="text" name="status[completed_at][]">
                           </td>
                           <td>
-                              <input class="form-control" name="" id="">
+                              <input class="form-control"  name="status[remark][]">
                           </td>
                       </tr>
                     <tr>
-                          <td>Material Request (If Any)</td>
                           <td>
-                              <select class="form-control" name="" id="">
+                              Material Request (If Any)
+                              <input type="hidden" name="status[status_type][]" value="material_requested">
+                          </td>
+                          <td>
+                              <select class="form-control" name="status[work_status][]">
                                   <option value="">Select Status</option>
-                                  <option value="1">Completed</option>
+                                  @foreach($status_list as $stat_key=>$stat_val)
+                                      <option value="{{$stat_key}}">{{$stat_val}}</option>
+                                  @endforeach
                               </select>
                           </td>
                           <td>
-                              <input class="form-control select_date" type="text">
+                              <input class="form-control select_date" type="text" name="status[completed_at][]">
                           </td>
                           <td>
-                              <input class="form-control" name="" id="">
+                              <input class="form-control" name="status[remark][]">
                           </td>
                       </tr>
                     <tr>
-                          <td>Quotation  Approval (If Owner/Admin)</td>
+                          <td>Quotation  Approval (If Owner/Admin)
+                              <input type="hidden" name="status[status_type][]" value="quotation_approval">
+                          </td>
                           <td>
-                              <select class="form-control" name="" id="">
+                              <select class="form-control" name="status[work_status][]">
                                   <option value="">Select Status</option>
-                                  <option value="1">Completed</option>
+                                  @foreach($status_list as $stat_key=>$stat_val)
+                                      <option value="{{$stat_key}}">{{$stat_val}}</option>
+                                  @endforeach
                               </select>
                           </td>
                           <td>
-                              <input class="form-control select_date" type="text">
+                              <input class="form-control select_date" type="text" name="status[completed_at][]">
                           </td>
                           <td>
-                              <input class="form-control" name="" id="">
+                              <input class="form-control" name="status[remark][]">
+                          </td>
+                      </tr>
+
+                    <tr>
+                          <td>
+                              Completion Of Work
+                              <input type="hidden" name="status[status_type][]" value="work_completion">
+                          </td>
+                          <td>
+                              <select class="form-control" name="status[work_status][]">
+                                  <option value="">Select Status</option>
+                                  @foreach($status_list as $stat_key=>$stat_val)
+                                      <option value="{{$stat_key}}">{{$stat_val}}</option>
+                                  @endforeach
+                              </select>
+                          </td>
+                          <td>
+                              <input class="form-control select_date" type="text" name="status[completed_at][]" value="">
+                          </td>
+                          <td>
+                              <input class="form-control" name="status[remark][]" value="">
                           </td>
                       </tr>
                      <tr>
-                          <td>Quotation  Approval (If Owner/Admin)</td>
                           <td>
-                              <select class="form-control" name="" id="">
+                              Closing
+                              <input type="hidden" name="status[status_type][]" value="work_closing">
+                          </td>
+                          <td>
+                              <select class="form-control" name="status[work_status][]">
                                   <option value="">Select Status</option>
-                                  <option value="1">Completed</option>
+                                  @foreach($status_list as $stat_key=>$stat_val)
+                                      <option value="{{$stat_key}}">{{$stat_val}}</option>
+                                  @endforeach
                               </select>
                           </td>
                           <td>
-                              <input class="form-control select_date" type="text">
+                              <input class="form-control select_date" type="text" name="status[completed_at][]" value="">
                           </td>
                           <td>
-                              <input class="form-control" name="" id="">
+                              <input class="form-control" name="status[remark][]" value="">
                           </td>
                       </tr>
-                    <tr>
-                          <td>Completion Of Work </td>
-                          <td>
-                              <select class="form-control" name="" id="">
-                                  <option value="">Select Status</option>
-                                  <option value="1">Completed</option>
-                              </select>
-                          </td>
-                          <td>
-                              <input class="form-control select_date" type="text">
-                          </td>
-                          <td>
-                              <input class="form-control" name="" id="">
-                          </td>
-                      </tr>
-                     <tr>
-                          <td>Closing </td>
-                          <td>
-                              <select class="form-control" name="" id="">
-                                  <option value="">Select Status</option>
-                                  <option value="1">Completed</option>
-                              </select>
-                          </td>
-                          <td>
-                              <input class="form-control select_date" type="text">
-                          </td>
-                          <td>
-                              <input class="form-control" name="" id="">
-                          </td>
-                      </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -269,6 +320,12 @@
             </div>
         </div>
     </div>
+   <div class="card card-body">
+       <div class="form-group text-right">
+           <button class="btn btn-primary" type="submit">Update</button>
+       </div>
+   </div>
+    {{Form::close()}}
 @endsection
  @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
@@ -317,6 +374,22 @@
 			}
 			imagesPreview(this, 'div#gallery');
 		});
+
+		$("#edit_data_form").on("submit",function(e){
+		    e.preventDefault();
+		    let url = "{{route('maintenance.update')}}";
+		    let params = new FormData(document.getElementById('edit_data_form'));
+		    function success(result)
+            {
+                toast('success',result.message,'top-right');
+                window.location.href=window.location.href;
+            }
+            function error(result)
+            {
+                toast('error',result.message,'top-right');
+            }
+            $.fn_ajax_multipart(url,params,success,error);
+        })
 	});
     </script>
 @endsection

@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\GlobalHelper;
-use Hash;
 use Str;
 use App\Buyer;
 class BuyerController extends Controller
@@ -41,12 +41,7 @@ class BuyerController extends Controller
         return view('admin.buyer.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(\App\Http\Requests\StoreBuyer $request)
     {
         $request->validated();
@@ -58,44 +53,28 @@ class BuyerController extends Controller
         $input['buyer_image'] = GlobalHelper::singleFileUpload($request,'local', 'buyer_image',"buyers/$folder");
         if(Buyer::create($input))
         {
-            return response()->json(['status'=>'1','response'=>'success','message'=>'Buyer added successfully.'],200);     
+            return response()->json(['status'=>1,'response'=>'success','message'=>'Buyer added successfully.'],200);
         }
-        else 
+        else
         {
             return response()->json(['status'=>'0','response'=>'error','message'=>'Something went wrong,please try again'],200);
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $data = Buyer::find($id);
         return view('admin.buyer.edit',\compact('data'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(\App\Http\Requests\UpdateBuyer $request, $id)
     {
         $request->validated();
@@ -104,7 +83,7 @@ class BuyerController extends Controller
         {
             $input['password']    = Hash::make($request->password);
         }
-        
+
         $folder               = $request->mobile;
         if($request->hasfile('passport'))
         {
@@ -120,20 +99,15 @@ class BuyerController extends Controller
         }
         if(Buyer::where(['id'=>$id])->update($input))
         {
-            return response()->json(['status'=>'1','response'=>'success','message'=>'Buyer detail updated successfully.'],200);     
+            return response()->json(['status'=>1,'response'=>'success','message'=>'Buyer detail updated successfully.'],200);
         }
-        else 
+        else
         {
             return response()->json(['status'=>'0','response'=>'error','message'=>'Something went wrong,please try again'],200);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
@@ -144,14 +118,14 @@ class BuyerController extends Controller
             'id' => 'numeric|required',
             'status' => 'numeric',
         ]);
-        if(!$validator->fails()) 
+        if(!$validator->fails())
         {
-            $status = ($request->status) ? '0' : '1';
-            if (Buyer::where(['id' => $request->id])->update(['status' => $status])) 
+            $status = ($request->status) ? '0' : 1;
+            if (Buyer::where(['id' => $request->id])->update(['status' => $status]))
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => ['status' => $status, 'id' => $request->id], 'message' => 'Status updated successfully.']);
             }
-             else 
+             else
             {
                 return response()->json(['status'=>'0','response' => 'error', 'message' => 'Status updation failed.']);
             }

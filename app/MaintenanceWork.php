@@ -26,4 +26,9 @@ class MaintenanceWork extends Model
      {
          return $this->morphMany(Document::class, 'referrer');
      }
+
+     public function maintenance_work_progress()
+     {
+         return $this->hasMany(MaintenanceWorkProgress::class,'maintenance_work_order_id','id');
+     }
 }

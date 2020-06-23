@@ -119,7 +119,7 @@ class AjaxController extends Controller
     $obj->unit_price    = $request->price;
     $obj->admin_id      = auth()->user()->id;
     if($obj->save()){
-       $data = array('status'=>'1','msg'=>'Successfully stored new item','data'=>$obj);
+       $data = array('status'=>1,'msg'=>'Successfully stored new item','data'=>$obj);
     }else{
         $data = array('status'=>'0','msg'=>'Something went wrong!!');
     }
