@@ -302,7 +302,7 @@
               <li class="nav-item">
                 <a href="{{route('task.list')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Taks</p>
+                  <p>Task</p>
                 </a>
               </li>
             </ul>

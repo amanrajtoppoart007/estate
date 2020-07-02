@@ -10,7 +10,7 @@
             dataType: 'json',
             success: function (result)
             {
-                if (result.status === "1")
+                if (result.status ===1)
                 {
                     fn_success(result);
                 }

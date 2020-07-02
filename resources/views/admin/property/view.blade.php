@@ -508,11 +508,11 @@ $(document).on('click','.changeStatusBtn',function(e){
 			  $("#edit_hall").val(result.data.hall);
 			  $("#edit_owner_id").val(result.data.owner_id);
               $("#editModal").modal('show');
-		  };
+		  }
 		  function fn_error(result)
 		  {
              toast('error',result.message,'top-right');
-		  };
+		  }
 		  $.fn_ajax(url,params,fn_success,fn_error);
 		});
 		/* ********* property unit detail view function *********** */
