@@ -157,18 +157,21 @@
 								<div class="table-responsive">
 									<table class="table table-bordered" id="dataTable">
 										<thead>
-											<th>Flat/Unit</th>
-											<th>No. Of BR.</th>
-											<th>Owner</th>
-											<th>Tenant</th>
-											<th>Sell/Rent</th>
-											<th>Sell/Rent Amount</th>
-											<th>Lease Start</th>
-											<th>Lease End</th>
-											<th>Brokar</th>
-											<th>Flat Status</th>
-											<th>Action</th>
+											<tr>
+                                                <th>Flat/Unit</th>
+                                                <th>No. Of BR.</th>
+                                                <th>Owner</th>
+                                                <th>Tenant</th>
+                                                <th>Sell/Rent</th>
+                                                <th>Sell/Rent Amount</th>
+                                                <th>Lease Start</th>
+                                                <th>Lease End</th>
+                                                <th>Brokar</th>
+                                                <th>Flat Status</th>
+                                                <th>Action</th>
+                                            </tr>
 										</thead>
+                                        <tbody></tbody>
 									</table>
 								</div>
 							</div>
