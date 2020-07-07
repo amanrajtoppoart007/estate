@@ -29,6 +29,7 @@ Route::prefix('tenant')->group(function () {
 });
 Route::prefix('allot-property')->group(function () {
     Route::get('tenant/{id}', 'Admin\PropertyAllotmentController@index')->name('tenant.allot.property');
+    Route::get('tenant/{id}/property/unit/{property_unit_id}', 'Admin\PropertyAllotmentController@index')->name('tenant.allot.property.unit');
     Route::get('detail/tenant/{id}/allotment/{allotmentId}', 'Admin\PropertyAllotmentController@view')->name('allotment.detail');
     Route::post('get/citywise/property/list', 'Admin\PropertyAllotmentController@getPropertyList')->name('citywise.property.list');
     Route::post('get/propertyUnitType/list', 'Admin\PropertyAllotmentController@getPropertyUnitTypes')->name('get.propertyUnitTypes.list');

@@ -430,8 +430,8 @@ $(document).on('click','.changeStatusBtn',function(e){
                 toast('error',result.message,'top-right');
             };
             $.fn_ajax('{{route('link.unit.allotment')}}',params,fn_success,fn_error);
-        });http://127.0.0.1:8000/
-         //end unit allotment module
+        });
+
 
         $("#property_filter_search input").on('change',function(){
            dataTable.api().ajax.reload();

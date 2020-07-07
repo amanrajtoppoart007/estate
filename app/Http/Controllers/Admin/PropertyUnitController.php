@@ -229,7 +229,7 @@ class PropertyUnitController extends Controller
         {
             if($request->allotment_type==1)
             {
-                $link = route('tenant.allot.property',['id'=>$request->client_id]);
+                $link = route('tenant.allot.property.unit',['id'=>$request->client_id,'property_unit_id'=>$request->property_unit_id]);
             }
             else
             {

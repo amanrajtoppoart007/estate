@@ -15,6 +15,9 @@
 
       </style>
   @endsection
+    @php
+      $unit = $property_unit ? $property_unit : null;
+    @endphp
   @section('js')
   <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
   @endsection
@@ -39,6 +42,32 @@
 <div class="submit_form color-secondery icon_primary p-5 bg-white">
     {{Form::open(['route'=>'allot.property','id'=>'add_data_form'])}}
             <input type="hidden" name="tenant_id" value="{{$tenant->id}}">
+
+           <div class="card">
+              <div class="card-header"><h6> <strong>Owner Detail</strong> </h6></div>
+                <div class="card-body table-responsive">
+                <table class="table border-0 border-th-td-none">
+                  <tbody>
+                    <tr>
+                      <th>Name</th>
+                      <td>{{$property_unit->owner->name}}</td>
+                      <th>Nationality</th>
+                      <td>{{$property_unit->owner->country}}</td>
+                      <th>Mobile</th>
+                      <td>{{$property_unit->owner->mobile}}</td>
+                    </tr>
+                    <tr>
+                      <th>Email Id</th>
+                      <td>{{$property_unit->owner->email}}</td>
+                      <th></th>
+                      <td></td>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
             <div class="card">
               <div class="card-header"><h6> <strong>Tenant Detail</strong> </h6></div>
@@ -79,7 +108,8 @@
                     <select name="state_id" id="state_id" class="form-control">
                       <option value="">Select State</option>
                       @foreach($states as $state)
-                        <option value="{{$state->id}}">{{$state->name}}</option>
+                          @php $selected = ($property_unit->property->state_id==$state->id)?"selected":"";  @endphp
+                        <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
                       @endforeach
                     </select>
                 </div>
@@ -88,7 +118,12 @@
               <div class="col">
                 <div class="form-group">
                   <label for="city_id">City</label>
-                  <select class="form-control" name="city_id" id="city_id"></select>
+                  <select class="form-control" name="city_id" id="city_id">
+                      @foreach($cities as $city)
+                          @php $selected = ($property_unit->property->city_id==$city->id)?"selected":"";  @endphp
+                            <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
+                       @endforeach
+                  </select>
                 </div>
               </div>
 
@@ -97,19 +132,36 @@
                 <div class="col-md-6">
                   <div class="form-group">
                   <label for="property_id">Property</label>
-                  <select class="form-control" name="property_id" id="property_id"></select>
+                  <select class="form-control" name="property_id" id="property_id">
+                      @if(!empty($property_unit))
+                      @foreach($properties as $prop)
+                          @php $selected = ($property_unit->property->id==$prop->id)?"selected":"";  @endphp
+                            <option value="{{$prop->id}}" {{$selected}}>{{$prop->title}}</option>
+                       @endforeach
+                      @endif
+                  </select>
                 </div>
               </div>
               <div class="col-md-3">
                   <div class="form-group">
                   <label for="property_unit_type_id">Property Unit Type</label>
-                  <select class="form-control" name="property_unit_type_id" id="property_unit_type_id"></select>
+                  <select class="form-control" name="property_unit_type_id" id="property_unit_type_id">
+                      @foreach($property_unit->property->propertyUnitTypes as $propertyUnitType)
+                           @php $selected = ($property_unit->propertyUnitType->id==$propertyUnitType->id)?"selected":"";  @endphp
+                          <option value="{{$propertyUnitType->id}}">{{$propertyUnitType->title}}</option>
+                      @endforeach
+                  </select>
                 </div>
               </div>
               <div class="col-md-3">
                   <div class="form-group">
                   <label for="unit_id">Property Unit</label>
-                  <select class="form-control" name="unit_id" id="unit_id"></select>
+                  <select class="form-control" name="unit_id" id="unit_id">
+                       @foreach($property_unit->property->property_units as $unit)
+                           @php $selected = ($property_unit->id==$unit->id)?"selected":"";  @endphp
+                          <option value="{{$unit->id}}">{{$unit->unitcode}}</option>
+                      @endforeach
+                  </select>
                 </div>
               </div>
               </div>
@@ -140,6 +192,24 @@
                     <input type="text" class="form-control numeric" name="rent_period" id="rent_period" value="">
                   </div>
                 </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="parking">Parking <i id="parking"></i> </label>
+                            <select class="form-control" name="parking" id="parking">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="parking_number">Parking number <i id="rent_period_text"></i> </label>
+                            <input type="text" class="form-control numeric" name="parking_number" id="parking_number"
+                                   value="">
+                        </div>
+                    </div>
+
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="lease_start">Lease Start Date</label>
@@ -152,8 +222,6 @@
                     <input type="text" class="form-control" name="lease_end" id="lease_end" value="">
                   </div>
                 </div>
-                </div>
-                <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="rent_amount">Rent Amount</label>
@@ -204,26 +272,26 @@
                 <td class="padLeft100"><input type="text" class="numeric" name="security_deposit[]" id="security_deposit_1" value="0" ></td>
             </tr>
             <tr id="row4">
-                <td class="width200">Municipality Fees (2% From rent value)</td>
+                <td class="width200">Municipality Fees (4% From rent value)</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="municipality_fees[]" id="municipality_fees_1" value="0"></td>
             </tr>
             <tr id="row5">
-                <td class="width200">Office Commission</td>
+                <td class="width200">Office Commission + VAT</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="brokerage[]" id="brokerage_1" value="0"></td>
             </tr>
             <tr id="row6">
-                <td class="width200">Contract</td>
+                <td class="width200">Tenancy Contract</td>
                 <td class="padLeft100">
                     <input type="text" class="numeric" name="contract[]" id="contract_1" value="0">
 
                 </td>
             </tr>
             <tr id="row7">
-                <td class="width200">Remote Deposite:</td>
+                <td class="width200">Remote Deposit:</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="remote_deposit[]" id="remote_deposit_1" value="0"></td>
             </tr>
             <tr id="row8">
-                <td class="width200">SEWA DEPOSITE:</td>
+                <td class="width200">Sewa Deposit:</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="sewa_deposit[]" id="sewa_deposit_1" value="0"></td>
             </tr>
             <tr id="row9">
@@ -407,9 +475,9 @@
         let base_url = $('meta[name="base-url"]').attr('content');
         $('#add_data_form').submit(function(event){
          event.preventDefault();
-          var base_url = $('meta[name="base-url"]').attr('content');
-          var params   = $("#add_data_form").serialize();
-          var url      = '{{route('allot.property')}}';
+          let base_url = $('meta[name="base-url"]').attr('content');
+          let params   = $("#add_data_form").serialize();
+          let url      = '{{route('allot.property')}}';
           function fn_success(result)
           {
               toast('success', result.message, 'bottom-right');
@@ -438,7 +506,7 @@
            /************ get list of property   ***************/
 
            $('#city_id').on('change',function(e){
-            var params = {
+            let params = {
               'city_id' : $(this).val(),
             };
             function fn_success(result)
@@ -453,11 +521,11 @@
                        $("#property_id").append(option);
                      });
                  }
-            };
+            }
             function fn_error(result)
             {
                toast('error', result.message, 'bottom-right');
-            };
+            }
             $.fn_ajax('{{route('citywise.property.list')}}',params,fn_success,fn_error);
            });
 
@@ -465,7 +533,7 @@
           $('#property_id').on('change',function(e)
            {
              $("#property_unit_type_id").empty();
-            var params = {
+            let params = {
               'property_id' : $(this).val(),
             };
             function fn_success(result)
@@ -480,20 +548,20 @@
                        $("#property_unit_type_id").append(option);
                      });
                  }
-            };
+            }
             function fn_error(result)
             {
                toast('error', result.message, 'bottom-right');
-            };
+            }
             $.fn_ajax('{{route('get.propertyUnitTypes.list')}}',params,fn_success,fn_error);
            });
            /************ get list of property unit***************/
           $('#property_unit_type_id').on('change',function(e)
            {
              $("#unit_id").empty();
-            var params = {
+            let params = {
               'property_unit_type_id' : $(this).val(),
-            };
+            }
             function fn_success(result)
             {
                  if(result.response=="success")
@@ -505,11 +573,11 @@
                        $("#unit_id").append(option);
                      });
                  }
-            };
+            }
             function fn_error(result)
             {
                toast('error', result.message, 'bottom-right');
-            };
+            }
             $.fn_ajax('{{route('get.getPropertyUnit.list')}}',params,fn_success,fn_error);
            });
       });
