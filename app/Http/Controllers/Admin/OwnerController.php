@@ -45,7 +45,7 @@ class OwnerController extends Controller
         $data['poa_exp_date'] = date('Y-m-d',strtotime($request->poa_exp_date));
         if($request->owner_type==='company')
         {
-            $company_detail = $request->only(['owner_type', 'company_name', 'trade_license', 'telephone_number', 'office_address']);
+            $company_detail = $request->only(['owner_type','firm_type', 'company_name', 'trade_license', 'telephone_number', 'office_address']);
             $data = array_merge($data , $company_detail);
             $data['license_expiry_date'] = date('Y-m-d',strtotime($request->license_expiry_date));
         }
@@ -127,7 +127,7 @@ class OwnerController extends Controller
     public function update(\App\Http\Requests\EditOwner $request,$id)
     {
         $request->validated();
-        $data  = $request->only(['name','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address','country_code']);
+        $data  = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address','country_code']);
         $data['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
         $data['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
         $data['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
