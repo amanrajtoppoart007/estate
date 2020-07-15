@@ -146,10 +146,13 @@
                         <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
                             <img id="profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}"
                                  style="width: 250px;margin-bottom: 10px;" alt="">
-                            <div>
-                                <label class="btn btn-primary mb-0 mr-2" for="profile_image">Upload Icon</label>
+                            <div style="position: absolute;top:211px;right:10px;">
+                                <label class="btn btn-primary mb-0" for="profile_image">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                </label>
                                 <input id="profile_image" class="hide" type="file" name="profile_image">
-                                <button type="button" id="remove_profile_image" class="btn btn-danger">Delete Icon
+                                <button type="button" id="remove_profile_image" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
                                 </button>
                             </div>
                         </div>

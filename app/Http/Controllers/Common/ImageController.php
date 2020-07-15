@@ -14,9 +14,9 @@ class ImageController extends Controller
         $filename = \base64_decode($filename);
         $filename = "app/".$filename;
         $path     = storage_path($filename);
-        if(!file_exists($path))  
-        {    
-            return response()->json(['response'=>'error','error_code'=>404,'error_msg'=>'Invalid Path'],200);  
+        if(!file_exists($path))
+        {
+            $path  = public_path('assets\img\no_doc.png');
         }
         $type     = File::mimeType($path);
         if($type=="image/jpeg"||$type=="image/png"||$type=="image/gif")
@@ -25,13 +25,13 @@ class ImageController extends Controller
         }
         else
         {
-        
+
             $ext = pathinfo($path,PATHINFO_EXTENSION);
             $file = File::get($path);
             $type = File::mimeType($path);
             $filename = $path.'.'.$ext;
             return response()->file($path,['Content-Type'=>$type]);
-            
+
         }
     }
 }

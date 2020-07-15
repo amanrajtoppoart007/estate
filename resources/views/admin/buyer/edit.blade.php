@@ -67,7 +67,7 @@
                                <input type="text" class="form-control" name="password" id="password" value="">
                                </div>
                            </div>
-                           
+
                        </div>
                        <div class="col-md-6">
                            <div class="card" style="width: 18rem;">
@@ -76,16 +76,20 @@
                                 {
                                     $img = route('get.doc',base64_encode($data->buyer_image));
                                 }
-                                else 
+                                else
                                 {
                                     $img = asset('theme/default/images/dashboard/4.png');
-                                } 
+                                }
                             @endphp
                                   <img id="image_grid" class="card-img-top" src="{{$img}}" alt="Card image cap">
-                                  <div class="card-footer">
+                                  <div class="card-footer text-right">
                                     <div class="d-inline">
-                                        <label for="image" class="btn btn-success">Upload</label>
-                                        <label class="btn btn-danger" id="remove_image">Remove</label>
+                                        <label for="image" class="btn btn-success">
+                                            <i class="fa fa-upload"></i>
+                                        </label>
+                                        <label class="btn btn-danger" id="remove_image">
+                                            <i class="fa fa-trash"></i>
+                                        </label>
                                     </div>
                                     <input type="file" class="d-none" name="buyer_image" id="image">
                                   </div>
@@ -112,7 +116,7 @@
                                 {
                                     $visa = route('get.doc',base64_encode($data->visa));
                                 }
-                               
+
                             @endphp
                                <input type="file" class="form-control" name="passport" id="passport" value="">
                                  <div class="input-group-append" data-toggle="tooltip" title="click to view file">
@@ -154,7 +158,7 @@
                                </div>
                            </div>
                        </div>
-                       
+
                    </div>
                    <div class="row">
                        <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
@@ -168,7 +172,7 @@
                                   </div>
                                <input type="text" class="form-control" name="country" id="country" value="{{$data->country}}">
                                </div>
-                           </div> 
+                           </div>
                        </div>
                        <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
                            <div class="form-group">

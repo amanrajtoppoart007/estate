@@ -118,10 +118,13 @@
                 <div class="text-center">
                   <div class="user_photo">
                     <img id="profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
-                    <div class=" ml-5 d-table" style="margin-left: 4rem!important;">
-                      <label class="btn btn-primary mb-0 mr-3" for="profile_image">Upload Icon</label>
+                    <div style="position: absolute;top:211px;right:72px;">
+                      <label class="btn btn-primary mb-0" for="profile_image">
+                          <i class="fa fa-upload"></i>
+                      </label>
                       <input id="profile_image" class="hide" type="file" name="photo">
-                      <a type="button" id="remove_profile_image" class="btn btn-danger text-white">Remove Icon
+                      <a type="button" id="remove_profile_image" class="btn btn-danger text-white">
+                          <i class="fa fa-trash"></i>
                       </a>
                     </div>
                   </div>
@@ -329,13 +332,16 @@
                      </div>
                      <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                          <div class="text-center">
-                             <div class="user_photo">
+                             <div class="user_photo" style="height: 250px;">
                                  <img id="auth_person_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}"
                                       style="width:250px;margin-bottom:10px;" alt="">
-                                 <div class=" ml-5 d-table" style="margin-left: 4rem!important;">
-                                     <label class="btn btn-primary mb-0 mr-3" for="auth_person_image">Upload Icon</label>
+                                 <div style="position:absolute;top:211px;right:72px;">
+                                     <label class="btn btn-primary mb-0" for="auth_person_image">
+                                         <i class="fa fa-upload" aria-hidden="true"></i>
+                                     </label>
                                      <input id="auth_person_image" class="hide" type="file" name="auth_person_image">
-                                     <button type="button" id="remove_auth_person_image" class="btn btn-danger text-white">Remove Icon
+                                     <button type="button" id="remove_auth_person_image" class="btn btn-danger text-white">
+                                         <i class="fa fa-trash"></i>
                                      </button>
                                  </div>
                              </div>
