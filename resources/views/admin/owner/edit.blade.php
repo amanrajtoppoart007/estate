@@ -37,7 +37,7 @@
                                     </div>
                                     <select  class="form-control" name="owner_type" id="owner_type">
                                         <option value="">Owner Type</option>
-                                        @php $types = ['individual'=>'Individual','company'=>'Company']; @endphp
+                                        @php $types = ['developer'=>'Developer','flat_owner'=>'Flat Owner']; @endphp
                                         @foreach($types as $key=>$value)
                                             @php $selected = ($key===$owner->owner_type)?'selected':'';@endphp
                                             <option value="{{$key}}" {{$selected}}>{{$value}}</option>
@@ -46,6 +46,24 @@
                                 </div>
                             </div>
                         </div>
+                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="owner_type">Firm Type</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <select class="form-control" name="firm_type" id="firm_type">
+                                <option value="">Firm Type</option>
+                                @php $types = ['individual'=>'individual','company'=>'Company']; @endphp
+                                @foreach($types as $key=>$value)
+                                    @php $selected = ($key===$owner->firm_type)?'selected':'';@endphp
+                                    <option value="{{$key}}" {{$selected}}>{{$value}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                      <div class="form-group">
                         <label for="name">Name</label>
