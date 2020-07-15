@@ -80,10 +80,13 @@
                          }
                       @endphp
                     <img id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
-                    <div class=" ml-5 d-table" style="margin-left:4rem!important;">
-                      <label class="btn btn-primary mb-0 mr-3" for="profile_image">Upload File</label>
+                   <div style="position:absolute;top:211px;right:72px;">
+                      <label class="btn btn-primary mb-0" for="profile_image">
+                          <i class="fa fa-upload"></i>
+                      </label>
                       <input id="profile_image" class="hide" type="file" name="photo">
-                      <button type="button" id="remove_profile_image" class="btn btn-danger">Delete Photo
+                      <button type="button" id="remove_profile_image" class="btn btn-danger">
+                          <i class="fa fa-trash"></i>
                       </button>
                     </div>
                   </div>
