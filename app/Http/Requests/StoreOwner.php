@@ -65,7 +65,7 @@ class StoreOwner extends FormRequest
             'auth_poa_exp_date'=>'required|date',
 
         ];
-        if($request['owner_type']=='company')
+        if($request['firm_type']=='company')
         {
             $rules['company_name'] = 'required';
             $rules['trade_license'] = 'required';

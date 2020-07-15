@@ -108,7 +108,7 @@
                   <div class="row">
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="emirates_id_doc">Emirates Id </label>
+                              <label for="emirates_id_doc">Emirates Id scanned copy </label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -122,7 +122,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="passport">Passport</label>
+                              <label for="passport">Passport scanned copy</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -136,7 +136,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="visa">Visa</label>
+                              <label for="visa">Visa scanned copy</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -152,7 +152,7 @@
                   <div class="row">
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="emirates_exp_date">Validity </label>
+                              <label for="emirates_exp_date">Emirates ID expiry date </label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -166,7 +166,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="passport_exp_date">Validity</label>
+                              <label for="passport_exp_date">Passport expiry date</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -180,7 +180,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="visa_exp_date">Validity</label>
+                              <label for="visa_exp_date">Visa expiry date</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -197,7 +197,7 @@
           </div>
         <div class="card card-info">
             <div class="card-header">
-                <h6>Account Detail</h6>
+                <h6>Bank Account Detail</h6>
             </div>
             <div class="card-body">
 
@@ -231,7 +231,7 @@
               </div>
           </div>
           <div class="form-group col-md-4">
-              <label for="bank_account">A/C Number</label>
+              <label for="bank_account">IBAN No.</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>

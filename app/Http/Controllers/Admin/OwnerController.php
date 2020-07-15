@@ -18,6 +18,10 @@ class OwnerController extends Controller
     public function index()
     {
         return view('admin.owner.index');
+    } 
+    public function developer()
+    {
+        return view('admin.owner.developer');
     }
 
     public function fetch(Request $request)
@@ -43,7 +47,7 @@ class OwnerController extends Controller
         $data['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
         $data['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
         $data['poa_exp_date'] = date('Y-m-d',strtotime($request->poa_exp_date));
-        if($request->owner_type==='company')
+        if($request->firm_type=='company')
         {
             $company_detail = $request->only(['owner_type','firm_type', 'company_name', 'trade_license', 'telephone_number', 'office_address']);
             $data = array_merge($data , $company_detail);
@@ -76,7 +80,7 @@ class OwnerController extends Controller
             try {
                 $addAuthPerson = new CreateOwnerAuthPerson($request, $action->id);
                 $addAuthPerson->execute();
-                if ($request->owner_type == 'company') {
+                if ($request->firm_type == 'company') {
                     if ($request->has('vat_number')) {
                         $doc = array();
                         $doc['owner_id'] = $action->id;
@@ -154,7 +158,7 @@ class OwnerController extends Controller
         {
             $authPersonEdit = new EditOwnerAuthPerson($request,$request->owner_id);
             $authPersonEdit->execute();
-            if($request->owner_type == 'company')
+            if($request->firm_type == 'company')
             {
                 if($request->has('vat_number'))
                 {
