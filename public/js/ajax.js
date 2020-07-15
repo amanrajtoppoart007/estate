@@ -10,7 +10,7 @@
             dataType: 'json',
             success: function (result)
             {
-                if (result.status ===1)
+                if (result.response ==="success")
                 {
                     fn_success(result);
                 }
@@ -37,7 +37,7 @@
             processData: false,
             success: function (result)
             {
-                if (result.status === 1)
+                if (result.response === "success")
                 {
                     fn_success(result);
                 }

@@ -217,7 +217,7 @@
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fa fa-users"></i>
               <p>
-                Owners
+                Developers/Flat Owners
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -225,13 +225,13 @@
               <li class="nav-item">
                 <a href="{{route('owner.list')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Owner List</p>
+                  <p>Developers/Owner List</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('owner.create')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add Owners</p>
+                  <p>Add Developers/Flat Owner</p>
                 </a>
               </li>
             </ul>
@@ -311,7 +311,7 @@
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fa fa-tasks"></i>
               <p>
-                Maintenance Request Quotation
+                Maintenance  Request
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -319,13 +319,13 @@
               <li class="nav-item">
                 <a href="{{route('maintenance.list')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Quotation List</p>
+                  <p>Maintenance Request List</p>
                 </a>
               </li>
                 <li class="nav-item">
                 <a title="Maintenance Request Quotation" href="{{route('maintenance.create')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add Quotation</p>
+                  <p>Add Maintenance Request</p>
                 </a>
               </li>
             </ul>

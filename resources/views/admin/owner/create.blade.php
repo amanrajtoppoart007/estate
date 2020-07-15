@@ -28,7 +28,7 @@
               <div class="card-body">
                   <div class="row">
             <div class="col-sm-6 col-md-8 row">
-            	<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <div class="form-group">
                                 <label for="owner_type">Owner Type</label>
                                 <div class="input-group">
@@ -37,12 +37,27 @@
                                     </div>
                                     <select  class="form-control" name="owner_type" id="owner_type">
                                         <option value="">Owner Type</option>
-                                        <option value="individual">individual</option>
-                                        <option value="company">Company</option>
+                                        <option value="developer">Developer</option>
+                                        <option value="flat_owner">Flat Owner</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="owner_type">Firm Type</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <select class="form-control" name="firm_type" id="firm_type">
+                                <option value="">Firm Type</option>
+                                <option value="individual">individual</option>
+                                <option value="company">Company</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                      <div class="form-group">
                         <label for="name">Name</label>
