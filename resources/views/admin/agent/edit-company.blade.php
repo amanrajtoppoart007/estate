@@ -117,10 +117,13 @@
                          }
                       @endphp
                     <img id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
-                    <div class=" ml-5 d-table" style="margin-left: 4rem!important;">
-                      <label class="btn btn-primary mb-0 mr-3" for="profile_image">Upload Icon</label>
+                    <div style="position:absolute;top:211px;right:72px;">
+                      <label class="btn btn-primary mb-0" for="profile_image">
+                          <i class="fa fa-upload"></i>
+                      </label>
                       <input id="profile_image" class="hide" type="file" name="photo">
-                      <button type="button" id="remove_profile_image" class="btn btn-danger font-weight-bold">Delete Icon
+                      <button type="button" id="remove_profile_image" class="btn btn-danger font-weight-bold">
+                          <i class="fa fa-trash"></i>
                       </button>
                     </div>
                   </div>
@@ -188,11 +191,13 @@
                          }
                       @endphp
                     <img id="owner_profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
-                      <div class=" ml-5 d-table" style="margin-left:4rem!important;">
-                          <label class="btn btn-primary mb-0 mr-3" for="owner_profile_image">Upload Icon</label>
+                      <div style="position:absolute;top:211px;right:72px;">
+                          <label class="btn btn-primary mb-0" for="owner_profile_image">
+                              <i class="fa fa-upload"></i>
+                          </label>
                           <input id="owner_profile_image" class="hide" type="file" name="owner_photo">
                           <button type="button" id="remove_owner_profile_image" class="btn btn-danger font-weight-bold">
-                              Delete Icon
+                              <i class="fa fa-trash"></i>
                           </button>
                       </div>
                   </div>

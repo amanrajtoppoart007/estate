@@ -86,22 +86,26 @@
                          {
                              $img = route('get.doc',base64_encode($employee->photo));
                          }
-                         else 
+                         else
                          {
                              $img = asset('theme/default/images/dashboard/4.png');
-                         } 
+                         }
                       @endphp
                       <img id="profile_image_grid" class="img-thumbnail profile_photo" src="{{$img}}" alt="">
                       <input type="file" name="photo" id="profile_image" style="display:none;">
                       </div>
                       <div class="card-footer">
                         <div class="d-inline">
-                            <label for="profile_image" class="btn btn-primary">Upload</label>
-                            <label id="remove_profile_image" class="btn btn-danger">Remove</label>
+                            <label for="profile_image" class="btn btn-primary">
+                                <i class="fa fa-upload"></i>
+                            </label>
+                            <label id="remove_profile_image" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </label>
                         </div>
                       </div>
                   </div>
-                
+
                </div>
                <div class="col-md-12 col-lg-6">
                    <div class="card card-info">
@@ -351,7 +355,7 @@
                               </div>
                           </div>
                       </div>
-                        
+
                     </div>
                       </div>
                   </div>
@@ -466,7 +470,7 @@
        $(document).ready(function(){
            $('#dob').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
            $('#joining_date').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
-           function render_image(input) 
+           function render_image(input)
             {
                 if(input.files && input.files[0])
                 {
@@ -495,7 +499,7 @@
                 };
                 function fn_error(result)
                 {
-                    toast('error',result.message,'bottom-right');  
+                    toast('error',result.message,'bottom-right');
                 };
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             })

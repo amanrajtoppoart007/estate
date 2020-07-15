@@ -86,8 +86,12 @@
                       </div>
                       <div class="card-footer">
                         <div class="d-inline">
-                            <label for="profile_image" class="btn btn-primary">Upload</label>
-                            <label id="remove_profile_image" class="btn btn-danger">Remove</label>
+                            <label for="profile_image" class="btn btn-primary">
+                                <i class="fa fa-upload"></i>
+                            </label>
+                            <label id="remove_profile_image" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </label>
                         </div>
                       </div>
                   </div>
