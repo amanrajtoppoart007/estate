@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Agent;
+use App\Country;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\RentEnquiry;
@@ -31,7 +32,8 @@ class RentEnquiryController extends Controller
     public function create()
     {
         $agents = Agent::where(['is_disabled'=>'0'])->get();
-       return view('admin.rentEnquiry.create',compact('agents'));
+        $countries = Country::where('is_disabled', '0')->get();
+       return view('admin.rentEnquiry.create',compact('agents','countries'));
     }
 
     public function store(Request $request)

@@ -69,8 +69,9 @@
                                     </div>
                                     <select  class="form-control" name="country_code" id="country_code">
                                         <option value="">Select Country</option>
-                                        <option value="UAE">UAE</option>
-                                        <option value="INDIA">INDIA</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{$country->code}}">{{$country->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -164,8 +165,8 @@
                             <td>
                                 <select name="tenancy_type" id="tenancy_type" class="form-control">
                                     <option value="">Select Tenancy</option>
-                                    <option value="family_hus_wife">Family (Husband & Wife)</option>
-                                    <option value="family_bro_sis">Family (Brother & Sister)</option>
+                                    <option value="family_husband_wife">Family (Husband & Wife)</option>
+                                    <option value="family_brother_sister">Family (Brother & Sister)</option>
                                     <option value="company">Company</option>
                                     <option value="bachelor">Bachelor</option>
                                 </select>

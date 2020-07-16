@@ -3,6 +3,7 @@
     <div class="card">
         <div class="card-body">
           {{Form::open(['route'=>'tenant.store','id'=>'add_data_form','method'=>'post','autocomplete'=>'off'])}}
+            <input type="hidden" name="request_id" value="{{request()->request_id ? request()->request_id : null}}">
              <div class="card card-info">
                 <div class="card-header">
                     <h6>Basic Detail</h6>
@@ -20,10 +21,18 @@
                                          </div>
                                         <select name="tenant_type" id="tenant_type" class="form-control">
                                             <option value="">Select Tenancy</option>
-                                            <option value="family_husband_wife">Family(Husband-Wife)</option>
-                                            <option value="family_brother_sister">Family(Brother-Sister)</option>
-                                            <option value="company">Company</option>
-                                            <option value="bachelor">Bachelor</option>
+                                            @php $tenancy_types =
+                                                 [
+                                                     'family_husband_wife'=>'Family(Husband-Wife)',
+                                                     'family_brother_sister'=>'Family(Brother-Sister)',
+                                                     'company'=>'Company',
+                                                     'bachelor'=>'Bachelor',
+                                                 ];
+                                            @endphp
+                                            @foreach($tenancy_types as $type=>$text)
+                                                   @php  $selected = ($type== ($user ? $user->tenancy_type: null))?"selected":""; @endphp
+                                                <option value="{{$type}}" {{$selected}}>{{$text}}</option>
+                                            @endforeach
                                         </select>
                                      </div>
 
@@ -36,7 +45,7 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
                                          </div>
-                                        <input class="form-control" name="tenant_name" id="tenant_name" type="text"  value="" autocomplete="off">
+                                        <input class="form-control" name="tenant_name" id="tenant_name" type="text"  value="{{$user ? $user->name : null}}" autocomplete="off">
                                      </div>
 
                                     </div>
@@ -48,7 +57,7 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
                                          </div>
-                                        <input type="text" name="email" id="email" class="form-control" autocomplete="off" value="">
+                                        <input type="text" name="email" id="email" class="form-control" autocomplete="off" value="{{$user ? $user->email : null}}">
                                      </div>
                                     </div>
                                 </div>
@@ -70,13 +79,15 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text">
                                                  <select  name="country_code" id="country_code" class="phone_code">
+                                                     <option value="">000</option>
                                                       @foreach($countries as $country)
-                                                         <option value="{{$country->code}}">+{{$country->code}}</option>
+                                                             @php  $selected = ($country->code==($user ? $user->country_code: null))?"selected":""; @endphp
+                                                         <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
                                                      @endforeach
                                                   </select>
                                              </span>
                                          </div>
-                                        <input type="text" name="mobile" id="mobile" class="form-control numeric" autocomplete="off" value="">
+                                        <input type="text" name="mobile" id="mobile" class="form-control numeric" autocomplete="off" value="{{$user ? $user->mobile : null}}">
                                      </div>
                                     </div>
                                 </div>
@@ -90,7 +101,8 @@
                                              <select name="country" id="country" class="form-control">
                                                  <option>Select Country</option>
                                                  @foreach($countries as $country)
-                                                     <option value="{{$country->id}}">{{$country->name}}</option>
+                                                     @php  $selected = ($country->code==($user ? $user->country_code: null))?"selected":""; @endphp
+                                                     <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
                                                  @endforeach
                                              </select>
                                      </div>
@@ -115,6 +127,7 @@
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
                                          </div>
                                          <textarea type="text" name="address" id="address" class="form-control">
+                                             {{$user ? $user->address:null}}
                                          </textarea>
                                      </div>
                                     </div>
@@ -400,6 +413,12 @@
 <script>
     $(document).ready(function(){
 
+        @php
+         if(!empty($user))
+        {
+            echo "tenancy_type_function();";
+        }
+        @endphp
         function applied_class_hide(elements)
         {
             elements.forEach(function(item){
@@ -413,29 +432,11 @@
                 $(`.${item}`).show();
             });
         }
-     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
-     let pickers =
-               [
-                   'emirates_id_exp_date',
-                   'visa_exp_date',
-                   'passport_exp_date',
-                   'bank_passbook_exp_date',
-               ];
-           pickers.forEach(function(item){
-               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
-           });
-		$("#tenant_type").on('change',function(e){
-		    $("#family_detail_grid").html('');
-			if(!$.trim($("#tenant_type").val()).length)
-			{
-				toast('error','Please select tenant type','bottom-right');
-				$("#tenant_type").css({'border-color':'aqua'}).focus();
-			}
-			else
-			{
-				let tenant_type = $("#tenant_type").val();
+        function tenancy_type_function()
+        {
+               let tenancy_type = $("#tenant_type").val();
 				$("#tenant_count").val('').prop({readonly:false});
-				switch(tenant_type)
+             	switch(tenancy_type)
 				{
 					case 'family_husband_wife':
 						applied_class_show(['family_hs_extra_detail','extra_relation_detail']);
@@ -464,6 +465,29 @@
 					break;
 
 				}
+        }
+     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
+     let pickers =
+               [
+                   'emirates_id_exp_date',
+                   'visa_exp_date',
+                   'passport_exp_date',
+                   'bank_passbook_exp_date',
+               ];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+           });
+		$("#tenant_type").on('change',function(e){
+		    $("#family_detail_grid").html('');
+			if(!$.trim($("#tenant_type").val()).length)
+			{
+				toast('error','Please select tenant type','bottom-right');
+				$("#tenant_type").css({'border-color':'aqua'}).focus();
+			}
+			else
+			{
+				tenancy_type_function(tenancy_type);
+
 			}
 		})
      $('#add_data_form').on("submit",function(e){
@@ -479,7 +503,7 @@
       }
       function fn_error(result)
       {
-             if(result.response=='validation_error')
+             if(result.response==="validation_error")
             {
                 toast('error', result.message, 'bottom-right');
             }
