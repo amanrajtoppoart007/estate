@@ -35,7 +35,7 @@
         </div>
 		<div class="col-md-4">
 		<div class="form-group">
-			<label for="agent_id">Owner</label>
+			<label for="owner_id">Developer</label>
 			<select class="form-control" name="owner_id" id="owner_id">
 				<option value="">Select Owner</option>
 				@foreach($owners as $owner)

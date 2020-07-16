@@ -887,16 +887,16 @@
             });
             $("#edit_data_form").on('submit',function(e){
                 e.preventDefault();
-                let url = "{{route('owner.update',['id'=>$owner->id])}}";
+                let url = "{{route('developer.update',['id'=>$owner->id])}}";
                 let params = new FormData(document.getElementById('edit_data_form'));
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
-                };
+                }
                 function fn_error(result)
                 {
                     toast('error',result.message,'bottom-right');
-                };
+                }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             })
        });

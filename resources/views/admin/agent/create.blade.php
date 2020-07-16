@@ -231,7 +231,7 @@
               </div>
           </div>
           <div class="form-group col-md-4">
-              <label for="bank_account">A/C Number</label>
+              <label for="bank_account">IBAN Number</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>
