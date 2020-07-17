@@ -145,7 +145,7 @@
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
-                                <i class="fa fa-passport"></i>
+                                <i class="fa fa-file" aria-hidden="true"></i>
                             </span>
                         </div>
                      <input type="file" class="form-control" name="emirates_id_doc" id="emirates_id_doc" value="">
@@ -184,7 +184,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="power_of_attorney" id="power_of_attorney" value="">
@@ -199,7 +199,7 @@
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
-                                <i class="fa fa-passport"></i>
+                                <i class="fa fa-file" aria-hidden="true"></i>
                             </span>
                         </div>
                      <input type="text" class="form-control" name="emirates_exp_date" id="emirates_exp_date" value="">
@@ -238,7 +238,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="text" class="form-control" name="poa_exp_date" id="poa_exp_date" value="">

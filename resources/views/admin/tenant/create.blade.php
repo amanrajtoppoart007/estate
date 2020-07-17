@@ -494,7 +494,7 @@
 			}
 			else
 			{
-				tenancy_type_function(tenancy_type);
+				tenancy_type_function();
 
 			}
 		})
