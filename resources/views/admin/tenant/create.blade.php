@@ -17,7 +17,9 @@
                                         <label  for="tenant_type">Tenant Type <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text">
+                                                 <i class="fa fa-window-maximize" aria-hidden="true"></i>
+                                             </span>
                                          </div>
                                         <select name="tenant_type" id="tenant_type" class="form-control">
                                             <option value="">Select Tenancy</option>
@@ -55,7 +57,7 @@
                                         <label for="email">Email <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                          </div>
                                         <input type="text" name="email" id="email" class="form-control" autocomplete="off" value="{{$user ? $user->email : null}}">
                                      </div>
@@ -66,7 +68,7 @@
                                         <label for="password">Password <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                          </div>
                                        <input type="text" name="password" class="choose_file form-control" autocomplete="off" value="">
                                      </div>
@@ -96,7 +98,7 @@
                                         <label for="country">Nationality <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                          </div>
                                              <select name="country" id="country" class="form-control">
                                                  <option>Select Country</option>
@@ -113,7 +115,7 @@
                                         <label for="city">City <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
                                          </div>
                                          <input type="text" name="city" class="form-control" value="">
                                      </div>
@@ -124,7 +126,9 @@
                                         <label for="address">Address <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text">
+                                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                             </span>
                                          </div>
                                          <textarea type="text" name="address" id="address" class="form-control">
                                              {{$user ? $user->address:null}}
@@ -137,7 +141,9 @@
                                         <label for="dob">Date Of Birth</label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text">
+                                                 <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                                             </span>
                                          </div>
                                          <input type="text" name="dob" id="dob" class="form-control" placeholder="DD-MM-YY (Optional)">
                                      </div>
@@ -148,7 +154,9 @@
                                         <label for="tenant_count">Tenant Count <span class="text-danger">*</span> <small>(Including the applicant/primary tenant)</small></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text">
+                                                 <i class="fa fa-calculator" aria-hidden="true"></i>
+                                             </span>
                                          </div>
                                          <input type="text" name="tenant_count" id="tenant_count" class="form-control numeric" placeholder="Enter number of tenants">
                                      </div>
@@ -185,7 +193,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fa fa-passport"></i>
+                                          <i class="fa fa-users" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="text" class="form-control" name="company_name" id="company_name" value="">
@@ -198,7 +206,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fa fa-passport"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="trade_licence" id="trade_licence" value="">
@@ -220,7 +228,7 @@
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
-                                <i class="fa fa-passport"></i>
+                               <i class="fa fa-file" aria-hidden="true"></i>
                             </span>
                         </div>
                      <input type="file" class="form-control" name="emirates_id" id="emirates_id" value="">
@@ -259,7 +267,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="bank_passbook" id="bank_passbook" value="">
@@ -274,7 +282,7 @@
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
-                                <i class="fa fa-passport"></i>
+                                <i class="fa fa-file" aria-hidden="true"></i>
                             </span>
                         </div>
                      <input type="text" class="form-control" name="emirates_id_exp_date" id="emirates_id_exp_date" value="">
@@ -313,7 +321,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="text" class="form-control" name="bank_passbook_exp_date" id="bank_passbook_exp_date" value="">
@@ -371,7 +379,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="no_sharing_agreement" id="no_sharing_agreement" value="">
@@ -384,7 +392,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="marriage_certificate" id="marriage_certificate" value="">
