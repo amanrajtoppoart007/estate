@@ -69,8 +69,9 @@
                                     </div>
                                     <select  class="form-control" name="country_code" id="country_code">
                                         <option value="">Select Country</option>
-                                        <option value="UAE">UAE</option>
-                                        <option value="INDIA">INDIA</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{$country->code}}">{{$country->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
