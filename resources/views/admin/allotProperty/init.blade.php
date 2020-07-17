@@ -256,7 +256,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="security_deposit"> Parking</label>
+                    <label for="parking"> Parking</label>
                 </div>
             </div>
             <div class="col-md-4">
@@ -282,7 +282,7 @@
                 <td class="padLeft100 inst text-center">1st</td>
             </tr>
             <tr id="row3">
-                <td class="width200">Security Deposite</td>
+                <td class="width200">Security Deposit</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="security_deposit[]" id="security_deposit_1" value="0" ></td>
             </tr>
             <tr id="row4">
