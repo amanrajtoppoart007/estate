@@ -37,7 +37,7 @@
 		<div class="form-group">
 			<label for="owner_id">Developer</label>
 			<select class="form-control" name="owner_id" id="owner_id">
-				<option value="">Select Owner</option>
+				<option value="">Select Developer</option>
 				@foreach($owners as $owner)
 						@if($owner->id==(old('owner_id')?old('owner_id'):$property->owner_id))
 						<option value="{{ $owner->id }}" selected>{{ $owner->name }}</option>
