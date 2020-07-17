@@ -30,7 +30,7 @@
             <div class="col-sm-6 col-md-8 row">
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <div class="form-group">
-                                <label for="owner_type">Agent Type</label>
+                                <label for="owner_type">Broker Type</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -131,7 +131,7 @@
 
           <div class="card card-info">
               <div class="card-header">
-                 <h4>Owner Detail</h4>
+                 <h4>Company Owner Detail</h4>
               </div>
               <div class="card-body">
                   <div class="row">
@@ -203,7 +203,7 @@
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                    <i class="fa fa-passport"></i>
+                                     <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
                                   <input type="file" class="form-control" name="emirates_id_doc"
@@ -247,7 +247,7 @@
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                    <i class="fa fa-passport"></i>
+                                    <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
                                   <input type="text" class="form-control" name="emirates_exp_date"
@@ -328,7 +328,7 @@
           </div>
 
           <div class="form-group col-md-4">
-              <label for="bank_account">A/C Number</label>
+              <label for="bank_account">IBAN Number</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>

@@ -61,7 +61,9 @@
                         ajax  : {
                        url    : "{{route('owner.fetch')}}",
                        type   : "POST",
-                       data   : null,
+                       data   : function(d){
+                        d.owner_type = "flat_owner"
+                       },
                        error  : function(jqXHR,textStatus,errorThrown)
                        {
                            $.swal(textStatus,errorThrown,'error');

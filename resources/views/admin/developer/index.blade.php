@@ -4,12 +4,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Rent Enquiry List</h4>
+            <h1 class="m-0 text-dark">Property Developers</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Rent Enquiry List</li>
+              <li class="breadcrumb-item active">Property Developer List</li>
             </ol>
           </div>
         </div>
@@ -17,40 +17,38 @@
     </div>
 @endsection
 @section('content')
-<div class="items_list color-secondary">
-	<table class="table table-bordered" id="dataTable">
-		<thead>
-			<tr>
-				<th>Date</th>
-				<th>Name</th>
-				<th>Nationality</th>
-				<th>Email & Mobile</th>
-				<th>Preferred Bedroom</th>
-				<th>Preferred Location</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-	</table>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Added Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 </div>
 @endsection
 @section('script')
-  <script>
-	  $(document).ready(function(){
-		function renderPropertyTitle(data)
-		{
-			return data.property.title;
-		}
-        function renderMessageBtn(data)
+<script>
+     $(document).ready(function()
+     {
+        function renderStatusBtn(data)
         {
-            return `<a  href="javascript:void(0)" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-edit text-white"></i></a>`;
+            let status   =  (parseInt(data.is_disabled))?'In Active':'Active';
+            let btnColor = (parseInt(data.is_disabled))?'danger':'success';
+            return `<a href="javascript:void(0)" data-status="${data.is_disabled}" data-id="${data.id}" class="btn btn-${btnColor} mr-3 changeStatusBtn">${status}</a>`;
         }
         function renderActionBtn(data)
         {
-            if(data.status===1)
-            {
-                return `<a title="Create Tenant"  href="javascript:void(0)"  class="btn btn-outline-success"><i class="fa fa-check"></i></a>`;
-            }
-            return `<a title="Create Tenant"  href="${data.create_tenant_url}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-sign-in-alt text-white"></i></a>`;
+            return `<a href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-edit text-white"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         var dataTable = $("#dataTable").dataTable({
@@ -61,9 +59,11 @@
                     stateSave: true,
                     "order": [[ 0, "desc" ]],
                         ajax  : {
-                       url    : "{{route('rentEnquiry.fetch')}}",
+                       url    : "{{route('owner.fetch')}}",
                        type   : "POST",
-                       data   : null,
+                       data   : function(d){
+                        d.owner_type = "developer"
+                       },
                        error  : function(jqXHR,textStatus,errorThrown)
                        {
                            $.swal(textStatus,errorThrown,'error');
@@ -71,17 +71,21 @@
 
                    },
                      columns : [
-                                { data : "created_at", name : "created_at"},
-                                { data : "name", name : "name"},
-                                { data : "country_code", name : "country_code"},
-                                { data : "email", name : "email"},
-                                { data : "bedroom", name : "bedroom"},
-                                { data : "address", name : "address"},
+                                { data : "name", name : 'name'},
+                                { data : "email", name : 'email'},
+                                { data : "mobile", name : 'mobile'},
+                                { data : "created_at", name : 'created_at' },
+                                { data : "is_disabled", name : 'is_disabled',
+                                    render: function(data, type, row, meta)
+                                    {
+                                      return renderStatusBtn(row);
+                                    }
+                                },
                                 {
                                     data : null, name: 'action',searchable: false,orderable :false,
                                     render: function(data, type, row, meta)
                                     {
-                                    return renderActionBtn(data);
+                                    return renderActionBtn(row);
                                     }
                                 }
                               ],
@@ -112,7 +116,7 @@
                                 },
                               {
                                     extend: 'print',
-                                    title : 'Booking request list',
+                                    title : 'State List',
                                     exportOptions:
                                     {
                                         columns: [0,1,2,3,4]
@@ -120,6 +124,23 @@
                                 }
             ],
               });
-	  });
-  </script>
+              $(document).on('click','.changeStatusBtn',function(e){
+                  let statusBtn = $(this);
+                  e.preventDefault();
+                  var params = {
+                      'id'          : $(this).attr('data-id'),
+                      'is_disabled' : $(this).attr('data-status')
+                  }
+                  function fn_success(result)
+                  {
+                      statusBtn.replaceWith(renderStatusBtn(result.data));
+                  };
+                  function fn_error(result)
+                  {
+                      toast('error',result.message,'top-right');
+                  };
+                  $.fn_ajax('{{route('owner.changeStatus')}}',params,fn_success,fn_error);
+              });
+     });
+</script>
 @endsection

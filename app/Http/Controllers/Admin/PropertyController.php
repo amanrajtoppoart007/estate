@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProperty;
 use App\Http\Requests\EditProperty;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\DataTable\Api;
 use App\Agent;
@@ -15,7 +16,6 @@ use App\State;
 use App\Country;
 use App\City;
 use App\PropertyType;
-use Auth;
 use App\Image;
 use App\Library\CreatePropertyImage;
 class PropertyController extends Controller
@@ -42,7 +42,7 @@ class PropertyController extends Controller
     public function create()
     {
         $agents        = Agent::where(['is_disabled'=>'0'])->get();
-        $owners        = Owner::where(['is_disabled'=>'0'])->get();
+        $owners        = Owner::where(['is_disabled'=>'0'])->whereIn('owner_type',['developer','both'])->get();
         $propertyTypes = PropertyType::where('is_disabled','0')->get();
         $countries     = Country::where('is_disabled','0')->get();
         $features      = Feature::where('is_disabled', '0')->get();

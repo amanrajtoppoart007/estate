@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\EditDeveloper;
+use App\Http\Requests\StoreDeveloper;
 use App\Library\CreateOwnerAuthPerson;
 use App\Library\EditOwnerAuthPerson;
 use App\Owner;
@@ -12,12 +14,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Helpers\GlobalHelper;
-class OwnerController extends Controller
+class DeveloperController extends Controller
 {
 
     public function index()
     {
-        return view('admin.owner.index');
+        return view('admin.developer.index');
     }
 
     public function fetch(Request $request)
@@ -30,15 +32,15 @@ class OwnerController extends Controller
 
     public function create()
     {
-        return view('admin.owner.create');
+        return view('admin.developer.create');
     }
 
 
-    public function store(\App\Http\Requests\StoreOwner $request)
+    public function store(StoreDeveloper $request)
     {
         $request->validated();
         $data   = $request->only(['name','mobile','email','emirates_id','bank_name','bank_swift_code',
-        'bank_account','banking_name','country','state','city','address','country_code']);
+        'bank_account','banking_name','country','state','city','address','country_code','owner_type','firm_type']);
         $data['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
         $data['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
         $data['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
@@ -120,11 +122,11 @@ class OwnerController extends Controller
     public function edit($id)
     {
         $owner = Owner::find($id);
-        return view('admin.owner.edit',compact('owner'));
+        return view('admin.developer.edit',compact('owner'));
     }
 
 
-    public function update(\App\Http\Requests\EditOwner $request,$id)
+    public function update(EditDeveloper $request,$id)
     {
         $request->validated();
         $data  = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address','country_code']);

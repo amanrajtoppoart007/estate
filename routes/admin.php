@@ -86,6 +86,19 @@ Route::prefix('owner')->group(function () {
     Route::post('show', 'Admin\OwnerController@show')->name('owner.show');
     Route::post('delete', 'Admin\OwnerController@destroy')->name('owner.delete');
 });
+
+/********************** developer listing**************/
+Route::prefix('developer')->group(function () {
+    Route::get('list', 'Admin\DeveloperController@index')->name('developer.list');
+    Route::post('fetch', 'Admin\DeveloperController@fetch')->name('developer.fetch');
+    Route::post('changeStatus', 'Admin\DeveloperController@changeStatus')->name('developer.changeStatus');
+    Route::get('create', 'Admin\DeveloperController@create')->name('developer.create');
+    Route::get('edit/{id}', 'Admin\DeveloperController@edit')->name('developer.edit');
+    Route::post('store', 'Admin\DeveloperController@store')->name('developer.store');
+    Route::post('update/{id}', 'Admin\DeveloperController@update')->name('developer.update');
+    Route::post('show', 'Admin\DeveloperController@show')->name('developer.show');
+    Route::post('delete', 'Admin\DeveloperController@destroy')->name('developer.delete');
+});
 /********************** Agent listing**************/
 Route::prefix('agent')->group(function () {
     Route::get('index', 'Admin\AgentController@index')->name('agent.index');

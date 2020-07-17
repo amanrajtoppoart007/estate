@@ -156,7 +156,7 @@
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                  <div class="form-group">
-                     <label for="emirates_id_doc">Emirates Id(scanned copay) </label>
+                     <label for="emirates_id_doc">Emirates Id(scanned copy) </label>
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -169,7 +169,7 @@
               </div>
                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="passport">Passport (scanned copay)</label>
+                               <label for="passport">Passport (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -182,7 +182,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="visa">Visa (scanned copay)</label>
+                               <label for="visa">Visa (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -195,7 +195,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="power_of_attorney">Power Of Attorney (scanned copay)</label>
+                               <label for="power_of_attorney">Power Of Attorney (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -371,7 +371,7 @@
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                  <div class="form-group">
-                     <label for="auth_person_emirates_id_doc">Emirates Id(scanned copay) </label>
+                     <label for="auth_person_emirates_id_doc">Emirates Id(scanned copy) </label>
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -384,7 +384,7 @@
               </div>
                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_person_passport">Passport (scanned copay)</label>
+                               <label for="auth_person_passport">Passport (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -397,7 +397,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_person_visa">Visa (scanned copay)</label>
+                               <label for="auth_person_visa">Visa (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -410,7 +410,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_person_power_of_attorney">Power Of Attorney (scanned copay)</label>
+                               <label for="auth_person_power_of_attorney">Power Of Attorney (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">

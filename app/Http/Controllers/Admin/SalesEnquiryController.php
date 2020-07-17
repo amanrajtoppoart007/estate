@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Agent;
 use App\City;
+use App\Country;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\SalesEnquiry;
@@ -34,7 +35,8 @@ class SalesEnquiryController extends Controller
     {
         $agents = Agent::where(['is_disabled'=>'0'])->get();
         $cities = City::where(['is_disabled'=>'0'])->get();
-        return view('admin.salesEnquiry.create',compact('agents','cities'));
+        $countries = Country::where(['is_disabled'=>0])->get();
+        return view('admin.salesEnquiry.create',compact('agents','cities','countries'));
     }
 
         public function store(Request $request)

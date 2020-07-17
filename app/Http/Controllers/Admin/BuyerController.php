@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\City;
+use App\Country;
+use App\SalesEnquiry;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -10,20 +13,12 @@ use Str;
 use App\Buyer;
 class BuyerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('admin.buyer.index');
     }
-    /**
-     * fetch  listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function fetch(Request $request)
     {
         $model  = new Buyer();
@@ -31,14 +26,22 @@ class BuyerController extends Controller
         echo json_encode($api->apply());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function create(Request $request)
     {
-        return view('admin.buyer.create');
+
+        if($request->has('request_id'))
+        {
+            $request_id = base64_decode($request->request_id);
+            $data['user'] = SalesEnquiry::find($request_id);
+        }
+        else
+        {
+            $data['user'] = null;
+        }
+        $data['countries'] = Country::where(['is_disabled'=>0])->get();
+        $data['cities']    = City::where(['is_disabled'=>0])->get();
+        return view('admin.buyer.create',$data);
     }
 
 
@@ -53,6 +56,12 @@ class BuyerController extends Controller
         $input['buyer_image'] = GlobalHelper::singleFileUpload($request,'local', 'buyer_image',"buyers/$folder");
         if(Buyer::create($input))
         {
+
+            if($request->has('request_id'))
+            {
+                $request_id = base64_decode($request->request_id);
+                SalesEnquiry::where(['id'=>$request_id])->update(['status'=>1]);
+            }
             return response()->json(['status'=>1,'response'=>'success','message'=>'Buyer added successfully.'],200);
         }
         else
