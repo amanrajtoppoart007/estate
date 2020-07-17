@@ -4,12 +4,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Edit Property Owner</h4>
+            <h4 class="m-0 text-dark">Edit Property Developer</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Edit property owner</li>
+              <li class="breadcrumb-item active">Edit property developer</li>
             </ol>
           </div>
         </div>
@@ -21,6 +21,7 @@
      <div class="card-body">
          {{Form::open(['route'=>'owner.store','id'=>'edit_data_form','autocomplete'=>'off'])}}
          <input type="hidden" name="owner_id" id="owner_id" value="{{$owner->id}}">
+         <input type="hidden" name="owner_type" value="{{$owner->owner_type}}">
           <div class="card card-info">
               <div class="card-header">
                 <h6>Owner Details</h6>
@@ -28,24 +29,6 @@
               <div class="card-body">
                   <div class="row">
             <div class="col-sm-6 col-md-8 row">
-            	<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="form-group">
-                                <label for="owner_type">Owner Type</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <select  class="form-control" name="owner_type" id="owner_type">
-                                        <option value="">Owner Type</option>
-                                        @php $types = ['developer'=>'Developer','flat_owner'=>'Flat Owner']; @endphp
-                                        @foreach($types as $key=>$value)
-                                            @php $selected = ($key===$owner->owner_type)?'selected':'';@endphp
-                                            <option value="{{$key}}" {{$selected}}>{{$value}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                  <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="owner_type">Firm Type</label>

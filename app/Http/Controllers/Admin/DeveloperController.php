@@ -97,7 +97,7 @@ class DeveloperController extends Controller
                     }
 
                 }
-                $result = ['status'=>'1','response'=>'success','message'=>'Owner added successfully'];
+                $result = ['status'=>'1','response'=>'success','message'=>'Developer added successfully'];
             }
             catch (\Exception $exception)
             {
@@ -107,7 +107,7 @@ class DeveloperController extends Controller
         }
         else
         {
-            $result = ['status'=>'0','response'=>'error','message'=>'Owner creation failed'];
+            $result = ['status'=>'0','response'=>'error','message'=>'Developer creation failed'];
         }
         return response()->json($result,200);
     }
@@ -178,11 +178,11 @@ class DeveloperController extends Controller
                 }
 
             }
-          return response()->json(['status'=>'1','response'=>'success','message'=>'Owner successfully updated'],200);
+          return response()->json(['status'=>'1','response'=>'success','message'=>'Developer successfully updated'],200);
         }
         else
         {
-            return response()->json(['status'=>'0','response'=>'error','message'=>'Owner updation failed'],200);
+            return response()->json(['status'=>'0','response'=>'error','message'=>'Developer detail update failed'],200);
         }
     }
 

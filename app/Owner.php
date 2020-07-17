@@ -10,6 +10,19 @@ class Owner extends Authenticatable
 {
    use Notifiable;
    protected $guarded = [];
+   protected $appends = ['edit_url'];
+
+   public function getEditUrlAttribute()
+   {
+       if($this->owner_type=="developer")
+       {
+           return route('developer.edit',$this->id);
+       }
+       else
+       {
+           return route('owner.edit',$this->id);
+       }
+   }
    public function properties()
    {
       return $this->hasMany('App\Property','owner_id','id');
