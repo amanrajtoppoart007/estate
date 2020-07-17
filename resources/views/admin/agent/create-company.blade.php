@@ -203,7 +203,7 @@
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                    <i class="fa fa-passport"></i>
+                                     <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
                                   <input type="file" class="form-control" name="emirates_id_doc"
@@ -247,7 +247,7 @@
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                    <i class="fa fa-passport"></i>
+                                    <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
                                   <input type="text" class="form-control" name="emirates_exp_date"
