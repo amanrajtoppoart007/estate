@@ -9,15 +9,14 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Mobile</th>
-                <th>Country</th>
+                <th>Broker</th>
                 <th>Created At</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
     </table>
-</div>             
+</div>
 @endsection
 @section('script')
   <script>
@@ -40,9 +39,9 @@
             let btnColor = (parseInt(data.is_disabled))?'danger':'success';
             return `<a href="javascript:void(0)" data-status="${data.is_disabled}" data-id="${data.id}" class="btn btn-${btnColor} mr-3 changeStatusBtn">${status}</a>`;
         }
-        var dataTable = $('#dataTable').DataTable({
-      "order": [[ 0, "DESC" ]],
-
+        let dataTable = $('#dataTable').DataTable({
+              "order": [[ 0, "DESC" ]],
+                  "dom": 'lBfrtip',
             responsive: true,
             "processing": true,
             "serverSide": true,
@@ -57,41 +56,34 @@
                 }
             },
 
-            "aoColumns": [{ data: 'id'},
-                {data: 'name'},
-                {data: 'email'},
-                {data: 'mobile'},
-                {data: 'country_name'},
-                {data: 'created_at'},
-                {data: 'is_disabled'},
-                {data:'id'}],
-            "columnDefs": [
-               {
-                    targets: 7,
-                    orderable: false,
-                    visible: true,
-                    /*This will hide particular column*/
-                    render: function(data, type, row, meta) 
-                    {
-                        return `<a href="${row.view_url}" class="btn btn-primary mr-3">View</a><a href="${row.edit_url}" class="btn btn-info mr-3">Edit</a>`;
-                    }
-                },
-               {
-                    targets: 6,
-                    orderable: false,
-                    visible: true,
-                    /*This will hide particular column*/
-                    render: function(data, type, row, meta) 
-                    {
-                        return renderStatusBtn(row);
-                    }
-                },
+            columns : [
+                                { data : "id", name : "id"},
+                                { data : "name", name : "name"},
+                                { data : "email", name : "email",
+                                     render: function(data, type, row, meta)
+                                    {
+                                      return `${row.mobile}  ${row.email}`;
+                                    }
+                                },
+                                { data : null, name : "country", render : function(data,type,row,meta){
+                                    return null;
+                                }},
+                                { data : "created_at", name : 'created_at' },
+                                { data : "is_disabled", name : 'is_disabled',
+                                    render: function(data, type, row, meta)
+                                    {
+                                      return renderStatusBtn(row);
+                                    }
+                                },
+                                {
+                                    data : null, name: 'action',searchable: false,orderable :false,
+                                    render: function(data, type, row, meta)
+                                    {
+                                       return `<a href="${row.view_url}" class="btn btn-primary"><i class="fa fa-eye"></i></a><a href="${row.edit_url}" class="btn btn-info mr-3"><i class="fa fa-edit"></i></a>`;
+                                    }
+                                }
+                              ],
 
-
-            ],
-
-
-            "dom": 'lBfrtip',
             buttons: [
 
                 'colvis',
@@ -161,7 +153,7 @@ $(document).on('click','.changeStatusBtn',function(e){
     $.fn_ajax('{{route('tenant.changeStatus')}}',params,fn_success,fn_error);
 });
 
-$("#sidebar-all-tenant").addClass("active"); 
+$("#sidebar-all-tenant").addClass("active");
      })
 </script>
 
