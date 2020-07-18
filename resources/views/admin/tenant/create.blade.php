@@ -404,6 +404,7 @@
             </div>
                 <div class="form-group text-right">
                     <button class="btn btn-primary">Save</button>
+                    <button type="button" id="save_and_allot_unit" class="btn btn-primary">Save & Allot Unit</button>
                 </div>
 
         {{Form::close()}}
@@ -522,6 +523,30 @@
       }
     $.fn_ajax_multipart(url,params,fn_success,fn_error);
   });
+		$("#save_and_allot_unit").on('click',function(e){
+		    e.preventDefault();
+            let params = new FormData($('#add_data_form')[0]);
+            params.append('next_action','allot_unit');
+            let url = '{{route('tenant.store')}}';
+
+            function fn_success(result)
+            {
+                toast('success', result.message, 'bottom-right');
+                window.location.href = result.next_url;
+
+            }
+
+            function fn_error(result) {
+                if (result.response === "validation_error") {
+                    toast('error', result.message, 'bottom-right');
+                } else {
+                    toast('error', result.message, 'bottom-right');
+                }
+            }
+
+            $.fn_ajax_multipart(url, params, fn_success, fn_error);
+        });
+
   function render_family_detail_form()
 {
 	var str = `<tr><td>#</td>

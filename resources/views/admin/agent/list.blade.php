@@ -27,6 +27,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Mobile</th>
+                        <th>Agent Type</th>
                         <th>Added Date</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -73,6 +74,7 @@
                                 { data : "name", name : 'name'},
                                 { data : "email", name : 'email'},
                                 { data : "mobile", name : 'mobile'},
+                                { data : "agent_type", name : 'agent_type'},
                                 { data : "created_at", name : 'created_at' },
                                 { data : "is_disabled", name : 'is_disabled',
                                     render: function( type, row, data, meta)

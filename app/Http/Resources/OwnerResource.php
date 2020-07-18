@@ -20,7 +20,7 @@ class OwnerResource extends JsonResource
              'email'=>$this->email,
              'mobile'=>$this->mobile,
              'is_disabled'=>$this->is_disabled,
-             'edit_url'=> route('owner.edit',$this->id),
+             'edit_url'=> $this->edit_url,
              'created_at'=>date('d-m-Y',strtotime($this->created_at)),
         ];
     }

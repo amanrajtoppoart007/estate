@@ -20,7 +20,7 @@
  <div class="card" style="box-shadow: none;">
      <div class="card-body">
          {{Form::open(['route'=>'owner.store','id'=>'add_data_form','autocomplete'=>'off'])}}
-
+         <input type="hidden" name="owner_type" value="flat_owner">
           <div class="card card-info">
               <div class="card-header">
                 <h6>Owner Details</h6>
@@ -29,29 +29,14 @@
                   <div class="row">
             <div class="col-sm-6 col-md-8 row">
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="form-group">
-                                <label for="owner_type">Owner Type</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <select  class="form-control" name="owner_type" id="owner_type">
-                                        <option value="">Owner Type</option>
-                                        <option value="developer">Developer</option>
-                                        <option value="flat_owner">Flat Owner</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                     <div class="form-group">
-                        <label for="owner_type">Firm Type</label>
+                        <label for="firm_type">Owner Type</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
                             <select class="form-control" name="firm_type" id="firm_type">
-                                <option value="">Firm Type</option>
+                                <option value="">Owner Type</option>
                                 <option value="individual">individual</option>
                                 <option value="company">Company</option>
                             </select>
