@@ -75,7 +75,15 @@ class TenantController extends Controller
                $relations = new \App\Library\CreateTenantRelation();
                $relations->execute($tenant_id,$request);
             }
-            $res['next_url']  = route('tenant.view',$tenant_id);
+            if($request->has('next_action'))
+            {
+                $res['next_url']  = route('tenant.allot.property',$tenant_id);
+            }
+            else
+            {
+                $res['next_url']  = route('tenant.view',$tenant_id);
+            }
+
             $res['response']  = 'success';
             $res['status']    = 1;
             $res['message']   = 'Data inserted';
