@@ -10,7 +10,8 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Broker</th>
-                <th>Created At</th>
+                <th>Contract Status</th>
+                <th>View Contract</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -65,10 +66,20 @@
                                       return `${row.mobile}  ${row.email}`;
                                     }
                                 },
-                                { data : null, name : "country", render : function(data,type,row,meta){
+                                { data : null, name : "broker", render : function(data,type,row,meta){
                                     return null;
                                 }},
-                                { data : "created_at", name : 'created_at' },
+                                { data : null, name : "contract_status",
+                                render : function(data,type,row,meta){
+                                    return null;
+                                }
+                                },
+                                {
+                                    data: null, name: "view_contract",
+                                    render: function (data, type, row, meta) {
+                                        return null;
+                                    }
+                                },
                                 { data : "is_disabled", name : 'is_disabled',
                                     render: function(data, type, row, meta)
                                     {
