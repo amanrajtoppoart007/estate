@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8 card-content-center">
                                     <h6 class="card-title mx-2">
-                                        Add New Agent
+                                        Add New Agent(Individual)
                                     </h6>
                                 </div>
                             </div>

@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Add Property Agent</h4>
+            <h4 class="m-0 text-dark">Add Property Agent (Individual Type)</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -20,7 +20,7 @@
 @section('content')
  <div class="card">
      <div class="card-body">
-         {{Form::open(['route'=>'owner.store','id'=>'add_data_form'])}}
+         {{Form::open(['route'=>'owner.store','id'=>'add_data_form','autocomplete'=>'off'])}}
 
           <div class="card card-info">
               <div class="card-header">
@@ -31,13 +31,13 @@
             <div class="col-sm-6 col-md-8 row">
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <div class="form-group">
-                                <label for="owner_type">Agent Type</label>
+                                <label for="agent_type">Broker Type</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                                     </div>
                                     <select   class="form-control" name="agent_type" id="agent_type" disabled>
-                                        <option value="">Owner Type</option>
+                                        <option value="">Broker Type</option>
                                         <option value="individual" selected>individual</option>
                                     </select>
                                     <input type="hidden" name="agent_type" value="individual">
