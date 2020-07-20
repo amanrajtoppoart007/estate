@@ -72,16 +72,20 @@ class DeveloperController extends Controller
         }
 
         $data['admin_id'] = Auth::guard('admin')->user()->id;
-        $action = Owner::create($data);
-        if($action->id)
+        $developer = Owner::create($data);
+        if($developer->id)
         {
+
             try {
-                $addAuthPerson = new CreateOwnerAuthPerson($request, $action->id);
-                $addAuthPerson->execute();
+                if (!empty($request->auth_person_name)) {
+                       $action = new CreateOwnerAuthPerson($request, $developer->id);
+                       $action->execute();
+                }
+
                 if ($request->firm_type == 'company') {
                     if ($request->has('vat_number')) {
                         $doc = array();
-                        $doc['owner_id'] = $action->id;
+                        $doc['owner_id'] = $developer->id;
                         $doc['doc_url'] = GlobalHelper::singleFileUpload($request, 'local', 'vat_number', "owners/$folder");
                         $doc['doc_type'] = 'vat_number';
                         OwnerDoc::create($doc);
@@ -90,7 +94,7 @@ class DeveloperController extends Controller
 
                     if ($request->has('trade_license')) {
                         $doc = array();
-                        $doc['owner_id'] = $action->id;
+                        $doc['owner_id'] = $developer->id;
                         $doc['doc_url'] = GlobalHelper::singleFileUpload($request, 'local', 'trade_license', "owners/$folder");
                         $doc['doc_type'] = 'trade_license';
                         OwnerDoc::create($doc);
