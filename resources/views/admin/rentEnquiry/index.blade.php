@@ -73,8 +73,12 @@
                      columns : [
                                 { data : "created_at", name : "created_at"},
                                 { data : "name", name : "name"},
-                                { data : "country_code", name : "country_code"},
-                                { data : "email", name : "email"},
+                                { data : "country_name", name : "country_name"},
+                                { data : "email", name : "email",
+                                render:function(data,type,row,meta)
+                                {
+                                    return (row.email +" ,"+ row.mobile);
+                                 }},
                                 { data : "bedroom", name : "bedroom"},
                                 { data : "address", name : "address"},
                                 {
