@@ -74,8 +74,10 @@ class OwnerController extends Controller
         if($action->id)
         {
             try {
-                $addAuthPerson = new CreateOwnerAuthPerson($request, $action->id);
-                $addAuthPerson->execute();
+                if (!empty($request->auth_person_name)) {
+                       $action = new CreateOwnerAuthPerson($request, $action->id);
+                       $action->execute();
+                }
                 if ($request->firm_type == 'company') {
                     if ($request->has('vat_number')) {
                         $doc = array();
