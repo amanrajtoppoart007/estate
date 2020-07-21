@@ -102,7 +102,7 @@ class TenantController extends Controller
     {
         $tenant = Tenant::with('documents', 'profile', 'relations')->whereHas('documents', function ($query) {
             $query->where('tenant_documents.is_disabled', '0');
-        })->where(['id' => $id])->first();
+        })->find($id);
         if(!empty($tenant))
         {
             $data               = array();
