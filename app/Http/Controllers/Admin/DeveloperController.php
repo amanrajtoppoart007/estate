@@ -158,8 +158,12 @@ class DeveloperController extends Controller
         $data['admin_id'] = Auth::guard('admin')->user()->id;
         if(Owner::where(['id'=>$id])->update($data))
         {
-            $authPersonEdit = new EditOwnerAuthPerson($request,$request->owner_id);
-            $authPersonEdit->execute();
+            if(!empty($request->auth_person_name))
+            {
+                       $action = new EditOwnerAuthPerson($request,$request->owner_id);
+                       $action->execute();
+            }
+
             if($request->firm_type == 'company')
             {
                 if($request->has('vat_number'))
