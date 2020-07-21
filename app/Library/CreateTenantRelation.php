@@ -9,7 +9,7 @@ use App\Helpers\GlobalHelper;
 use App\TenantRelation;
 class CreateTenantRelation
 {
-   
+
    public function execute($tenant_id,Request $request)
    {
          $cnt = 0;
@@ -17,7 +17,7 @@ class CreateTenantRelation
          $loop_count    = count($request->rel_name);
          $passport       = ($request->hasfile('rel_passport'))? GlobalHelper::multipleFileUpload($request,'local','rel_passport',"tenant/$folder"):[];
          $visa           = ($request->hasfile('rel_visa'))? GlobalHelper::multipleFileUpload($request,'local','rel_visa',"tenant/$folder"):[];
-         $emirates_id    = ($request->hasfile('rel_amirates_id'))? GlobalHelper::multipleFileUpload($request,'local','rel_amirates_id',"tenant/$folder"):[];
+         $emirates_id    = ($request->hasfile('rel_emirates_id'))? GlobalHelper::multipleFileUpload($request,'local','rel_emirates_id',"tenant/$folder"):[];
           for($i=0;$i<$loop_count;$i++)
           {
              $relation['tenant_id']    = $tenant_id;
@@ -33,6 +33,5 @@ class CreateTenantRelation
           }
         return $cnt;
    }
-   
+
 }
-  

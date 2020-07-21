@@ -343,7 +343,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Relation/Designation</th>
-                                <th>Amirates Id</th>
+                                <th>Emirates  Id</th>
                                 <th>Passport</th>
                                 <th>Visa</th>
                                 <th>add/remove</th>
@@ -354,7 +354,7 @@
                                 <td>#</td>
                                 <td> <input type="text" class="form-control"  name="rel_name[]" value=""> </td>
                                 <td><input type="text" class="form-control"  name="rel_relationship[]" value=""></td>
-                                <td><input type="file" class="form-control"  name="rel_amirates_id[]"></td>
+                                <td><input type="file" class="form-control"  name="rel_emirates_id[]"></td>
                                 <td><input type="file" class="form-control"  name="rel_passport[]"></td>
                                 <td><input type="file" class="form-control"  name="rel_visa[]"></td>
                                 <td>
@@ -552,7 +552,7 @@
 	var str = `<tr><td>#</td>
     <td> <input type="text" class="form-control" name="rel_name[]" value=""> </td>
     <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
-    <td><input type="file" class="form-control" name="rel_amirates_id[]"></td>
+    <td><input type="file" class="form-control" name="rel_emirates_id[]"></td>
     <td><input type="file" class="form-control" name="rel_passport[]"></td>
     <td><input type="file" class="form-control" name="rel_visa[]"></td>
     <td>
