@@ -711,7 +711,7 @@
                    'auth_person_emirates_exp_date',
                    'auth_person_visa_exp_date',
                    'auth_person_passport_exp_date',
-                   'auth_person_poa_exp_date',
+                   'auth_poa_exp_date',
                    'license_expiry_date'
                ];
            pickers.forEach(function(item){
