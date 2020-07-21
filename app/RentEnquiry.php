@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RentEnquiry extends Model
 {
+    use SoftDeletes;
     protected $guarded = [];
 
     protected $appends = ['create_tenant_url','country_name'];

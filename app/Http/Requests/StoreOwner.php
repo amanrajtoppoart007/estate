@@ -88,7 +88,7 @@ class StoreOwner extends FormRequest
            $rules['auth_person_visa_exp_date']= 'required|date';
         }
 
-        if(request()->hasFile('auth_person_visa'))
+        if(request()->hasFile('auth_person_power_of_attorney'))
         {
             $rules['auth_person_power_of_attorney'] = 'required|mimes:jpeg,png,jpg,pdf|max:10048';
             $rules['auth_poa_exp_date']             = 'required|date';

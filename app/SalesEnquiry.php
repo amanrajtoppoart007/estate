@@ -3,9 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class SalesEnquiry extends Model
 {
+     use SoftDeletes;
      protected $guarded = [];
      protected $appends = ['create_buyer_url','country_name'];
 
