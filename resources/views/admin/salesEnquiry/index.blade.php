@@ -50,7 +50,8 @@
             {
                 return `<a title="Create Tenant"  href="javascript:void(0)"  class="btn btn-outline-success"><i class="fa fa-check"></i></a>`;
             }
-            return `<a  href="${data.create_buyer_url}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-sign-in-alt text-white"></i></a>`;
+            return `<a  href="${data.create_buyer_url}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-sign-in-alt text-white"></i></a>
+<a title="Send current enquiry to archive folder"  href="javascript:void(0)" data-id="${data.id}" class="btn btn-danger deleteBtn"><i class="fa fa-file-archive text-white"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         var dataTable = $("#dataTable").dataTable({
@@ -125,6 +126,23 @@
                                 }
             ],
               });
+
+          $(document).on('click','.deleteBtn',function(e){
+           e.preventDefault();
+           let params = { id : $(this).attr('data-id')};
+           let url    = '{{route('salesEnquiry.archive')}}';
+           function fn_success(result)
+           {
+               dataTable.api().ajax.reload();
+              toast('success',result.message,'top-right');
+           }
+           function fn_error(result)
+           {
+              toast('error',result.message,'top-right');
+           }
+           $.fn_ajax(url,params,fn_success,fn_error);
+         });
+
 	  });
   </script>
 @endsection

@@ -56,7 +56,7 @@
            `;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-        var dataTable = $("#dataTable").dataTable({
+        let dataTable = $("#dataTable").dataTable({
                         dom   : '<"dt-buttons"Bf><"clear">lirtp',
                  processing   : true,
                    serverSide : true,
@@ -127,6 +127,22 @@
                                 }
             ],
               });
+
+        $(document).on('click','.deleteBtn',function(e){
+           e.preventDefault();
+           let params = { id : $(this).attr('data-id')};
+           let url    = '{{route('rentEnquiry.archive')}}';
+           function fn_success(result)
+           {
+               dataTable.api().ajax.reload();
+              toast('success',result.message,'top-right');
+           }
+           function fn_error(result)
+           {
+              toast('error',result.message,'top-right');
+           }
+           $.fn_ajax(url,params,fn_success,fn_error);
+         });
 	  });
   </script>
 @endsection

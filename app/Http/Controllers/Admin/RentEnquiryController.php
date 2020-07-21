@@ -80,4 +80,30 @@ class RentEnquiryController extends Controller
          }
          return response()->json($result,200);
     }
+
+    public function archive(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            "id"=>"required|numeric"
+        ]);
+        if(!$validator->fails())
+        {
+            try {
+                $enquiry = RentEnquiry::find($request->id);
+                $enquiry->delete();
+                $result = ['status'=>1,'response' => 'success', 'message' => 'Rent enquiry sent to archive successfully'];
+
+            }
+            catch (\Exception $exception)
+            {
+                   $result = ['status'=>'0','response' => 'error', 'message' => $exception->getMessage()];
+            }
+
+        }
+        else
+        {
+            $result = ['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()];
+        }
+        return response()->json($result,200);
+    }
 }
