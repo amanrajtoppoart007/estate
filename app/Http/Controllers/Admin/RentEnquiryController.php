@@ -65,6 +65,13 @@ class RentEnquiryController extends Controller
                  $folder = "enquiries/rent/$mobile";
                  $store['photo']  = GlobalHelper::singleFileUpload($request,'local','photo',$folder);
              }
+             if(!empty($request->source))
+             {
+                 if($request->source=="website")
+                 {
+                     $store['website'] = $request->website;
+                 }
+             }
              if($rentEnquiry = RentEnquiry::create($store))
              {
                   $result = ['status'=>1,'response' => 'success', 'message' => 'Rent enquiry created successfully'];

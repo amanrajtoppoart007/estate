@@ -315,7 +315,7 @@
                                </div>
                            </div>
                        </div>
-                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 d-none">
                            <div class="form-group">
                                <label for="bank_passbook_exp_date">Bank Statement (Expiry Date)</label>
                                <div class="input-group">
@@ -324,7 +324,7 @@
                                           <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="bank_passbook_exp_date" id="bank_passbook_exp_date" value="">
+                               <input type="text" class="form-control" name="bank_passbook_exp_date" id="bank_passbook_exp_date" value="{{date('d-m-Y')}}">
                                </div>
                            </div>
                        </div>

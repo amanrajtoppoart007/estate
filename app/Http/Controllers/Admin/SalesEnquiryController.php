@@ -97,6 +97,14 @@ class SalesEnquiryController extends Controller
                  $store['emirates_exp_date']  = date('Y-m-d',strtotime($request->emirates_exp_date));
              }
 
+              if(!empty($request->source))
+             {
+                 if($request->source=="website")
+                 {
+                     $store['website'] = $request->website;
+                 }
+             }
+
              if($rentEnquiry = SalesEnquiry::create($store))
              {
                   $result = ['status'=>1,'response' => 'success', 'message' => 'Sales enquiry created successfully'];

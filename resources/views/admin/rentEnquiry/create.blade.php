@@ -200,6 +200,12 @@
                                 </select>
                             </td>
                         </tr>
+                        <tr id="website_grid" class="d-none">
+                            <th>WebSite</th>
+                            <td>
+                                 <input type="text" class="form-control" name="website" id="website" value="">
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -214,6 +220,19 @@
 @section('script')
     <script>
         $(document).ready(function(){
+
+            $("#source").on("change",function(e){
+                e.preventDefault();
+                let value = $(this).val();
+                if(value==="website")
+                {
+                    $("#website_grid").removeClass("d-none");
+                }
+                else
+                {
+                     $("#website_grid").addClass("d-none");
+                }
+            });
             function render_image(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
