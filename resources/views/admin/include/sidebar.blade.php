@@ -16,7 +16,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
            <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+             <i class="fa fa-info-circle"></i>
               <p>
                Rent Inquiry
                 <i class="right fas fa-angle-left"></i>
@@ -39,7 +39,7 @@
           </li>
             <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="fa fa-info-circle"></i>
               <p>
                Sales Inquiry
                 <i class="right fas fa-angle-left"></i>

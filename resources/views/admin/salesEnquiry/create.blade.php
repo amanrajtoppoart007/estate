@@ -162,7 +162,15 @@
                         <tr>
                             <th>No. Of Bedrooms</th>
                             <td>
-                                <input type="text" class="form-control numeric" name="bedroom" id="bedroom" value="">
+                                <select class="form-control" name="bedroom" id="bedroom">
+                                    <option value="">Select no.</option>
+                                    @for($i=1;$i<7;$i++)
+
+                                        <option value="{{$i}}">{{$i}}</option>
+
+                                        @endfor
+                                    <option value="7+">7+</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>

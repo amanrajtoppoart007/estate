@@ -142,13 +142,13 @@
 			<div class="row">
 				<div class="col-lg-8 col-md-8">
 					<div class="form-group">
-						<label>Location</label>
+						<label>Area</label>
 						<input type="text" name="address" id="address" class="form-control" value="{{old('address')}}">
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-4">
 					<div class="form-group">
-						<label>Post Box No.(if exist)</label>
+						<label>Zip Code</label>
 						<input type="text" class="form-control" name="zip" id="zip" value="{{old('zip')}}">
 					</div>
 				</div>
@@ -166,8 +166,8 @@
 				</div>
 				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Aget Of Building (In years)</label>
-						<input type="text" name="building_age" id="building_age" class="form-control numeric" value="{{ old('building_age')}}" autocomplete="off">
+					<label>Completion Date</label>
+						<input type="text" name="completion_date" id="completion_date" class="form-control" value="{{ old('building_age')}}" autocomplete="off">
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
@@ -212,35 +212,25 @@
 		</div>
 		<div class="additional_feature mt-4">
 			<h5 class="color-primary">Floor Plans</h5>
-			<div class="form-group col-md-2">
-				<select class="form-control" name="property_unit_type" id="property_unit_type">
-					<option value="1">Single Unit</option>
-					<option value="2">Multi Unit</option>
-				</select>
-			</div>
 			<div class="table-responsive">
 				<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>Type</th>
-						<th>Size</th>
-						<th>Price Type</th>
-						<th>Price</th>
-						<th>Bedrooms</th>
-						<th>Bathroom</th>
-						<th>Furnished</th>
-						<th>Balcony</th>
-						<th>Parking</th>
-						<th>Kitchen</th>
-						<th>Hall</th>
-						<th>Tota Units</th>
+						<th>Series</th>
+						<th>Floor</th>
+						<th>No. Of Br</th>
+						<th>Size in Sqft</th>
+						<th>No Of Bath</th>
+						<th>No Of Parking</th>
+						<th>No Of Balcony</th>
+						<th>Floor Plan</th>
 						<th>Action</th>
 					</tr>
 					</thead>
 					<tbody id="propertyUnitTypeGrid"></tbody>
 				</table>
 			</div>
-			<div class="row mt-2" id="addMorePropertyUnitTypeDiv" style="display:none">
+			<div class="row mt-2" id="addMorePropertyUnitTypeDiv">
 				<div class="col-md-2">
 					<button type="button" id="addMorePropertyUnitTypeBtn" class="btn btn-primary"><i class="fa fa-plus text-white"></i> Add more</button>
 				</div>
@@ -315,13 +305,13 @@
 <script src="{{asset('theme/default/js/map/map.scripts.js')}}"></script>
 <script>
 	(function($) {
-		var _latitude = 25.204850;
-		var _longitude = 55.270862;
+		let _latitude = 25.204850;
+		let _longitude = 55.270862;
 		init(_latitude, _longitude);
 	})(jQuery);
 </script>
 <script type="text/javascript">
-	var propAddLink = "{{route('property.store')}}";
+	let propAddLink = "{{route('property.store')}}";
 	$(document).ready(function() {
 		$(document).on('click','.removeRowBtn',function(e){
 			e.preventDefault();
@@ -346,31 +336,44 @@
 			addRow();
 		});
      function addRow(){
+
+         let option = '';
+
+         for(let i=1;i<200;i++)
+         {
+             option +=`<option value="${i}">${i}</option>`;
+         }
           let html = `<tr>
-					<td><input class="form-control width_100px" name="unit_type[]" value=""></td>
-					<td><input class="form-control width_100px" name="unit_size[]" value=""></td>
+					<td> <select class="form-control width_100px" name="unit_series[]">
+                              <option value="1">Series 1</option>
+                              <option value="2">Series 2</option>
+                              <option value="3">Series 3</option>
+                              <option value="4">Series 4</option>
+                              <option value="5">Series 5</option>
+                              <option value="6">Series 6</option>
+                              <option value="7">Series 7</option>
+                              <option value="8">Series 8</option>
+                         </select>
+                           </td>
 					<td>
-						<select class="form-control width_100px" name="rent_type[]">
-						   <option value="yearly">Yearly</option>
-						   <option value="monthly">Monthly</option>
-						   <option value="weekly">Weekly</option>
+                <select class="form-control width_100px" name="floor[]">
+                    ${option}
+                </select>
+                         </td>
+					<td>
+						<select class="form-control width_100px" name="bedroom[]">
+						   <option value="1">1</option>
+						   <option value="2">2</option>
+						   <option value="3">3</option>
+						   <option value="4">4</option>
+						   <option value="5">5</option>
+						   <option value="6">6</option>
+						   <option value="7">7+</option>
+                           <option value="NA">NA</option>
+					      <option value="studio">Studio</option>
 						</select>
 					</td>
-					<td><input class="form-control width_100px" name="rental_amount[]" value=""></td>
-					<td>
-					   <select class="form-control width_80px" name="bedroom[]">
-					      <option value="1">1</option>
-					      <option value="2">2</option>
-					      <option value="3">3</option>
-					      <option value="4">4</option>
-					      <option value="5">5</option>
-					      <option value="6">6</option>
-					      <option value="7">7</option>
-					      <option value="7+">7+</option>
-					      <option value="NA">NA</option>
-					      <option value="studio">Studio</option>
-					   </select>
-					</td>
+					<td><input class="form-control width_100px" name="unit_size[]" value=""></td>
 					<td>
 					<select class="form-control width_80px" name="bathroom[]">
 					      <option value="1">1</option>
@@ -386,27 +389,32 @@
 					   </select>
 					</td>
 					<td>
-					   <select class="form-control width_80px" name="furnishing[]">
-					      <option value="furnished">Yes</option>
-					      <option value="semifurnished">Partial</option>
-					      <option value="unfurnished">No</option>
-					   </select>
-					</td>
-					<td>
-					 <select class="form-control width_80px" name="balcony[]">
-					      <option value="1">Yes</option>
-					      <option value="0">No</option>
-					   </select>
-					</td>
-					<td>
 					   <select class="form-control width_80px" name="parking[]">
-					      <option value="1">Yes</option>
-					      <option value="0">No</option>
+					      <option value="1">1</option>
+					      <option value="2">2</option>
+					      <option value="3">3</option>
+					      <option value="4">4</option>
+					      <option value="5">5</option>
+					      <option value="6">6</option>
+					      <option value="7">7</option>
+					      <option value="7+">7+</option>
+					      <option value="NA">NA</option>
 					   </select>
 					</td>
-					<td><input class="form-control width_100px" name="kitchen[]" value=""></td>
-					<td><input class="form-control width_100px" name="hall[]" value=""></td>
-					<td><input class="form-control width_80px" name="total_unit[]" value=""></td>
+					<td>
+					   <select class="form-control width_80px" name="balcony[]">
+					      <option value="1">1</option>
+					      <option value="2">2</option>
+					      <option value="3">3</option>
+					      <option value="4">4</option>
+					      <option value="5">5</option>
+					      <option value="6">6</option>
+					      <option value="7">7</option>
+					      <option value="7+">7+</option>
+					      <option value="NA">NA</option>
+					   </select>
+					</td>
+					<td><input type="file" class="form-control width_150px" name="floor_plan[]" value=""></td>
 						<td>
 							<button  class="btn btn-danger removeRowBtn" type="button"><i class="fa fa-times text-white"></i></button>
 						</td>
@@ -416,21 +424,21 @@
 		$("#prop_code, #state_id, #city_id").on('change', function(e){
 
 			$.ajaxSetup({headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-			var type = "POST";
-			var url = "{{route('property.code.gen')}}";
 			$.ajax({
-				type: type,
-				url: url,
-				data: {
+				type : "POST",
+				url  : "{{route('property.code.gen')}}",
+				data : {
 					'state_id': $("#state_id option:selected").text(),
-					'city_id': $("#city_id option:selected").text(),
-					'code': $("#prop_code").val()
+					'city_id' : $("#city_id option:selected").text(),
+					'code'    : $("#prop_code").val()
 				},
 				dataType: 'json',
 				success: function(data) {
 					if (data.status == '1') {
 						$("#prop_code").val(data.code).prop('readonly', true);
-					} else {}
+					} else {
+
+                    }
 				},
 				error: function(data) {
 					console.log('Error:', data);
