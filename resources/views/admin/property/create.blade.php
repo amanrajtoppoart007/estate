@@ -91,7 +91,7 @@
 
 					</div>
 
-					 <div class="form-group">
+					 {{--<div class="form-group">
 						 <label for="agent_id">Agent  <span class="ml-2 text-danger">*</span></label>
 						 <select class="form-control" name="agent_id" id="agent_id">
 							 <option value="">Select Agent</option>
@@ -99,7 +99,7 @@
 						      <option value="{{$agent->id}}">{{$agent->name}}</option>
 							 @endforeach
 						 </select>
-					 </div>
+					 </div>--}}
 
 					<div class="form-group">
 						<label>State  <span class="ml-2 text-danger">*</span></label>

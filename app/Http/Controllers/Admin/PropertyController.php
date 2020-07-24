@@ -54,8 +54,8 @@ class PropertyController extends Controller
     {
 
         $request->validated();
-        $insert               = $request->only(['category_id','title','status', 'type', 'prop_for','description','address',
-            'city_id','state_id','country_id','zip','latitude', 'longitude','agent_id','owner_id','building_age','total_floors','total_flats','total_shops']);
+        $insert               = $request->only(['title','status', 'type', 'prop_for','description','address',
+            'city_id','state_id','country_id','zip','latitude', 'longitude','owner_id','completion_date','total_floors','total_flats','total_shops']);
         $features             = array_values($request->input('feature'));
         $insert['feature']    = implode(',', $features);
         $insert['admin_id']   = $admin_id = Auth::guard('admin')->user()->id;
@@ -129,8 +129,8 @@ class PropertyController extends Controller
     public function update(EditProperty $request, $id)
     {
         $request->validated();
-        $update               = $request->only(['title', 'type', 'prop_for','category_id', 'description', 'address',
-            'city_id', 'state_id', 'country_id', 'zip', 'latitude', 'longitude','agent_id','owner_id','building_age','total_floors','total_flats','total_shops']);
+        $update               = $request->only(['title', 'type', 'prop_for', 'description', 'address',
+            'city_id', 'state_id', 'country_id', 'zip', 'latitude', 'longitude','owner_id','completion_date','total_floors','total_flats','total_shops']);
         $features             = array_values($request->input('feature'));
         $update['feature']    = implode(', ', $features);
         $update['admin_id']   = $admin_id   = Auth::guard('admin')->user()->id;
