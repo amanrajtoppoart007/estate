@@ -38,22 +38,21 @@ class StoreProperty extends FormRequest
             'country_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'building_age' => 'required|numeric',
-            'total_floors' => 'required|numeric',
+            'zip' => 'numeric',
+
+            'total_floors' => 'required|numeric|min:1|max:3',
             'total_flats' => 'required|numeric',
             //unit detail
-            'unit_type.*' => 'required',
+            'unit_series.*' => 'required',
             'unit_size.*' => 'required',
-            'rent_type.*' => 'required',
-            'rental_amount.*' => 'required|numeric',
+
+
             'bathroom.*' => 'required',
             'bedroom.*' => 'required',
-            'furnishing.*' => 'required',
+
             'balcony.*' => 'required',
             'parking.*' => 'required',
-            'kitchen.*' => 'numeric',
-            'hall.*' => 'numeric',
-            'total_unit.*' => 'required|numeric',
+
 
             //extra detail
             'description' => 'required',

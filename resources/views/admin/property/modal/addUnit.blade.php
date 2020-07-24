@@ -23,7 +23,7 @@
 							<select  class="form-control" name="property_unit_type_id" id="property_unit_type_id">
 								 <option value="">Select Unit Series</option>
 								@foreach($property->propertyUnitTypes as $propertyUnitType)
-							        <option value="{{$propertyUnitType->id}}">{{$propertyUnitType->title}}</option>
+							        <option value="{{$propertyUnitType->id}}">Series {{$propertyUnitType->unit_series}}</option>
 								@endforeach
 							</select>
 						</div>

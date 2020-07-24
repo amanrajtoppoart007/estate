@@ -29,13 +29,14 @@
 			 <div class="row">
                  <div class="col-lg-12 col-md-12">
                      <div class="form-group">
-                         <label>Building Name</label><span class="ml-2 fa-2x"><i title="Building name/Title" class="fa fa-question-circle" aria-hidden="true"></i></span>
+                         <label>Building Name</label>
+                         <span class="ml-2 text-danger">*</span>
                          <input type="text" name="title" id="title" class="form-control" value="{{old('title')}}">
                      </div>
                  </div>
 				 <div class="col-md-4">
 					 <div class="form-group">
-						 <label for="owner_id">Developer</label>
+						 <label for="owner_id">Developer  <span class="ml-2 text-danger">*</span></label>
 						 <select class="form-control" name="owner_id" id="owner_id">
 							  <option value="">Select Developer</option>
 							 @foreach ($owners as $owner)
@@ -45,7 +46,7 @@
 					 </div>
 
 					<div class="form-group">
-						<label>Property Types</label>
+						<label>Property Types  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control @error('type') is-invalid @enderror" name="type" id="type">
 							<option value="">Select Property Type</option>
 							@foreach($propertyTypes as $type)
@@ -58,11 +59,11 @@
 						</select>
 					</div>
 						<div class="form-group">
-						<label>Purpose</label>
+						<label>Purpose  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="prop_for" id="prop_for">
 
 							@php
-							$purpose = array('1'=>'Rent','2'=>'Sale')
+							$purpose = array('1'=>'Rent','2'=>'Sale','3'=>'Rent & Sale')
 							@endphp
 							@foreach($purpose as $pKey=>$pVal)
 							@if($pKey==old('prop_for'))
@@ -74,7 +75,7 @@
 						</select>
 					</div>
 					 <div class="form-group">
-						<label>Country</label>
+						<label>Country  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="country_id" id="country_id">
 							<option value="">Select Country</option>
 							@php
@@ -91,7 +92,7 @@
 					</div>
 
 					 <div class="form-group">
-						 <label for="agent_id">Agent</label>
+						 <label for="agent_id">Agent  <span class="ml-2 text-danger">*</span></label>
 						 <select class="form-control" name="agent_id" id="agent_id">
 							 <option value="">Select Agent</option>
 							 @foreach ($agents as $agent)
@@ -101,14 +102,14 @@
 					 </div>
 
 					<div class="form-group">
-						<label>State</label>
+						<label>State  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="state_id" id="state_id">
 							<option value="">Select State</option>
 						</select>
 
 					</div>
 					<div class="form-group">
-						<label>City</label>
+						<label>City  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="city_id" id="city_id">
 							<option value="">Select City</option>
 						</select>
@@ -142,13 +143,13 @@
 			<div class="row">
 				<div class="col-lg-8 col-md-8">
 					<div class="form-group">
-						<label>Area</label>
+						<label>Area  <span class="ml-2 text-danger">*</span></label>
 						<input type="text" name="address" id="address" class="form-control" value="{{old('address')}}">
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-4">
 					<div class="form-group">
-						<label>Zip Code</label>
+						<label>Zip Code </label>
 						<input type="text" class="form-control" name="zip" id="zip" value="{{old('zip')}}">
 					</div>
 				</div>
@@ -160,25 +161,25 @@
 			<div class="row">
 				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label>Property Code</label>
+						<label>Property Code  <span class="ml-2 text-danger">*</span></label>
 						<input type="text" name="propcode" id="prop_code" class="form-control" value="{{ old('propcode')}}" autocomplete="off" readonly>
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Completion Date</label>
+					<label>Completion Date  <span class="ml-2 text-danger">*</span></label>
 						<input type="text" name="completion_date" id="completion_date" class="form-control" value="{{ old('building_age')}}" autocomplete="off">
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Total Floors</label>
+					<label>Total Floors  <span class="ml-2 text-danger">*</span></label>
 					<input type="text" name="total_floors" id="total_floors" class="form-control numeric" value="{{ old('total_floors')}}" autocomplete="off">
 					</div>
 				</div>
 				<div class=" col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Total Number Of Flats</label>
+					<label>Total Number Of Flats  <span class="ml-2 text-danger">*</span></label>
 					<input type="text" name="total_flats" id="total_flats" class="form-control numeric" value="{{ old('total_flats')}}" autocomplete="off">
 					</div>
 				</div>
@@ -189,7 +190,7 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3 col-md-3">
+				{{--<div class="col-lg-3 col-md-3">
 					<div class="form-group">
 						<label>Category <i class="text-danger">*</i></label>
 						<select class="form-control" name="category_id" id="category_id">
@@ -206,12 +207,12 @@
 							@endforeach
 						</select>
 					</div>
-				</div>
+				</div>--}}
 
 			</div>
 		</div>
 		<div class="additional_feature mt-4">
-			<h5 class="color-primary">Floor Plans</h5>
+			<h5 class="color-primary">Floor Plans  <span class="ml-2 text-danger">*</span></h5>
 			<div class="table-responsive">
 				<table class="table table-bordered">
 				<thead>
@@ -261,13 +262,13 @@
 
 
 			<div class="upload_media mt-5">
-				<h5 class="color-primary">Upload Building Pictures</h5>
+				<h5 class="color-primary">Upload Building Pictures  <span class="ml-2 text-danger" title="At least one image is required">*</span></h5>
 				<hr>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="browse_submit">
 							<input type="file" name="images[]" id="images" class="hide" value="" multiple>
-							<label class="fileupload_label text-center w-100" for="images">Drag and Drop to Add Photo (770x390)</label>
+							<label class="fileupload_label text-center w-100" for="images">Click here to Add Photo (770x390)</label>
 						</div>
 					</div>
 
@@ -280,12 +281,12 @@
 				</div>
 			</div>
 			<div class="description mt-4">
-			<h5 class="color-primary">Description</h5>
+			<h5 class="color-primary">Description </h5>
 			<hr>
 			<div class="row">
 				<div class="col-lg-12 col-md-12">
 					<div class="form-group">
-						<label>Description</label>
+						<label>Description  <span class="ml-2 text-danger">*</span></label>
 						<textarea name="description" size="500" id="description" class="form-control" placeholder="Write Details...">{{old('title')}}</textarea>
 
 					</div>

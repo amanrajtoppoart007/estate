@@ -23,26 +23,21 @@ class StorePropertyUnitTypes
     public function handle($request=array())
     {
         $i=0;
-        foreach($request['unit_type'] as $unit_type) 
+        foreach($request['unit_series'] as $unit_series)
         {
             $params = [
             'property_id'=>$this->property_id,
             'unit_type_sequence'=>$this->unit_type_sequence_counter(),
-            'title'=>$unit_type,
-            'rental_amount'=>floatval($request['rental_amount'][$i]),
-            'rent_type'=>$request['rent_type'][$i],
+            'unit_series'=>$unit_series,
+            'floor'=>$request['floor'][$i],
             'unit_size'=> trim_unit_size($request['unit_size'][$i]),
             'bedroom'=>$request['bedroom'][$i],
             'bathroom'=>$request['bathroom'][$i],
-            'furnishing'=>$request['furnishing'][$i],
             'balcony'=>$request['balcony'][$i],
             'parking'=>$request['parking'][$i],
-            'kitchen'=>$request['kitchen'][$i],
-            'hall'=>$request['hall'][$i],
-            'total_unit'=>intval($request['total_unit'][$i])
             ];
             $prop_unit_type = PropertyUnitType::create($params);
-            if($prop_unit_type)
+/*            if($prop_unit_type)
             {
                 $prop_unit_type_id = $prop_unit_type->id;
                 for($j=0;$j<intval($request['total_unit'][$i]);$j++)
@@ -99,8 +94,8 @@ class StorePropertyUnitTypes
                       UnitPrice::create($price);
                    }
                 }
-            }    
-            
+            }*/
+
             $i++;//because we used foreach loop and a seperate counter
         }
     }
