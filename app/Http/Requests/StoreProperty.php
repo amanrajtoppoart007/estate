@@ -40,7 +40,7 @@ class StoreProperty extends FormRequest
             'longitude' => 'required',
             'zip' => 'numeric',
 
-            'total_floors' => 'required|numeric|min:1|max:3',
+            'total_floors' => 'required|numeric',
             'total_flats' => 'required|numeric',
             //unit detail
             'unit_series.*' => 'required',

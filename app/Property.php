@@ -16,13 +16,21 @@ class Property extends Model
      }
      public function getPrimaryImageAttribute()
      {
-         return ($this->images)?($this->images)[0]->image_thumb:null;
+         $image = null;
+         if(!$this->images->isEmpty())
+         {
+              foreach($this->images as $image)
+              {
+                  $image = $image->image_thumb;
+              }
+         }
+         return $image;
      }
     public function property_sales()
    {
       return $this->hasMany('App\PropertySale');
    }
-   
+
     public function getFullAddressAttribute()
     {
         return $this->address.','.$this->state->name;
@@ -39,7 +47,7 @@ class Property extends Model
     }
     /* ********Relation between property and property unit model*********** */
     public function property_units()
-    {           
+    {
       return $this->hasMany('App\PropertyUnit','property_id','id');
     }
     public function propertyUnitTypes()

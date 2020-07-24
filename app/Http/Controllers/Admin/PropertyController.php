@@ -67,7 +67,7 @@ class PropertyController extends Controller
             $prop_unit         = new \App\Library\StorePropertyUnitTypes($property->id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $propcode;
-            $prop_unit->handle($input);
+            $prop_unit->handle($request,$input);
             $images          =  new CreatePropertyImage($property->id,$propcode);
             $images->execute($request);
             $res['status']   = '1';

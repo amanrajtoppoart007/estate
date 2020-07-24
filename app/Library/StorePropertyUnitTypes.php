@@ -1,5 +1,6 @@
 <?php
 namespace App\Library;
+use App\Helpers\GlobalHelper;
 use App\UnitPrice;
 use Carbon\Carbon;
 use App\PropertyUnit;
@@ -20,22 +21,25 @@ class StorePropertyUnitTypes
         $counter = PropertyUnitType::where(['property_id'=>$this->property_id])->count();
         return intval($counter)+1;
     }
-    public function handle($request=array())
+    public function handle($request,$input=array())
     {
         $i=0;
-        foreach($request['unit_series'] as $unit_series)
+        $floor_plans = GlobalHelper::multipleFileUpload($request,'public','floor_plan','floor_plans');
+        foreach($input['unit_series'] as $unit_series)
         {
             $params = [
             'property_id'=>$this->property_id,
             'unit_type_sequence'=>$this->unit_type_sequence_counter(),
             'unit_series'=>$unit_series,
-            'floor'=>$request['floor'][$i],
-            'unit_size'=> trim_unit_size($request['unit_size'][$i]),
-            'bedroom'=>$request['bedroom'][$i],
-            'bathroom'=>$request['bathroom'][$i],
-            'balcony'=>$request['balcony'][$i],
-            'parking'=>$request['parking'][$i],
+            'floor'=>$input['floor'][$i],
+            'unit_size'=> trim_unit_size($input['unit_size'][$i]),
+            'bedroom'=>$input['bedroom'][$i],
+            'bathroom'=>$input['bathroom'][$i],
+            'balcony'=>$input['balcony'][$i],
+            'parking'=>$input['parking'][$i],
+            'floor_plan'=>$floor_plans[$i] ? $floor_plans[$i] : null,
             ];
+
             $prop_unit_type = PropertyUnitType::create($params);
 /*            if($prop_unit_type)
             {
