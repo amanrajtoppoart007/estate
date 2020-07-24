@@ -345,7 +345,7 @@
              option +=`<option value="${i}">${i}</option>`;
          }
           let html = `<tr>
-					<td> <select class="form-control width_100px" name="unit_series[]">
+					<td> <select class="form-control width_150px" name="unit_series[]">
                               <option value="1">Series 1</option>
                               <option value="2">Series 2</option>
                               <option value="3">Series 3</option>
@@ -385,7 +385,6 @@
 					      <option value="6">6</option>
 					      <option value="7">7</option>
 					      <option value="7+">7+</option>
-					      <option value="none">None</option>
 					      <option value="NA">NA</option>
 					   </select>
 					</td>

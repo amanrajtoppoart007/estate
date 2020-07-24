@@ -29,13 +29,14 @@
 	<div class="row">
 		<div class="col-lg-12 col-md-12">
 			<div class="form-group">
-				<label>Building Name</label><span class="ml-2 fa-2x"><i title="Building name/Title" class="fa fa-question-circle" aria-hidden="true"></i></span>
+				<label>Building Name <span class="text-danger">*</span></label>
+
 				<input type="text" name="title" id="title" class="form-control" value="{{$property->title}}">
 			</div>
         </div>
 		<div class="col-md-4">
 		<div class="form-group">
-			<label for="owner_id">Developer</label>
+			<label for="owner_id">Developer <span class="text-danger">*</span></label>
 			<select class="form-control" name="owner_id" id="owner_id">
 				<option value="">Select Developer</option>
 				@foreach($owners as $owner)
@@ -47,7 +48,7 @@
 					@endforeach
 			</select>
 		</div>
-		<div class="form-group">
+		{{--<div class="form-group">
 			<label for="agent_id">Agent</label>
 			<select class="form-control" name="agent_id" id="agent_id">
 				<option value="">Select Agent</option>
@@ -59,9 +60,9 @@
 						@endif
 					@endforeach
 			</select>
-		</div>
+		</div>--}}
 			<div class="form-group">
-			<label>Property Type</label>
+			<label>Property Type <span class="text-danger">*</span></label>
 				<select class="form-control" name="type" id="type">
 					<option value="">Select Property Type</option>
 					@foreach($propertyTypes as $type)
@@ -75,11 +76,11 @@
 			</div>
 
 			<div class="form-group">
-			<label>Purpose</label>
+			<label>Purpose <span class="text-danger">*</span></label>
 				<select class="form-control" name="prop_for" id="prop_for">
 					<option value="">Select Purpose</option>
 					@php
-						$purpose = array('1'=>'For Rent','2'=>'For Sale')
+						$purpose = array('1'=>'For Rent','2'=>'For Sale','3'=>'Rent & Sale')
 					@endphp
 					@foreach($purpose as $pKey=>$pVal)
 						@if($pKey==old('prop_for')?old('prop_for'):$property->prop_for)
@@ -92,7 +93,7 @@
 			</div>
 
 			<div class="form-group">
-			<label>Country</label>
+			<label>Country <span class="text-danger">*</span></label>
 				<select class="form-control" name="country_id" id="country_id">
 					<option value="">Select Country</option>
 					@foreach($countries as $country)
@@ -105,7 +106,7 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<label>State</label>
+				<label>State <span class="text-danger">*</span></label>
 				<select class="form-control" name="state_id" id="state_id" >
 					<option value="">Select State</option>
 				@foreach($states as $state)
@@ -116,7 +117,7 @@
 				</select>
 			</div>
 			<div class="form-group">
-			<label>City</label>
+			<label>City <span class="text-danger">*</span></label>
 			<select class="form-control" name="city_id" id="city_id">
 				<option value="">Select City</option>
 				@foreach($cities as $city)
@@ -151,13 +152,13 @@
 		<div class="row mt-2">
 			<div class="col-lg-8 col-md-8">
 				<div class="form-group">
-					<label>Location</label>
+					<label>Area <span class="text-danger">*</span></label>
 				<input type="text" name="address" id="address" class="form-control" value="{{old('address')?old('address'):$property->address}}">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4">
 				<div class="form-group">
-					<label>Post Box No.</label>
+					<label>Zip Code</label>
 					<input type="text"  class="form-control" name="zip" id="zip" value="{{old('zip')?old('zip'):$property->zip}}">
 				</div>
 			</div>
@@ -169,25 +170,25 @@
 	<div class="row">
 		<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 			<div class="form-group">
-				<label>Property Code</label><span class="ml-2 fa-2x"><i title="Property Code" class="fa fa-question-circle" aria-hidden="true"></i></span>
+				<label>Property Code <span class="text-danger">*</span></label>
 			<input type="text" name="propcode" id="prop_code" class="form-control" value="{{old('propcode')?old('propcode'):$property->propcode}}" autocomplete="off" readonly>
 			</div>
 		</div>
 		<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Aget Of Building (In years)</label>
-						<input type="text" name="building_age" id="building_age" class="form-control numeric" value="{{ $property->building_age}}" autocomplete="off">
+					<label>Completion Date <span class="text-danger">*</span></label>
+						<input type="text" name="completion_date" id="completion_date" class="form-control" value="{{ $property->completion_date}}" autocomplete="off">
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Total Floors</label>
+					<label>Total Floors <span class="text-danger">*</span></label>
 					<input type="text" name="total_floors" id="total_floors" class="form-control numeric" value="{{ $property->total_floors}}" autocomplete="off">
 					</div>
 				</div>
 				<div class=" col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Total Number Of Flats</label>
+					<label>Total Number Of Flats <span class="text-danger">*</span></label>
 					<input type="text" name="total_flats" id="total_flats" class="form-control numeric" value="{{ $property->total_flats}}" autocomplete="off">
 					</div>
 				</div>
@@ -197,7 +198,7 @@
 					<input type="text" name="total_shops" id="total_shops" class="form-control numeric" value="{{ $property->total_shops}}" autocomplete="off">
 					</div>
 				</div>
-
+{{--
 		<div class="col-lg-4 col-md-4">
 			<div class="form-group">
 				<label>Category</label>
@@ -215,7 +216,7 @@
 					@endforeach
 				</select>
 			</div>
-		</div>
+		</div>--}}
 
 	</div>
 </div>
@@ -246,111 +247,102 @@
 	</div>
 </div>
 <div class="card-card-body">
-	<h5 class="color-primary">Floor Plans</h5>
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="form-group">
-						@php
-						 $total_unit_count = count($property->propertyUnitTypes);
-						@endphp
-						<select class="form-control" name="property_unit_type" id="property_unit_type">
-							<?php if($total_unit_count==1){ ?>
-							<option value="1" selected>Single Unit</option>
-							<option value="2">Multi Unit</option>
-							<?php } else { ?>
-							<option value="1">Single Unit</option>
-							<option value="2" selected>Multi Unit</option>
-							<?php } ?>
-					   </select>
-					</div>
-				</div>
-			</div>
+	<h5 class="color-primary">Floor Plans <span class="text-danger">*</span></h5>
        <div class="table-responsive">
 		   	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<th>Type</th>
-				<th>Size</th>
-				<th>Price Type</th>
-				<th>Price</th>
-				<th>Bedrooms</th>
-				<th>Bathroom</th>
-				<th>Furnished</th>
-				<th>Balcony</th>
-				<th>Parking</th>
-				<th>Kitchen</th>
-				<th>Hall</th>
-				<th>Total Units</th>
-				<th>Action</th>
+                <th>Series</th>
+                <th>Floor</th>
+                <th>No. Of Br</th>
+                <th>Size in Sqft</th>
+                <th>No Of Bath</th>
+                <th>No Of Parking</th>
+                <th>No Of Balcony</th>
+                <th>Floor Plan</th>
+                <th>Action</th>
 			</tr>
 		</thead>
 		<tbody id="propertyUnitTypeGrid">
 			@foreach($property->propertyUnitTypes as $prop_unit_type)
 			<tr>
 			<td><input type="hidden" name="property_unit_type_id[]" value="{{$prop_unit_type->id}}" readonly>
-				<input class="form-control width_100px" name="unit_type[]" value="{{$prop_unit_type->title}}"></td>
+				<select class="form-control width_150px" name="unit_series[]">
+                    @for($i=1;$i<9;$i++)
+                        @php $selected = ($i==$prop_unit_type->unit_series)?"selected":null; @endphp
+                        <option value="{{$i}}" {{$selected}}>Series {{$i}}</option>
+                    @endfor
+                </select>
+            </td>
+			<td>
+                <select class="form-control width_100px" name="floor[]">
+                    @for($i=1;$i<300;$i++)
+                        @php $selected = ($i==$prop_unit_type->floor)?"selected":null; @endphp
+                        <option value="{{$i}}" {{$selected}}> {{$i}}</option>
+                    @endfor
+                </select>
+            </td>
+			<td>
+				<select class="form-control width_100px" name="bedroom[]">
+                    @php $bedrooms = ["studio"=>"Studio","1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","7+"=>"7+","NA"=>"NA"]; @endphp
+						   @foreach($bedrooms as $bKey=>$bValue)
+                               @php $selected = ($bKey==$prop_unit_type->bedroom)?"selected":null; @endphp
+                                <option value="{{$bKey}}">{{$bValue}}</option>
+                               @endforeach
+						</select>
+			</td>
 			<td><input class="form-control width_100px" name="unit_size[]" value="{{$prop_unit_type->unit_size}}"></td>
 			<td>
-				<select class="form-control width_100px" name="rent_type[]">
-					<?php $rent_types = array('yearly'=>'Yearly','monthly'=>'Monthly','weekly'=>'Weekly');?>
-					<?php foreach($rent_types as $rentTypeKey=>$rentTypeValue){ $selected =($prop_unit_type->rent_type==$rentTypeKey)?'selected=""':'';  ?>
-				        <option value="{{$rentTypeKey}}" {{$selected}}>{{$rentTypeValue}}</option>
-					<?php } ?>
-				</select>
-			</td>
-			<td><input class="form-control width_100px" name="rental_amount[]" value="{{$prop_unit_type->rental_amount}}"></td>
-			<td>
-				<select class="form-control width_80px" name="bedroom[]">
-					<?php $bedrooms = array('1','2','3','4','5','6','7','7+','studio','N/A','none');?>
-					<?php foreach($bedrooms as $bedroom){ $selected =($prop_unit_type->bedroom==$bedroom)?'selected=""':'';?>
-				        <option value="{{$bedroom}}" {{$selected}}>{{$bedroom}}</option>
-					<?php } ?>
-				</select>
-			</td>
-			<td>
 				<select class="form-control width_80px" name="bathroom[]">
-					<?php $bathrooms = array('1','2','3','4','5','6','7','7+','N/A','none');?>
-					<?php foreach($bathrooms as $bathroom){ $selected =($prop_unit_type->bathroom==$bathroom)?'selected=""':'';?>
-				        <option value="{{$bathroom}}" {{$selected}}>{{$bathroom}}</option>
-					<?php } ?>
-				</select>
-			</td>
-			<td>
-				<select class="form-control width_80px" name="furnishing[]">
-					<?php $furnishing_array = array('furnished'=>'Yes','semifurnished'=>'Partial','unfurnished'=>'No');?>
-					<?php foreach($furnishing_array as $fkey=>$fval){ $selected =($prop_unit_type->furnishing==$fkey)?'selected=""':'';  ?>
-				        <option value="{{$fkey}}" {{$selected}}>{{$fval}}</option>
-					<?php } ?>
-				</select>
-			</td>
-			<td>
-				<select class="form-control width_80px" name="balcony[]">
-					<?php $balcony_array = array('1'=>'Yes','0'=>'No');?>
-					<?php foreach($balcony_array as $bkey=>$bval){ $selected =($prop_unit_type->balcony==$bkey)?'selected=""':'';  ?>
-				        <option value="{{$bkey}}" {{$selected}}>{{$bval}}</option>
-					<?php } ?>
+					 @php $bathrooms = ["1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","7+"=>"7+","NA"=>"NA"]; @endphp
+                    @foreach($bathrooms as $bKey=>$bValue)
+                        @php $selected = ($bKey==$prop_unit_type->bathroom)?"selected":null; @endphp
+                        <option value="{{$bKey}}">{{$bValue}}</option>
+                    @endforeach
 				</select>
 			</td>
 			<td>
 				<select class="form-control width_80px" name="parking[]">
-					<?php $parking_array = array('1'=>'Yes','0'=>'No');?>
-					<?php foreach($parking_array as $pkey=>$pval){ $selected =($prop_unit_type->parking==$pkey)?'selected=""':'';  ?>
-				        <option value="{{$pkey}}" {{$selected}}>{{$pval}}</option>
-					<?php } ?>
+					@php $parkings = ["1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","7+"=>"7+","NA"=>"NA"]; @endphp
+                    @foreach($parkings as $pKey=>$pValue)
+                        @php $selected = ($pKey==$prop_unit_type->parking)?"selected":null; @endphp
+                        <option value="{{$pKey}}">{{$pValue}}</option>
+                    @endforeach
 				</select>
 			</td>
-			<td><input class="form-control" name="kitchen[]" value="{{$prop_unit_type->kitchen}}"></td>
-			<td><input class="form-control width_100px" name="hall[]" value="{{$prop_unit_type->hall}}"></td>
-			<td><input class="form-control width_80px" name="total_unit[]" value="{{$prop_unit_type->total_unit}}" readonly></td>
 			<td>
-				<button type="button" data-property_unit_type_id="{{$prop_unit_type->id}}" class="btn btn-danger btn-disabled"><i class="fa fa-times text-white"></i></button>
+				<select class="form-control width_80px" name="balcony[]">
+					@php $list = ["1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","7+"=>"7+","NA"=>"NA"]; @endphp
+                    @foreach($list as $lKey=>$lValue)
+                        @php $selected = ($lKey==$prop_unit_type->bolcony)?"selected":null; @endphp
+                        <option value="{{$lKey}}">{{$lValue}}</option>
+                    @endforeach
+				</select>
+			</td>
+                <td>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="file" class="form-control width_100px" name="floor_plan[]" value="">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <a target="_blank" href="{{asset($prop_unit_type->floor_plan)}}">
+                                        <i class="fa fa-file"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+			<td>
+				{{--<button type="button" data-property_unit_type_id="{{$prop_unit_type->id}}" class="btn btn-danger btn-disabled"><i class="fa fa-times text-white" disabled="disabled"></i></button>--}}
 			</td>
 			</tr>
 			@endforeach
 		</tbody>
 	</table>
 	   </div>
-	<div class="row mt-2" id="addMorePropertyUnitTypeDiv" @if($total_unit_count==1)style="display: none"@endif>
+	<div class="row mt-2" id="addMorePropertyUnitTypeDiv">
 		<div class="col-md-2">
 			<button type="button" id="addMorePropertyUnitTypeBtn" class="btn btn-primary"><i class="fa fa-plus text-white"></i> Add more</button>
 		</div>
@@ -364,7 +356,7 @@
 		<div class="col-md-12">
 			<div class="browse_submit">
 				<input type="file" name="images[]" id="images" class="hide" value="" multiple>
-				<label class="fileupload_label text-center w-100" for="images">Drag and Drop to Add Photo (770x390)</label>
+				<label class="fileupload_label text-center w-100" for="images">Click Here To Add Photo (770x390)</label>
 			</div>
 
 		</div>
@@ -392,7 +384,7 @@
 	<div class="row">
 		<div class="col-lg-12 col-md-12">
 			<div class="form-group">
-				<label>Description</label>
+				<label>Description </label>
 				<textarea name="description" id="description" class="form-control" placeholder="Write Details...">{{old('description')?old('description'):$property->description}}</textarea>
 			</div>
 		</div>
@@ -431,31 +423,43 @@
 		});
 		function addRow()
 		{
+            let option = '';
+
+         for(let i=1;i<200;i++)
+         {
+             option +=`<option value="${i}">${i}</option>`;
+         }
           let html = `<tr>
-					<td><input class="form-control" name="unit_type[]" value=""></td>
-					<td><input class="form-control" name="unit_size[]" value=""></td>
+					<td> <select class="form-control width_100px" name="unit_series[]">
+                              <option value="1">Series 1</option>
+                              <option value="2">Series 2</option>
+                              <option value="3">Series 3</option>
+                              <option value="4">Series 4</option>
+                              <option value="5">Series 5</option>
+                              <option value="6">Series 6</option>
+                              <option value="7">Series 7</option>
+                              <option value="8">Series 8</option>
+                         </select>
+                           </td>
 					<td>
-						<select class="form-control width_100px" name="rent_type[]">
-						   <option value="yearly">Yearly</option>
-						   <option value="monthly">Monthly</option>
-						   <option value="weekly">Weekly</option>
+                <select class="form-control width_100px" name="floor[]">
+                    ${option}
+                </select>
+                         </td>
+					<td>
+						<select class="form-control width_100px" name="bedroom[]">
+						   <option value="1">1</option>
+						   <option value="2">2</option>
+						   <option value="3">3</option>
+						   <option value="4">4</option>
+						   <option value="5">5</option>
+						   <option value="6">6</option>
+						   <option value="7">7+</option>
+                           <option value="NA">NA</option>
+					      <option value="studio">Studio</option>
 						</select>
 					</td>
-					<td><input class="form-control width_100px" name="rental_amount[]" value=""></td>
-					<td>
-					   <select class="form-control width_80px" name="bedroom[]">
-					      <option value="1">1</option>
-					      <option value="2">2</option>
-					      <option value="3">3</option>
-					      <option value="4">4</option>
-					      <option value="5">5</option>
-					      <option value="6">6</option>
-					      <option value="7">7</option>
-					      <option value="7+">7+</option>
-					      <option value="NA">NA</option>
-					      <option value="studio">Studio</option>
-					   </select>
-					</td>
+					<td><input class="form-control width_100px" name="unit_size[]" value=""></td>
 					<td>
 					<select class="form-control width_80px" name="bathroom[]">
 					      <option value="1">1</option>
@@ -471,27 +475,32 @@
 					   </select>
 					</td>
 					<td>
-					   <select class="form-control width_80px" name="furnishing[]">
-					      <option value="furnished">Yes</option>
-					      <option value="semifurnished">Partial</option>
-					      <option value="unfurnished">No</option>
-					   </select>
-					</td>
-					<td>
-					 <select class="form-control width_80px" name="balcony[]">
-					      <option value="1">Yes</option>
-					      <option value="0">No</option>
-					   </select>
-					</td>
-					<td>
 					   <select class="form-control width_80px" name="parking[]">
-					      <option value="1">Yes</option>
-					      <option value="0">No</option>
+					      <option value="1">1</option>
+					      <option value="2">2</option>
+					      <option value="3">3</option>
+					      <option value="4">4</option>
+					      <option value="5">5</option>
+					      <option value="6">6</option>
+					      <option value="7">7</option>
+					      <option value="7+">7+</option>
+					      <option value="NA">NA</option>
 					   </select>
 					</td>
-					<td><input class="form-control" name="kitchen[]" value=""></td>
-					<td><input class="form-control" name="hall[]" value=""></td>
-					<td><input class="form-control width_80px" name="total_unit[]" value=""></td>
+					<td>
+					   <select class="form-control width_80px" name="balcony[]">
+					      <option value="1">1</option>
+					      <option value="2">2</option>
+					      <option value="3">3</option>
+					      <option value="4">4</option>
+					      <option value="5">5</option>
+					      <option value="6">6</option>
+					      <option value="7">7</option>
+					      <option value="7+">7+</option>
+					      <option value="NA">NA</option>
+					   </select>
+					</td>
+					<td><input type="file" class="form-control width_150px" name="floor_plan[]" value=""></td>
 						<td>
 							<button  class="btn btn-danger removeRowBtn" type="button"><i class="fa fa-times text-white"></i></button>
 						</td>

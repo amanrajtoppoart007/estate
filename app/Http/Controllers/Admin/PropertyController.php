@@ -64,24 +64,20 @@ class PropertyController extends Controller
         $property             = Property::create($insert);
         if($property)
         {
+            $images          =  new CreatePropertyImage($property->id,$propcode);
+            $images->execute($request);
+
             $prop_unit         = new \App\Library\StorePropertyUnitTypes($property->id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $propcode;
             $prop_unit->handle($request,$input);
-            $images          =  new CreatePropertyImage($property->id,$propcode);
-            $images->execute($request);
-            $res['status']   = '1';
-            $res['response'] = 'success';
-            $res['message']  = 'Property successfully created';
+            $result = ["status"=>1,"response"=>"success","message"=>"Property successfully created"];
         }
         else
         {
-            $res['status']   = '0';
-            $res['response'] = 'error';
-            $res['message']  = 'Property can not created successfully created';
+            $result = ["status"=>0,"response"=>"error","message"=>"Property can not created successfully created"];
         }
-        return response()->json($res,200);
-
+        return response()->json($result,200);
     }
 
     public function view($id)
@@ -139,7 +135,7 @@ class PropertyController extends Controller
             $action            = new \App\Library\UpdatePropertyUnitTypes($id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $request->propcode;
-            $action->handle($input);
+            $action->handle($request,$input);
             $images =  new CreatePropertyImage($id,$request->propcode);
             $images->execute($request);
             $res['status']   = '1';
