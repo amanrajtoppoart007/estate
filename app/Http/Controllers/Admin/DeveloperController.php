@@ -120,7 +120,7 @@ class DeveloperController extends Controller
     public function view($id)
     {
         $owner = Owner::find($id);
-        return view('admin.owner.view',compact('owner'));
+        return view('admin.developer.view',compact('owner'));
     }
 
 
