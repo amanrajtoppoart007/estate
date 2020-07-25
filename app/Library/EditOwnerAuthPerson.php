@@ -3,7 +3,7 @@
 namespace App\Library;
 
 use App\OwnerAuthPerson;
-
+use App\Helpers\GlobalHelper;
 class EditOwnerAuthPerson
 {
     var $request;

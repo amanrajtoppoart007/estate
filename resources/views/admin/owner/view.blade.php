@@ -211,7 +211,7 @@
             </div>
            @if(!empty($owner->auth_person))
             <div class="card">
-                <div class="card-header">
+                <div class="card-header bg-primary">
                     <h6>Auth Person Detail</h6>
                 </div>
                 <div class="card-body">

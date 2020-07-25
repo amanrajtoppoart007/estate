@@ -21,6 +21,8 @@ class OwnerResource extends JsonResource
              'mobile'=>$this->mobile,
              'is_disabled'=>$this->is_disabled,
              'edit_url'=> $this->edit_url,
+             'view_url'=> $this->view_url,
+             'owner_type'=> $this->owner_type,
              'created_at'=>date('d-m-Y',strtotime($this->created_at)),
         ];
     }

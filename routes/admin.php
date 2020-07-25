@@ -96,7 +96,7 @@ Route::prefix('developer')->group(function () {
     Route::get('edit/{id}', 'Admin\DeveloperController@edit')->name('developer.edit');
     Route::post('store', 'Admin\DeveloperController@store')->name('developer.store');
     Route::post('update/{id}', 'Admin\DeveloperController@update')->name('developer.update');
-    Route::post('show', 'Admin\DeveloperController@show')->name('developer.show');
+    Route::get('view/{id}', 'Admin\DeveloperController@view')->name('developer.view');
     Route::post('delete', 'Admin\DeveloperController@destroy')->name('developer.delete');
 });
 /********************** Agent listing**************/
