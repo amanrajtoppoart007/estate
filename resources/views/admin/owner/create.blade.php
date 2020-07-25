@@ -668,8 +668,11 @@
             </div>
         </div>
         <div class="row">
+            <input type="hidden" id="action" name="action" value="">
             <div class="col-md-12 text-right">
-                <button class="btn btn-success active" type="submit">Save</button>
+                <button id="action_save"  class="btn btn-success  save_action_btn" type="submit">Save</button>
+                <button id="action_preview" class="btn btn-success  save_action_btn" type="submit">Preview</button>
+                <button id="action_allocate_unit" class="btn btn-success  save_action_btn" type="submit">Allocate Unit</button>
             </div>
         </div>
         {{Form::close()}}
@@ -692,6 +695,14 @@
 @section('script')
   <script>
        $(document).ready(function(){
+
+           $(document).on("click",".save_action_btn",function(e){
+               e.stopPropagation();
+               let action = $(this).attr("id");
+               $("#action").val(action);
+               e.enableEventPropagation();
+
+           });
 
            $("#add_auth_person_detail_btn").on("click",function(){
               if($("#authorised_person_required").is(":checked")) {

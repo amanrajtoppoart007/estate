@@ -83,8 +83,8 @@ Route::prefix('owner')->group(function () {
     Route::get('edit/{id}', 'Admin\OwnerController@edit')->name('owner.edit');
     Route::post('store', 'Admin\OwnerController@store')->name('owner.store');
     Route::post('update/{id}', 'Admin\OwnerController@update')->name('owner.update');
-    Route::post('show', 'Admin\OwnerController@show')->name('owner.show');
     Route::post('delete', 'Admin\OwnerController@destroy')->name('owner.delete');
+    Route::get('view/{id}', 'Admin\OwnerController@view')->name('owner.view');
 });
 
 /********************** developer listing**************/

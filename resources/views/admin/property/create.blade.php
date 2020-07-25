@@ -1,6 +1,13 @@
 @extends('admin.layout.app')
 @section('head')
-  <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+   <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+    <style>
+    .owner_type_company_grid
+    {
+        display:none;
+    }
+</style>
 @endsection
 @section('breadcrumb')
 <div class="content-header">
@@ -299,11 +306,14 @@
 			</div>
 	</form>
 </div>
-
 @endsection
-@section('script')
+@section('js')
+<script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}"></script>
 <script src="{{asset('theme/default/js/map/map.scripts.js')}}"></script>
+@endsection
+
+@section('script')
 <script>
 	(function($) {
 		let _latitude = 25.204850;
@@ -314,6 +324,12 @@
 <script type="text/javascript">
 	let propAddLink = "{{route('property.store')}}";
 	$(document).ready(function() {
+
+	    let pickers = ["completion_date"];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
+           });
+
 		$(document).on('click','.removeRowBtn',function(e){
 			e.preventDefault();
 			let primary_tr = $(this).closest('tr');

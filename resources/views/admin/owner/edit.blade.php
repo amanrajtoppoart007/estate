@@ -543,7 +543,7 @@
                                 <i class="fa fa-passport"></i>
                             </span>
                         </div>
-                     <input type="text" class="form-control" name="auth_person_emirates_exp_date" id="auth_person_emirates_exp_date" value="{{($owner->auth_person->emirates_id_exp_date)?date('d-m-Y',strtotime($owner->auth_person->emirates_id_exp_date)):null}}">
+                     <input type="text" class="form-control" name="auth_person_emirates_exp_date" id="auth_person_emirates_exp_date" value="{{ $owner->auth_person ? ( ($owner->auth_person->emirates_exp_date)?date('d-m-Y',strtotime($owner->auth_person->emirates_exp_date)):null):null}}">
                      </div>
                  </div>
               </div>
@@ -556,7 +556,7 @@
                                           <i class="fa fa-passport"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_person_passport_exp_date" id="auth_person_passport_exp_date" value="{{($owner->auth_person->passport_exp_date)?date('d-m-Y',strtotime($owner->auth_person->passport_exp_date)):null}}">
+                               <input type="text" class="form-control" name="auth_person_passport_exp_date" id="auth_person_passport_exp_date" value="{{$owner->auth_person?( ($owner->auth_person->passport_exp_date)?date('d-m-Y',strtotime($owner->auth_person->passport_exp_date)):null):null}}">
                                </div>
                            </div>
                        </div>
@@ -569,7 +569,7 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_person_visa_exp_date" id="auth_person_visa_exp_date" value="{{($owner->auth_person->visa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->visa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="auth_person_visa_exp_date" id="auth_person_visa_exp_date" value="{{$owner->auth_person?(($owner->auth_person->visa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->visa_exp_date)):null):null}}">
                                </div>
                            </div>
                        </div>
@@ -582,7 +582,7 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_poa_exp_date" id="auth_poa_exp_date" value="{{($owner->auth_person->poa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->poa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="auth_poa_exp_date" id="auth_poa_exp_date" value="{{$owner->auth_person?(($owner->auth_person->poa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->poa_exp_date)):null):null}}">
                                </div>
                            </div>
                        </div>

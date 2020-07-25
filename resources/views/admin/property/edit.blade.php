@@ -1,6 +1,13 @@
 @extends('admin.layout.app')
 @section('head')
   <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+    <style>
+    .owner_type_company_grid
+    {
+        display:none;
+    }
+</style>
 @endsection
 @section('breadcrumb')
 <div class="content-header">
@@ -397,13 +404,14 @@
 			</div>
     @endsection
 	@section('script')
+    <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}"></script>
     <script src="{{asset('theme/default/js/map/map.scripts.js')}}"></script>
     <script>
     (function($){
 
-		var _latitude  = '{{old('latitude')?old('latitude'):$property->latitude}}';
-		var _longitude = '{{old('longitude')?old('longitude'):$property->longitude}}';
+		let _latitude  = '{{old('latitude')?old('latitude'):$property->latitude}}';
+		let _longitude = '{{old('longitude')?old('longitude'):$property->longitude}}';
              _latitude = (_latitude)?_latitude:25.204850;
 		    _longitude = (_longitude)?_longitude:55.270862;
         init(_latitude, _longitude);
@@ -411,6 +419,12 @@
     </script>
     <script type="text/javascript">
 	$(document).ready(function(){
+
+	    let pickers = ["completion_date"];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
+           });
+
 		$("#property_unit_type").on('change',function(){
 			if($(this).val()==1)
 			{
