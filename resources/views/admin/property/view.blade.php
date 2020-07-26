@@ -233,12 +233,49 @@
 @include('admin.property.modal.allot',['property_units'=>$property->property_units])
 {{--  Property Info modal end--}}
 @endsection
+@section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+@endsection
 @section('js')
     <script src="{{asset('assets/plugins/print/printThis.js')}}"></script>
+    <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 @endsection
 @section('script')
  <script>
 	 $(document).ready(function(){
+
+	     let pickers =
+               [
+                   'purchase_date',
+                   'edit_purchase_date',
+               ];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
+           });
+
+
+         $("#purpose").on("change",function(e){
+             let value = parseInt($(this).val());
+             if(value===1||value===3)
+             {
+                 $(".grid_rent_type").show();
+             }
+             else{
+                 $(".grid_rent_type").hide();
+             }
+         });
+
+
+	     $("#edit_purpose").on("change",function(e){
+             let value = parseInt($(this).val());
+             if(value===1||value===3)
+             {
+                 $(".edit_grid_rent_type").show();
+             }
+             else{
+                 $(".edit_grid_rent_type").hide();
+             }
+         });
 
 	     $("#print_btn").on('click',function(e){
 	         $(".print_this").printThis();
@@ -330,7 +367,7 @@
 									 return row.lease_end;
 								  }
 								},
-								 { data : "brokar", name : 'brokar' },
+								 { data : "broker", name : 'broker' },
                                 { data : "status", name: 'status',
 									render:function (data,type,row,meta)
 									{
@@ -510,6 +547,16 @@ $(document).on('click','.changeStatusBtn',function(e){
 			  $("#edit_parking").val(result.data.parking);
 			  $("#edit_hall").val(result.data.hall);
 			  $("#edit_owner_id").val(result.data.owner_id);
+			  $("#edit_agent_id").val(result.data.agent_id);
+			  $("#edit_purpose").val(result.data.purpose);
+			  $("#edit_unit_status").val(result.data.unit_status);
+			  $("#edit_purchase_date").val(result.data.purchase_date);
+			  $("#edit_purchase_cost").val(result.data.purchase_cost);
+			  if(result.data.purpose==="1"||result.data.purpose==="3")
+              {
+                  $(".edit_grid_rent_type").show();
+              }
+			  $("#edit_rent_type").val(result.data.rent_type);
               $("#editModal").modal('show');
 		  }
 		  function fn_error(result)

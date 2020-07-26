@@ -90,7 +90,7 @@ class PropertyController extends Controller
             $countries      = Country::where('is_disabled', '0')->get();
             $features       = Feature::where('is_disabled', '0')->get();
             $cities         = City::where('is_disabled', '0')->get();
-            $owners         = Owner::where('is_disabled', '0')->get();
+            $owners         = Owner::where(['owner_type'=>'flat_owner','is_disabled'=> '0'])->get();
             $agents         = Agent::where('is_disabled', '0')->get();
             return view('admin.property.view', compact('property', 'states', 'features', 'countries', 'cities', 'propertyTypes','owners','agents'));
         }
