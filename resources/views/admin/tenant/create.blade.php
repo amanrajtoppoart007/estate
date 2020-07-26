@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-          {{Form::open(['route'=>'tenant.store','id'=>'add_data_form','method'=>'post','autocomplete'=>'off'])}}
+          {{Form::open(['route'=>'tenant.store','id'=>'add_data_form','method'=>'post','autocomplete'=>'off','enctype'=>'multipart/form-data'])}}
             <input type="hidden" name="request_id" value="{{request()->request_id ? request()->request_id : null}}">
              <div class="card card-info">
                 <div class="card-header">

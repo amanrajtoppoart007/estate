@@ -44,7 +44,7 @@ class StoreTenant extends FormRequest
         if($request['tenant_type']=='company')
         {
             $validate['company_name'] = 'required';
-            $validate['trade_license'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            $validate['trade_license'] = 'required|mimes:jpeg,jpg,png,pdf|max:10000';
             $validate['tenant_count'] = 'required|numeric';
         }
         else if($request['tenant_type']=='family_husband_wife')
