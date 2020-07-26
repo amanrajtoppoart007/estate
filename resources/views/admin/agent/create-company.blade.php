@@ -424,8 +424,10 @@
              </div>
          </div>
         <div class="row">
-            <div class="col-md-12">
-                <button class="btn btn-success float-right" type="submit">Save</button>
+            <div class="col-md-12 text-right">
+                <input type="hidden" name="action" id="action" value="">
+                <button id="action_save" class="btn btn-success  submit_action_btn submit_form_btn mx-1" type="submit">Save</button>
+                <button id="action_preview" class="btn btn-success  submit_action_btn submit_form_btn mx-1" type="submit">Preview</button>
             </div>
         </div>
         {{Form::close()}}
@@ -442,6 +444,14 @@
 @section('script')
   <script>
        $(document).ready(function(){
+
+           $(document).on("click",".submit_form_btn",function(e){
+               e.stopPropagation();
+               let action = $(this).attr("id");
+               $("#action").val(action);
+               e.enableEventPropagation();
+
+           });
 
            let pickers =
                [
@@ -490,6 +500,12 @@
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
+                   let next_action = $("#action").val();
+                    if (next_action === "action_preview") {
+                        if (result.data.next_route) {
+                            window.location.href = result.data.next_route;
+                        }
+                    }
                    $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
                    $('#owner_profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
                    $("#add_data_form")[0].reset();

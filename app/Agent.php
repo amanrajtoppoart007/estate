@@ -21,4 +21,9 @@ class Agent extends Model
    {
       return $this->hasMany('App\PropertySale');
    }
+
+   public function admin()
+   {
+       return $this->belongsTo(Admin::class,'admin_id','id');
+   }
 }

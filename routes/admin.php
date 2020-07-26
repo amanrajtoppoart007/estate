@@ -85,6 +85,8 @@ Route::prefix('owner')->group(function () {
     Route::post('update/{id}', 'Admin\OwnerController@update')->name('owner.update');
     Route::post('delete', 'Admin\OwnerController@destroy')->name('owner.delete');
     Route::get('view/{id}', 'Admin\OwnerController@view')->name('owner.view');
+    Route::post('get/property/units', 'Admin\OwnerController@get_property_units')->name('owner.get.property.units');
+    Route::post('allot/unit/', 'Admin\OwnerController@allot_unit')->name('owner.allot.property.unit');
 });
 
 /********************** developer listing**************/
@@ -109,7 +111,7 @@ Route::prefix('agent')->group(function () {
     Route::get('edit/{id}', 'Admin\AgentController@edit')->name('agent.edit');
     Route::post('store', 'Admin\AgentController@store')->name('agent.store');
     Route::post('update/{id}', 'Admin\AgentController@update')->name('agent.update');
-    Route::post('show', 'Admin\AgentController@show')->name('agent.show');
+    Route::get('view/{id}', 'Admin\AgentController@view')->name('agent.view');
     Route::post('delete', 'Admin\AgentController@destroy')->name('agent.delete');
 
     Route::get('/type/company/create', 'Admin\AgentController@create_company_type_agent')->name('agent.type.company.create');
