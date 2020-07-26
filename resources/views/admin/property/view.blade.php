@@ -44,7 +44,7 @@
 					</div>
 					<div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-3">
 						<dt>Type</dt>
-						<dd>@if($property->propertyType){{ $property->propertyType->title }}@endif</dd>
+						<dd>@if($property->propertyType){{ $property->propertyType->unit_series }}@endif</dd>
 					</div>
 					<div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-3">
 						<dt>Property For</dt>
@@ -166,7 +166,7 @@
                                                 <th>Sell/Rent Amount</th>
                                                 <th>Lease Start</th>
                                                 <th>Lease End</th>
-                                                <th>Brokar</th>
+                                                <th>Broker</th>
                                                 <th>Flat Status</th>
                                                 <th>Action</th>
                                             </tr>

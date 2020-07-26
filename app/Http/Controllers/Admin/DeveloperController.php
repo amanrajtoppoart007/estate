@@ -117,9 +117,10 @@ class DeveloperController extends Controller
     }
 
 
-    public function show($id)
+    public function view($id)
     {
-        //
+        $owner = Owner::find($id);
+        return view('admin.developer.view',compact('owner'));
     }
 
 

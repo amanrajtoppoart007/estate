@@ -20,7 +20,9 @@ class AgentResource extends JsonResource
              'email'=>$this->email,
              'mobile'=>$this->mobile,
              'is_disabled'=>$this->is_disabled,
+             'agent_type'=>$this->agent_type,
              'edit_url'=> route('agent.edit',$this->id),
+             'view_url'=> route('agent.view',$this->id),
              'created_at'=>date('d-m-Y',strtotime($this->created_at)),
         ];
     }

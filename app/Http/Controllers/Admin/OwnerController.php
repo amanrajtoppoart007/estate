@@ -6,6 +6,8 @@ use App\Library\CreateOwnerAuthPerson;
 use App\Library\EditOwnerAuthPerson;
 use App\Owner;
 use App\OwnerDoc;
+use App\Property;
+use App\PropertyUnit;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,6 +16,28 @@ use Illuminate\Support\Facades\Validator;
 use App\Helpers\GlobalHelper;
 class OwnerController extends Controller
 {
+    //module specific functions
+    public function get_property_units()
+    {
+
+        $validator = Validator::make($request->all(), [
+            'property_id' => 'numeric|required',
+        ]);
+        if(!$validator->fails())
+        {
+            if ($data = PropertyUnit::where(['property_id' => $request->property_id])->get())
+            {
+                return response()->json(['status'=>1,'response' => 'success', 'data' =>$data, 'message' => 'Property unit found.']);
+            }
+             else
+            {
+                return response()->json(['status'=>'0','response' => 'error', 'message' => 'Property unit not found.']);
+            }
+        }
+        return response()->json(['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()]);
+    }
+
+    //end module specific functions
 
     public function index()
     {
@@ -30,52 +54,57 @@ class OwnerController extends Controller
 
     public function create()
     {
-        return view('admin.owner.create');
+        $properties = Property::whereHas('property_units',function($query){
+            $query->whereIn('status',[1,2,3,4,5,6,7,8]);
+        })->where(['is_disabled'=>'0'])->get();
+        return view('admin.owner.create',compact('properties'));
     }
 
 
     public function store(\App\Http\Requests\StoreOwner $request)
     {
         $request->validated();
-        $data   = $request->only(['name','mobile','email','emirates_id','bank_name','bank_swift_code',
+        $params   = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code',
         'bank_account','banking_name','country','state','city','address','country_code']);
-        $data['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
-        $data['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
-        $data['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
-        $data['poa_exp_date'] = date('Y-m-d',strtotime($request->poa_exp_date));
+        $params['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
+        $params['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
+        $params['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
+        $params['poa_exp_date'] = date('Y-m-d',strtotime($request->poa_exp_date));
         if($request->firm_type==='company')
         {
-            $company_detail = $request->only(['owner_type','firm_type', 'company_name', 'trade_license', 'telephone_number', 'office_address']);
-            $data = array_merge($data , $company_detail);
-            $data['license_expiry_date'] = date('Y-m-d',strtotime($request->license_expiry_date));
+            $company_detail = $request->only(['company_name', 'trade_license', 'telephone_number', 'office_address']);
+            $params = array_merge($params , $company_detail);
+            $params['license_expiry_date'] = date('Y-m-d',strtotime($request->license_expiry_date));
         }
         $folder = Str::studly(strtolower($request->name));
         if($request->has('photo'))
         {
-            $data['photo']    = GlobalHelper::singleFileUpload($request, 'local', 'photo', "owners/$folder");
+            $params['photo']    = GlobalHelper::singleFileUpload($request, 'local', 'photo', "owners/$folder");
         }
         if($request->has('emirates_id_doc'))
         {
-            $data['emirates_id_doc']    = GlobalHelper::singleFileUpload($request, 'local', 'emirates_id_doc', "owners/$folder");
+            $params['emirates_id_doc']    = GlobalHelper::singleFileUpload($request, 'local', 'emirates_id_doc', "owners/$folder");
         }
 
         if($request->has('passport'))
         {
-            $data['passport'] = GlobalHelper::singleFileUpload($request, 'local', 'passport', "owners/$folder");
+            $params['passport'] = GlobalHelper::singleFileUpload($request, 'local', 'passport', "owners/$folder");
         }
 
         if($request->has('visa'))
         {
-            $data['visa']     = GlobalHelper::singleFileUpload($request, 'local', 'visa', "owners/$folder");
+            $params['visa']     = GlobalHelper::singleFileUpload($request, 'local', 'visa', "owners/$folder");
         }
 
-        $data['admin_id'] = Auth::guard('admin')->user()->id;
-        $action = Owner::create($data);
+        $params['admin_id'] = Auth::guard('admin')->user()->id;
+        $action = Owner::create($params);
         if($action->id)
         {
             try {
-                $addAuthPerson = new CreateOwnerAuthPerson($request, $action->id);
-                $addAuthPerson->execute();
+                if (!empty($request->auth_person_name)) {
+                       $action = new CreateOwnerAuthPerson($request, $action->id);
+                       $action->execute();
+                }
                 if ($request->firm_type == 'company') {
                     if ($request->has('vat_number')) {
                         $doc = array();
@@ -95,7 +124,32 @@ class OwnerController extends Controller
                     }
 
                 }
-                $result = ['status'=>'1','response'=>'success','message'=>'Owner added successfully'];
+                $next_url = null;
+                $next_action = null;
+                if($request->has("action"))
+                {
+                    $_switch = $request->action;
+                    switch ($_switch)
+                    {
+                        case "action_save":
+                            $next_action = "save";
+                            $next_url    = null;
+                            break;
+                        case "action_preview":
+                            $next_action = "preview";
+                            $next_url = route("owner.view",$action->id);
+                            break;
+                        case "action_allocate_unit":
+                            $next_action = "allocate_unit";
+                            $next_url    = null;
+                            break;
+                        default:
+                            $next_action = "save";
+                            $next_url    = null;
+                    }
+                }
+                $data['owner_id'] = $action->id;
+                $result = ['status'=>'1','response'=>'success','data'=>$data,'next_action'=>$next_action,'next_url'=>$next_url,'message'=>'Owner added successfully'];
             }
             catch (\Exception $exception)
             {
@@ -111,9 +165,10 @@ class OwnerController extends Controller
     }
 
 
-    public function show($id)
+    public function view($id)
     {
-        //
+        $owner = Owner::find($id);
+        return view('admin.owner.view',compact('owner'));
     }
 
 
@@ -205,6 +260,35 @@ class OwnerController extends Controller
              else
             {
                 return response()->json(['status'=>'0','response' => 'error', 'message' => 'Status update failed.']);
+            }
+        }
+        return response()->json(['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()]);
+    }
+
+    public function allot_unit(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'owner_id' => 'numeric|required',
+            'property_id' => 'numeric|required',
+            'unit_id' => 'numeric|required',
+            'purchase_cost' => 'numeric|required',
+            'purchase_date' => 'date|required',
+        ]);
+        if(!$validator->fails())
+        {
+            $params = $request->only(['owner_id','purchase_cost']);
+            if($request->has('purchase_date'))
+            {
+                $params['purchase_date'] = $request->purchase_date ? date("Y-m-d",strtotime($request->purchase_date)) : null;
+            }
+            if(PropertyUnit::where(['property_id'=>$request->property_id,'id'=>$request->unit_id])->update($params))
+            {
+                $data['next_url'] = route("owner.view",$request->owner_id);
+                return response()->json(['status'=>1,'response' => 'success', 'data' =>$data , 'message' => 'Unit allotment to owner successful.']);
+            }
+             else
+            {
+                return response()->json(['status'=>'0','response' => 'error', 'message' => 'Unit allotment failed.']);
             }
         }
         return response()->json(['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()]);

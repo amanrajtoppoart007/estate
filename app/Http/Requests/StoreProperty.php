@@ -28,7 +28,7 @@ class StoreProperty extends FormRequest
         return [
             //basic detail
             'propcode' => 'bail|required|max:255',
-            'title' => 'required|unique:properties',
+            'title' =>  'required|unique:properties',
             'type' => 'required',
             'prop_for' => 'required',
             //address detail
@@ -38,22 +38,21 @@ class StoreProperty extends FormRequest
             'country_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'building_age' => 'required|numeric',
+            'zip' => 'numeric',
+
             'total_floors' => 'required|numeric',
             'total_flats' => 'required|numeric',
             //unit detail
-            'unit_type.*' => 'required',
+            'unit_series.*' => 'required',
             'unit_size.*' => 'required',
-            'rent_type.*' => 'required',
-            'rental_amount.*' => 'required|numeric',
+
+
             'bathroom.*' => 'required',
             'bedroom.*' => 'required',
-            'furnishing.*' => 'required',
+
             'balcony.*' => 'required',
             'parking.*' => 'required',
-            'kitchen.*' => 'numeric',
-            'hall.*' => 'numeric',
-            'total_unit.*' => 'required|numeric',
+
 
             //extra detail
             'description' => 'required',

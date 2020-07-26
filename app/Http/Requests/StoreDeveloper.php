@@ -32,8 +32,8 @@ class StoreDeveloper extends FormRequest
             'email'=>'required|email|unique:owners,email',
             'password'=>'required',
             'emirates_id'=>'required',
-            'passport'=>'required|mimes:jpeg,png,jpg,gif,svg,pdf|max:10048',
-            'visa'=>'mimes:jpeg,png,jpg,gif,svg,pdf|max:10048',
+            'passport'=>'required|mimes:jpeg,png,jpg,pdf|max:10048',
+            'visa'=>'mimes:jpeg,png,jpg,pdf|max:10048',
             'bank_name'=>'required',
             'bank_swift_code'=>'required',
             'bank_account'=>'required',
@@ -95,7 +95,7 @@ class StoreDeveloper extends FormRequest
            $rules['auth_person_visa_exp_date']= 'required|date';
         }
 
-        if(request()->hasFile('auth_person_visa'))
+        if(request()->hasFile('auth_person_power_of_attorney'))
         {
             $rules['auth_person_power_of_attorney'] = 'required|mimes:jpeg,png,jpg,pdf|max:10048';
             $rules['auth_poa_exp_date']             = 'required|date';

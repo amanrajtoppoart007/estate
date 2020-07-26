@@ -83,8 +83,10 @@ Route::prefix('owner')->group(function () {
     Route::get('edit/{id}', 'Admin\OwnerController@edit')->name('owner.edit');
     Route::post('store', 'Admin\OwnerController@store')->name('owner.store');
     Route::post('update/{id}', 'Admin\OwnerController@update')->name('owner.update');
-    Route::post('show', 'Admin\OwnerController@show')->name('owner.show');
     Route::post('delete', 'Admin\OwnerController@destroy')->name('owner.delete');
+    Route::get('view/{id}', 'Admin\OwnerController@view')->name('owner.view');
+    Route::post('get/property/units', 'Admin\OwnerController@get_property_units')->name('owner.get.property.units');
+    Route::post('allot/unit/', 'Admin\OwnerController@allot_unit')->name('owner.allot.property.unit');
 });
 
 /********************** developer listing**************/
@@ -96,7 +98,7 @@ Route::prefix('developer')->group(function () {
     Route::get('edit/{id}', 'Admin\DeveloperController@edit')->name('developer.edit');
     Route::post('store', 'Admin\DeveloperController@store')->name('developer.store');
     Route::post('update/{id}', 'Admin\DeveloperController@update')->name('developer.update');
-    Route::post('show', 'Admin\DeveloperController@show')->name('developer.show');
+    Route::get('view/{id}', 'Admin\DeveloperController@view')->name('developer.view');
     Route::post('delete', 'Admin\DeveloperController@destroy')->name('developer.delete');
 });
 /********************** Agent listing**************/
@@ -109,7 +111,7 @@ Route::prefix('agent')->group(function () {
     Route::get('edit/{id}', 'Admin\AgentController@edit')->name('agent.edit');
     Route::post('store', 'Admin\AgentController@store')->name('agent.store');
     Route::post('update/{id}', 'Admin\AgentController@update')->name('agent.update');
-    Route::post('show', 'Admin\AgentController@show')->name('agent.show');
+    Route::get('view/{id}', 'Admin\AgentController@view')->name('agent.view');
     Route::post('delete', 'Admin\AgentController@destroy')->name('agent.delete');
 
     Route::get('/type/company/create', 'Admin\AgentController@create_company_type_agent')->name('agent.type.company.create');
@@ -321,6 +323,7 @@ Route::prefix('rent-inquiry')->group(function () {
     Route::get('create', 'Admin\RentEnquiryController@create')->name('rentEnquiry.create');
     Route::post('store', 'Admin\RentEnquiryController@store')->name('rentEnquiry.store');
     Route::post('fetch', 'Admin\RentEnquiryController@fetch')->name('rentEnquiry.fetch');
+    Route::post('archive', 'Admin\RentEnquiryController@archive')->name('rentEnquiry.archive');
 });
 
 Route::prefix('sales-inquiry')->group(function () {
@@ -328,6 +331,7 @@ Route::prefix('sales-inquiry')->group(function () {
     Route::get('create', 'Admin\SalesEnquiryController@create')->name('salesEnquiry.create');
     Route::post('store', 'Admin\SalesEnquiryController@store')->name('salesEnquiry.store');
     Route::post('fetch', 'Admin\SalesEnquiryController@fetch')->name('salesEnquiry.fetch');
+    Route::post('archive', 'Admin\SalesEnquiryController@archive')->name('salesEnquiry.archive');
 });
 
 /*------------maintenance routes ------------------*/

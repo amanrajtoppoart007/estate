@@ -3,7 +3,7 @@
 namespace App\Library;
 
 use App\OwnerAuthPerson;
-
+use App\Helpers\GlobalHelper;
 class EditOwnerAuthPerson
 {
     var $request;
@@ -20,40 +20,50 @@ class EditOwnerAuthPerson
     public function execute()
     {
 
-        $update['email'] = $this->request->auth_person_email ? $this->request->auth_person_email : null;
-        $update['name'] = $this->request->auth_person_name ? $this->request->auth_person_name : null;
-        $update['mobile'] = ($this->request->auth_person_mobile) ? $this->request->auth_person_mobile : null;
-        $update['country_code'] = ($this->request->auth_person_country_code) ? $this->request->auth_person_country_code : null;
-        $update['designation'] = ($this->request->auth_person_designation) ? $this->request->auth_person_designation : null;
+        $params['email'] = $this->request->auth_person_email ? $this->request->auth_person_email : null;
+        $params['name'] = $this->request->auth_person_name ? $this->request->auth_person_name : null;
+        $params['mobile'] = ($this->request->auth_person_mobile) ? $this->request->auth_person_mobile : null;
+        $params['country_code'] = ($this->request->auth_person_country_code) ? $this->request->auth_person_country_code : null;
+        $params['designation'] = ($this->request->auth_person_designation) ? $this->request->auth_person_designation : null;
         if($this->request->hasFile('auth_person_emirates_id_doc'))
         {
-            $update['emirates_id'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_emirates_id_doc', 'owner/auth_persons');
+            $params['emirates_id'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_emirates_id_doc', 'owner/auth_persons');
         }
 
         if($this->request->hasFile('auth_person_passport'))
         {
-            $update['passport'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_passport', 'owner/auth_persons');
+            $params['passport'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_passport', 'owner/auth_persons');
         }
         if($this->request->hasFile('auth_person_visa'))
         {
-            $update['visa'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_visa', 'owner/auth_persons');
+            $params['visa'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_visa', 'owner/auth_persons');
         }
 
        if($this->request->hasFile('auth_person_power_of_attorney'))
         {
-            $update['poa'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_power_of_attorney', 'owner/auth_persons');
+            $params['poa'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_power_of_attorney', 'owner/auth_persons');
         }
 
-        $update['admin_id'] = $this->admin_id;
-        $update['owner_id'] = $this->owner_id;
-        $update['emirates_id_exp_date'] = $this->request->auth_person_emirates_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_emirates_exp_date)) : null;
-        $update['passport_exp_date'] = $this->request->auth_person_passport_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_passport_exp_date)) : null;
-        $update['visa_exp_date'] = $this->request->auth_person_visa_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_visa_exp_date)) : null;
-        $update['poa_exp_date'] = $this->request->auth_person_visa_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_visa_exp_date)) : null;
+        $params['admin_id'] = $this->admin_id;
+        $params['owner_id'] = $this->owner_id;
+        $params['emirates_id_exp_date'] = $this->request->auth_person_emirates_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_emirates_exp_date)) : null;
+        $params['passport_exp_date'] = $this->request->auth_person_passport_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_passport_exp_date)) : null;
+        $params['visa_exp_date'] = $this->request->auth_person_visa_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_visa_exp_date)) : null;
+        $params['poa_exp_date'] = $this->request->auth_person_visa_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_visa_exp_date)) : null;
 
-        if(OwnerAuthPerson::where(['owner_id' => $this->owner_id])->update($update))
+        if(OwnerAuthPerson::where(['owner_id' => $this->owner_id])->first())
         {
-            return true;
+            if(OwnerAuthPerson::where(['owner_id' => $this->owner_id])->update($params))
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if(OwnerAuthPerson::create($params))
+            {
+                return true;
+            }
         }
         return false;
     }

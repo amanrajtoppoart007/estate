@@ -401,7 +401,7 @@
                                </div>
                            </div>
                        </div>
-                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 d-none">
                            <div class="form-group">
                                <label for="bank_passbook_exp_date">Bank Statement (Expiry Date)</label>
                                <div class="input-group">
@@ -440,10 +440,10 @@
                         @if(!($tenant->relations->isEmpty()))
                           @foreach($tenant->relations as $relation)
                               @php
-                                $rel_amirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
+                                $rel_emirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
                                    if(!empty($relation->emirates_id))
                                    {
-                                       $rel_amirates_id = route('get.doc',base64_encode($relation->emirates_id));
+                                       $rel_emirates_id = route('get.doc',base64_encode($relation->emirates_id));
                                    }
                                    if(!empty($relation->passport))
                                    {
@@ -460,11 +460,11 @@
                                 <td><input type="text" class="form-control"  name="rel_relationship[]" value="{{$relation->relationship}}"></td>
                                 <td>
                                     <div class="input group">
-                                        <input type="file" class="form-control"  name="rel_amirates_id[]">
+                                        <input type="file" class="form-control"  name="rel_emirates_id[]">
                                         <div class="input-group-append">
                                            <span class="input-group-text">
                                                <a data-toggle="tooltip" title="Click to view the file"
-                                                  href="{{$rel_amirates_id}}" {{($relation->amirates_id)?'target=_blank':''}}>
+                                                  href="{{$rel_emirates_id}}" {{($relation->emirates_id)?'target=_blank':''}}>
                                                    <i class="fa fa-file"></i>
                                                </a>
                                            </span>
@@ -510,7 +510,7 @@
                               <td><input type="hidden" name="rel_id[]" value=""> #</td>
                               <td><input type="text" class="form-control" name="rel_name[]" value=""></td>
                               <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
-                              <td><input type="file" class="form-control" name="rel_amirates_id[]"></td>
+                              <td><input type="file" class="form-control" name="rel_emirates_id[]"></td>
                               <td><input type="file" class="form-control" name="rel_passport[]"></td>
                               <td><input type="file" class="form-control" name="rel_visa[]"></td>
                               <td>
@@ -714,7 +714,7 @@
 	var str = `<tr><td>#</td>
     <td> <input type="text" class="form-control" name="rel_name[]" value=""> </td>
     <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
-    <td><input type="file" class="form-control" name="rel_amirates_id[]"></td>
+    <td><input type="file" class="form-control" name="rel_emirates_id[]"></td>
     <td><input type="file" class="form-control" name="rel_passport[]"></td>
     <td><input type="file" class="form-control" name="rel_visa[]"></td>
     <td>

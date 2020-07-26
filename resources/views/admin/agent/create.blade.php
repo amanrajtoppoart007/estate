@@ -291,8 +291,10 @@
              </div>
          </div>
         <div class="row">
-            <div class="col-md-12">
-                <button class="btn btn-success float-right" type="submit">Save</button>
+            <div class="col-md-12 text-right">
+                <input type="hidden" name="action" id="action" value="">
+                <button id="action_save" class="btn btn-success  submit_form_btn mx-1" type="submit">Save</button>
+                <button  id="action_preview" class="btn btn-success  submit_form_btn mx-1" type="submit">Preview</button>
             </div>
         </div>
         {{Form::close()}}
@@ -309,6 +311,15 @@
 @section('script')
   <script>
        $(document).ready(function(){
+
+            $(document).on("click",".submit_form_btn",function(e){
+               e.stopPropagation();
+               let action = $(this).attr("id");
+               $("#action").val(action);
+               e.enableEventPropagation();
+
+           });
+
            $('[data-mask]').inputmask();
 
            let pickers =
@@ -337,23 +348,30 @@
             });
             $("#remove_profile_image").click(function(){
                 $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                var file = document.getElementById("profile_image");
+                let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#add_data_form").on('submit',function(e){
                 e.preventDefault();
-                var url = "{{route('agent.store')}}";
-                var params = new FormData(document.getElementById('add_data_form'));
+                let url = "{{route('agent.store')}}";
+                let params = new FormData(document.getElementById('add_data_form'));
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
+                   let next_action = $("#action").val();
+                    if (next_action === "action_preview") {
+                        if (result.data.next_route) {
+                            window.location.href = result.data.next_route;
+                        }
+                    }
+
                    $("#add_data_form")[0].reset();
                    $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                };
+                }
                 function fn_error(result)
                 {
                     toast('error',result.message,'bottom-right');
-                };
+                }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             });
        });

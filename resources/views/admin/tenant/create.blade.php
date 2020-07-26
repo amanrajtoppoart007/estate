@@ -315,7 +315,7 @@
                                </div>
                            </div>
                        </div>
-                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 d-none">
                            <div class="form-group">
                                <label for="bank_passbook_exp_date">Bank Statement (Expiry Date)</label>
                                <div class="input-group">
@@ -324,7 +324,7 @@
                                           <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="bank_passbook_exp_date" id="bank_passbook_exp_date" value="">
+                               <input type="text" class="form-control" name="bank_passbook_exp_date" id="bank_passbook_exp_date" value="{{date('d-m-Y')}}">
                                </div>
                            </div>
                        </div>
@@ -343,7 +343,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Relation/Designation</th>
-                                <th>Amirates Id</th>
+                                <th>Emirates  Id</th>
                                 <th>Passport</th>
                                 <th>Visa</th>
                                 <th>add/remove</th>
@@ -354,7 +354,7 @@
                                 <td>#</td>
                                 <td> <input type="text" class="form-control"  name="rel_name[]" value=""> </td>
                                 <td><input type="text" class="form-control"  name="rel_relationship[]" value=""></td>
-                                <td><input type="file" class="form-control"  name="rel_amirates_id[]"></td>
+                                <td><input type="file" class="form-control"  name="rel_emirates_id[]"></td>
                                 <td><input type="file" class="form-control"  name="rel_passport[]"></td>
                                 <td><input type="file" class="form-control"  name="rel_visa[]"></td>
                                 <td>
@@ -552,7 +552,7 @@
 	var str = `<tr><td>#</td>
     <td> <input type="text" class="form-control" name="rel_name[]" value=""> </td>
     <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
-    <td><input type="file" class="form-control" name="rel_amirates_id[]"></td>
+    <td><input type="file" class="form-control" name="rel_emirates_id[]"></td>
     <td><input type="file" class="form-control" name="rel_passport[]"></td>
     <td><input type="file" class="form-control" name="rel_visa[]"></td>
     <td>
