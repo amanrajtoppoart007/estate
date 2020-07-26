@@ -1,4 +1,4 @@
-{{Form::open(['id'=>'add_unit_form'])}}
+{{Form::open(['id'=>'add_unit_form','autocomplete'=>'off'])}}
 <input type="hidden" name="property_id" id="property_id" value="">
 <input type="hidden" name="title" id="title" value="">
 <div class="modal" tabindex="-1" role="dialog" id="addUnitModal">

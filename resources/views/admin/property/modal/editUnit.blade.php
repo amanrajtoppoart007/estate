@@ -1,4 +1,4 @@
-{{Form::open(['id'=>'edit_unit_data_form'])}}
+{{Form::open(['id'=>'edit_unit_data_form','autocomplete'=>'off'])}}
 <input type="hidden" name="unit_id" id="edit_property_unit_id" value="">
 <div class="modal" tabindex="-1" role="dialog" id="editModal">
 	<div class="modal-dialog modal-xl" role="document">
