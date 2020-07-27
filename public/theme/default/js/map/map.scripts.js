@@ -2,8 +2,9 @@
 //google.maps.event.addDomListener(window, 'load', init(_latitude, _longitude));
 
 function init(_latitude, _longitude) {
-	var mapOptions = {
+	let mapOptions = {
 		zoom: 18,
+        mapTypeId: 'satellite',
 		center: new google.maps.LatLng(_latitude, _longitude), // New York
 		styles: [
 					{
@@ -87,12 +88,12 @@ function init(_latitude, _longitude) {
 				]
 	};
 
-	var mapElement = document.getElementById('map');
-	var base_url = $('meta[name="base-url"]').attr('content');
-	var icon_url = base_url + '/img/map_marker.png';
-	var map = new google.maps.Map(mapElement, mapOptions);
-	var geocoder = new google.maps.Geocoder();
-	var marker = new google.maps.Marker({
+	let mapElement = document.getElementById('map');
+	let base_url = $('meta[name="base-url"]').attr('content');
+	let icon_url = base_url + '/img/map_marker.png';
+	let map = new google.maps.Map(mapElement, mapOptions);
+	let geocoder = new google.maps.Geocoder();
+	let marker = new google.maps.Marker({
 		position: new google.maps.LatLng(_latitude, _longitude),
 		map: map,
 		icon: icon_url,
@@ -103,11 +104,11 @@ function init(_latitude, _longitude) {
 		document.getElementById('latitude').value = evt.latLng.lat();
 		document.getElementById('longitude').value = evt.latLng.lng();
 		geocoder.geocode({'latLng': evt.latLng},function(result,status){
-			if (status ==google.maps.GeocoderStatus.OK) 
+			if (status ==google.maps.GeocoderStatus.OK)
 			{
 				document.getElementById('address').value = result[0].formatted_address;
 			}
-			 else 
+			 else
 			 {
 				alert('Geocoder failed due to: ' + status);
 			 }

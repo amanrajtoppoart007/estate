@@ -35,8 +35,6 @@ class StorePropertyUnit extends FormRequest
             'furnishing' => 'required',
             'balcony' => 'required|numeric',
             'parking' => 'required',
-            'kitchen' => 'numeric',
-            'hall' => 'numeric',
             'rent_type' => 'required',
             'unit_price' => 'required|numeric',
             'agent_id'=>'required|numeric',

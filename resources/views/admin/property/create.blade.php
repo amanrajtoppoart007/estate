@@ -309,12 +309,50 @@
 @endsection
 @section('js')
 <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}"></script>
+<!--script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}"></script-->
 <script src="{{asset('theme/default/js/map/map.scripts.js')}}"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}&libraries=places"></script>
 @endsection
 
 @section('script')
 <script>
+    let autocomplete;
+    function initAutocomplete() {
+
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('address'), {types: ['establishment']});
+
+        //autocomplete.setFields(['address_component']);
+
+        autocomplete.addListener('place_changed', fillInAddress);
+    }
+
+   function fillInAddress() {
+  // Get the place details from the autocomplete object.
+  let place = autocomplete.getPlace();
+
+  let _latitude = autocomplete.getPlace().geometry.location.lat();
+  let _longitude = autocomplete.getPlace().geometry.location.lng();
+  init(_latitude, _longitude);
+
+  document.getElementById('latitude').value = _latitude;
+  document.getElementById('longitude').value = _longitude;
+
+}
+    function geo_locate() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                let circle = new google.maps.Circle(
+                    {center: geolocation, radius: position.coords.accuracy});
+                autocomplete.setBounds(circle.getBounds());
+            });
+        }
+    }
+
 	(function($) {
 		let _latitude = 25.204850;
 		let _longitude = 55.270862;
