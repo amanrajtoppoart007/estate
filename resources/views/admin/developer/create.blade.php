@@ -713,6 +713,7 @@
                    'auth_person_passport_exp_date',
                    'auth_person_poa_exp_date',
                    'license_expiry_date',
+                   'auth_poa_exp_date'
                ];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});

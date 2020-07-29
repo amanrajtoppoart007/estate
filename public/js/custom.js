@@ -34,7 +34,8 @@
             showHideTransition: 'slide',
             loaderBg: '#9EC600',
             position: `${placement}`,
-            stack: false
+            stack: false,
+            hideAfter: 5000
         });
     };
     $.swal = function (title, text, icon) {
