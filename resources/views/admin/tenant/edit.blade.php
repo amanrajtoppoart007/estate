@@ -16,7 +16,9 @@
                                         <label  for="tenant_type">Tenant Type <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text">
+                                                  <i class="fa fa-window-maximize" aria-hidden="true"></i>
+                                             </span>
                                          </div>
                                         <select name="tenant_type" id="tenant_type" class="form-control">
                                             <option value="">Select Tenancy</option>
@@ -54,7 +56,7 @@
                                         <label for="email">Email <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                          </div>
                                         <input type="text" name="email" id="email" class="form-control" autocomplete="off" value="{{$tenant->email}}">
                                      </div>
@@ -65,7 +67,7 @@
                                         <label for="password">Password <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                          </div>
                                        <input type="text" name="password" class="choose_file form-control" autocomplete="off" value="">
                                      </div>
@@ -94,7 +96,7 @@
                                         <label for="country">Nationality <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                          </div>
                                              <select name="country" id="country" class="form-control">
                                                  <option>Select Country</option>
@@ -111,7 +113,7 @@
                                         <label for="city">City <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
                                          </div>
                                          <input type="text" name="city" class="form-control" value="{{($tenant->profile)?$tenant->profile->city:null}}">
                                      </div>
@@ -122,7 +124,9 @@
                                         <label for="address">Address <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text">
+                                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                             </span>
                                          </div>
                                          <textarea type="text" name="address" id="address" class="form-control">
                                              {{($tenant->profile)?$tenant->profile->address:null}}
@@ -135,7 +139,9 @@
                                         <label for="dob">Date Of Birth</label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text">
+                                                 <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                                             </span>
                                          </div>
                                          <input type="text" name="dob" id="dob" class="form-control" value="{{($tenant->profile)?$tenant->profile->dob:null}}" placeholder="DD-MM-YY (Optional)">
                                      </div>
@@ -146,7 +152,9 @@
                                         <label for="tenant_count">Tenant Count <span class="text-danger">*</span> <small>(Including the applicant/primary tenant)</small></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                             <span class="input-group-text">
+                                                 <i class="fa fa-calculator" aria-hidden="true"></i>
+                                             </span>
                                          </div>
                                          <input type="text" name="tenant_count" id="tenant_count" class="form-control numeric" placeholder="Enter number of tenants" value="{{($tenant->profile)?$tenant->profile->tenant_count:0}}">
                                      </div>
@@ -193,7 +201,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fa fa-passport"></i>
+                                          <i class="fa fa-users"></i>
                                       </span>
                                   </div>
                                <input type="text" class="form-control" name="company_name" id="company_name" value="{{($tenant->profile)?$tenant->profile->company_name:null}}">
@@ -206,7 +214,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fa fa-passport"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="trade_licence" id="trade_licence" value="">
@@ -242,7 +250,7 @@
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
-                                <i class="fa fa-passport"></i>
+                                <i class="fa fa-file" aria-hidden="true"></i>
                             </span>
                         </div>
                      <input type="file" class="form-control" name="emirates_id" id="emirates_id" value="">
@@ -329,7 +337,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="bank_passbook" id="bank_passbook" value="">
@@ -360,7 +368,7 @@
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
-                                <i class="fa fa-passport"></i>
+                                <i class="fa fa-file" aria-hidden="true"></i>
                             </span>
                         </div>
                      <input type="text" class="form-control" name="emirates_id_exp_date" id="emirates_id_exp_date" value="{{$tenant->profile->emirates_id_exp_date ? date('d-m-Y',strtotime($tenant->profile->emirates_id_exp_date)):null}}">
@@ -393,13 +401,13 @@
                                </div>
                            </div>
                        </div>
-                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 d-none">
                            <div class="form-group">
                                <label for="bank_passbook_exp_date">Bank Statement (Expiry Date)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                         <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="text" class="form-control" name="bank_passbook_exp_date" id="bank_passbook_exp_date" value="{{$tenant->profile->bank_passbook_exp_date ? date('d-m-Y',strtotime($tenant->profile->bank_passbook_exp_date)):null}}">
@@ -432,10 +440,10 @@
                         @if(!($tenant->relations->isEmpty()))
                           @foreach($tenant->relations as $relation)
                               @php
-                                $rel_amirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
+                                $rel_emirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
                                    if(!empty($relation->emirates_id))
                                    {
-                                       $rel_amirates_id = route('get.doc',base64_encode($relation->emirates_id));
+                                       $rel_emirates_id = route('get.doc',base64_encode($relation->emirates_id));
                                    }
                                    if(!empty($relation->passport))
                                    {
@@ -452,11 +460,11 @@
                                 <td><input type="text" class="form-control"  name="rel_relationship[]" value="{{$relation->relationship}}"></td>
                                 <td>
                                     <div class="input group">
-                                        <input type="file" class="form-control"  name="rel_amirates_id[]">
+                                        <input type="file" class="form-control"  name="rel_emirates_id[]">
                                         <div class="input-group-append">
                                            <span class="input-group-text">
                                                <a data-toggle="tooltip" title="Click to view the file"
-                                                  href="{{$rel_amirates_id}}" {{($relation->amirates_id)?'target=_blank':''}}>
+                                                  href="{{$rel_emirates_id}}" {{($relation->emirates_id)?'target=_blank':''}}>
                                                    <i class="fa fa-file"></i>
                                                </a>
                                            </span>
@@ -502,7 +510,7 @@
                               <td><input type="hidden" name="rel_id[]" value=""> #</td>
                               <td><input type="text" class="form-control" name="rel_name[]" value=""></td>
                               <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
-                              <td><input type="file" class="form-control" name="rel_amirates_id[]"></td>
+                              <td><input type="file" class="form-control" name="rel_emirates_id[]"></td>
                               <td><input type="file" class="form-control" name="rel_passport[]"></td>
                               <td><input type="file" class="form-control" name="rel_visa[]"></td>
                               <td>
@@ -530,7 +538,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="no_sharing_agreement" id="no_sharing_agreement" value="">
@@ -560,7 +568,7 @@
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
+                                          <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="marriage_certificate" id="marriage_certificate" value="">
@@ -706,7 +714,7 @@
 	var str = `<tr><td>#</td>
     <td> <input type="text" class="form-control" name="rel_name[]" value=""> </td>
     <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
-    <td><input type="file" class="form-control" name="rel_amirates_id[]"></td>
+    <td><input type="file" class="form-control" name="rel_emirates_id[]"></td>
     <td><input type="file" class="form-control" name="rel_passport[]"></td>
     <td><input type="file" class="form-control" name="rel_visa[]"></td>
     <td>

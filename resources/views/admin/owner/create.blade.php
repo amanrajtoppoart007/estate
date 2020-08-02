@@ -20,7 +20,7 @@
  <div class="card" style="box-shadow: none;">
      <div class="card-body">
          {{Form::open(['route'=>'owner.store','id'=>'add_data_form','autocomplete'=>'off'])}}
-
+         <input type="hidden" name="owner_type" value="flat_owner">
           <div class="card card-info">
               <div class="card-header">
                 <h6>Owner Details</h6>
@@ -29,29 +29,14 @@
                   <div class="row">
             <div class="col-sm-6 col-md-8 row">
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="form-group">
-                                <label for="owner_type">Owner Type</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <select  class="form-control" name="owner_type" id="owner_type">
-                                        <option value="">Owner Type</option>
-                                        <option value="developer">Developer</option>
-                                        <option value="flat_owner">Flat Owner</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                     <div class="form-group">
-                        <label for="firm_type">Firm Type</label>
+                        <label for="firm_type">Owner Type</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
                             <select class="form-control" name="firm_type" id="firm_type">
-                                <option value="">Firm Type</option>
+                                <option value="">Owner Type</option>
                                 <option value="individual">individual</option>
                                 <option value="company">Company</option>
                             </select>
@@ -155,7 +140,7 @@
             <div class="card-body">
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-                 <div class="form-group">copy
+                 <div class="form-group">
                      <label for="emirates_id_doc">Emirates Id(scanned copy) </label>
                      <div class="input-group">
                         <div class="input-group-prepend">
@@ -683,13 +668,19 @@
             </div>
         </div>
         <div class="row">
+            <input type="hidden" id="action" name="action" value="">
             <div class="col-md-12 text-right">
-                <button class="btn btn-success active" type="submit">Save</button>
+                <button id="action_save"  class="btn btn-success  save_action_btn" type="submit">Save</button>
+                <button id="action_preview" class="btn btn-success  save_action_btn" type="submit">Preview</button>
+                {{--<button id="action_allocate_unit" class="btn btn-success  save_action_btn" type="submit">Allocate Unit</button>--}}
             </div>
         </div>
         {{Form::close()}}
      </div>
  </div>
+@endsection
+@section('modal')
+    @include("admin.owner.allocate")
 @endsection
  @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
@@ -708,6 +699,14 @@
   <script>
        $(document).ready(function(){
 
+           $(document).on("click",".save_action_btn",function(e){
+               e.stopPropagation();
+               let action = $(this).attr("id");
+               $("#action").val(action);
+               e.enableEventPropagation();
+
+           });
+
            $("#add_auth_person_detail_btn").on("click",function(){
               if($("#authorised_person_required").is(":checked")) {
                   $("#authorised_person_required").prop({"checked": false});
@@ -725,17 +724,33 @@
                    'poa_exp_date',
                    'auth_person_emirates_exp_date',
                    'auth_person_visa_exp_date',
-                   'auth_poa_exp_date',
                    'auth_person_passport_exp_date',
-                   'auth_person_poa_exp_date',
-                   'license_expiry_date'
+                   'auth_poa_exp_date',
+                   'license_expiry_date',
                ];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
            });
 
+           function activate_date_pickers() {
+               let class_based_date_pickers = [
+                   'purchase_date'
+               ];
+               class_based_date_pickers.forEach(function (item) {
+                   $(`.${item}`).each(function (el) {
+                       el.datepicker({
+                           footer: true,
+                           modal: true,
+                           format: 'dd-mm-yyyy',
+                           maxDate: '{{now()->format('d-m-Y')}}'
+                       });
+                   });
 
-           $("#firm_type").on("change",function(){
+               });
+           }
+
+
+           $("#owner_type").on("change",function(){
                if($(this).val()==='individual')
                {
                    $(".owner_type_company_grid").hide();
@@ -775,19 +790,51 @@
             });
             $("#add_data_form").on('submit',function(e){
                 e.preventDefault();
-                var url = "{{route('owner.store')}}";
-                var params = new FormData(document.getElementById('add_data_form'));
+                let url = "{{route('owner.store')}}";
+                let params = new FormData(document.getElementById('add_data_form'));
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
                    $("#add_data_form")[0].reset();
-                };
+                   let action = result.next_action;
+                    switch (action) {
+                        case "save":
+                            break;
+                        case "preview":
+                            window.location.href = result.next_url;
+                            break;
+                        case "allocate_unit":
+                            $("#allocate_unit_modal").modal("show");
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
                 function fn_error(result)
                 {
                     toast('error',result.message,'bottom-right');
-                };
+                }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
-            })
+            });
+
+            $("#property_id").on("change",function(e){
+                 $("#unit_id").html(null);
+                let url = "{{route('owner.get.property.units')}}";
+                let params = { property_id : $(this).val()};
+                function success(result)
+                {
+                    let html = `<option value="">Select Flat</option>`;
+                    $.each(result.data,function(index,item){
+                        html+=`<option value="${item.id}">${item.flat_house_no}</option>`;
+                    });
+                    $("#unit_id").append(html);
+                }
+                function error(result)
+                {
+                    toast('error',result.message,'bottom-right');
+                }
+            });
        });
   </script>
 @endsection

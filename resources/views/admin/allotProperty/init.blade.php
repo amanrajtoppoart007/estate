@@ -50,15 +50,15 @@
                   <tbody>
                     <tr>
                       <th>Name</th>
-                      <td>{{$property_unit->owner->name}}</td>
+                      <td>{{$property_unit ? ($property_unit->owner ? $property_unit->owner->name:null): null}}</td>
                       <th>Nationality</th>
-                      <td>{{$property_unit->owner->country}}</td>
+                      <td>{{$property_unit ? ($property_unit->owner ? $property_unit->owner->country:null) : null}}</td>
                       <th>Mobile</th>
-                      <td>{{$property_unit->owner->mobile}}</td>
+                      <td>{{$property_unit ? ($property_unit->owner ? $property_unit->owner->mobile: null): null}}</td>
                     </tr>
                     <tr>
                       <th>Email Id</th>
-                      <td>{{$property_unit->owner->email}}</td>
+                      <td>{{$property_unit ? ($property_unit->owner ? $property_unit->owner->email: null): null}}</td>
                       <th></th>
                       <td></td>
                       <th></th>
@@ -108,7 +108,11 @@
                     <select name="state_id" id="state_id" class="form-control">
                       <option value="">Select State</option>
                       @foreach($states as $state)
-                          @php $selected = ($property_unit->property->state_id==$state->id)?"selected":"";  @endphp
+                          @if(!empty($property_unit->property->state_id))
+                             @php $selected = ($property_unit->property->state_id==$state->id)?"selected":"";  @endphp
+                            @else
+                              @php $selected = null; @endphp
+                            @endif
                         <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
                       @endforeach
                     </select>
@@ -146,10 +150,18 @@
                   <div class="form-group">
                   <label for="property_unit_type_id">Property Unit Type</label>
                   <select class="form-control" name="property_unit_type_id" id="property_unit_type_id">
+                      @if(!empty($property_unit->property->propertyUnitTypes))
                       @foreach($property_unit->property->propertyUnitTypes as $propertyUnitType)
+                          @if(!empty($property_unit->propertyUnitType->id))
                            @php $selected = ($property_unit->propertyUnitType->id==$propertyUnitType->id)?"selected":"";  @endphp
+                          @else
+                              @php $selected = null; @endphp
+                              @endif
                           <option value="{{$propertyUnitType->id}}">{{$propertyUnitType->title}}</option>
                       @endforeach
+                      @else
+                          <option value="">Select Property Unit</option>
+                       @endif
                   </select>
                 </div>
               </div>
@@ -157,10 +169,12 @@
                   <div class="form-group">
                   <label for="unit_id">Property Unit</label>
                   <select class="form-control" name="unit_id" id="unit_id">
+                      @if(!empty($property_unit->property->property_units))
                        @foreach($property_unit->property->property_units as $unit)
                            @php $selected = ($property_unit->id==$unit->id)?"selected":"";  @endphp
                           <option value="{{$unit->id}}">{{$unit->unitcode}}</option>
                       @endforeach
+                          @endif
                   </select>
                 </div>
               </div>
@@ -224,7 +238,7 @@
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="rent_amount">Rent Amount</label>
+                    <label for="rent_amount">Total Rent Amount</label>
                     <input type="text" class="form-control" name="rent_amount" id="rent_amount" value="">
                   </div>
                 </div>
@@ -239,10 +253,10 @@
             </div>
 
     <div class="card card-body">
-        <div class="row">
+        {{--<div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="security_deposit"> Parking</label>
+                    <label for="parking"> Parking</label>
                 </div>
             </div>
             <div class="col-md-4">
@@ -255,7 +269,7 @@
                     <label for="municipality_fees"> <input type="radio" name="parking" value="1"> With Parking</label>
                 </div>
             </div>
-        </div>
+        </div>--}}
         <div class="row">
     <div class="col-md-12" style="overflow-x: scroll;">
         <table id="installment_table" class="mb-5">
@@ -268,11 +282,11 @@
                 <td class="padLeft100 inst text-center">1st</td>
             </tr>
             <tr id="row3">
-                <td class="width200">Security Deposite</td>
+                <td class="width200">Security Deposit</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="security_deposit[]" id="security_deposit_1" value="0" ></td>
             </tr>
             <tr id="row4">
-                <td class="width200">Municipality Fees (4% From rent value)</td>
+                <td class="width200">Municipality Fees (4% from rent value)</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="municipality_fees[]" id="municipality_fees_1" value="0"></td>
             </tr>
             <tr id="row5">
@@ -295,11 +309,11 @@
                 <td class="padLeft100"><input type="text" class="numeric" name="sewa_deposit[]" id="sewa_deposit_1" value="0"></td>
             </tr>
             <tr id="row9">
-                <td class="width200">MONTHLY INSTALLMENT:</td>
+                <td class="width200">Monthly Installment:</td>
                 <td class="padLeft100"><input type="text" name="monthly_installment[]" id="monthly_installment_1" class="numeric" readonly value="0"></td>
             </tr>
             <tr id="row10">
-                <td class="width200">TOTAL  PAYMENT:</td>
+                <td class="width200">Total  Payment:</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="total_monthly_installment[]" id="total_monthly_installment_1" readonly value="0"></td>
             </tr>
         </table>
@@ -324,16 +338,16 @@
 
                   switch (count) {
                       case 1:
-                          set = 'st';
+                          set = 'st Installment';
                           break;
                           case 2:
-                          set = 'nd';
+                          set = 'nd Installment';
                           break;
                           case 3:
-                          set = 'rd';
+                          set = 'rd Installment';
                           break;
                           default :
-                          set = 'th';
+                          set = 'th Installment';
                           break;
                   }
 
@@ -350,17 +364,20 @@
      let installments= $("#installments").val();
      let rent_amount= $("#rent_amount").val();
      let amtPer =  rent_amount/installments;
-              for(i=1;i<installments;i++)
+              for(let i=1;i<installments;i++)
               {
-                  $("#row2").append("<td class='inst dyn'></td>");
+                  let municipality_fees = (amtPer*4)/100;
+                  console.log(municipality_fees);
+                  let total_rent = amtPer + municipality_fees;
+                  $("#row2").append(`<td class="inst dyn"></td>`);
                   $("#row3").append(`<td class="dyn"></td>`);
-                  $("#row4").append(`<td class="dyn"><input type="text" name="municipality_fees[]" id="municipality_fees_${tr_count}" value="0"></td>`);
+                  $("#row4").append(`<td class="dyn"><input type="text" name="municipality_fees[]" id="municipality_fees_${tr_count}" value="${municipality_fees}"></td>`);
                   $("#row5").append(`<td class="dyn"><input type="text" name='brokerage[]' id="brokerage_${tr_count}" value="0"></td>`);
                   $("#row6").append(`<td class="dyn"><input type="text" name="contract[]" id="contract_${tr_count}" value="0"></td>`);
                   $("#row7").append("<td class='dyn'></td>");
                   $("#row8").append("<td class='dyn'></td>");
                   $("#row9").append(`<td class="dyn"><input type="text" id="monthly_installment_${tr_count}" name="monthly_installment[]" value="${amtPer}" readonly></td>`);
-                  $("#row10").append(`<td class="dyn"><input type="text" id="total_monthly_installment_${tr_count}" name="total_monthly_installment[]" value="${amtPer}"></td>`);
+                  $("#row10").append(`<td class="dyn"><input type="text" id="total_monthly_installment_${tr_count}" name="total_monthly_installment[]" value="${total_rent}"></td>`);
                   tr_count++;
               }
      generateInstNumber();
@@ -423,7 +440,7 @@
              }
              let monthly_rent = parseFloat(rent_amount)/installment;
              let security_deposit = ($(`#security_deposit_${i}`).val())?$(`#security_deposit_${i}`).val():0;
-             let municipality_fees = ($(`#municipality_fees_${i}`).val())?$(`#municipality_fees_${i}`).val():0;
+             let municipality_fees = (monthly_rent*4)/100;
              let brokerage = ($(`#brokerage_${i}`).val())?$(`#brokerage_${i}`).val():0;
              let contract = ($(`#contract_${i}`).val())?$(`#contract_${i}`).val():0;
              let sewa_deposit = ($(`#sewa_deposit_${i}`).val())?$(`#sewa_deposit_${i}`).val():0;
@@ -431,7 +448,8 @@
              let total = parseFloat(monthly_rent) + parseFloat(security_deposit) + parseFloat(municipality_fees) + parseFloat(brokerage) + parseFloat(contract) + parseFloat(sewa_deposit) + parseFloat(remote_deposit);
              $(`#monthly_installment_${i}`).val(monthly_rent);
              $(`#total_monthly_installment_${i}`).val(total);
-         };
+             $(`#municipality_fees_${i}`).val(municipality_fees);
+         }
 
          function calculateEndDate()
          {
@@ -511,7 +529,7 @@
             };
             function fn_success(result)
             {
-                 if(result.response=="success")
+                 if(result.response==="success")
                  {
                      $("#property_id").empty();
                      $("#property_id").append(`<option value="">Select Property</option>`);
@@ -538,7 +556,7 @@
             };
             function fn_success(result)
             {
-                 if(result.response=="success")
+                 if(result.response==="success")
                  {
                     $("#property_unit_type_id").append('<option value="">Select Unit Type</option>');
                      $.each(result.data,function(i,item)
@@ -564,7 +582,7 @@
             }
             function fn_success(result)
             {
-                 if(result.response=="success")
+                 if(result.response==="success")
                  {
                     $("#unit_id").append('<option value="">Select Unit</option>');
                      $.each(result.data,function(i,item)

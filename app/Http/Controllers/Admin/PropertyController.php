@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProperty;
 use App\Http\Requests\EditProperty;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\DataTable\Api;
 use App\Agent;
@@ -15,7 +16,6 @@ use App\State;
 use App\Country;
 use App\City;
 use App\PropertyType;
-use Auth;
 use App\Image;
 use App\Library\CreatePropertyImage;
 class PropertyController extends Controller
@@ -42,7 +42,7 @@ class PropertyController extends Controller
     public function create()
     {
         $agents        = Agent::where(['is_disabled'=>'0'])->get();
-        $owners        = Owner::where(['is_disabled'=>'0'])->get();
+        $owners        = Owner::where(['is_disabled'=>'0'])->whereIn('owner_type',['developer','both'])->get();
         $propertyTypes = PropertyType::where('is_disabled','0')->get();
         $countries     = Country::where('is_disabled','0')->get();
         $features      = Feature::where('is_disabled', '0')->get();
@@ -54,8 +54,8 @@ class PropertyController extends Controller
     {
 
         $request->validated();
-        $insert               = $request->only(['category_id','title','status', 'type', 'prop_for','description','address',
-            'city_id','state_id','country_id','zip','latitude', 'longitude','agent_id','owner_id','building_age','total_floors','total_flats','total_shops']);
+        $insert               = $request->only(['title','status', 'type', 'prop_for','description','address',
+            'city_id','state_id','country_id','zip','latitude', 'longitude','owner_id','completion_date','total_floors','total_flats','total_shops']);
         $features             = array_values($request->input('feature'));
         $insert['feature']    = implode(',', $features);
         $insert['admin_id']   = $admin_id = Auth::guard('admin')->user()->id;
@@ -64,24 +64,20 @@ class PropertyController extends Controller
         $property             = Property::create($insert);
         if($property)
         {
+            $images          =  new CreatePropertyImage($property->id,$propcode);
+            $images->execute($request);
+
             $prop_unit         = new \App\Library\StorePropertyUnitTypes($property->id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $propcode;
-            $prop_unit->handle($input);
-            $images          =  new CreatePropertyImage($property->id,$propcode);
-            $images->execute($request);
-            $res['status']   = '1';
-            $res['response'] = 'success';
-            $res['message']  = 'Property successfully created';
+            $prop_unit->handle($request,$input);
+            $result = ["status"=>1,"response"=>"success","message"=>"Property successfully created"];
         }
         else
         {
-            $res['status']   = '0';
-            $res['response'] = 'error';
-            $res['message']  = 'Property can not created successfully created';
+            $result = ["status"=>0,"response"=>"error","message"=>"Property can not created successfully created"];
         }
-        return response()->json($res,200);
-
+        return response()->json($result,200);
     }
 
     public function view($id)
@@ -129,8 +125,8 @@ class PropertyController extends Controller
     public function update(EditProperty $request, $id)
     {
         $request->validated();
-        $update               = $request->only(['title', 'type', 'prop_for','category_id', 'description', 'address',
-            'city_id', 'state_id', 'country_id', 'zip', 'latitude', 'longitude','agent_id','owner_id','building_age','total_floors','total_flats','total_shops']);
+        $update               = $request->only(['title', 'type', 'prop_for', 'description', 'address',
+            'city_id', 'state_id', 'country_id', 'zip', 'latitude', 'longitude','owner_id','completion_date','total_floors','total_flats','total_shops']);
         $features             = array_values($request->input('feature'));
         $update['feature']    = implode(', ', $features);
         $update['admin_id']   = $admin_id   = Auth::guard('admin')->user()->id;
@@ -139,7 +135,7 @@ class PropertyController extends Controller
             $action            = new \App\Library\UpdatePropertyUnitTypes($id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $request->propcode;
-            $action->handle($input);
+            $action->handle($request,$input);
             $images =  new CreatePropertyImage($id,$request->propcode);
             $images->execute($request);
             $res['status']   = '1';

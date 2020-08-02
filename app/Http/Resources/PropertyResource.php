@@ -26,7 +26,7 @@ class PropertyResource extends JsonResource
             'view_url' => route('property.view',$this->id),
             'is_disabled' => $this->is_disabled,
             'active_text' => ($this->is_disabled)?'In Active':'Active',
-            'primary_image' => (($this->images->first())['image_thumb'])?(asset(($this->images->first())['image_thumb'])):asset('theme/default/images/thumbnail/01.jpg'),
+            'primary_image' => $this->primary_image ? asset($this->primary_image) :asset('theme/default/images/thumbnail/01.jpg') ,
             'address'=> $this->full_address,
             'created_at' => date('Y-m-d h:i A',strtotime($this->created_at)),
             'updated_at' => date('Y-m-d h:i A',strtotime($this->updated_at)),

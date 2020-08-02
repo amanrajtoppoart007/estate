@@ -32,7 +32,7 @@ class EditProperty extends FormRequest
             'title' => 'required',
             'type' => 'required',
             'prop_for' => 'required',
-            'building_age' => 'required|numeric',
+            'completion_date' => 'required',
             'total_floors' => 'required|numeric',
             'total_flats' => 'required|numeric',
             //address detail
@@ -43,19 +43,12 @@ class EditProperty extends FormRequest
             'latitude' => 'required',
             'longitude' => 'required',
             //unit detail
-            'unit_type.*' => 'required',
+            'unit_series.*' => 'required',
             'unit_size.*' => 'required',
-            'rent_type.*' => 'required',
-            'rental_amount.*' => 'required|numeric',
-            'bedroom.*' => 'required|numeric',
-            'bathroom.*' => 'required|numeric',
-            'furnishing.*' => 'required',
+            'bedroom.*' => 'required',
+            'bathroom.*' => 'required',
             'balcony.*' => 'required',
             'parking.*' => 'required',
-            'kitchen.*' => 'numeric',
-            'hall.*' => 'numeric',
-            'total_unit.*' => 'required|numeric',
-
             //extra detail
             'description' => 'required',
             'feature'    => 'required|array|min:1',

@@ -69,8 +69,9 @@
                                     </div>
                                     <select  class="form-control" name="country_code" id="country_code">
                                         <option value="">Select Country</option>
-                                        <option value="UAE">UAE</option>
-                                        <option value="INDIA">INDIA</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{$country->code}}">{{$country->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -150,7 +151,15 @@
                         <tr>
                             <th>No. Of Bedrooms</th>
                             <td>
-                                <input type="text" class="form-control numeric" name="bedroom" id="bedroom" value="">
+                                <select class="form-control" name="bedroom" id="bedroom">
+                                    <option value="">Select no.</option>
+                                    @for($i=1;$i<7;$i++)
+
+                                        <option value="{{$i}}">{{$i}}</option>
+
+                                        @endfor
+                                    <option value="7+">7+</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -164,8 +173,8 @@
                             <td>
                                 <select name="tenancy_type" id="tenancy_type" class="form-control">
                                     <option value="">Select Tenancy</option>
-                                    <option value="family_hus_wife">Family (Husband & Wife)</option>
-                                    <option value="family_bro_sis">Family (Brother & Sister)</option>
+                                    <option value="family_husband_wife">Family (Husband & Wife)</option>
+                                    <option value="family_brother_sister">Family (Brother & Sister)</option>
                                     <option value="company">Company</option>
                                     <option value="bachelor">Bachelor</option>
                                 </select>
@@ -199,6 +208,12 @@
                                 </select>
                             </td>
                         </tr>
+                        <tr id="website_grid" class="d-none">
+                            <th>WebSite</th>
+                            <td>
+                                 <input type="text" class="form-control" name="website" id="website" value="">
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -213,6 +228,19 @@
 @section('script')
     <script>
         $(document).ready(function(){
+
+            $("#source").on("change",function(e){
+                e.preventDefault();
+                let value = $(this).val();
+                if(value==="website")
+                {
+                    $("#website_grid").removeClass("d-none");
+                }
+                else
+                {
+                     $("#website_grid").addClass("d-none");
+                }
+            });
             function render_image(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();

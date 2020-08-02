@@ -21,6 +21,7 @@
      <div class="card-body">
          {{Form::open(['route'=>'owner.store','id'=>'edit_data_form','autocomplete'=>'off'])}}
          <input type="hidden" name="owner_id" id="owner_id" value="{{$owner->id}}">
+         <input type="hidden" name="owner_type" value="{{$owner->owner_type}}">
           <div class="card card-info">
               <div class="card-header">
                 <h6>Owner Details</h6>
@@ -28,27 +29,9 @@
               <div class="card-body">
                   <div class="row">
             <div class="col-sm-6 col-md-8 row">
-            	<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="form-group">
-                                <label for="owner_type">Owner Type</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <select  class="form-control" name="owner_type" id="owner_type">
-                                        <option value="">Owner Type</option>
-                                        @php $types = ['developer'=>'Developer','flat_owner'=>'Flat Owner']; @endphp
-                                        @foreach($types as $key=>$value)
-                                            @php $selected = ($key===$owner->owner_type)?'selected':'';@endphp
-                                            <option value="{{$key}}" {{$selected}}>{{$value}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                  <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                     <div class="form-group">
-                        <label for="owner_type">Firm Type</label>
+                        <label for="firm_type">Owner Type</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -182,7 +165,7 @@
                      }
                 @endphp
                  <div class="form-group">
-                     <label for="emirates_id_doc">Emirates Id(scanned copay) </label>
+                     <label for="emirates_id_doc">Emirates Id(scanned copy) </label>
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -220,7 +203,7 @@
 
                      @endphp
                            <div class="form-group">
-                               <label for="passport">Passport (scanned copay)</label>
+                               <label for="passport">Passport (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -240,7 +223,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="visa">Visa (scanned copay)</label>
+                               <label for="visa">Visa (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -260,7 +243,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="power_of_attorney">Power Of Attorney (scanned copay)</label>
+                               <label for="power_of_attorney">Power Of Attorney (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -463,7 +446,7 @@
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                  <div class="form-group">
-                     <label for="auth_person_emirates_id_doc">Emirates Id(scanned copay) </label>
+                     <label for="auth_person_emirates_id_doc">Emirates Id(scanned copy) </label>
                      <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -485,7 +468,7 @@
               </div>
                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_person_passport">Passport (scanned copay)</label>
+                               <label for="auth_person_passport">Passport (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -507,7 +490,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_person_visa">Visa (scanned copay)</label>
+                               <label for="auth_person_visa">Visa (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -529,7 +512,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_person_power_of_attorney">Power Of Attorney (scanned copay)</label>
+                               <label for="auth_person_power_of_attorney">Power Of Attorney (scanned copy)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -560,7 +543,7 @@
                                 <i class="fa fa-passport"></i>
                             </span>
                         </div>
-                     <input type="text" class="form-control" name="auth_person_emirates_exp_date" id="auth_person_emirates_exp_date" value="{{($owner->auth_person->emirates_id_exp_date)?date('d-m-Y',strtotime($owner->auth_person->emirates_id_exp_date)):null}}">
+                     <input type="text" class="form-control" name="auth_person_emirates_exp_date" id="auth_person_emirates_exp_date" value="{{ $owner->auth_person ? ( ($owner->auth_person->emirates_exp_date)?date('d-m-Y',strtotime($owner->auth_person->emirates_exp_date)):null):null}}">
                      </div>
                  </div>
               </div>
@@ -573,7 +556,7 @@
                                           <i class="fa fa-passport"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_person_passport_exp_date" id="auth_person_passport_exp_date" value="{{($owner->auth_person->passport_exp_date)?date('d-m-Y',strtotime($owner->auth_person->passport_exp_date)):null}}">
+                               <input type="text" class="form-control" name="auth_person_passport_exp_date" id="auth_person_passport_exp_date" value="{{$owner->auth_person?( ($owner->auth_person->passport_exp_date)?date('d-m-Y',strtotime($owner->auth_person->passport_exp_date)):null):null}}">
                                </div>
                            </div>
                        </div>
@@ -586,7 +569,7 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_person_visa_exp_date" id="auth_person_visa_exp_date" value="{{($owner->auth_person->visa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->visa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="auth_person_visa_exp_date" id="auth_person_visa_exp_date" value="{{$owner->auth_person?(($owner->auth_person->visa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->visa_exp_date)):null):null}}">
                                </div>
                            </div>
                        </div>
@@ -599,7 +582,7 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_poa_exp_date" id="auth_poa_exp_date" value="{{($owner->auth_person->poa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->poa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="auth_poa_exp_date" id="auth_poa_exp_date" value="{{$owner->auth_person?(($owner->auth_person->poa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->poa_exp_date)):null):null}}">
                                </div>
                            </div>
                        </div>
@@ -839,7 +822,7 @@
                'auth_person_emirates_exp_date',
                'auth_person_visa_exp_date',
                'auth_person_passport_exp_date',
-               'auth_person_poa_exp_date',
+               'auth_poa_exp_date',
                'license_expiry_date'
            ];
            pickers.forEach(function(item){

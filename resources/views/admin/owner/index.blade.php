@@ -48,10 +48,11 @@
         }
         function renderActionBtn(data)
         {
-            return `<a href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-edit text-white"></i></a>`;
+            return `<a href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-edit text-white"></i></a>
+             <a href="${data.view_url}"  class="btn btn-info"><i class="fa fa-eye text-white"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-        var dataTable = $("#dataTable").dataTable({
+        let dataTable = $("#dataTable").dataTable({
                         dom   : '<"dt-buttons"Bf><"clear">lirtp',
                  processing   : true,
                    serverSide : true,
@@ -61,7 +62,9 @@
                         ajax  : {
                        url    : "{{route('owner.fetch')}}",
                        type   : "POST",
-                       data   : null,
+                       data   : function(d){
+                        d.owner_type = "flat_owner"
+                       },
                        error  : function(jqXHR,textStatus,errorThrown)
                        {
                            $.swal(textStatus,errorThrown,'error');
@@ -125,7 +128,7 @@
               $(document).on('click','.changeStatusBtn',function(e){
                   let statusBtn = $(this);
                   e.preventDefault();
-                  var params = {
+                  let params = {
                       'id'          : $(this).attr('data-id'),
                       'is_disabled' : $(this).attr('data-status')
                   }

@@ -46,10 +46,17 @@
         }
         function renderActionBtn(data)
         {
-            return `<a  href="javascript:void(0)" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-edit text-white"></i></a>`;
+            if(data.status===1)
+            {
+                return `<a title="Create Tenant"  href="javascript:void(0)"  class="btn btn-outline-success"><i class="fa fa-check"></i></a>`;
+            }
+            return `
+          <a title="Create Tenant"  href="${data.create_tenant_url}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-sign-in-alt text-white"></i></a>
+           <a title="Send current enquiry to archive folder"  href="javascript:void(0)" data-id="${data.id}" class="btn btn-danger deleteBtn"><i class="fa fa-file-archive text-white"></i></a>
+           `;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-        var dataTable = $("#dataTable").dataTable({
+        let dataTable = $("#dataTable").dataTable({
                         dom   : '<"dt-buttons"Bf><"clear">lirtp',
                  processing   : true,
                    serverSide : true,
@@ -69,8 +76,12 @@
                      columns : [
                                 { data : "created_at", name : "created_at"},
                                 { data : "name", name : "name"},
-                                { data : "country_code", name : "country_code"},
-                                { data : "email", name : "email"},
+                                { data : "country_name", name : "country_name"},
+                                { data : "email", name : "email",
+                                render:function(data,type,row,meta)
+                                {
+                                    return (row.email +" ,"+ row.mobile);
+                                 }},
                                 { data : "bedroom", name : "bedroom"},
                                 { data : "address", name : "address"},
                                 {
@@ -116,6 +127,22 @@
                                 }
             ],
               });
+
+        $(document).on('click','.deleteBtn',function(e){
+           e.preventDefault();
+           let params = { id : $(this).attr('data-id')};
+           let url    = '{{route('rentEnquiry.archive')}}';
+           function fn_success(result)
+           {
+               dataTable.api().ajax.reload();
+              toast('success',result.message,'top-right');
+           }
+           function fn_error(result)
+           {
+              toast('error',result.message,'top-right');
+           }
+           $.fn_ajax(url,params,fn_success,fn_error);
+         });
 	  });
   </script>
 @endsection

@@ -27,7 +27,6 @@ class StorePropertyUnit extends FormRequest
     public function rules()
     {
         return [
-            'title'=>'required',
             'flat_house_no'=>'required',
             'floor_no'=>'required',
             'unit_size' => 'required',

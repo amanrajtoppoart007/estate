@@ -78,20 +78,31 @@ class AgentController extends Controller
          }
 
         $store['admin_id'] = Auth::guard('admin')->user()->id;
-        if(Agent::create($store))
+        if($agent = Agent::create($store))
         {
-            return response()->json(['status'=>1,'response'=>'success','message'=>'Agent successfully created'],200);
+            $data['next_route'] = route("agent.view",$agent->id);
+            return response()->json(['status'=>1,'response'=>'success','data'=>$data,'message'=>'Agent successfully created'],200);
         }
         else
         {
-            return response()->json(['status'=>0,'response'=>'error','message'=>'Agent creattion failed'],200);
+            return response()->json(['status'=>0,'response'=>'error','message'=>'Agent creation failed'],200);
         }
     }
 
 
-    public function show($id)
+    public function view($id)
     {
-        //
+        $agent = Agent::find($id);
+        if($agent->agent_type=="individual")
+        {
+            $view = "admin.agent.view";
+        }
+        else
+        {
+            $view = "admin.agent.view-company";
+        }
+
+        return view($view,compact("agent"));
     }
 
 

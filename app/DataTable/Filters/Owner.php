@@ -14,7 +14,7 @@ class Owner
      */
     public static function apply(Builder $builder,$key, $value)
     {
-        if(method_exists(__CLASS__,$key)) 
+        if(method_exists(__CLASS__,$key))
         {
             $class = __CLASS__;
             return $class::$key($builder,$value);
@@ -32,16 +32,16 @@ class Owner
             }
           return $builder;
         }
-        else 
+        else
         {
             return $builder->where("name", 'LIKE', '%' . $value. '%');
         }
-       
+
     }
     public static function order(Builder $builder, $value)
     {
          $filter = new Filter();
-        if(is_array($value)) 
+        if(is_array($value))
         {
             $column      = $dir = null;
             $attributes  = ['id','name','created_at','updated','is_disabled'];
@@ -56,5 +56,14 @@ class Owner
             }
         }
         return $builder;
+    }
+
+    public static function owner_type(Builder $builder,$value)
+    {
+         if(!empty($value))
+         {
+             return $builder->where('owner_type',$value);
+         }
+         return $builder;
     }
 }

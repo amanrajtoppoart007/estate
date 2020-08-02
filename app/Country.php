@@ -25,4 +25,14 @@ class Country extends Model
     {
         return $this->hasMany('App\Tenant');
     }
+
+    public function rent_enquiries()
+    {
+        return $this->hasMany(RentEnquiry::class,"country_code","code");
+    }
+
+    public function sales_enquiries()
+    {
+        return $this->hasMany(SalesEnquiry::class,"country_code","code");
+    }
 }

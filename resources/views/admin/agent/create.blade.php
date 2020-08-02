@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Add Property Agent</h4>
+            <h4 class="m-0 text-dark">Add Property Agent (Individual Type)</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -20,7 +20,7 @@
 @section('content')
  <div class="card">
      <div class="card-body">
-         {{Form::open(['route'=>'owner.store','id'=>'add_data_form'])}}
+         {{Form::open(['route'=>'owner.store','id'=>'add_data_form','autocomplete'=>'off'])}}
 
           <div class="card card-info">
               <div class="card-header">
@@ -31,13 +31,13 @@
             <div class="col-sm-6 col-md-8 row">
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <div class="form-group">
-                                <label for="owner_type">Agent Type</label>
+                                <label for="agent_type">Broker Type</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                                     </div>
                                     <select   class="form-control" name="agent_type" id="agent_type" disabled>
-                                        <option value="">Owner Type</option>
+                                        <option value="">Broker Type</option>
                                         <option value="individual" selected>individual</option>
                                     </select>
                                     <input type="hidden" name="agent_type" value="individual">
@@ -108,11 +108,11 @@
                   <div class="row">
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="emirates_id_doc">Emirates Id scanned copy </label>
+                              <label for="emirates_id_doc">Emirates Id </label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                    <i class="fa fa-passport"></i>
+                                   <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
                                   <input type="file" class="form-control" name="emirates_id_doc"
@@ -122,7 +122,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="passport">Passport scanned copy</label>
+                              <label for="passport">Passport</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -136,7 +136,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="visa">Visa scanned copy</label>
+                              <label for="visa">Visa</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -152,11 +152,11 @@
                   <div class="row">
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="emirates_exp_date">Emirates ID expiry date </label>
+                              <label for="emirates_exp_date">Validity </label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                    <i class="fa fa-passport"></i>
+                                    <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
                                   <input type="text" class="form-control" name="emirates_exp_date"
@@ -166,7 +166,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="passport_exp_date">Passport expiry date</label>
+                              <label for="passport_exp_date">Validity</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -180,7 +180,7 @@
                       </div>
                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                           <div class="form-group">
-                              <label for="visa_exp_date">Visa expiry date</label>
+                              <label for="visa_exp_date">Validity</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -197,7 +197,7 @@
           </div>
         <div class="card card-info">
             <div class="card-header">
-                <h6>Bank Account Detail</h6>
+                <h6>Account Detail</h6>
             </div>
             <div class="card-body">
 
@@ -231,7 +231,7 @@
               </div>
           </div>
           <div class="form-group col-md-4">
-              <label for="bank_account">IBAN No.</label>
+              <label for="bank_account">IBAN Number</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>
@@ -291,8 +291,10 @@
              </div>
          </div>
         <div class="row">
-            <div class="col-md-12">
-                <button class="btn btn-success float-right" type="submit">Save</button>
+            <div class="col-md-12 text-right">
+                <input type="hidden" name="action" id="action" value="">
+                <button id="action_save" class="btn btn-success  submit_form_btn mx-1" type="submit">Save</button>
+                <button  id="action_preview" class="btn btn-success  submit_form_btn mx-1" type="submit">Preview</button>
             </div>
         </div>
         {{Form::close()}}
@@ -309,6 +311,15 @@
 @section('script')
   <script>
        $(document).ready(function(){
+
+            $(document).on("click",".submit_form_btn",function(e){
+               e.stopPropagation();
+               let action = $(this).attr("id");
+               $("#action").val(action);
+               e.enableEventPropagation();
+
+           });
+
            $('[data-mask]').inputmask();
 
            let pickers =
@@ -337,23 +348,30 @@
             });
             $("#remove_profile_image").click(function(){
                 $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                var file = document.getElementById("profile_image");
+                let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#add_data_form").on('submit',function(e){
                 e.preventDefault();
-                var url = "{{route('agent.store')}}";
-                var params = new FormData(document.getElementById('add_data_form'));
+                let url = "{{route('agent.store')}}";
+                let params = new FormData(document.getElementById('add_data_form'));
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
+                   let next_action = $("#action").val();
+                    if (next_action === "action_preview") {
+                        if (result.data.next_route) {
+                            window.location.href = result.data.next_route;
+                        }
+                    }
+
                    $("#add_data_form")[0].reset();
                    $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                };
+                }
                 function fn_error(result)
                 {
                     toast('error',result.message,'bottom-right');
-                };
+                }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             });
        });

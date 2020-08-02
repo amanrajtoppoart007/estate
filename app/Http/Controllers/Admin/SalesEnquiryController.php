@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Agent;
 use App\City;
+use App\Country;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\SalesEnquiry;
@@ -34,7 +35,8 @@ class SalesEnquiryController extends Controller
     {
         $agents = Agent::where(['is_disabled'=>'0'])->get();
         $cities = City::where(['is_disabled'=>'0'])->get();
-        return view('admin.salesEnquiry.create',compact('agents','cities'));
+        $countries = Country::where(['is_disabled'=>0])->get();
+        return view('admin.salesEnquiry.create',compact('agents','cities','countries'));
     }
 
         public function store(Request $request)
@@ -95,6 +97,14 @@ class SalesEnquiryController extends Controller
                  $store['emirates_exp_date']  = date('Y-m-d',strtotime($request->emirates_exp_date));
              }
 
+              if(!empty($request->source))
+             {
+                 if($request->source=="website")
+                 {
+                     $store['website'] = $request->website;
+                 }
+             }
+
              if($rentEnquiry = SalesEnquiry::create($store))
              {
                   $result = ['status'=>1,'response' => 'success', 'message' => 'Sales enquiry created successfully'];
@@ -109,5 +119,32 @@ class SalesEnquiryController extends Controller
              $result = ['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()];
          }
          return response()->json($result,200);
+    }
+
+
+    public function archive(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            "id"=>"required|numeric"
+        ]);
+        if(!$validator->fails())
+        {
+            try {
+                $enquiry = SalesEnquiry::find($request->id);
+                $enquiry->delete();
+                $result = ['status'=>1,'response' => 'success', 'message' => 'Sales enquiry sent to archive successfully'];
+
+            }
+            catch (\Exception $exception)
+            {
+                   $result = ['status'=>'0','response' => 'error', 'message' => $exception->getMessage()];
+            }
+
+        }
+        else
+        {
+            $result = ['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()];
+        }
+        return response()->json($result,200);
     }
 }

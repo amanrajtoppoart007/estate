@@ -27,6 +27,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Mobile</th>
+                        <th>Agent Type</th>
                         <th>Added Date</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -49,7 +50,7 @@
         }
         function renderActionBtn(data)
         {
-            return `<a href="${data.edit_url}"  class="text-primary"><i class="fa fa-edit"></i></a>`;
+            return `<a href="${data.edit_url}"  class="text-primary"><i class="fa fa-edit"></i></a><a href="${data.view_url}"  class="text-primary"><i class="fa fa-eye"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         var dataTable = $("#dataTable").dataTable({
@@ -73,6 +74,7 @@
                                 { data : "name", name : 'name'},
                                 { data : "email", name : 'email'},
                                 { data : "mobile", name : 'mobile'},
+                                { data : "agent_type", name : 'agent_type'},
                                 { data : "created_at", name : 'created_at' },
                                 { data : "is_disabled", name : 'is_disabled',
                                     render: function( type, row, data, meta)

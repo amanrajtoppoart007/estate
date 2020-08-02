@@ -20,7 +20,7 @@
     <div class="card card-primary">
         <div class="card-header">Buyer Detail</div>
                 <div class="card-body">
-                   {{Form::open(['id'=>'add_data_form','url'=>route('buyer.store'),'enctype'=>'multipart/form-data'])}}
+                   {{Form::open(['id'=>'add_data_form','url'=>route('buyer.store'),'enctype'=>'multipart/form-data','autocomplete'=>'off'])}}
                    <div class="row">
                        <div class="col-md-6">
                            <div class="form-group">
@@ -31,7 +31,7 @@
                                           <i class="fa fa-user"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="name" id="name" value="">
+                               <input type="text" class="form-control" name="name" id="name" value="{{$user?$user->name:null}}">
                                </div>
                            </div>
                            <div class="form-group">
@@ -42,7 +42,7 @@
                                           <i class="fa fa-envelope"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="email" id="email" value="">
+                               <input type="text" class="form-control" name="email" id="email" value="{{$user ? $user->email : null }}">
                                </div>
                            </div>
                            <div class="form-group">
@@ -53,7 +53,7 @@
                                           <i class="fa fa-phone"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control numeric" name="mobile" id="mobile" value="">
+                               <input type="text" class="form-control numeric" name="mobile" id="mobile" value="{{$user ? $user->mobile : null}}">
                                </div>
                            </div>
                            <div class="form-group">
@@ -164,7 +164,11 @@
                                           <i class="fa fa-city"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="city" id="city" value="">
+                               <select type="text" class="form-control" name="city" id="city">
+                                   <option value="">Select City</option>
+                                   @foreach($cities as $city)
+                                   @endforeach
+                               </select>
                                </div>
                            </div>
                        </div>
@@ -177,7 +181,7 @@
                                           <i class="fa fa-location-arrow"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="address" id="address" value="">
+                               <input type="text" class="form-control" name="address" id="address" value="{{$user ? $user->address : null }}">
                                </div>
                            </div>
                        </div>

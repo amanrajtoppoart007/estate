@@ -25,7 +25,7 @@
                <div class="col-12 col-md-4 col-lg-4 col-xl-4">
                   <dt>Start Date</dt>
                    <dd>{{$salary_sheet->start_date}}</dd>
-                    <input type="hidden" name="start_date" id="start_date" value="{{$salary_sheet->start_date}}">  
+                    <input type="hidden" name="start_date" id="start_date" value="{{$salary_sheet->start_date}}">
                </div>
                <div class="col-12 col-md-4 col-lg-4 col-xl-4">
                    <dt>End Date</dt>
@@ -60,7 +60,6 @@
                     $differenceInDays   = $detail->attendance_count + $detail->leave_count;
                     $total_salary_ind   = $detail->total_salary_ind;
                     $main_total_salary += $total_salary_ind;
-                    dd($detail);
                   @endphp
                   <tr>
                       <td>
@@ -111,7 +110,7 @@
                         <input type="text" id="total_salary_ind_{{$detail->employee_id}}" name="total_salary_ind[]" class="form-control numeric" value="{{$detail->total_salary_ind}}" readonly>
                     </td>
                   </tr>
-                  @php 
+                  @php
                   $i++;
                   $j++;
                    @endphp
@@ -146,12 +145,12 @@
              };
              $.fn_ajax(url,params,fn_success,fn_error);
           });
-           
+
            $(document).on('keyup','.variable_pay',function(){
                 total_salary_ind($(this).attr('data-employee_id'));
                 calculate_total_salary();
            });
-          
+
           function total_salary_ind(employeeId)
           {
                 var fixed_pay    = ($(`#fixed_pay_${employeeId}`).val())?$(`#fixed_pay_${employeeId}`).val():0;
@@ -167,7 +166,7 @@
               });
               $("#total_salary").val(parseFloat(total).toFixed(2));
           };
-          
+
        });
   </script>
 @endsection

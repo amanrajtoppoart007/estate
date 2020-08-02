@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Add Property Agent (Company)</h4>
+            <h4 class="m-0 text-dark">Add Property Agent (Company Type)</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -30,7 +30,7 @@
             <div class="col-sm-6 col-md-8 row">
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <div class="form-group">
-                                <label for="owner_type">Agent Type</label>
+                                <label for="owner_type">Broker Type</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -131,7 +131,7 @@
 
           <div class="card card-info">
               <div class="card-header">
-                 <h4>Owner Detail</h4>
+                 <h4>Company Owner Detail</h4>
               </div>
               <div class="card-body">
                   <div class="row">
@@ -203,7 +203,7 @@
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                    <i class="fa fa-passport"></i>
+                                     <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
                                   <input type="file" class="form-control" name="emirates_id_doc"
@@ -247,7 +247,7 @@
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                    <i class="fa fa-passport"></i>
+                                    <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
                                   <input type="text" class="form-control" name="emirates_exp_date"
@@ -328,7 +328,7 @@
           </div>
 
           <div class="form-group col-md-4">
-              <label for="bank_account">A/C Number</label>
+              <label for="bank_account">IBAN Number</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-file-invoice-dollar"></i></span>
@@ -424,8 +424,10 @@
              </div>
          </div>
         <div class="row">
-            <div class="col-md-12">
-                <button class="btn btn-success float-right" type="submit">Save</button>
+            <div class="col-md-12 text-right">
+                <input type="hidden" name="action" id="action" value="">
+                <button id="action_save" class="btn btn-success  submit_action_btn submit_form_btn mx-1" type="submit">Save</button>
+                <button id="action_preview" class="btn btn-success  submit_action_btn submit_form_btn mx-1" type="submit">Preview</button>
             </div>
         </div>
         {{Form::close()}}
@@ -442,6 +444,14 @@
 @section('script')
   <script>
        $(document).ready(function(){
+
+           $(document).on("click",".submit_form_btn",function(e){
+               e.stopPropagation();
+               let action = $(this).attr("id");
+               $("#action").val(action);
+               e.enableEventPropagation();
+
+           });
 
            let pickers =
                [
@@ -490,6 +500,12 @@
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
+                   let next_action = $("#action").val();
+                    if (next_action === "action_preview") {
+                        if (result.data.next_route) {
+                            window.location.href = result.data.next_route;
+                        }
+                    }
                    $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
                    $('#owner_profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
                    $("#add_data_form")[0].reset();

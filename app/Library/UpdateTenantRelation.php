@@ -14,7 +14,7 @@ class UpdateTenantRelation
           $loop_count    = count($request->rel_name);
           $passport      = GlobalHelper::multipleFileUpload($request,'local','rel_passport',"tenant/$folder");
           $visa          = GlobalHelper::multipleFileUpload($request,'local','rel_visa',"tenant/$folder");
-          $emirates_id   = GlobalHelper::multipleFileUpload($request,'local','rel_amirates_id',"tenant/$folder");
+          $emirates_id   = GlobalHelper::multipleFileUpload($request,'local','rel_emirates_id',"tenant/$folder");
           for($i=0;$i<$loop_count;$i++)
           {
               $relation['tenant_id'] = $tenant_id;

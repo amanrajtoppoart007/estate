@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\RentEnquiry;
 use DB;
 use App\State;
 use App\Tenant;
@@ -19,7 +20,8 @@ class TenantController extends Controller
     {
         $this->middleware('auth:admin');
     }
-    /*****ajax fetch *****/
+
+
     public function fetch(Request $request)
     {
         $model = new Tenant();
@@ -40,6 +42,14 @@ class TenantController extends Controller
         $data               = array();
         $data['state']      = State::where('is_disabled', '0')->get();
         $data['countries']  = Country::where('is_disabled', '0')->get();
+        if(!empty($request->request_id))
+        {
+            $data['user'] = RentEnquiry::find(base64_decode($request->request_id));
+        }
+        else
+        {
+            $data['user'] = null;
+        }
         return view('admin.tenant.create')->with($data);
     }
 
@@ -51,7 +61,11 @@ class TenantController extends Controller
         $tenant_id = $action->execute($request);
         if($tenant_id)
         {
-
+            if($request->has('request_id'))
+            {
+                $request_id = base64_decode($request->request_id);
+                RentEnquiry::where(['id'=>$request_id])->update(['status'=>1]);
+            }
             $doc = new \App\Library\UploadTenantDoc();
             $documents =  $doc->execute($request,$tenant_id);
             $profile = new \App\Library\CreateTenantProfile();
@@ -61,7 +75,15 @@ class TenantController extends Controller
                $relations = new \App\Library\CreateTenantRelation();
                $relations->execute($tenant_id,$request);
             }
-            $res['next_url']  = route('tenant.view',$tenant_id);
+            if($request->has('next_action'))
+            {
+                $res['next_url']  = route('tenant.allot.property',$tenant_id);
+            }
+            else
+            {
+                $res['next_url']  = route('tenant.view',$tenant_id);
+            }
+
             $res['response']  = 'success';
             $res['status']    = 1;
             $res['message']   = 'Data inserted';
@@ -80,7 +102,7 @@ class TenantController extends Controller
     {
         $tenant = Tenant::with('documents', 'profile', 'relations')->whereHas('documents', function ($query) {
             $query->where('tenant_documents.is_disabled', '0');
-        })->where(['id' => $id])->first();
+        })->find($id);
         if(!empty($tenant))
         {
             $data               = array();

@@ -16,7 +16,7 @@ class ImageController extends Controller
         $path     = storage_path($filename);
         if(!file_exists($path))
         {
-            $path  = public_path('assets\img\no_doc.png');
+            $path  = public_path('assets/img/no_doc.png');
         }
         $type     = File::mimeType($path);
         if($type=="image/jpeg"||$type=="image/png"||$type=="image/gif")
