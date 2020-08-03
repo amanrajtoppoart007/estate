@@ -1,3 +1,22 @@
+.custom-animated-loader{
+    background-color:white!important;
+    opacity:0.9!important;
+    position:fixed!important;
+    width:100% !important;
+    height:100% !important;
+    z-index: 99999999999!important;
+    justify-content: center!important;
+}
+
+.custom-animated-loader-content
+{
+    margin-top: 20% !important;
+    width:120px!important;
+    height: 120px!important;
+}
+
+
+
 .btn-success {
     color: #fff;
     background-color: #42A5F5!important;

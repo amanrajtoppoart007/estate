@@ -28,13 +28,12 @@ class StoreProperty extends FormRequest
         return [
             //basic detail
             'propcode' => 'bail|required|max:255',
-            'title' =>  'required|unique:properties',
+            'title' =>  'required|unique:properties,title',
             'type' => 'required',
             'prop_for' => 'required',
             //address detail
             'address' => 'required',
             'city_id' => 'required',
-            'state_id' => 'required',
             'country_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',

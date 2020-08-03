@@ -50,13 +50,22 @@ class PropertyUnitController extends Controller
     public function store(StorePropertyUnit $request)
     {
         $request->validated();
-        $input               = $request->only(['property_unit_type_id','property_id','title',
+        $input               = $request->only(['flat_house_no','property_unit_type_id','property_id','title',
         'owner_id','agent_id','unit_size','rent_type','bathroom','bedroom','furnishing',
-         'balcony','parking','kitchen','hall']);
+         'balcony','parking','purpose','unit_status']);
         $input['admin_id']    = Auth::guard('admin')->user()->id;
         $unit_gen             = new CreateUnitCode($request->property_id,$request->property_unit_type_id);
         $input['unit_status'] = 1;
         $input['unitcode']    = $unit_gen->generate_unit_code();
+        if (!empty($request->rent_type)) {
+            $input['rent_type'] = $request->rent_type;
+        }
+        if (!empty($request->purchase_date)) {
+            $input['purchase_date'] = date("Y-m-d", strtotime($request->purchase_date));
+        }
+        if (!empty($request->purchase_cost)) {
+            $input['purchase_cost'] = $request->purchase_cost;
+        }
         if($unit = PropertyUnit::create($input))
         {
                $date  = new Carbon(date('Y-m-d'));
@@ -284,15 +293,37 @@ class PropertyUnitController extends Controller
             'furnishing' => 'required',
             'balcony' => 'required',
             'parking' => 'required',
-            'kitchen' => 'numeric|numeric',
-            'hall' => 'numeric|numeric',
+             'purchase_date'=>'required|date',
+            'purchase_cost'=>'required|numeric',
+            'unit_status'=>'numeric',
          ]);
         if(!$validator->fails())
         {
             $property_unit = PropertyUnit::find($request->unit_id);
             if(!empty($property_unit))
             {
-                $update = $request->only(['flat_house_no','floor_no','unit_size','bedroom','bathroom','furnishing','balcony','parking','kitchen','hall']);
+                $update = $request->only(['flat_house_no','floor_no','unit_size','bedroom','bathroom','furnishing','balcony','parking','unit_status','purpose']);
+
+                if(!empty($request->rent_type))
+                {
+                    $update['rent_type'] = $request->rent_type;
+                }
+                if(!empty($request->owner_id))
+                {
+                    $update['owner_id'] = $request->owner_id;
+                }
+                if(!empty($request->agent_id))
+                {
+                    $update['agent_id'] = $request->agent_id;
+                }
+                if(!empty($request->purchase_date))
+                {
+                    $update['purchase_date'] = date("Y-m-d",strtotime($request->purchase_date));
+                }
+                if(!empty($request->purchase_cost))
+                {
+                    $update['purchase_cost'] = $request->purchase_cost;
+                }
                 if(PropertyUnit::where(['id'=>$request->unit_id])->update($update))
                 {
                     $res['status']   = 1;

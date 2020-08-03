@@ -8,7 +8,7 @@ class PropertyUnit extends Model
 {
     protected $table   = 'property_units';
     protected $guarded = [];
-    protected $appends = ['owner_name','owner_mobile', 'client_name','client_id','lease_start','lease_end','collection_route','unit_title','brokar','allotment_price'];
+    protected $appends = ['owner_name','owner_mobile', 'client_name','client_id','lease_start','lease_end','collection_route','unit_title','broker','allotment_price'];
 
     public function unit_price()
     {
@@ -36,7 +36,7 @@ class PropertyUnit extends Model
         return $unit_price;
     }
 
-    public function getBrokarAttribute()
+    public function getBrokerAttribute()
     {
         return $this->agent ? $this->agent->name:null;
     }

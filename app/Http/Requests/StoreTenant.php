@@ -33,9 +33,9 @@ class StoreTenant extends FormRequest
             'country'=>'required|numeric',
             'city'=>'required',
             'address'=>'required',
-            'tenant_name'=>'required',
-            'email'=>'required|email|unique:tenants',
-            'mobile'=>'required|numeric|digits:10|unique:tenants',
+            'tenant_name'=>'required|unique:tenants,name',
+            'email'=>'required|email|unique:tenants,email',
+            'mobile'=>'required|numeric|digits:10|unique:tenants,email',
             'passport'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
             'visa'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
             'emirates_id'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
@@ -44,7 +44,7 @@ class StoreTenant extends FormRequest
         if($request['tenant_type']=='company')
         {
             $validate['company_name'] = 'required';
-            $validate['trade_license'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            $validate['trade_license'] = 'required|mimes:jpeg,jpg,png,pdf|max:10000';
             $validate['tenant_count'] = 'required|numeric';
         }
         else if($request['tenant_type']=='family_husband_wife')

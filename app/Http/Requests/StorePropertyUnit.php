@@ -35,14 +35,15 @@ class StorePropertyUnit extends FormRequest
             'furnishing' => 'required',
             'balcony' => 'required|numeric',
             'parking' => 'required',
-            'kitchen' => 'numeric',
-            'hall' => 'numeric',
             'rent_type' => 'required',
             'unit_price' => 'required|numeric',
             'agent_id'=>'required|numeric',
             'owner_id'=>'required|numeric',
             'property_unit_type_id'=>'required|numeric',
             'property_id'=>'required|numeric',
+            'purchase_date'=>'required|date',
+            'purchase_cost'=>'required|numeric',
+            'unit_status'=>'numeric',
         ];
     }
 

@@ -19,7 +19,7 @@ class PropertyUnitResource extends JsonResource
             'id'=>$this->id,
             'property_title'=>$this->property->title,
             'unit_title'=>$this->unit_title,
-            'brokar'=>$this->brokar,
+            'broker'=>$this->broker,
             'allotment_price'=>$this->allotment_price,
             'unitcode'=>$this->unitcode,
             'unit_type'=>$this->title,

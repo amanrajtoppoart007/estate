@@ -192,8 +192,6 @@
                     <label for="rent_period_type">Rent Period</label>
                     <select  class="form-control" name="rent_period_type" id="rent_period_type">
                        <option value="">Select</option>
-                       <option value="daily">DAILY</option>
-                       <option value="weekly">WEEKLY</option>
                        <option value="monthly">MONTHLY</option>
                        <option value="half_yearly">HALF YEARLY</option>
                        <option value="yearly">YEARLY</option>
@@ -389,12 +387,6 @@
               let rent_period_text = null;
               switch (rent_period_type)
               {
-                case 'daily':
-                   rent_period_text = 'Days';
-                  break;
-                case 'weekly':
-                   rent_period_text = 'Week';
-                  break;
                 case 'monthly':
                    rent_period_text = 'Month';
                   break;
@@ -544,7 +536,7 @@
             {
                toast('error', result.message, 'bottom-right');
             }
-            $.fn_ajax('{{route('citywise.property.list')}}',params,fn_success,fn_error);
+            $.fn_ajax('{{route('allotment.city-wise.property.list')}}',params,fn_success,fn_error);
            });
 
            /************ get list of property unit types  ***************/
@@ -562,7 +554,7 @@
                      $.each(result.data,function(i,item)
                      {
 
-                       let option = `<option value="${item.id}">${item.title}</option>`;
+                       let option = `<option value="${item.id}">Series ${item.unit_series}</option>`;
                        $("#property_unit_type_id").append(option);
                      });
                  }
@@ -571,7 +563,7 @@
             {
                toast('error', result.message, 'bottom-right');
             }
-            $.fn_ajax('{{route('get.propertyUnitTypes.list')}}',params,fn_success,fn_error);
+            $.fn_ajax('{{route('allotment.get.propertyUnitTypes.list')}}',params,fn_success,fn_error);
            });
            /************ get list of property unit***************/
           $('#property_unit_type_id').on('change',function(e)

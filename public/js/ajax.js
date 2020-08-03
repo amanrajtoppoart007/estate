@@ -1,54 +1,77 @@
 (function ($) {
+
+    function show_loader() {
+        if ($("#custom-animated-loader").length) {
+            $("#custom-animated-loader").show();
+        }
+    }
+    function hide_loader(){
+        if ($("#custom-animated-loader").length) {
+                $("#custom-animated-loader").hide();
+            }
+    }
+
     let csrf_token = $('meta[name="csrf-token"]').attr('content');
     let base_url = $('meta[name="base-url"]').attr('content');
     $.fn_ajax = function fn_ajax(url, params, fn_success, fn_error) {
         jQuery.ajaxSetup({ headers: { 'X-CSRF-TOKEN': csrf_token, } });
         jQuery.ajax({
             url: url,
+            cache: false,
+            beforeSend: function () {
+                 show_loader();
+            },
             type: 'POST',
             data: params,
             dataType: 'json',
-            success: function (result)
+            success:  function (result)
             {
-                if (result.response ==="success")
-                {
-                    fn_success(result);
-                }
-                else
-                {
-                    fn_error(result);
-                }
-
+                  hide_loader();
+                  if(result.response === "success")
+                     {
+                         fn_success(result);
+                     } else {
+                         fn_error(result);
+                     }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $.swal(textStatus, errorThrown, 'error');
+                 hide_loader();
+                 $.swal(textStatus, errorThrown, 'error');
+
             }
         });
     };
+
+
     $.fn_ajax_multipart = function fn_ajax_multipart(url, params, fn_success, fn_error) {
         jQuery.ajaxSetup({ headers: { 'X-CSRF-TOKEN': csrf_token, } });
         jQuery.ajax({
             url: url,
+            beforeSend: function () {
+                show_loader();
+            },
             type: 'POST',
             data: params,
             dataType: 'json',
             contentType: false,
             cache: false,
             processData: false,
-            success: function (result)
+            success:  function (result)
             {
-                if (result.response === "success")
-                {
-                    fn_success(result);
-                }
-                else
-                {
-                    fn_error(result);
-                }
+                hide_loader();
+                if (result.response === "success") {
+                        fn_success(result);
+                    } else {
+                        fn_error(result);
+                    }
+
 
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                $.swal(textStatus, errorThrown, 'error');
+            error:  function (jqXHR, textStatus, errorThrown) {
+                 hide_loader();
+                 $.swal(textStatus, errorThrown, 'error');
+
+
             }
         });
     };
@@ -59,7 +82,7 @@
             });
         }
     };
-     search = function(keyword)
+    let search = function(keyword)
     {
          $('.search-data-container').empty();
         keyword = keyword.trim();
@@ -73,7 +96,7 @@
             function fn_success(result)
             {
                  render_property(result.data);
-            };
+            }
             function fn_error(result)
             {
                 $('.search-data-container').empty();

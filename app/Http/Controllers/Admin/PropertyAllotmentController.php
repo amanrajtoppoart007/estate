@@ -127,11 +127,7 @@ class PropertyAllotmentController extends Controller
         }
         return response()->json($res);
     }
-    /**
-     * @param mixed $tenant_id
-     * @param mixed $allotmentId
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
-     **/
+
     public function view($tenant_id,$allotmentId)
     {
         $allotment =  \App\PropertyUnitAllotment::with(['tenant','property_unit','rent_installments'])->where(['id'=>$allotmentId,'tenant_id'=>$tenant_id])->
@@ -157,8 +153,7 @@ class PropertyAllotmentController extends Controller
             if (!$validator->fails())
             {
                 $params['city_id']  = $request->city_id;
-                $params['prop_for'] = 1;
-                $properties = Property::with('images')->where($params)->get();
+                $properties = Property::with('images')->where($params)->whereIn('prop_for',[1,3])->get();
                 if(!$properties->isEmpty())
                 {
                     $res['status']   = 1;
@@ -184,7 +179,7 @@ class PropertyAllotmentController extends Controller
             ]);
             if (!$validator->fails())
             {
-            $params['property_id'] = $request->property_id;
+                $params['property_id'] = $request->property_id;
                 $propertyUnitTypes = PropertyUnitType::where($params)->get();
                 if(!$propertyUnitTypes->isEmpty())
                 {

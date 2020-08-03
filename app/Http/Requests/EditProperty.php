@@ -38,7 +38,6 @@ class EditProperty extends FormRequest
             //address detail
             'address' => 'required',
             'city_id' => 'required',
-            'state_id' => 'required',
             'country_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',

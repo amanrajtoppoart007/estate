@@ -234,7 +234,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="poa_exp_date">Power Of Attorney (Expiry Date)</label>
+                               <label for="poa_exp_date">Power Of Attorney (Issue Date)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -449,7 +449,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_poa_exp_date">Power Of Attorney (Expiry Date)</label>
+                               <label for="auth_poa_exp_date">Power Of Attorney (Issue  Date)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -713,6 +713,7 @@
                    'auth_person_passport_exp_date',
                    'auth_person_poa_exp_date',
                    'license_expiry_date',
+                   'auth_poa_exp_date'
                ];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});

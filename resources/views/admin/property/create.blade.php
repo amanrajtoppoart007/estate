@@ -84,31 +84,17 @@
 					 <div class="form-group">
 						<label>Country  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="country_id" id="country_id">
-							<option value="">Select Country</option>
-							@php
-							@endphp
 							@foreach($countries as $country)
-							@if($country->id==old('country_id'))
+							@if($country->id==1)
 							<option value="{{ $country->id }}" selected>{{ $country->name }}</option>
-							@else
-							<option value="{{ $country->id }}">{{ $country->name }}</option>
 							@endif
 							@endforeach
 						</select>
 
 					</div>
 
-					 {{--<div class="form-group">
-						 <label for="agent_id">Agent  <span class="ml-2 text-danger">*</span></label>
-						 <select class="form-control" name="agent_id" id="agent_id">
-							 <option value="">Select Agent</option>
-							 @foreach ($agents as $agent)
-						      <option value="{{$agent->id}}">{{$agent->name}}</option>
-							 @endforeach
-						 </select>
-					 </div>--}}
 
-					<div class="form-group">
+					<div class="form-group d-none">
 						<label>State  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="state_id" id="state_id">
 							<option value="">Select State</option>
@@ -117,8 +103,12 @@
 					</div>
 					<div class="form-group">
 						<label>City  <span class="ml-2 text-danger">*</span></label>
-						<select class="form-control" name="city_id" id="city_id">
+						<select class="form-control select2" name="city_id" id="city_id">
 							<option value="">Select City</option>
+                            @foreach($cities as $city)
+                                @php  $selected = ($city->id==old('city_id'))?"selected":null; @endphp
+                                    <option value="{{ $city->id }}" {{$selected}}>{{$city->name}}</option>
+                            @endforeach
 						</select>
 
 					</div>
@@ -309,12 +299,50 @@
 @endsection
 @section('js')
 <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}"></script>
+<!--script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}"></script-->
 <script src="{{asset('theme/default/js/map/map.scripts.js')}}"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}&libraries=places"></script>
 @endsection
 
 @section('script')
 <script>
+    let autocomplete;
+    function initAutocomplete() {
+
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('address'), {types: ['establishment']});
+
+        //autocomplete.setFields(['address_component']);
+
+        autocomplete.addListener('place_changed', fillInAddress);
+    }
+
+   function fillInAddress() {
+  // Get the place details from the autocomplete object.
+  let place = autocomplete.getPlace();
+
+  let _latitude = autocomplete.getPlace().geometry.location.lat();
+  let _longitude = autocomplete.getPlace().geometry.location.lng();
+  init(_latitude, _longitude);
+
+  document.getElementById('latitude').value = _latitude;
+  document.getElementById('longitude').value = _longitude;
+
+}
+    function geo_locate() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                let circle = new google.maps.Circle(
+                    {center: geolocation, radius: position.coords.accuracy});
+                autocomplete.setBounds(circle.getBounds());
+            });
+        }
+    }
+
 	(function($) {
 		let _latitude = 25.204850;
 		let _longitude = 55.270862;

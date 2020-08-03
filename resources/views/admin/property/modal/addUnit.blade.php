@@ -1,4 +1,4 @@
-{{Form::open(['id'=>'add_unit_form'])}}
+{{Form::open(['id'=>'add_unit_form','autocomplete'=>'off'])}}
 <input type="hidden" name="property_id" id="property_id" value="">
 <input type="hidden" name="title" id="title" value="">
 <div class="modal" tabindex="-1" role="dialog" id="addUnitModal">
@@ -168,7 +168,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col col-md-3 col-lg-3 col-xl-3">
+				<div class="col col-md-3 col-lg-3 col-xl-3 d-none">
 					<div class="form-group">
 						<label for="kitchen">Kitchen</label>
 						<div class="input-group">
@@ -186,7 +186,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col col-md-3 col-lg-3 col-xl-3">
+				<div class="col col-md-3 col-lg-3 col-xl-3 d-none">
 					<div class="form-group">
 						<label for="hall">Hall</label>
 						<div class="input-group">
@@ -197,7 +197,48 @@
 						</div>
 					</div>
 				</div>
-				<div class="col col-md-3 col-lg-3 col-xl-3">
+                <div class="col col-md-3 col-lg-3 col-xl-3">
+					<div class="form-group">
+						<label for="purpose">Purpose</label>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
+							</div>
+							<select class="form-control" name="purpose" id="purpose">
+                                <option value="">Select</option>
+                                @if($property->prop_for==1)
+                                    <option value="1">Rent</option>
+                                @elseif($property->prop_for==2)
+                                    <option value="2">Sale</option>
+                                @else
+                                    <option value="1">Rent</option>
+                                    <option value="2">Sale</option>
+                                    <option value="3">Rent & Sale</option>
+                                @endif
+							</select>
+						</div>
+					</div>
+				</div>
+                <div class="col col-md-3 col-lg-3 col-xl-3">
+					<div class="form-group">
+						<label for="unit_status">Status</label>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
+							</div>
+							<select class="form-control" name="unit_status" id="unit_status">
+                                <option value="">Select</option>
+                                <option value="2">Rented</option>
+                                <option value="9">Owner Stay</option>
+                                <option value="10">Owner Rent</option>
+                                <option value="11">For Rent</option>
+                                <option value="12">For Sale</option>
+                                <option value="13">For Rent & Sale</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col col-md-3 col-lg-3 col-xl-3 grid_rent_type" style="display:none;">
 					<div class="form-group">
 						<label for="rent_type">Rent Type</label>
 						<div class="input-group">
@@ -205,16 +246,17 @@
 								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
 							</div>
 							<select class="form-control" name="rent_type" id="rent_type">
+                                <option value="">Select</option>
+                                <option value="monthly">Monthly</option>
 								<option value="yearly">Yearly</option>
-								<option value="monthly">Monthly</option>
-								<option value="weekly">Weekly</option>
+								<option value="half_yearly">Half Yearly</option>
 							</select>
 						</div>
 					</div>
 				</div>
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label for="unit_price">Unit Price</label>
+						<label for="unit_price">Flat Rent/Sale Price</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
@@ -258,6 +300,31 @@
 						</div>
 					</div>
 				</div>
+
+                <div class="col col-md-3 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="purchase_date">Purchase Date</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user text-info"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="purchase_date" id="purchase_date" value="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-md-3 col-lg-3 col-xl-3">
+					<div class="form-group">
+						<label for="purchase_cost">Purchase Cost</label>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-user text-info"></i></span>
+							</div>
+                            <input type="text" class="form-control numeric" name="purchase_cost" id="purchase_cost" value="">
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 		<div class="modal-footer">

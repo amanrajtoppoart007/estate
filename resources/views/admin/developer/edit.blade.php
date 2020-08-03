@@ -304,7 +304,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="poa_exp_date">Power Of Attorney (Expiry Date)</label>
+                               <label for="poa_exp_date">Power Of Attorney (Issue Date)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -575,7 +575,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_poa_exp_date">Power Of Attorney (Expiry Date)</label>
+                               <label for="auth_poa_exp_date">Power Of Attorney (Issue Date)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
