@@ -780,7 +780,7 @@
             });
             $("#remove_profile_image").click(function(){
                 $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                var file = document.getElementById("profile_image");
+                let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#remove_auth_person_image").click(function(){

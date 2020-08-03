@@ -27,7 +27,7 @@ class StoreOwner extends FormRequest
     {
         $request = request()->all();
         $rules = [
-            'name'=>'required',
+            'name'=>'required|unique:owners,name',
             'mobile'=>'required|unique:owners,mobile|',
             'email'=>'required|email|unique:owners,email|unique:admins,email',
             'password'=>'required',

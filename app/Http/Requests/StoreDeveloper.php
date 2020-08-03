@@ -27,7 +27,7 @@ class StoreDeveloper extends FormRequest
     {
         $request = request()->all();
         $rules = [
-            'name'=>'required',
+            'name'=>'required|unique:owners,name',
             'mobile'=>'required|digits:10|unique:owners,mobile|',
             'email'=>'required|email|unique:owners,email',
             'password'=>'required',

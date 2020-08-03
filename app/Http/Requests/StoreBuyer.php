@@ -26,9 +26,9 @@ class StoreBuyer extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required',
-            'mobile'=>'required|numeric',
-            'email'=>'required|email',
+            'name'=>'required|unique:buyers,name',
+            'mobile'=>'required|numeric|unique:buyers,mobile',
+            'email'=>'required|email|unique:buyers,email',
             'password'=>'required',
             'passport'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
             'visa'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:10048',

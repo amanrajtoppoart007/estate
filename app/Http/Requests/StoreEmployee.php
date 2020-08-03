@@ -28,7 +28,7 @@ class StoreEmployee extends FormRequest
         $request = request()->all();
         $rules =  [
             //basic detail
-            'name'=>'required',
+            'name'=>'required|unique:employees,name',
             'mobile'=>'required|numeric|unique:employees,mobile',
             'email'=>'required|email|unique:employees,email|unique:admins,email',
             'password'=>'required',

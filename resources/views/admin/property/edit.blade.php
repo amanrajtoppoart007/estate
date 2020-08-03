@@ -102,17 +102,14 @@
 			<div class="form-group">
 			<label>Country <span class="text-danger">*</span></label>
 				<select class="form-control" name="country_id" id="country_id">
-					<option value="">Select Country</option>
 					@foreach($countries as $country)
 						@if($country->id==(old('country_id')?old('country_id'):$property->country_id))
 						<option value="{{ $country->id }}" selected>{{ $country->name }}</option>
-						@else
-						<option value="{{ $country->id }}">{{ $country->name }}</option>
 						@endif
 					@endforeach
 				</select>
 			</div>
-			<div class="form-group">
+			<div class="form-group d-none">
 				<label>State <span class="text-danger">*</span></label>
 				<select class="form-control" name="state_id" id="state_id" >
 					<option value="">Select State</option>
@@ -555,8 +552,8 @@ initAutocomplete();
 		});
 	$("#edit_data_form").on('submit',function(e){
 		e.preventDefault();
-		var params = new FormData(document.getElementById('edit_data_form'));
-		var url    = '{{route('property.update',['id'=>$property->id])}}';
+		let params = new FormData(document.getElementById('edit_data_form'));
+		let url    = '{{route('property.update',['id'=>$property->id])}}';
 		function fn_success(result)
 		{
 			if(result.response=='success')
@@ -633,7 +630,7 @@ $(document).on('click','.deleteImage',function(e){
                 dataType : 'json',
                 success  : function(result)
 				{
-                    if(result.response=='success')
+                    if(result.response==='success')
 					{
 						$("#property_image_"+id).remove();
                     }
@@ -672,7 +669,7 @@ $("#country_id").on('change',function(e){
                 dataType : 'json',
                 success  : function(res)
 				{
-                    if(res.response=='success')
+                    if(res.response==='success')
 					{
 						$("#state_id").html('');
 						$("#state_id").append($('<option></option>').text('Select State').val(''));
@@ -714,7 +711,7 @@ $("#state_id").on('change',function(e){
                 dataType : 'json',
                 success  : function(res)
 				{
-                    if(res.response=='success')
+                    if(res.response==='success')
 					{
 						$("#city_id").html('');
 						$("#city_id").append($('<option></option>').text('Select City').val(''));
@@ -782,7 +779,7 @@ $(function()
 {
 	$("input[type='submit']").click(function(e)
 	{
-		var $fileUpload = $("input[type='file']");
+		let $fileUpload = $("input[type='file']");
 		let max         = 6;
 		if(parseInt($fileUpload.get(0).files.length)>max)
 		{

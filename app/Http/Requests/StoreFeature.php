@@ -25,7 +25,7 @@ class StoreFeature extends FormRequest
     public function rules()
     {
         return [
-            'title'=> 'required|unique:property_features',
+            'title'=> 'required|unique:property_features,title',
         ];
     }
     protected function failedValidation(Validator $validator)

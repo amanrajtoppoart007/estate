@@ -26,9 +26,9 @@ class StoreAgent extends FormRequest
     public function rules()
     {
         $rules = [
-            'name'=>'required',
-            'mobile'=>'required|unique:owners,mobile|',
-            'email'=>'required|email|unique:owners,email|unique:admins,email',
+            'name'=>'required|unique:agents,name',
+            'mobile'=>'required|unique:agents,mobile|',
+            'email'=>'required|email|unique:agents,email',
             'password'=>'required',
             'bank_name'=>'required',
             'bank_swift_code'=>'required',

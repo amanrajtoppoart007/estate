@@ -84,31 +84,17 @@
 					 <div class="form-group">
 						<label>Country  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="country_id" id="country_id">
-							<option value="">Select Country</option>
-							@php
-							@endphp
 							@foreach($countries as $country)
-							@if($country->id==old('country_id'))
+							@if($country->id==1)
 							<option value="{{ $country->id }}" selected>{{ $country->name }}</option>
-							@else
-							<option value="{{ $country->id }}">{{ $country->name }}</option>
 							@endif
 							@endforeach
 						</select>
 
 					</div>
 
-					 {{--<div class="form-group">
-						 <label for="agent_id">Agent  <span class="ml-2 text-danger">*</span></label>
-						 <select class="form-control" name="agent_id" id="agent_id">
-							 <option value="">Select Agent</option>
-							 @foreach ($agents as $agent)
-						      <option value="{{$agent->id}}">{{$agent->name}}</option>
-							 @endforeach
-						 </select>
-					 </div>--}}
 
-					<div class="form-group">
+					<div class="form-group d-none">
 						<label>State  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="state_id" id="state_id">
 							<option value="">Select State</option>
@@ -117,8 +103,12 @@
 					</div>
 					<div class="form-group">
 						<label>City  <span class="ml-2 text-danger">*</span></label>
-						<select class="form-control" name="city_id" id="city_id">
+						<select class="form-control select2" name="city_id" id="city_id">
 							<option value="">Select City</option>
+                            @foreach($cities as $city)
+                                @php  $selected = ($city->id==old('city_id'))?"selected":null; @endphp
+                                    <option value="{{ $city->id }}" {{$selected}}>{{$city->name}}</option>
+                            @endforeach
 						</select>
 
 					</div>

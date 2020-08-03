@@ -45,8 +45,9 @@ class PropertyController extends Controller
         $owners        = Owner::where(['is_disabled'=>'0'])->whereIn('owner_type',['developer','both'])->get();
         $propertyTypes = PropertyType::where('is_disabled','0')->get();
         $countries     = Country::where('is_disabled','0')->get();
+        $cities        = City::where(['is_disabled'=>0,'country_id'=>1])->get();
         $features      = Feature::where('is_disabled', '0')->get();
-        return view('admin.property.create',compact('agents','owners','features', 'countries', 'propertyTypes'));
+        return view('admin.property.create',compact('agents','owners','features', 'countries', 'propertyTypes','cities'));
     }
 
 
@@ -55,7 +56,7 @@ class PropertyController extends Controller
 
         $request->validated();
         $insert               = $request->only(['title','status', 'type', 'prop_for','description','address',
-            'city_id','state_id','country_id','zip','latitude', 'longitude','owner_id','completion_date','total_floors','total_flats','total_shops']);
+            'city_id','country_id','zip','latitude', 'longitude','owner_id','completion_date','total_floors','total_flats','total_shops']);
         $features             = array_values($request->input('feature'));
         $insert['feature']    = implode(',', $features);
         $insert['admin_id']   = $admin_id = Auth::guard('admin')->user()->id;
@@ -109,7 +110,7 @@ class PropertyController extends Controller
         $propertyTypes = PropertyType::where('is_disabled', '0')->get();
         $countries     = Country::where('is_disabled', '0')->get();
         $features      = Feature::where('is_disabled', '0')->get();
-        $cities        = City::where('is_disabled', '0')->get();
+        $cities        = City::where(['is_disabled'=>0,'country_id'=>1])->get();
         $property      = Property::with("images","propertyUnitTypes","city","state","country","propertyType")->find($id);
           if($property)
           {
@@ -126,7 +127,7 @@ class PropertyController extends Controller
     {
         $request->validated();
         $update               = $request->only(['title', 'type', 'prop_for', 'description', 'address',
-            'city_id', 'state_id', 'country_id', 'zip', 'latitude', 'longitude','owner_id','completion_date','total_floors','total_flats','total_shops']);
+            'city_id', 'country_id', 'zip', 'latitude', 'longitude','owner_id','completion_date','total_floors','total_flats','total_shops']);
         $features             = array_values($request->input('feature'));
         $update['feature']    = implode(', ', $features);
         $update['admin_id']   = $admin_id   = Auth::guard('admin')->user()->id;
