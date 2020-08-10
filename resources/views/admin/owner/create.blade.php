@@ -234,7 +234,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="poa_exp_date">Power Of Attorney (Expiry Date)</label>
+                               <label for="poa_exp_date">Power Of Attorney (Issue Date)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -449,7 +449,7 @@
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="auth_poa_exp_date">Power Of Attorney (Expiry Date)</label>
+                               <label for="auth_poa_exp_date">Power Of Attorney (Issue Date)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -679,9 +679,6 @@
      </div>
  </div>
 @endsection
-@section('modal')
-    @include("admin.owner.allocate")
-@endsection
  @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
     <style>
@@ -750,7 +747,7 @@
            }
 
 
-           $("#owner_type").on("change",function(){
+           $("#firm_type").on("change",function(){
                if($(this).val()==='individual')
                {
                    $(".owner_type_company_grid").hide();

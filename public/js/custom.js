@@ -98,7 +98,7 @@ $(document).ready(function () {
     checkScreenSize();
 
     function checkScreenSize(){
-        var newWindowWidth = $(window).width();
+        let newWindowWidth = $(window).width();
         if (newWindowWidth < 380) {
             $(".filter-anchor").on("click", function(){
                 $(".filter-tab").toggle();

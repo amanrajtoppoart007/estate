@@ -24,6 +24,9 @@ class OwnerResource extends JsonResource
              'view_url'=> $this->view_url,
              'owner_type'=> $this->owner_type,
              'created_at'=>date('d-m-Y',strtotime($this->created_at)),
+             'unit_allotment_url'=>$this->when(($this->owner_type=="flat_owner"), function () {
+                      return route("owner.init.allot.property.unit",$this->id) ;
+              })
         ];
     }
 }

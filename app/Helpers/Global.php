@@ -1,8 +1,25 @@
 <?php
 
-use App\User;
+
 use App\SystemSetting;
-use Symfony\Component\HttpFoundation\Request;
+if (!function_exists('extract_doc_keys'))
+{
+  function extract_doc_keys($object,...$keys)
+  {
+      $output = array();
+      $i =0;
+     foreach($object as $item)
+     {
+         foreach($keys as $key)
+         {
+             $output[$i][$key] = $item->$key ? $item->$key : null;
+         }
+         $i++;
+     }
+     return $output;
+  }
+}
+
 if (!function_exists('get_systemSetting'))
 {
   function get_systemSetting($name)
@@ -25,11 +42,11 @@ if (!function_exists('get_item_count')) {
     {
       $result = DB::table($table)->where($params)->get()->count();
     }
-    else 
+    else
     {
       $result = DB::table($table)->get()->count();
     }
-    
+
     return $result;
   }
 }
@@ -64,7 +81,7 @@ if (!function_exists('pluck_single_value'))
     {
       $array       = array();
       $object      = object_to_array($object);
-      foreach ($object  as $element) 
+      foreach ($object  as $element)
       {
         $id            = $element[$key_one];
         $array["$id"]  = $element[$key_two];
@@ -166,12 +183,12 @@ return $s;
  {
     $output = preg_replace('/[^A-Za-z0-9\-]/', '', $input);
     $output = str_replace("AED", "", $output);
-    return trim($output);    
+    return trim($output);
  }
   function trim_unit_size($input)
  {
     $output = preg_replace('/[^A-Za-z0-9\-]/', '', $input);
     $output = str_replace("sqft", "", $output);
-    return trim($output); 
+    return trim($output);
  }
 ?>

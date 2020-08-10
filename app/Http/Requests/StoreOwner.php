@@ -42,7 +42,7 @@ class StoreOwner extends FormRequest
             'city'=>'required',
             'address'=>'required',
             'owner_type'=>'required',
-            'photo'=>'required|image|mimes:jpeg,png,jpg|max:10048',
+            'photo'=>'image|mimes:jpeg,png,jpg|max:10048',
             'emirates_exp_date'=>'required|date',
             'passport_exp_date'=>'required|date',
             'visa_exp_date'=>'required|date',

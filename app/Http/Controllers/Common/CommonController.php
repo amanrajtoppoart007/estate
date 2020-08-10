@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PropertyUnitResource;
 use App\PropertyUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +17,7 @@ class CommonController extends Controller
         ]);
         if(!$validator->fails())
         {
-            $data = PropertyUnit::where(['property_id'=>$request->property_id])->get();
+            $data = PropertyUnitResource::collection(PropertyUnit::where(['property_id'=>$request->property_id])->get());
             if(!$data->isEmpty())
             {
                 $result = ['status'=>'1','response' => 'success','data'=>$data, 'message' => 'Data found'];

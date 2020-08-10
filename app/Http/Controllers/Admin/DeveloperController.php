@@ -6,6 +6,7 @@ use App\Http\Requests\EditDeveloper;
 use App\Http\Requests\StoreDeveloper;
 use App\Library\CreateOwnerAuthPerson;
 use App\Library\EditOwnerAuthPerson;
+use App\Library\UploadEntityDocs;
 use App\Owner;
 use App\OwnerDoc;
 use Illuminate\Support\Str;
@@ -41,10 +42,7 @@ class DeveloperController extends Controller
         $request->validated();
         $data   = $request->only(['name','mobile','email','emirates_id','bank_name','bank_swift_code',
         'bank_account','banking_name','country','state','city','address','country_code','owner_type','firm_type']);
-        $data['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
-        $data['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
-        $data['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
-        $data['poa_exp_date'] = date('Y-m-d',strtotime($request->poa_exp_date));
+
         if($request->firm_type==='company')
         {
             $company_detail = $request->only(['owner_type','firm_type', 'company_name', 'trade_license', 'telephone_number', 'office_address']);
@@ -52,34 +50,24 @@ class DeveloperController extends Controller
             $data['license_expiry_date'] = date('Y-m-d',strtotime($request->license_expiry_date));
         }
         $folder = Str::studly(strtolower($request->name));
+
+
         if($request->has('photo'))
         {
-            $data['photo']    = GlobalHelper::singleFileUpload($request, 'local', 'photo', "owners/$folder");
-        }
-        if($request->has('emirates_id_doc'))
-        {
-            $data['emirates_id_doc']    = GlobalHelper::singleFileUpload($request, 'local', 'emirates_id_doc', "owners/$folder");
+            $data['photo']    = GlobalHelper::singleFileUpload($request, 'local', 'photo', "developers/$folder");
         }
 
-        if($request->has('passport'))
-        {
-            $data['passport'] = GlobalHelper::singleFileUpload($request, 'local', 'passport', "owners/$folder");
-        }
-
-        if($request->has('visa'))
-        {
-            $data['visa']     = GlobalHelper::singleFileUpload($request, 'local', 'visa', "owners/$folder");
-        }
 
         $data['admin_id'] = Auth::guard('admin')->user()->id;
         $developer = Owner::create($data);
         if($developer->id)
         {
+            (new UploadEntityDocs($developer->id,'owner'))->handle();
 
             try {
-                if (!empty($request->auth_person_name)) {
-                       $action = new CreateOwnerAuthPerson($request, $developer->id);
-                       $action->execute();
+                if (!empty($request->auth_person_name))
+                {
+                        (new CreateOwnerAuthPerson($request, $developer->id))->execute();
                 }
 
                 if ($request->firm_type == 'company') {
@@ -135,28 +123,14 @@ class DeveloperController extends Controller
     {
         $request->validated();
         $data  = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address','country_code']);
-        $data['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
-        $data['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
-        $data['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
-        $data['poa_exp_date'] = date('Y-m-d',strtotime($request->poa_exp_date));
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {
             $data['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"owners/$folder");
         }
-        if($request->hasfile('passport'))
-        {
-            $data['passport']    = GlobalHelper::singleFileUpload($request,'local','passport',"owners/$folder");
-        }
-        if($request->hasfile('visa'))
-        {
-            $data['visa']    = GlobalHelper::singleFileUpload($request,'local','visa',"owners/$folder");
-        }
-        if($request->has('emirates_id_doc'))
-        {
-            $data['emirates_id_doc']    = GlobalHelper::singleFileUpload($request, 'local', 'emirates_id_doc', "owners/$folder");
-        }
+
         $data['admin_id'] = Auth::guard('admin')->user()->id;
+         (new UploadEntityDocs($id,'owner'))->handle();
         if(Owner::where(['id'=>$id])->update($data))
         {
             if(!empty($request->auth_person_name))

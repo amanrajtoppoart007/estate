@@ -150,20 +150,61 @@
          </div>
               </div>
           </div>
-        <div class="card card-info">
+       <div class="card card-info">
             <div class="card-header">
                 <h6>Documents</h6>
+                @php
+                 $passport = $visa = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
+                         if(!$owner->documents->isEmpty())
+                             {
+                                 $documents =   extract_doc_keys($owner->documents,'file_url','document_title','date_key','date_value');
+
+                         foreach($documents as $doc)
+                          {
+                              if($doc['document_title']=='emirates_id_doc')
+                                  {
+                                      $emirates_id_doc         = $doc['file_url'];
+                                      $emirates_id_exp_date = $doc['date_value'];
+                                  }
+                               if($doc['document_title']=='passport')
+                                  {
+                                      $passport          = $doc['file_url'];
+                                      $passport_exp_date = $doc['date_value'];
+                                  }
+                               if($doc['document_title']=='visa')
+                                  {
+                                      $visa          = $doc['file_url'];
+                                      $visa_exp_date = $doc['date_value'];
+                                  }
+
+                               if($doc['document_title']=='power_of_attorney')
+                                  {
+                                      $poa         = $doc['file_url'];
+                                      $poa_exp_date = $doc['date_value'];
+                                  }
+                          }
+                             }
+                         if(!empty($emirates_id_doc))
+                        {
+                            $emirates_id_doc = route('get.doc',base64_encode($emirates_id_doc));
+                        }
+                         if(!empty($passport))
+                       {
+                           $passport = route('get.doc',base64_encode($passport));
+                       }
+                       if(!empty($visa))
+                       {
+                           $visa = route('get.doc',base64_encode($visa));
+                       }
+                       if(!empty($poa))
+                       {
+                           $poa = route('get.doc',base64_encode($poa));
+                       }
+                @endphp
             </div>
             <div class="card-body">
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-                @php
-                    $emirates_id_doc = $visa =  'javascript:void(0)';
-                     if(!empty($owner->emirates_id_doc))
-                     {
-                         $emirates_id_doc = route('get.doc',base64_encode($owner->emirates_id_doc));
-                     }
-                @endphp
                  <div class="form-group">
                      <label for="emirates_id_doc">Emirates Id(scanned copy) </label>
                      <div class="input-group">
@@ -173,12 +214,13 @@
                             </span>
                         </div>
                      <input type="file" class="form-control" name="emirates_id_doc" id="emirates_id_doc" value="">
-                         @if(!empty($owner->emirates_id_doc))
+                         @if(!empty($emirates_id_doc))
                              <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                  <div class="input-group-text">
                                      <a href="{{$emirates_id_doc}}"
-                                        target="{{($owner->emirates_id_doc)?'_blank':'#'}}"><i
-                                             class="fa fa-file"></i></a>
+                                        target="{{($emirates_id_doc)?'_blank':'#'}}">
+                                         <i class="fa fa-file"></i>
+                                     </a>
                                  </div>
                              </div>
                          @endif
@@ -186,22 +228,7 @@
                  </div>
               </div>
                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-                     @php
-                         $passport = $visa = $poa =   'javascript:void(0)';
-                       if(!empty($owner->passport))
-                       {
-                           $passport = route('get.doc',base64_encode($owner->passport));
-                       }
-                       if(!empty($owner->visa))
-                       {
-                           $visa = route('get.doc',base64_encode($owner->visa));
-                       }
-                       if(!empty($owner->poa))
-                       {
-                           $poa = route('get.doc',base64_encode($owner->poa));
-                       }
 
-                     @endphp
                            <div class="form-group">
                                <label for="passport">Passport (scanned copy)</label>
                                <div class="input-group">
@@ -211,10 +238,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="passport" id="passport" value="">
-                                   @if(!empty($owner->passport))
+                                   @if(!empty($passport))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
-                                               <a href="{{$passport}}" target="{{($owner->passport)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
+                                               <a href="{{$passport}}" target="{{($passport)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
                                            </div>
                                        </div>
                                    @endif
@@ -231,10 +258,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="visa" id="visa" value="">
-                                   @if(!empty($owner->visa))
+                                   @if(!empty($visa))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
-                                               <a href="{{$visa}}" target="{{($owner->visa)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
+                                               <a href="{{$visa}}" target="{{($visa)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
                                            </div>
                                        </div>
                                    @endif
@@ -251,10 +278,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="power_of_attorney" id="power_of_attorney" value="">
-                                   @if(!empty($owner->poa))
+                                   @if(!empty($poa))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
-                                               <a href="{{$poa}}" target="{{($owner->poa)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
+                                               <a href="{{$poa}}" target="{{($poa)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
                                            </div>
                                        </div>
                                    @endif
@@ -272,7 +299,7 @@
                                 <i class="fa fa-passport"></i>
                             </span>
                         </div>
-                     <input type="text" class="form-control" name="emirates_exp_date" id="emirates_exp_date" value="{{($owner->emirates_exp_date)?date('d-m-Y',strtotime($owner->emirates_exp_date)):null}}">
+                     <input type="text" class="form-control" name="emirates_exp_date" id="emirates_exp_date" value="{{($emirates_id_exp_date)?date('d-m-Y',strtotime($emirates_id_exp_date)):null}}">
                      </div>
                  </div>
               </div>
@@ -285,7 +312,7 @@
                                           <i class="fa fa-passport"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="{{($owner->passport_exp_date)?date('d-m-Y',strtotime($owner->passport_exp_date)):null}}">
+                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="{{($passport_exp_date)?date('d-m-Y',strtotime($passport_exp_date)):null}}">
                                </div>
                            </div>
                        </div>
@@ -298,20 +325,20 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="{{($owner->visa_exp_date)?date('d-m-Y',strtotime($owner->visa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="{{($visa_exp_date)?date('d-m-Y',strtotime($visa_exp_date)):null}}">
                                </div>
                            </div>
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="poa_exp_date">Power Of Attorney (Expiry Date)</label>
+                               <label for="poa_exp_date">Power Of Attorney (Issue Date)</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="poa_exp_date" id="poa_exp_date" value="{{($owner->poa_exp_date)?date('d-m-Y',strtotime($owner->poa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="poa_exp_date" id="poa_exp_date" value="{{($poa_exp_date)?date('d-m-Y',strtotime($poa_exp_date)):null}}">
                                </div>
                            </div>
                        </div>

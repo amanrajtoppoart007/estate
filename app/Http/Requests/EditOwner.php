@@ -43,7 +43,7 @@ class EditOwner extends FormRequest
             'photo'=>'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
 
         ];
-        if(!empty($request['emirates_id']))
+        if(!empty($request['emirates_id_doc']))
         {
             $rules['emirates_exp_date'] = 'required|date';
         }

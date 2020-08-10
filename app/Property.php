@@ -27,36 +27,36 @@ class Property extends Model
          return $image;
      }
     public function property_sales()
-   {
-      return $this->hasMany('App\PropertySale');
-   }
+    {
+      return $this->hasMany(PropertySale::class);
+    }
 
     public function getFullAddressAttribute()
     {
-        return $this->address.','.$this->state->name;
+        return $this->address.','. ($this->state ? $this->state->name:null);
     }
     /* ********Relation between property and ownder model*********** */
     public function owner()
     {
-        return $this->belongsTo('App\Owner');
+        return $this->belongsTo(Owner::class);
     }
     /* ********Relation between property and agent model*********** */
     public function agent()
     {
-        return $this->belongsTo('App\Agent');
+        return $this->belongsTo(Agent::class);
     }
     /* ********Relation between property and property unit model*********** */
     public function property_units()
     {
-      return $this->hasMany('App\PropertyUnit','property_id','id');
+      return $this->hasMany(PropertyUnit::class,'property_id','id');
     }
     public function propertyUnitTypes()
     {
-        return $this->hasMany('App\PropertyUnitType','property_id','id');
+        return $this->hasMany(PropertyUnitType::class,'property_id','id');
     }
     public function images()
     {
-        return $this->hasMany('App\Image','property_id','id');
+        return $this->hasMany(Image::class,'property_id','id');
     }
     public function updateProperty($input, $id)
     {
@@ -64,27 +64,31 @@ class Property extends Model
     }
     public function propertyType()
     {
-        return $this->hasOne('App\PropertyType','id','type');
+        return $this->hasOne(PropertyType::class,'id','type');
     }
     public function city()
     {
-        return $this->belongsTo('App\City','city_id','id');
+        return $this->belongsTo(City::class,'city_id','id');
     }
     public function state()
     {
-        return $this->belongsTo('App\State','state_id','id');
+        return $this->belongsTo(State::class,'state_id','id');
     }
     public function country()
     {
-        return $this->belongsTo('App\Country','country_id','id');
+        return $this->belongsTo(Country::class,'country_id','id');
     }
     public function bookingRequest()
     {
-        return $this->hasMany('App\BookingRequest','property_id','id');
+        return $this->hasMany(BookingRequest::class,'property_id','id');
     }
     public function allotment()
     {
-        return $this->hasMany('App\PropertyUnitAllotment');
+        return $this->hasMany(PropertyUnitAllotment::class);
+    }
+    public function owner_allotment_history()
+    {
+        return $this->hasMany(OwnerAllotmentHistory::class,"property_id","id");
     }
     protected $casts = [
         'created_at' => 'datetime:Y-m-d h:i A',

@@ -23,7 +23,7 @@ class PropertyView extends ObjectView
                         $property['property_unit_id'] = $propUnitType->id;
                         $property['full_address']     = $propUnitType->property->full_address;
                         $property['city_name']        = $propUnitType->property->city->name;
-                        $property['state_name']       = $propUnitType->property->state->name;
+                        $property['state_name']       = $propUnitType->property->state ?$propUnitType->property->state->name:null;
                         $property['country_name']     = $propUnitType->property->country->name;
                         $property['latitude']         = $propUnitType->property->latitude;
                         $property['longitude']        = $propUnitType->property->longitude;
@@ -41,12 +41,12 @@ class PropertyView extends ObjectView
                                 $property['mode'] = 'Sale';
                                 $property['price'] = $propUnitType->rental_amount.' <small>AED</small>';
                             }
-                            else 
+                            else
                             {
                                 $property['mode'] = '';
                                 $property['price'] = $propUnitType->rental_amount.' <small>AED</small>/<small>';
                             }
-                        
+
                         }
                         else
                         {
@@ -81,7 +81,7 @@ class PropertyView extends ObjectView
                         $property['created_at'] = $propUnitType->created_at->diffForHumans();
                         array_push($result['property_unit_types'],$property);
                     }
-                  
+
                 }
                 if(method_exists($list,'links'))
                 {
@@ -91,7 +91,7 @@ class PropertyView extends ObjectView
                     $result['count'] = $list->count();
                 }
                 return $result;
-                
+
         }
         return [];
     }

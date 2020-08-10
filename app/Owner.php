@@ -12,6 +12,12 @@ class Owner extends Authenticatable
    protected $guarded = [];
    protected $appends = ['edit_url','view_url'];
 
+
+   public function documents()
+   {
+       return $this->morphMany(Document::class,'archive');
+   }
+
    public function getEditUrlAttribute()
    {
        if($this->owner_type=="developer")
@@ -23,6 +29,7 @@ class Owner extends Authenticatable
            return route('owner.edit',$this->id);
        }
    }
+
 
    public function getViewUrlAttribute()
    {
@@ -62,6 +69,11 @@ class Owner extends Authenticatable
    {
        return $this->hasOne(OwnerAuthPerson::class);
    }
+
+    public function owner_allotment_history()
+    {
+        return $this->hasMany(OwnerAllotmentHistory::class,"owner_id","id");
+    }
 
     protected $hidden = [
         'password', 'remember_token',

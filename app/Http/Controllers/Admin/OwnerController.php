@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Library\CreateOwnerAuthPerson;
 use App\Library\EditOwnerAuthPerson;
+use App\Library\UploadEntityDocs;
 use App\Owner;
+use App\OwnerAllotmentHistory;
 use App\OwnerDoc;
 use App\Property;
 use App\PropertyUnit;
@@ -54,10 +56,8 @@ class OwnerController extends Controller
 
     public function create()
     {
-        $properties = Property::whereHas('property_units',function($query){
-            $query->whereIn('status',[1,2,3,4,5,6,7,8]);
-        })->where(['is_disabled'=>'0'])->get();
-        return view('admin.owner.create',compact('properties'));
+
+        return view('admin.owner.create');
     }
 
 
@@ -73,33 +73,22 @@ class OwnerController extends Controller
         if($request->firm_type==='company')
         {
             $company_detail = $request->only(['company_name', 'trade_license', 'telephone_number', 'office_address']);
+             $params['license_expiry_date'] = date('Y-m-d',strtotime($request->license_expiry_date));
             $params = array_merge($params , $company_detail);
-            $params['license_expiry_date'] = date('Y-m-d',strtotime($request->license_expiry_date));
+
         }
         $folder = Str::studly(strtolower($request->name));
         if($request->has('photo'))
         {
             $params['photo']    = GlobalHelper::singleFileUpload($request, 'local', 'photo', "owners/$folder");
         }
-        if($request->has('emirates_id_doc'))
-        {
-            $params['emirates_id_doc']    = GlobalHelper::singleFileUpload($request, 'local', 'emirates_id_doc', "owners/$folder");
-        }
 
-        if($request->has('passport'))
-        {
-            $params['passport'] = GlobalHelper::singleFileUpload($request, 'local', 'passport', "owners/$folder");
-        }
-
-        if($request->has('visa'))
-        {
-            $params['visa']     = GlobalHelper::singleFileUpload($request, 'local', 'visa', "owners/$folder");
-        }
 
         $params['admin_id'] = Auth::guard('admin')->user()->id;
         $action = Owner::create($params);
         if($action->id)
         {
+            (new UploadEntityDocs($action->id,'owner'))->handle();
             try {
                 if (!empty($request->auth_person_name)) {
                        $action = new CreateOwnerAuthPerson($request, $action->id);
@@ -192,19 +181,9 @@ class OwnerController extends Controller
         {
             $data['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"owners/$folder");
         }
-        if($request->hasfile('passport'))
-        {
-            $data['passport']    = GlobalHelper::singleFileUpload($request,'local','passport',"owners/$folder");
-        }
-        if($request->hasfile('visa'))
-        {
-            $data['visa']    = GlobalHelper::singleFileUpload($request,'local','visa',"owners/$folder");
-        }
-        if($request->has('emirates_id_doc'))
-        {
-            $data['emirates_id_doc']    = GlobalHelper::singleFileUpload($request, 'local', 'emirates_id_doc', "owners/$folder");
-        }
+
         $data['admin_id'] = Auth::guard('admin')->user()->id;
+         (new UploadEntityDocs($id,'owner'))->handle();
         if(Owner::where(['id'=>$id])->update($data))
         {
             $authPersonEdit = new EditOwnerAuthPerson($request,$request->owner_id);
@@ -265,6 +244,34 @@ class OwnerController extends Controller
         return response()->json(['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()]);
     }
 
+
+    public function allotment_list(Request $request)
+    {
+         return view("admin.owner.allocationHistoryList");
+    }
+    public function fetch_allotment(Request  $request)
+    {
+         $model  = new OwnerAllotmentHistory();
+         $api    = new \App\DataTable\Api($model,$request);
+         echo json_encode($api->apply());
+    }
+
+
+    public function init_allotment($owner_id)
+    {
+         if(!empty($owner_id))
+         {
+             $properties = Property::whereHas('property_units',function($query){
+            $query->whereIn('status',[1,2,3,4,5,6,7,8]);
+        })->where(['is_disabled'=>'0'])->get();
+                return view("admin.owner.allocate",compact("owner_id","properties"));
+         }
+         else
+         {
+             dd("Invalid Owner Id");
+         }
+    }
+
     public function allot_unit(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -283,6 +290,9 @@ class OwnerController extends Controller
             }
             if(PropertyUnit::where(['property_id'=>$request->property_id,'id'=>$request->unit_id])->update($params))
             {
+                $params['property_id'] = $request->property_id;
+                $params['unit_id']     = $request->unit_id;
+                OwnerAllotmentHistory::create($params);
                 $data['next_url'] = route("owner.view",$request->owner_id);
                 return response()->json(['status'=>1,'response' => 'success', 'data' =>$data , 'message' => 'Unit allotment to owner successful.']);
             }

@@ -41,9 +41,8 @@ class EditDeveloper extends FormRequest
             'address'=>'required',
             'owner_type'=>'required',
             'photo'=>'image|mimes:jpeg,png,jpg|max:10048',
-
         ];
-        if(!empty($request['emirates_id']))
+        if(!empty($request['emirates_id_doc']))
         {
             $rules['emirates_exp_date'] = 'required|date';
         }

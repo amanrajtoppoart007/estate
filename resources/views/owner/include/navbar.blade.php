@@ -14,6 +14,37 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+    @php
+        $items = get_owner_notifications();
+        $notifications = $items['notifications'] ? $items['notifications'] : [];
+        $total_notification = $items['total'] ? $items['total'] :0;
+
+    @endphp
+        @if(!empty($notifications))
+        <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
+          <i class="far fa-comments"></i>
+          <span class="badge badge-danger navbar-badge">{{$total_notification }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            @foreach($notifications as $notification)
+          <a href="#" class="dropdown-item">
+            <!-- Message Start -->
+            <div class="media">
+              <img src="{{asset('assets/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <div class="media-body">
+                <p class="text-sm">{{$notification->data ? $notification->data['title'] : null}}</p>
+                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>{{ $notification->created_at ? $notification->created_at->diffForHumans() : null }}</p>
+              </div>
+            </div>
+            <!-- Message End -->
+          </a>
+          <div class="dropdown-divider"></div>
+            @endforeach
+          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+        </div>
+      </li>
+        @endif
 
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
