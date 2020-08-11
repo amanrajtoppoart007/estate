@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\City;
+use App\Country;
 use App\Library\CreateOwnerAuthPerson;
 use App\Library\EditOwnerAuthPerson;
 use App\Library\UploadEntityDocs;
@@ -10,6 +12,7 @@ use App\OwnerAllotmentHistory;
 use App\OwnerDoc;
 use App\Property;
 use App\PropertyUnit;
+use App\State;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -56,8 +59,8 @@ class OwnerController extends Controller
 
     public function create()
     {
-
-        return view('admin.owner.create');
+        $countries = Country::where(['is_disabled'=>0])->get();
+        return view('admin.owner.create',compact("countries"));
     }
 
 
@@ -65,7 +68,7 @@ class OwnerController extends Controller
     {
         $request->validated();
         $params   = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code',
-        'bank_account','banking_name','country','state','city','address','country_code']);
+        'bank_account','banking_name','country_id','state_id','city_id','address','country_code']);
         $params['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
         $params['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
         $params['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
@@ -163,19 +166,40 @@ class OwnerController extends Controller
 
     public function edit($id)
     {
+
         $owner = Owner::find($id);
-        return view('admin.owner.edit',compact('owner'));
+        if(!empty($owner))
+        {
+            $countries = Country::where(['is_disabled'=>0])->get();
+            $country_id = $owner->country_id ? $owner->country_id :null;
+            if(!empty($country_id))
+            {
+                $s_params['country_id'] = $country_id;
+            }
+            $s_params['is_disabled'] = '0';
+            $states = State::where($s_params)->get();
+            $state_id = $owner->state_id ? $owner->state_id :null;
+            if(!empty($state_id))
+            {
+                $c_params['state_id'] = $state_id;
+            }
+            $c_params['is_disabled'] = '0';
+            $cities = City::where($c_params)->get();
+            return view('admin.owner.edit',compact('owner','countries','states','cities'));
+        }
+        else
+        {
+            $msg = "Invalid Owner Detail";
+            return view("blank",compact("msg"));
+        }
     }
 
 
     public function update(\App\Http\Requests\EditOwner $request,$id)
     {
         $request->validated();
-        $data  = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address','country_code']);
-        $data['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
-        $data['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
-        $data['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
-        $data['poa_exp_date'] = date('Y-m-d',strtotime($request->poa_exp_date));
+        $data  = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address','country_code']);
+
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {

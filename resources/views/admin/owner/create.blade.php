@@ -55,26 +55,19 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="form-group">
-                                <label for="country_code">Country Code</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-code"></i></span>
-                                    </div>
-                                    <select  class="form-control" name="country_code" id="country_code">
-                                        <option value="">Country Code</option>
-                                        <option value="971">971 (UAE)</option>
-                                        <option value="91">91 (INDIA)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="mobile">Mobile</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <span class="input-group-text">
+                                    <select name="country_code" id="country_code">
+                                        @foreach($countries as $country)
+                                            @php $selected = ($country->code==971)?"selected":null; @endphp
+                                            <option value="{{$country->code}}" {{$selected}}>
+                                                +{{$country->code}}</option>
+                                        @endforeach
+                                    </select>
+                                </span>
                             </div>
                             <input type="text" class="form-control numeric" name="mobile" id="mobile" value="">
                         </div>
@@ -309,7 +302,14 @@
                                      <label for="auth_person_mobile">Mobile</label>
                                      <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                             <span class="input-group-text">
+                                                 <select name="country_code" id="country_code">
+                                                     @foreach($countries as $country)
+                                                          @php $selected = ($country->code==971)?"selected":null; @endphp
+                                                         <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
+                                                     @endforeach
+                                                </select>
+                                             </span>
                                          </div>
                          <input type="text" class="form-control numeric" name="auth_person_mobile" id="auth_person_mobile" value="">
                                      </div>
@@ -521,31 +521,38 @@
             <div class="card-body">
         <div class="row">
           <div class="form-group col-md-4">
-              <label for="country">Country</label>
+              <label for="country_id">Country</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-flag"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="country" id="country" value="">
+                  <select type="text" class="form-control" name="country_id" id="country_id">
+                      <option value="">Select Country</option>
+                      @foreach($countries as $country)
+                          <option value="{{$country->id}}">{{$country->name}}</option>
+                      @endforeach
+                  </select>
               </div>
           </div>
           <div class="form-group col-md-4">
-              <label for="state">State</label>
+              <label for="state_id">State</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="state" id="state" value="">
+                  <select type="text" class="form-control" name="state_id" id="state_id">
+                  </select>
               </div>
           </div>
           <div class="col-md-4"></div>
           <div class="form-group col-md-4">
-              <label for="city">City</label>
+              <label for="city_id">City</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-city"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="city" id="city" value="">
+                  <select type="text" class="form-control" name="city_id" id="city_id">
+                  </select>
               </div>
           </div>
           <div class="form-group col-md-4">
@@ -695,6 +702,13 @@
 @section('script')
   <script>
        $(document).ready(function(){
+
+           $("#country_id").on("change",function(){
+               $.get_state_list($("#country_id"),$("#state_id"));
+           });
+           $("#state_id").on("change",function(){
+               $.get_city_list($("#state_id"),$("#city_id"));
+           });
 
            $(document).on("click",".save_action_btn",function(e){
                e.stopPropagation();

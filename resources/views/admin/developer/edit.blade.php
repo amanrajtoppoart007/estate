@@ -383,6 +383,7 @@
                                                  <select name="auth_person_country_code" id="auth_person_country_code">
                                                          @foreach($countries as $country)
                                                            @php $selected = ($country->code==971)?"selected":null; @endphp
+                                                           @php $selected = ($country->code==$owner->auth_person->country_code)?"selected":null; @endphp
                                                            <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
                                                            @endforeach
                                                   </select>
