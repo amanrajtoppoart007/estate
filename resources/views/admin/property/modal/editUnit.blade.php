@@ -223,65 +223,6 @@
 						</div>
 					</div>
 				</div>
-
-                <div class="col col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-						<label for="edit_agent_id">Agent</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user text-info"></i></span>
-							</div>
-							<select  class="form-control" name="agent_id" id="edit_agent_id">
-								<option value="">Select</option>
-								@foreach($agents as $agent)
-								 <option value="{{$agent->id}}">{{$agent->name}}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<div class="col col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-						<label for="owner_id">Owner</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user text-info"></i></span>
-							</div>
-							<select  class="form-control" name="owner_id" id="edit_owner_id">
-								<option value="">Select</option>
-								@foreach($owners as $owner)
-								 <option value="{{$owner->id}}">{{$owner->name}}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-				</div>
-
-                <div class="col col-md-3 col-lg-3 col-xl-3">
-                    <div class="form-group">
-                        <label for="edit_purchase_date">Purchase Date</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user text-info"></i></span>
-                            </div>
-                            <input type="text" class="form-control" name="purchase_date" id="edit_purchase_date" value="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-						<label for="edit_purchase_cost">Purchase Cost</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user text-info"></i></span>
-							</div>
-                            <input type="text" class="form-control numeric" name="purchase_cost" id="edit_purchase_cost" value="">
-						</div>
-					</div>
-				</div>
-
 			</div>
 		</div>
 		<div class="modal-footer">

@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="fa fa-city"></i></span>
+                            <span class="info-box-icon bg-warning"><i class="fa fa-city text-white"></i></span>
 
                             <div class="info-box-content">
                                 <h6 class="font-weight-bold">{{$property->city ? $property->city->name : null}}</h6>
@@ -58,21 +58,126 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger">
+                            <span class="info-box-icon bg-gradient-lightblue">
                                 <i class="fa fa-map-pin"></i>
                             </span>
 
                             <div class="info-box-content">
                                <small class="font-weight-bold">{{$property->address}}</small>
-                                <span class="info-box-number">Area</span>
+                                <span class="info-box-text">Area</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger">
+                                <i class="fa fa-industry" aria-hidden="true"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <h6 class="font-weight-bold">
+                                    @php
+                                        $purpose = array('1'=>'Rent','2'=>'Sale',3=>'Rent & Sale')
+                                    @endphp
+                                    @foreach($purpose as $pKey=>$pVal)
+                                        @if($pKey==$property->prop_for)
+                                            {{$pVal}}
+                                        @endif
+                                    @endforeach
+                                </h6>
+                                <span class="info-box-text">Property For</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                               <h6 class="font-weight-bold">{{$property->owner ? $property->owner->name: null}}</h6>
+                                <span class="info-box-text">Developer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-success">
+                                <i class="fa fa-mobile" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                               <h6 class="font-weight-bold">{{$property->owner ? $property->owner->mobile: null}}</h6>
+                                <span class="info-box-text">Developer Contact No.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-gradient-warning">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                               <h6 class="font-weight-bold">{{$property->completion_date ? date("d-m-Y",strtotime($property->completion_date)): null}}</h6>
+                                <span class="info-box-text">Completion Date</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-gradient-blue">
+                                <i class="fa fa-home" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                               <h6 class="font-weight-bold">{{$property->total_units}}</h6>
+                                <span class="info-box-text">Total Units</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-gradient-dark">
+                                <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                               <h6 class="font-weight-bold">{{ $property->total_floors}}</h6>
+                                <span class="info-box-text">Total Floors</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-gradient-cyan">
+                                <i class="fa fa-unity" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                               <h6 class="font-weight-bold">{{ $property->total_flats}}</h6>
+                                <span class="info-box-text">Total Flats</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-gradient-indigo">
+                                <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                               <h6 class="font-weight-bold">{{ $property->total_shops}}</h6>
+                                <span class="info-box-text">Total Shops</span>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                
-
 
 				<div class="row">
 					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">

@@ -256,7 +256,18 @@
 				</div>
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label for="unit_price">Flat Rent/Sale Price</label>
+						<label for="unit_rent">Flat Rent</label>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
+							</div>
+							<input type="text" class="form-control" name="unit_rent" id="unit_rent" value="">
+						</div>
+					</div>
+				</div>
+                <div class="col col-md-3 col-lg-3 col-xl-3">
+					<div class="form-group">
+						<label for="unit_price">Sale Price</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
@@ -265,66 +276,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-
-				<div class="col col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-						<label for="agent_id">Agent</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user text-info"></i></span>
-							</div>
-							<select  class="form-control" name="agent_id" id="agent_id">
-								<option value="">Select</option>
-								@foreach($agents as $agent)
-								 <option value="{{$agent->id}}">{{$agent->name}}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="col col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-						<label for="owner_id">Owner</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user text-info"></i></span>
-							</div>
-							<select  class="form-control" name="owner_id" id="owner_id">
-								<option value="">Select</option>
-								@foreach($owners as $owner)
-								 <option value="{{$owner->id}}">{{$owner->name}}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-				</div>
-
-                <div class="col col-md-3 col-lg-3 col-xl-3">
-                    <div class="form-group">
-                        <label for="purchase_date">Purchase Date</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user text-info"></i></span>
-                            </div>
-                            <input type="text" class="form-control" name="purchase_date" id="purchase_date" value="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-						<label for="purchase_cost">Purchase Cost</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user text-info"></i></span>
-							</div>
-                            <input type="text" class="form-control numeric" name="purchase_cost" id="purchase_cost" value="">
-						</div>
-					</div>
-				</div>
-
 			</div>
 		</div>
 		<div class="modal-footer">

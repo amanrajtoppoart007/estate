@@ -23,4 +23,8 @@ class State extends Model
    {
       return $this->hasMany('App\Property','state_id','id');
    }
+   public function owners()
+   {
+       return $this->hasMany(Owner::class);
+   }
 }

@@ -1,4 +1,4 @@
-(function ($) 
+(function ($)
 {
     let csrf_token = $('meta[name="csrf-token"]').attr('content');
     let base_url = $('meta[name="base-url"]').attr('content');
@@ -12,7 +12,7 @@
             data: {'country_id': callerElement.val() },
             dataType: 'json',
             success: function (res) {
-                if (res.response == 'success') {
+                if (res.response === "success") {
                     let option = $($.parseHTML(`<option value="">Select State</option>`));
                     AffectedElement.append(option);
                     $.each(res.data, function (key, item){
@@ -21,7 +21,7 @@
                     });
                 }
                 else {
-                    if (res.response == "validation_error") {
+                    if (res.response === "validation_error") {
                         $.validation_errors(res);
                     }
                     else {
@@ -36,7 +36,7 @@
         });
     };
 
-    $.get_city_list = function get_city_list(callerElement, AffectedElement) 
+    $.get_city_list = function get_city_list(callerElement, AffectedElement)
     {
         AffectedElement.empty();
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': csrf_token } });
@@ -46,7 +46,7 @@
             data: {'state_id': callerElement.val() },
             dataType: 'json',
             success: function (res) {
-                if (res.response == 'success') {
+                if (res.response === 'success') {
                     let option = $($.parseHTML(`<option value="">Select City</option>`));
                     AffectedElement.append(option);
                     $.each(res.data, function (key, item) {
@@ -56,7 +56,7 @@
 
                 }
                 else {
-                    if (res.response == "validation_error") {
+                    if (res.response === "validation_error") {
                         $.validation_errors(res);
                     }
                     else {

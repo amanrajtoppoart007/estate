@@ -45,18 +45,21 @@ class PropertyUnitController extends Controller
         $input               = $request->only(['flat_house_no','property_unit_type_id','property_id','title',
         'owner_id','agent_id','unit_size','rent_type','bathroom','bedroom','furnishing',
          'balcony','parking','purpose','unit_status']);
+        if($request->has("unit_price"))
+        {
+            $input['unit_price'] = $request->unit_price ? $request->unit_price :null;
+        }
+        if($request->has("unit_rent"))
+        {
+            $input['unit_rent'] = $request->unit_rent ? $request->unit_rent :null;
+        }
         $input['admin_id']    = Auth::guard('admin')->user()->id;
         $unit_gen             = new CreateUnitCode($request->property_id,$request->property_unit_type_id);
         $input['unit_status'] = 1;
         $input['unitcode']    = $unit_gen->generate_unit_code();
-        if (!empty($request->rent_type)) {
+        if (!empty($request->rent_type))
+        {
             $input['rent_type'] = $request->rent_type;
-        }
-        if (!empty($request->purchase_date)) {
-            $input['purchase_date'] = date("Y-m-d", strtotime($request->purchase_date));
-        }
-        if (!empty($request->purchase_cost)) {
-            $input['purchase_cost'] = $request->purchase_cost;
         }
         if($unit = PropertyUnit::create($input))
         {
@@ -265,8 +268,6 @@ class PropertyUnitController extends Controller
             'furnishing' => 'required',
             'balcony' => 'required',
             'parking' => 'required',
-             'purchase_date'=>'required|date',
-            'purchase_cost'=>'required|numeric',
             'unit_status'=>'numeric',
          ]);
         if(!$validator->fails())
@@ -280,22 +281,13 @@ class PropertyUnitController extends Controller
                 {
                     $update['rent_type'] = $request->rent_type;
                 }
-                if(!empty($request->owner_id))
-                {
-                    $update['owner_id'] = $request->owner_id;
+                if ($request->has("unit_price")) {
+                    $update['unit_price'] = $request->unit_price ? $request->unit_price : null;
                 }
-                if(!empty($request->agent_id))
-                {
-                    $update['agent_id'] = $request->agent_id;
+                if ($request->has("unit_rent")) {
+                    $update['unit_rent'] = $request->unit_rent ? $request->unit_rent : null;
                 }
-                if(!empty($request->purchase_date))
-                {
-                    $update['purchase_date'] = date("Y-m-d",strtotime($request->purchase_date));
-                }
-                if(!empty($request->purchase_cost))
-                {
-                    $update['purchase_cost'] = $request->purchase_cost;
-                }
+
                 if(PropertyUnit::where(['id'=>$request->unit_id])->update($update))
                 {
                     $res['status']   = 1;
