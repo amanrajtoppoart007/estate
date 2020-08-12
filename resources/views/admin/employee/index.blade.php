@@ -50,7 +50,7 @@
         }
         function renderActionBtn(data)
         {
-            return `<a target="_blank" href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-eye text-white"></i></a>`;
+            return `<a  href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-edit text-white"></i>Edit</a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         var dataTable = $("#dataTable").dataTable({
@@ -78,14 +78,14 @@
                                 { data : "mobile", name : 'mobile'},
                                 { data : "created_at", name : 'created_at' },
                                 { data : "status", name : 'status',
-                                    render: function( type, row, data, meta) 
+                                    render: function( type, row, data, meta)
                                     {
                                       return renderStatusBtn(data);
                                     }
                                 },
                                 {
                                     data : null, name: 'action',searchable: false,orderable :false,
-                                    render: function(data, type, row, meta) 
+                                    render: function(data, type, row, meta)
                                     {
                                     return renderActionBtn(row);
                                     }
@@ -119,7 +119,7 @@
                               {
                                     extend: 'print',
                                     title : 'State List',
-                                    exportOptions: 
+                                    exportOptions:
                                     {
                                         columns: [0,1,2,3,4]
                                     }

@@ -131,44 +131,47 @@
                    <div class="row">
                        <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
                           <div class="form-group">
-                               <label for="country">Country</label>
+                               <label for="country_id">Country</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
                                           <i class="fa fa-flag"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="country" id="country" value="">
+                                   <select type="text" class="form-control" name="country_id" id="country_id">
+                                       <option value="">Select Country</option>
+                                       @foreach($countries as $country)
+                                           <option value="{{$country->id}}">{{$country->name}}</option>
+                                       @endforeach
+                                   </select>
                                </div>
                            </div>
                        </div>
                        <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="state">State</label>
+                               <label for="state_id">State</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
                                           <i class="fa fa-signal"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="state" id="state" value="">
+                                   <select  class="form-control" name="state_id" id="state_id">
+                                   </select>
                                </div>
                            </div>
                        </div>
                        <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
                            <div class="form-group">
-                               <label for="city">City</label>
+                               <label for="city_id">City</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
                                           <i class="fa fa-city"></i>
                                       </span>
                                   </div>
-                               <select type="text" class="form-control" name="city" id="city">
-                                   <option value="">Select City</option>
-                                   @foreach($cities as $city)
-                                   @endforeach
-                               </select>
+                                   <select class="form-control" name="city_id" id="city_id">
+                                   </select>
                                </div>
                            </div>
                        </div>
@@ -203,11 +206,19 @@
 @section('script')
   <script>
        $(document).ready(function(){
+
+           $("#country_id").on("change",function(){
+               $.get_state_list($("#country_id"),$("#state_id"));
+           });
+           $("#state_id").on("change",function(){
+               $.get_city_list($("#state_id"),$("#city_id"));
+           });
+
            function render_image(input)
             {
                 if(input.files && input.files[0])
                 {
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function (e) {
                     $('#image_grid').attr('src', e.target.result);
                 }
@@ -219,23 +230,23 @@
             });
             $("#remove_image").click(function(){
                 $('#image_grid').attr("src", "{{asset('theme/default/images/dashboard/4.png')}}");
-                var file = document.getElementById("image");
+                let file = document.getElementById("image");
                 file.value = file.defaultValue;
             });
             $("#add_data_form").on('submit',function(e){
                 e.preventDefault();
-                var url = "{{route('buyer.store')}}";
-                var params = new FormData(document.getElementById('add_data_form'));
+                let url = "{{route('buyer.store')}}";
+                let params = new FormData(document.getElementById('add_data_form'));
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
                    $("#add_data_form")[0].reset();
                    $('#image_grid').attr("src", "{{asset('theme/default/images/dashboard/4.png')}}");
-                };
+                }
                 function fn_error(result)
                 {
                     toast('error',result.message,'bottom-right');
-                };
+                }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             })
        });

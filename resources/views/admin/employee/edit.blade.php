@@ -136,6 +136,17 @@
                               </div>
                           </div>
                       </div>
+                       <div class="col-md-6">
+                          <div class="form-group">
+                              <label for="iban_number">IBAN NUMBER </label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                  </div>
+                                  <input type="text" name="iban_number" id="iban_number" class="form-control" value="{{$employee->iban_number}}">
+                              </div>
+                          </div>
+                      </div>
                   </div>
                   <div class="row">
                       <div class="col-md-6">
@@ -244,23 +255,35 @@
                            <div class="row">
                       <div class="col-md-6">
                           <div class="form-group">
-                              <label for="country">Country</label>
+                              <label for="country_id">Country</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                   </div>
-                                  <input type="text" class="form-control" name="country" id="country" value="{{$employee->country}}">
+
+                                  <select class="form-control" name="country_id" id="country_id">
+                                      <option value="">Select Country</option>
+                                      @foreach($countries as $country)
+                                          @php $selected = ($country->id==$employee->country_id)?"selected":null; @endphp
+                                          <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
+                                      @endforeach
+                                  </select>
                               </div>
                           </div>
                       </div>
                       <div class="col-md-6">
                           <div class="form-group">
-                              <label for="state">State</label>
+                              <label for="state_id">State</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-street-view"></i></span>
                                   </div>
-                                  <input type="text" class="form-control" name="state" id="state" value="{{$employee->state}}">
+                                  <select class="form-control" name="state_id" id="state_id">
+                                @foreach($states as $state)
+                                    @php $selected = ($state->id==$employee->state_id)?"selected":null; @endphp
+                                    <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
+                                @endforeach
+                            </select>
                               </div>
                           </div>
                       </div>
@@ -268,12 +291,17 @@
                   <div class="row">
                       <div class="col-md-6">
                           <div class="form-group">
-                              <label for="city">City</label>
+                              <label for="city_id">City</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-city"></i></span>
                                   </div>
-                                  <input type="text" class="form-control" name="city" id="city" value="{{$employee->city}}">
+                                  <select class="form-control" name="city_id" id="city_id">
+                                      @foreach($cities as $city)
+                                          @php $selected = ($city->id==$employee->city_id)?"selected":null; @endphp
+                                          <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
+                                      @endforeach
+                                  </select>
                               </div>
                           </div>
                       </div>
@@ -404,17 +432,7 @@
                               </div>
                           </div>
                       </div>
-                       <div class="col-md-3">
-                          <div class="form-group">
-                              <label for="iban_number">IBAN NUMBER </label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                  </div>
-                                  <input type="text" name="iban_number" id="iban_number" class="form-control" value="{{$employee->iban_number}}">
-                              </div>
-                          </div>
-                      </div>
+
                        <div class="col-md-3">
                           <div class="form-group">
                               <label for="fixed_salary">Fixed Salary </label>
@@ -444,7 +462,7 @@
                               </div>
                           </div>
                       </div>
-                       <div class="col-md-4">
+                       <div class="col-md-12 text-right">
                           <div class="form-group float-right">
                               <label for="submit_button">&nbsp;</label>
                               <div class="input-group">

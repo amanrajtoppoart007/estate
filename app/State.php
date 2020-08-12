@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-    protected $fillable   = ['admin_id','code','name', 'image','country_id','is_disabled',];
+    protected $guarded   = [];
     public function country()
     {
        return $this->belongsTo('App\Country');
@@ -26,5 +26,17 @@ class State extends Model
    public function owners()
    {
        return $this->hasMany(Owner::class);
+   }
+   public function agents()
+   {
+       return $this->hasMany(Agent::class);
+   }
+   public function buyers()
+   {
+       return $this->hasMany(Buyer::class);
+   }
+   public function employees()
+   {
+       return $this->hasMany(Employee::class);
    }
 }

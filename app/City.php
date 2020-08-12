@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    protected $table      = 'cities';
-    protected $primaryKey = 'id';
     protected $guarded    = [];
     protected $appends    = ['state_name','country_name'];
 
@@ -23,6 +21,19 @@ class City extends Model
    {
        return $this->hasMany(Owner::class);
    }
+    public function agents()
+   {
+       return $this->hasMany(Agent::class);
+   }
+   public function buyers()
+   {
+       return $this->hasMany(Buyer::class);
+   }
+   public function employees()
+   {
+       return $this->hasMany(Employee::class);
+   }
+
     public function properties()
     {
         return $this->hasMany('App\Property');

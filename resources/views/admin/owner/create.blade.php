@@ -540,7 +540,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
                   </div>
-                  <select type="text" class="form-control" name="state_id" id="state_id">
+                  <select class="form-control" name="state_id" id="state_id">
                   </select>
               </div>
           </div>
@@ -551,7 +551,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-city"></i></span>
                   </div>
-                  <select type="text" class="form-control" name="city_id" id="city_id">
+                  <select class="form-control" name="city_id" id="city_id">
                   </select>
               </div>
           </div>
