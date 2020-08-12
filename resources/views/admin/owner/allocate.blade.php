@@ -1,19 +1,23 @@
-{{Form::open(['id'=>'allot_property_form'])}}
-<input type="hidden" name="owner_id"  id="owner_id" value="">
-<div class="modal" tabindex="-1" role="dialog" id="allocate_unit_modal">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Allot Unit To Owner</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
+@extends("admin.layout.app")
+@section("content")
+
+    {{Form::open(['id'=>'allot_property_form','autocomplete'=>'off'])}}
+    <input type="hidden" name="owner_id" id="owner_id" value="{{$owner_id}}">
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Building</th>
+                    <th>Flat No.</th>
+                    <th>Purchasing Date</th>
+                    <th>Purchasing Cost</th>
+                </tr>
+                </thead>
+                <tbody id="unit_grid">
+                <tr>
+                    <td>
                         <div class="form-group">
-                            <label for="property_id">Building</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -28,65 +32,109 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-building"></i>
+                                    </div>
+                                </div>
+                                <select type="text" name="unit_id" id="unit_id" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-building"></i>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" name="purchase_date" id="purchase_date" value="">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-building"></i>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control numeric" name="purchase_cost" id="purchase_cost" value="">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col text-right">
+                    <button type="submit" class="btn btn-primary">Allot Unit</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Allot Unit</button>
             </div>
         </div>
     </div>
-</div>
+    {{Form::close()}}
+@endsection
+ @section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+@endsection
+@section('js')
+<script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
+@endsection
+@section("script")
+    <script>
+        $(document).ready(function () {
 
-{{Form::close()}}
+            $("#purchase_date").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
 
-<script>
-    $(document).ready(function(){
+            $("#property_id").on("change", function (e) {
+                let url = "{{route('get.unit.list')}}";
+                let params = {
+                    property_id: $(this).val()
+                };
 
-        let html = `
-        <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
-                        <div class="form-group">
-                            <label for="unit_id">Flat</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-building"></i>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="unit_id" value="">
-                                <input type="text" name="flat_no" value="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
-                        <div class="form-group">
-                            <label for="purchase_date">Purchasing Date</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-building"></i>
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" name="purchase_date[]"
-                                       value="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-3 col-xl-3 col-lg-3">
-                        <div class="form-group">
-                            <label for="purchase_cost">Purchasing Cost</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-building"></i>
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" name="purchase_cost[]"
-                                       value="">
-                            </div>
-                        </div>
-                    </div>`;
-    });
-</script>
+                function fn_success(result) {
+                    let units = result.data;
+                    let html = `<option value="">Select Unit</option>`;
+                    $.each(units, function (index, item) {
+                        html += `<option value="${item.id}">${item.flat_house_no}</option>`;
+                    })
+                    $("#unit_id").html(html);
+                }
+
+                function fn_error(result) {
+                    toast('error', result.message, 'top-right');
+                }
+
+                $.fn_ajax(url, params, fn_success, fn_error);
+            });
+
+            $("#allot_property_form").on("submit",function(e){
+                e.preventDefault();
+                let url = "{{route('owner.allot.property.unit')}}";
+                let params = $("#allot_property_form").serialize();
+                function fn_success(result)
+                {
+                    toast("success",result.message,"top-right");
+                    $("#allot_property_form")[0].reset();
+                }
+                function fn_error(result)
+                {
+                    toast("error",result.message,"top-right");
+                }
+
+                $.fn_ajax(url,params,fn_success,fn_error);
+
+            })
+        });
+    </script>
+@endsection

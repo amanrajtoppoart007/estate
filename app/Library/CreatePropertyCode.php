@@ -26,11 +26,9 @@ class CreatePropertyCode
     }
     public function generate_property_code($request=array())
     {
-        
-        $input['state'] = pluck_single_value('states','id',$request['state_id'],'name');
+
         $input['city']  = pluck_single_value('cities','id',$request['city_id'],'name');
         $validator      = Validator::make($input,[
-            'state' => 'required',
             'city' => 'required',
         ]);
         if($validator->fails())
@@ -39,10 +37,9 @@ class CreatePropertyCode
         }
         else
         {
-                $state = $input['state'];
+
                 $city  = $input['city'];
-                $code = strtoupper(substr($state, 0, 2));
-                $code.= strtoupper(substr($city, 0, 1));
+                $code  = strtoupper(substr($city, 0, 1));
                 $result = Property::select('propcode')->where('propcode','LIKE','%'.$code.'%')->get();
               if(count($result)>0)
               {

@@ -27,6 +27,7 @@ class StoreAgent extends FormRequest
     {
         $rules = [
             'name'=>'required|unique:agents,name',
+            'country_code'=>'required|numeric',
             'mobile'=>'required|unique:agents,mobile|',
             'email'=>'required|email|unique:agents,email',
             'password'=>'required',
@@ -34,9 +35,9 @@ class StoreAgent extends FormRequest
             'bank_swift_code'=>'required',
             'bank_account'=>'required',
             'banking_name'=>'required',
-            'country'=>'required',
-            'state'=>'required',
-            'city'=>'required',
+            'country_id'=>'required|numeric',
+            'state_id'=>'required|numeric',
+            'city_id'=>'required|numeric',
             'address'=>'required',
             'photo'=>'required|image|mimes:jpeg,png,jpg|max:10048',
 

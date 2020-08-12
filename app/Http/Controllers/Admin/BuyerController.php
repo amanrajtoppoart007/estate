@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
 use App\SalesEnquiry;
+use App\State;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -48,7 +49,7 @@ class BuyerController extends Controller
     public function store(\App\Http\Requests\StoreBuyer $request)
     {
         $request->validated();
-        $input = $request->only(['name','email','mobile','emirates_id','country','state','city','address']);
+        $input = $request->only(['name','email','mobile','emirates_id','country_id','state_id','city_id','address']);
         $input['password']    = Hash::make($request->password);
         $folder               = $request->mobile;
         $input['passport']    = GlobalHelper::singleFileUpload($request,'local', 'passport',"buyers/$folder");
@@ -79,15 +80,38 @@ class BuyerController extends Controller
 
     public function edit($id)
     {
-        $data = Buyer::find($id);
-        return view('admin.buyer.edit',\compact('data'));
+        $buyer = Buyer::find($id);
+        if(!empty($buyer))
+        {
+            $countries = Country::where(['is_disabled'=>0])->get();
+            $country_id = $buyer->country_id ? $buyer->country_id :null;
+            if(!empty($country_id))
+            {
+                $s_params['country_id'] = $country_id;
+            }
+            $s_params['is_disabled'] = '0';
+            $states = State::where($s_params)->get();
+            $state_id = $buyer->state_id ? $buyer->state_id :null;
+            if(!empty($state_id))
+            {
+                $c_params['state_id'] = $state_id;
+            }
+            $c_params['is_disabled'] = '0';
+            $cities = City::where($c_params)->get();
+           return view('admin.buyer.edit',\compact('buyer','countries','states','cities'));
+        }
+        else
+        {
+            return view("blank")->with(["msg"=>"Invalid Buyer Detail"]);
+        }
+
     }
 
 
     public function update(\App\Http\Requests\UpdateBuyer $request, $id)
     {
         $request->validated();
-        $input = $request->only(['name','email','mobile','emirates_id','country','state','city','address']);
+        $input = $request->only(['name','email','mobile','emirates_id','country_id','state_id','city_id','address']);
         if(!empty($request->password))
         {
             $input['password']    = Hash::make($request->password);

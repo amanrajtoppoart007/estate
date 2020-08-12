@@ -86,7 +86,18 @@ Route::prefix('owner')->group(function () {
     Route::post('delete', 'Admin\OwnerController@destroy')->name('owner.delete');
     Route::get('view/{id}', 'Admin\OwnerController@view')->name('owner.view');
     Route::post('get/property/units', 'Admin\OwnerController@get_property_units')->name('owner.get.property.units');
+    Route::get('allot/unit/{owner_id}', 'Admin\OwnerController@init_allotment')->name('owner.init.allot.property.unit');
     Route::post('allot/unit/', 'Admin\OwnerController@allot_unit')->name('owner.allot.property.unit');
+    Route::get('unit/allotment/list', 'Admin\OwnerController@allotment_list')->name('owner.unit.allotment.list');
+    Route::post('allotment/list/fetch', 'Admin\OwnerController@fetch_allotment')->name('owner.unit.allotment.list.fetch');
+});
+
+Route::prefix('document')->group(function(){
+    Route::get('list','Admin\Notification\DocumentController@index')->name('document.list');
+    Route::post('fetch','Admin\Notification\DocumentController@fetch')->name('document.fetch');
+});
+Route::prefix('notification')->group(function(){
+    Route::get('send','Admin\Notification\NotificationController@create_document_notification')->name('notification.send');
 });
 
 /********************** developer listing**************/

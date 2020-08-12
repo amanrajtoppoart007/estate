@@ -176,11 +176,11 @@
                         <tbody>
                         <tr>
                             <th>Country</th>
-                            <td>{{ucwords($agent->country)}}</td>
+                            <td>{{ucwords($agent->country ?$agent->country->name : null )}}</td>
                             <th>State</th>
-                            <td>{{$agent->state}}</td>
+                            <td>{{$agent->state ? $agent->state->name :null }}</td>
                             <th>City</th>
-                            <td>{{$agent->city}}</td>
+                            <td>{{$agent->city ?$agent->city->name : null}}</td>
                             <th>Address</th>
                             <td>{{$agent->address}}</td>
                         </tr>

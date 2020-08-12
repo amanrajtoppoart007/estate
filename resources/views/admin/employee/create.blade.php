@@ -19,7 +19,7 @@
  @section('content')
    <div class="card">
        <div class="card-body">
-           {{Form::open(['route'=>'employee.store','id'=>'add_data_form'])}}
+           {{Form::open(['route'=>'employee.store','id'=>'add_data_form','autocomplete'=>'off'])}}
              <div class="row">
                <div class="col-md-12 col-lg-6">
                   <div class="card card-info">
@@ -126,6 +126,18 @@
                               </div>
                           </div>
                       </div>
+                               <div class="col-md-6">
+                                   <div class="form-group">
+                                       <label for="iban_number">IBAN NUMBER </label>
+                                       <div class="input-group">
+                                           <div class="input-group-prepend">
+                                               <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                           </div>
+                                           <input type="text" name="iban_number" id="iban_number" class="form-control"
+                                                  value="">
+                                       </div>
+                                   </div>
+                               </div>
                   </div>
                   <div class="row">
                       <div class="col-md-6">
@@ -230,23 +242,29 @@
                            <div class="row">
                       <div class="col-md-6">
                           <div class="form-group">
-                              <label for="country">Country</label>
+                              <label for="country_id">Country</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                   </div>
-                                  <input type="text" class="form-control" name="country" id="country" value="">
+                                  <select type="text" class="form-control" name="country_id" id="country_id">
+                                       <option value="">Select Country</option>
+                                       @foreach($countries as $country)
+                                           <option value="{{$country->id}}">{{$country->name}}</option>
+                                       @endforeach
+                                   </select>
                               </div>
                           </div>
                       </div>
                       <div class="col-md-6">
                           <div class="form-group">
-                              <label for="state">State</label>
+                              <label for="state_id">State</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-street-view"></i></span>
                                   </div>
-                                  <input type="text" class="form-control" name="state" id="state" value="">
+                                  <select class="form-control" name="state_id" id="state_id">
+                                  </select>
                               </div>
                           </div>
                       </div>
@@ -254,12 +272,13 @@
                   <div class="row">
                       <div class="col-md-6">
                           <div class="form-group">
-                              <label for="city">City</label>
+                              <label for="city_id">City</label>
                               <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-city"></i></span>
                                   </div>
-                                  <input type="text" class="form-control" name="city" id="city" value="">
+                                  <select class="form-control" name="city_id" id="city_id">
+                                  </select>
                               </div>
                           </div>
                       </div>
@@ -383,17 +402,7 @@
                               </div>
                           </div>
                       </div>
-                       <div class="col-md-3">
-                          <div class="form-group">
-                              <label for="iban_number">IBAN NUMBER </label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                  </div>
-                                  <input type="text" name="iban_number" id="iban_number" class="form-control" value="">
-                              </div>
-                          </div>
-                      </div>
+
                        <div class="col-md-3">
                           <div class="form-group">
                               <label for="fixed_salary">Fixed Salary </label>
@@ -420,7 +429,7 @@
                               </div>
                           </div>
                       </div>
-                       <div class="col-md-3">
+                       <div class="col-md-6 text-right">
                           <div class="form-group float-right">
                               <label for="submit_button">&nbsp;</label>
                               <div class="input-group">
@@ -444,6 +453,14 @@
  @section('script')
   <script>
        $(document).ready(function(){
+
+           $("#country_id").on("change",function(){
+               $.get_state_list($("#country_id"),$("#state_id"));
+           });
+           $("#state_id").on("change",function(){
+               $.get_city_list($("#state_id"),$("#city_id"));
+           });
+
            $('#dob').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(-18)->format('d-m-Y')}}'});
            $('#joining_date').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addDays(1)->format('d-m-Y')}}'});
            function render_image(input)

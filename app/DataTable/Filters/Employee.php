@@ -9,12 +9,13 @@ class Employee
      * Apply a given search value to the builder instance.
      *
      * @param Builder $builder
+     * @param $key
      * @param mixed $value
      * @return Builder $builder
      */
     public static function apply(Builder $builder,$key, $value)
     {
-        if(method_exists(__CLASS__,$key)) 
+        if(method_exists(__CLASS__,$key))
         {
             $class = __CLASS__;
             return $class::$key($builder,$value);
@@ -32,16 +33,16 @@ class Employee
             }
           return $builder;
         }
-        else 
+        else
         {
             return $builder->where("name", 'LIKE', '%' . $value. '%');
         }
-       
+
     }
     public static function order(Builder $builder, $value)
     {
          $filter = new Filter();
-        if(is_array($value)) 
+        if(is_array($value))
         {
             $column      = $dir = null;
             $attributes  = ['id','name','created_at','updated','status'];

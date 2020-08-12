@@ -42,9 +42,9 @@ class UpdateEmployee extends FormRequest
             'bank_ifsc_code'=>'required',
             'bank_account'=>'required',
             //address detail
-            'country'=>'required',
-            'state'=>'required',
-            'city'=>'required',
+            'country_id'=>'required',
+            'state_id'=>'required',
+            'city_id'=>'required',
             'address'=>'required',
             'photo'=>'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
             //department detail

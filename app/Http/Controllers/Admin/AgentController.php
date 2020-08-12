@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\City;
 use App\Country;
 use App\Http\Controllers\Controller;
+use App\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -33,7 +35,8 @@ class AgentController extends Controller
 
     public function create()
     {
-        return view('admin.agent.create');
+        $countries  = Country::where('is_disabled', '0')->get();
+        return view('admin.agent.create',compact('countries'));
     }
     public function create_company_type_agent()
     {
@@ -45,7 +48,7 @@ class AgentController extends Controller
     public function store(\App\Http\Requests\StoreAgent $request)
     {
         $request->validated();
-        $store   = $request->only(['agent_type','name','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address']);
+        $store   = $request->only(['agent_type','name','country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
         $folder = Str::studly(strtolower($request->name));
         if($request->agent_type=='company')
         {
@@ -109,12 +112,36 @@ class AgentController extends Controller
     public function edit($id)
     {
         $agent = Agent::find($id);
-        $view  = 'admin.agent.edit';
-        if ($agent->agent_type == 'company') {
-            $view = 'admin.agent.edit-company';
+        if(!empty($agent))
+        {
+
+            $country_id = $agent->country_id ? $agent->country_id :null;
+            if(!empty($country_id))
+            {
+                $s_params['country_id'] = $country_id;
+            }
+            $s_params['is_disabled'] = '0';
+            $states = State::where($s_params)->get();
+            $state_id = $agent->state_id ? $agent->state_id :null;
+            if(!empty($state_id))
+            {
+                $c_params['state_id'] = $state_id;
+            }
+            $c_params['is_disabled'] = '0';
+            $cities = City::where($c_params)->get();
+
+            $view = 'admin.agent.edit';
+            if ($agent->agent_type == 'company') {
+                $view = 'admin.agent.edit-company';
+            }
+            $countries = Country::where('is_disabled', '0')->get();
+            return view($view, compact('agent', 'countries','states','cities'));
         }
-        $countries  = Country::where('is_disabled', '0')->get();
-        return view($view, compact('agent','countries'));
+        else
+        {
+            return view("blank")->with(["msg"=>"Invalid Agent Detail"]);
+        }
+
     }
 
 
@@ -124,7 +151,7 @@ class AgentController extends Controller
     {
         $request->validated();
 
-        $update  = $request->only(['agent_type','name','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country','state','city','address']);
+        $update  = $request->only(['agent_type','name','country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {

@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    protected $table      = 'cities';
-    protected $primaryKey = 'id';
     protected $guarded    = [];
     protected $appends    = ['state_name','country_name'];
-    
+
     public function state()
     {
         return $this->belongsTo('App\State');
@@ -19,6 +17,23 @@ class City extends Model
     {
         return $this->belongsTo('App\Country');
     }
+    public function owners()
+   {
+       return $this->hasMany(Owner::class);
+   }
+    public function agents()
+   {
+       return $this->hasMany(Agent::class);
+   }
+   public function buyers()
+   {
+       return $this->hasMany(Buyer::class);
+   }
+   public function employees()
+   {
+       return $this->hasMany(Employee::class);
+   }
+
     public function properties()
     {
         return $this->hasMany('App\Property');
@@ -27,7 +42,7 @@ class City extends Model
         'created_at' => 'datetime:Y-m-d h:i A',
         'updated_at' => 'datetime:Y-m-d h:i A',
     ];
-    
+
     public function getStateNameAttribute()
     {
          return  $this->state->name;

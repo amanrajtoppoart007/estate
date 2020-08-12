@@ -28,8 +28,10 @@
               </div>
               <div class="card-body">
                   <div class="row">
-            <div class="col-sm-6 col-md-8 row">
-                 <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <div class="col-sm-6 col-md-8">
+
+                <div class="row">
+                    <div class=" col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <div class="form-group">
                         <label for="owner_type">Developer Type</label>
                         <div class="input-group">
@@ -47,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                      <div class="form-group">
                         <label for="name">Name</label>
                         <div class="input-group">
@@ -58,14 +60,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="form-group">
-                                <label for="country_code">Country Code</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-code"></i></span>
-                                    </div>
-                                    <select  class="form-control" name="country_code" id="country_code">
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <select  name="country_code" id="country_code">
                                         <option value="">Country Code</option>
                                         @php $country_codes = array('971'=>'UAE','91'=>'INDIA') @endphp
                                         @foreach($country_codes as $code_key=>$code_text)
@@ -73,21 +75,13 @@
                                             <option value="{{$code_key}}" {{$selected}}>{{$code_key}}({{$code_text}})</option>
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                    <div class="form-group">
-                        <label for="mobile">Mobile</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                </span>
                             </div>
                             <input type="text" class="form-control numeric" name="mobile" id="mobile" value="{{$owner->mobile}}">
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <div class="form-group">
                         <label for="email">Email</label>
                         <div class="input-group">
@@ -98,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-group">
@@ -109,7 +103,7 @@
                     </div>
                 </div>
                 </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <div class="form-group">
                         <label for="emirates_id">Emirates Id</label>
                         <div class="input-group">
@@ -120,6 +114,8 @@
                         </div>
                     </div>
                 </div>
+                </div>
+
             </div>
             <div class="col-sm-6 col-md-4">
                 <div class="text-center">
@@ -153,17 +149,58 @@
         <div class="card card-info">
             <div class="card-header">
                 <h6>Documents</h6>
+                @php
+                 $passport = $visa = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
+                         if(!$owner->documents->isEmpty())
+                             {
+                                 $documents =   extract_doc_keys($owner->documents,'file_url','document_title','date_key','date_value');
+
+                         foreach($documents as $doc)
+                          {
+                              if($doc['document_title']=='emirates_id_doc')
+                                  {
+                                      $emirates_id_doc         = $doc['file_url'];
+                                      $emirates_id_exp_date = $doc['date_value'];
+                                  }
+                               if($doc['document_title']=='passport')
+                                  {
+                                      $passport          = $doc['file_url'];
+                                      $passport_exp_date = $doc['date_value'];
+                                  }
+                               if($doc['document_title']=='visa')
+                                  {
+                                      $visa          = $doc['file_url'];
+                                      $visa_exp_date = $doc['date_value'];
+                                  }
+
+                               if($doc['document_title']=='power_of_attorney')
+                                  {
+                                      $poa         = $doc['file_url'];
+                                      $poa_exp_date = $doc['date_value'];
+                                  }
+                          }
+                             }
+                         if(!empty($emirates_id_doc))
+                        {
+                            $emirates_id_doc = route('get.doc',base64_encode($emirates_id_doc));
+                        }
+                         if(!empty($passport))
+                       {
+                           $passport = route('get.doc',base64_encode($passport));
+                       }
+                       if(!empty($visa))
+                       {
+                           $visa = route('get.doc',base64_encode($visa));
+                       }
+                       if(!empty($poa))
+                       {
+                           $poa = route('get.doc',base64_encode($poa));
+                       }
+                @endphp
             </div>
             <div class="card-body">
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-                @php
-                    $emirates_id_doc = $visa =  'javascript:void(0)';
-                     if(!empty($owner->emirates_id_doc))
-                     {
-                         $emirates_id_doc = route('get.doc',base64_encode($owner->emirates_id_doc));
-                     }
-                @endphp
                  <div class="form-group">
                      <label for="emirates_id_doc">Emirates Id(scanned copy) </label>
                      <div class="input-group">
@@ -173,12 +210,13 @@
                             </span>
                         </div>
                      <input type="file" class="form-control" name="emirates_id_doc" id="emirates_id_doc" value="">
-                         @if(!empty($owner->emirates_id_doc))
+                         @if(!empty($emirates_id_doc))
                              <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                  <div class="input-group-text">
                                      <a href="{{$emirates_id_doc}}"
-                                        target="{{($owner->emirates_id_doc)?'_blank':'#'}}"><i
-                                             class="fa fa-file"></i></a>
+                                        target="{{($emirates_id_doc)?'_blank':'#'}}">
+                                         <i class="fa fa-file"></i>
+                                     </a>
                                  </div>
                              </div>
                          @endif
@@ -186,22 +224,7 @@
                  </div>
               </div>
                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-                     @php
-                         $passport = $visa = $poa =   'javascript:void(0)';
-                       if(!empty($owner->passport))
-                       {
-                           $passport = route('get.doc',base64_encode($owner->passport));
-                       }
-                       if(!empty($owner->visa))
-                       {
-                           $visa = route('get.doc',base64_encode($owner->visa));
-                       }
-                       if(!empty($owner->poa))
-                       {
-                           $poa = route('get.doc',base64_encode($owner->poa));
-                       }
 
-                     @endphp
                            <div class="form-group">
                                <label for="passport">Passport (scanned copy)</label>
                                <div class="input-group">
@@ -211,10 +234,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="passport" id="passport" value="">
-                                   @if(!empty($owner->passport))
+                                   @if(!empty($passport))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
-                                               <a href="{{$passport}}" target="{{($owner->passport)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
+                                               <a href="{{$passport}}" target="{{($passport)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
                                            </div>
                                        </div>
                                    @endif
@@ -231,10 +254,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="visa" id="visa" value="">
-                                   @if(!empty($owner->visa))
+                                   @if(!empty($visa))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
-                                               <a href="{{$visa}}" target="{{($owner->visa)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
+                                               <a href="{{$visa}}" target="{{($visa)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
                                            </div>
                                        </div>
                                    @endif
@@ -251,10 +274,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="power_of_attorney" id="power_of_attorney" value="">
-                                   @if(!empty($owner->poa))
+                                   @if(!empty($poa))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
-                                               <a href="{{$poa}}" target="{{($owner->poa)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
+                                               <a href="{{$poa}}" target="{{($poa)?'_blank':'#'}}"><i class="fa fa-file"></i></a>
                                            </div>
                                        </div>
                                    @endif
@@ -272,7 +295,7 @@
                                 <i class="fa fa-passport"></i>
                             </span>
                         </div>
-                     <input type="text" class="form-control" name="emirates_exp_date" id="emirates_exp_date" value="{{($owner->emirates_exp_date)?date('d-m-Y',strtotime($owner->emirates_exp_date)):null}}">
+                     <input type="text" class="form-control" name="emirates_exp_date" id="emirates_exp_date" value="{{($emirates_id_exp_date)?date('d-m-Y',strtotime($emirates_id_exp_date)):null}}">
                      </div>
                  </div>
               </div>
@@ -285,7 +308,7 @@
                                           <i class="fa fa-passport"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="{{($owner->passport_exp_date)?date('d-m-Y',strtotime($owner->passport_exp_date)):null}}">
+                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="{{($passport_exp_date)?date('d-m-Y',strtotime($passport_exp_date)):null}}">
                                </div>
                            </div>
                        </div>
@@ -298,7 +321,7 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="{{($owner->visa_exp_date)?date('d-m-Y',strtotime($owner->visa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="{{($visa_exp_date)?date('d-m-Y',strtotime($visa_exp_date)):null}}">
                                </div>
                            </div>
                        </div>
@@ -311,7 +334,7 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="poa_exp_date" id="poa_exp_date" value="{{($owner->poa_exp_date)?date('d-m-Y',strtotime($owner->poa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="poa_exp_date" id="poa_exp_date" value="{{($poa_exp_date)?date('d-m-Y',strtotime($poa_exp_date)):null}}">
                                </div>
                            </div>
                        </div>
@@ -326,7 +349,7 @@
                  <div class="row">
                      <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
                          <div class="row">
-                             <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                  <div class="form-group">
                                      <label for="auth_person_name">Name</label>
                                      <div class="input-group">
@@ -337,7 +360,7 @@
                                      </div>
                                  </div>
                              </div>
-                             <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                <div class="form-group">
                                      <label for="auth_person_designation">Designation/Relation</label>
                                      <div class="input-group">
@@ -350,34 +373,27 @@
                              </div>
                          </div>
                          <div class="row">
-                             <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                                 <div class="form-group">
-                                     <label for="auth_person_country_code">Country Code</label>
-                                     <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-code"></i></span>
-                                         </div>
-                                         <select class="form-control" name="auth_person_country_code"
-                                                 id="auth_person_country_code">
-                                             <option value="">Country Code</option>
-                                             <option value="971">971 (UAE)</option>
-                                             <option value="91">91 (INDIA)</option>
-                                         </select>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+
+                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                  <div class="form-group">
                                      <label for="auth_person_mobile">Mobile</label>
                                      <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                             <span class="input-group-text">
+                                                 <select name="auth_person_country_code" id="auth_person_country_code">
+                                                         @foreach($countries as $country)
+                                                           @php $selected = ($country->code==971)?"selected":null; @endphp
+                                                           @php $selected = ($country->code==$owner->auth_person->country_code)?"selected":null; @endphp
+                                                           <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
+                                                           @endforeach
+                                                  </select>
+                                             </span>
                                          </div>
                          <input type="text" class="form-control numeric" name="auth_person_mobile" id="auth_person_mobile" value="{{($owner->auth_person)?$owner->auth_person->mobile:null}}">
                                      </div>
                                  </div>
                              </div>
-                             <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                  <div class="form-group">
                                      <label for="auth_person_email">Email</label>
                                      <div class="input-group">
@@ -647,31 +663,47 @@
             <div class="card-body">
         <div class="row">
           <div class="form-group col-md-4">
-              <label for="country">Country</label>
+              <label for="country_id">Country</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-flag"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="country" id="country" value="{{$owner->country}}">
+                  <select  class="form-control" name="country_id" id="country_id">
+                      @foreach($countries as $country)
+                          @php $selected = ($country->id==$owner->country_id)?"selected":null; @endphp
+                          <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
+                      @endforeach
+                  </select>
               </div>
           </div>
           <div class="form-group col-md-4">
-              <label for="state">State</label>
+              <label for="state_id">Emirates</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="state" id="state" value="{{$owner->state}}">
+                  <select  class="form-control" name="state_id" id="state_id">
+                      @foreach($states as $state)
+                          @php $selected = ($state->id==$owner->state_id)?"selected":null; @endphp
+                          <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
+                      @endforeach
+                  </select>
+
               </div>
           </div>
           <div class="col-md-4"></div>
           <div class="form-group col-md-4">
-              <label for="city">City</label>
+              <label for="city_id">City</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-city"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="city" id="city" value="{{$owner->city}}">
+                  <select  class="form-control" name="city_id" id="city_id">
+                      @foreach($cities as $city)
+                          @php $selected = ($city->id==$owner->city_id)?"selected":null; @endphp
+                          <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
+                      @endforeach
+                  </select>
               </div>
           </div>
           <div class="form-group col-md-4">
@@ -818,6 +850,9 @@
 @section('script')
   <script>
        $(document).ready(function(){
+           $("#state_id").on("change",function(){
+             $.get_city_list($("#state_id"),$("#city_id"));
+         });
            let pickers = ['emirates_exp_date','visa_exp_date','passport_exp_date','poa_exp_date',
                'auth_person_emirates_exp_date',
                'auth_person_visa_exp_date',

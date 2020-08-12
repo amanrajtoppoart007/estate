@@ -116,7 +116,7 @@
     {
          if(data.length>0)
          {
-             var html = '';
+             let html = '';
              $.each(data,function(index,item){
                   html += `<div class="card">
                     <div class="card-body">

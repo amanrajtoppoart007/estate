@@ -70,97 +70,46 @@
                 <div class="card-body">
                     <table class="table table-borderless">
                         <thead>
-                           <tr>
-                               <th>Document</th>
-                               <th>Link/View</th>
-                               <th>Expiry Date</th>
-                           </tr>
+                        <tr>
+                            <th>Document</th>
+                            <th>Link/View</th>
+                            <th> Date</th>
+                        </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                              <th>Emirates Id</th>
-                              <th>
-                                  @php
-                                      if(!empty($owner->emirates_id_doc))
-                                      {
-                                          $emirates_id_doc = route('get.doc',base64_encode($owner->emirates_id_doc));
-                                      }
-                                      else
-                                      {
-                                          $emirates_id_doc = asset('theme/default/images/dashboard/4.png');
-                                      }
-                                  @endphp
-                                  <a target="_blank" class="img-thumbnail" href="{{$emirates_id_doc}}" alt="Owner Emirates Id">
-                                     <i class="fa fa-file"></i>
-                                  </a>
-                              </th>
-                              <th>
-                                  {{$owner->emirates_exp_date ? date("d-m-Y",strtotime($owner->emirates_exp_date)): null}}
-                              </th>
-                          </tr>
-                          <tr>
-                              <th>Passport</th>
-                              <th>
-                                  @php
-                                      if(!empty($owner->passport))
-                                      {
-                                          $passport = route('get.doc',base64_encode($owner->passport));
-                                      }
-                                      else
-                                      {
-                                          $passport = asset('theme/default/images/dashboard/4.png');
-                                      }
-                                  @endphp
-                                  <a target="_blank" class="img-thumbnail" href="{{$passport}}" alt="Owner Passport">
-                                     <i class="fa fa-file"></i>
-                                  </a>
-                              </th>
-                              <th>
-                                  {{$owner->passport_exp_date ? date("d-m-Y",strtotime($owner->passport_exp_date)): null}}
-                              </th>
-                          </tr>
-                        <tr>
-                              <th>Visa</th>
-                              <th>
-                                  @php
-                                      if(!empty($owner->visa))
-                                      {
-                                          $visa = route('get.doc',base64_encode($owner->visa));
-                                      }
-                                      else
-                                      {
-                                          $visa = asset('theme/default/images/dashboard/4.png');
-                                      }
-                                  @endphp
-                                  <a target="_blank" class="img-thumbnail" href="{{$visa}}" alt="Owner Visa">
-                                     <i class="fa fa-file"></i>
-                                  </a>
-                              </th>
-                              <th>
-                                  {{$owner->visa_exp_date ? date("d-m-Y",strtotime($owner->visa_exp_date)): null}}
-                              </th>
-                          </tr>
-                          <tr>
-                              <th>Power Of Attorney</th>
-                              <th>
-                                  @php
-                                      if(!empty($owner->poa))
-                                      {
-                                          $poa = route('get.doc',base64_encode($owner->poa));
-                                      }
-                                      else
-                                      {
-                                          $poa = asset('theme/default/images/dashboard/4.png');
-                                      }
-                                  @endphp
-                                  <a target="_blank" class="img-thumbnail" href="{{$poa}}" alt="Owner's Power Of Attorney">
-                                     <i class="fa fa-file"></i>
-                                  </a>
-                              </th>
-                              <th>
-                                  {{$owner->poa_exp_date ? date("d-m-Y",strtotime($owner->poa_exp_date)): null}}
-                              </th>
-                          </tr>
+                        @if(!$owner->documents->isEmpty())
+                            @php
+                                $documents =   extract_doc_keys($owner->documents,'file_url','document_title','date_key','date_value');
+                            @endphp
+                            @foreach($documents as $doc)
+                                <tr>
+                                    <th>{{ucwords(strtolower($doc['document_title']))}}</th>
+                                    <th>
+                                        @php
+                                            if(!empty($doc['file_url']))
+                                            {
+                                                $url = route('get.doc',base64_encode($doc['file_url']));
+                                            }
+                                            else
+                                            {
+                                                $url = asset('theme/default/images/dashboard/4.png');
+                                            }
+                                        @endphp
+                                        <a target="_blank" class="img-thumbnail" href="{{$url}}"
+                                           alt="{{ucwords(strtolower($doc['document_title']))}}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a target="_blank" class="img-thumbnail" href="{{$url}}"
+                                           alt="{{ucwords(strtolower($doc['document_title']))}}" download>
+                                            <i class="fa fa-file-download"></i>
+                                        </a>
+                                    </th>
+                                    <th>
+                                       {{ucwords(strtolower($doc['date_key']))}} : {{$doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])): null}}
+                                    </th>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -197,11 +146,11 @@
                         <tbody>
                         <tr>
                             <th>Country</th>
-                            <td>{{ucwords($owner->country)}}</td>
+                            <td>{{ucwords($owner->country?$owner->country->name:null)}}</td>
                             <th>State</th>
-                            <td>{{$owner->state}}</td>
+                            <td>{{$owner->state ? $owner->state->name : null}}</td>
                             <th>City</th>
-                            <td>{{$owner->city}}</td>
+                            <td>{{$owner->city?$owner->city->name : null}}</td>
                             <th>Address</th>
                             <td>{{$owner->address}}</td>
                         </tr>
@@ -261,6 +210,7 @@
                                   <a target="_blank" class="img-thumbnail" href="{{$emirates_id_doc}}" alt="Owner Emirates Id">
                                      <i class="fa fa-file"></i>
                                   </a>
+
                               </th>
                               <th>
                                   {{$owner->auth_person->emirates_id_exp_date ? date("d-m-Y",strtotime($owner->auth_person->emirates_id_exp_date)): null}}

@@ -35,15 +35,15 @@ class EditOwner extends FormRequest
             'bank_name'=>'required',
             'bank_swift_code'=>'required',
             'bank_account'=>'required',
-            'country'=>'required',
-            'state'=>'required',
-            'city'=>'required',
+            'country_id'=>'required',
+            'state_id'=>'required',
+            'city_id'=>'required',
             'address'=>'required',
             'owner_type'=>'required',
             'photo'=>'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
 
         ];
-        if(!empty($request['emirates_id']))
+        if(!empty($request['emirates_id_doc']))
         {
             $rules['emirates_exp_date'] = 'required|date';
         }

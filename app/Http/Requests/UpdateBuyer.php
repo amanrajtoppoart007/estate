@@ -32,9 +32,9 @@ class UpdateBuyer extends FormRequest
             'passport'=>'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
             'visa'=>'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
             'emirates_id'=>'required',
-            'country'=>'required',
-            'state'=>'required',
-            'city'=>'required',
+            'country_id'=>'required',
+            'state_id'=>'required',
+            'city_id'=>'required',
             'address'=>'required',
             'buyer_image'=>'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
         ];

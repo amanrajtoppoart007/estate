@@ -18,7 +18,7 @@
 @endsection
 @section('content')
     <div class="items_list bg_transparent color-secondery icon_default">
-        <a href={{route('property.create')}} class="btn btn-primary color-primary mb-4 float-right">Add Property</a>
+        <a href="{{route('property.create')}}" class="btn btn-primary color-primary mb-4 float-right">Add Property</a>
         <div class="table-responsive">
             <table class="table" id="dataTable">
                 <thead>

@@ -25,6 +25,24 @@ class Country extends Model
     {
         return $this->hasMany('App\Tenant');
     }
+    public function owners()
+   {
+       return $this->hasMany(Owner::class);
+   }
+
+   public function agents()
+   {
+       return $this->hasMany(Agent::class);
+   }
+   public function buyers()
+   {
+       return $this->hasMany(Buyer::class);
+   }
+
+   public function employees()
+   {
+       return $this->hasMany(Employee::class);
+   }
 
     public function rent_enquiries()
     {

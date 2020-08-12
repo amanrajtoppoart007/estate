@@ -25,7 +25,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Relation::morphMap([
+            'user' => \App\User::class,
             'tenant' => \App\Tenant::class,
+            'owner_auth_person' => \App\OwnerAuthPerson::class,
             'owner' => \App\Owner::class,
             'buyer' => \App\Buyer::class,
             'manager' => \App\Admin::class,

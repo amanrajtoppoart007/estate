@@ -37,12 +37,8 @@ class StorePropertyUnit extends FormRequest
             'parking' => 'required',
             'rent_type' => 'required',
             'unit_price' => 'required|numeric',
-            'agent_id'=>'required|numeric',
-            'owner_id'=>'required|numeric',
             'property_unit_type_id'=>'required|numeric',
             'property_id'=>'required|numeric',
-            'purchase_date'=>'required|date',
-            'purchase_cost'=>'required|numeric',
             'unit_status'=>'numeric',
         ];
     }

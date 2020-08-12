@@ -186,4 +186,9 @@ class PropertyUnit extends Model
     {
           return $this->hasMany(PropertyUnitAllotment::class,'unit_id','id');
     }
+
+    public function owner_allotment_history()
+    {
+        return $this->hasMany(OwnerAllotmentHistory::class,"unit_id","id");
+    }
 }

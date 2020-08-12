@@ -55,10 +55,16 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="mobile">Telephone Number</label>
+                    <label for="mobile">Contact Number</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            <span class="input-group-text">
+                                <select name="country_code" id="country_code">
+                                    @foreach($countries as $country)
+                                        <option value="{{$country->code}}">+{{$country->code}}</option>
+                                    @endforeach
+                                </select>
+                            </span>
                         </div>
                         <input type="text" class="form-control numeric" name="mobile" id="mobile" value="">
                     </div>
@@ -99,15 +105,7 @@
                         <textarea rows="3" type="text" class="form-control" name="address" id="address"></textarea>
                     </div>
                 </div>
-                {{--<div class="form-group col-md-6">
-                    <label for="emirates_id">Emirates Id</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-id-card-alt"></i></span>
-                        </div>
-                        <input type="text" class="form-control" name="emirates_id" id="emirates_id" value="">
-                    </div>
-                </div>--}}
+
             </div>
             <div class="col-sm-6 col-md-4">
                 <div class="text-center">
@@ -234,8 +232,7 @@
                                     <i class="fab fa-cc-visa"></i>
                                     </span>
                                   </div>
-                                  <input type="file" class="form-control" name="visa" id="visa"
-                                         value="">
+                                  <input type="file" class="form-control" name="visa" id="visa" value="">
                               </div>
                           </div>
                       </div>
@@ -250,8 +247,7 @@
                                     <i class="fa fa-file" aria-hidden="true"></i>
                                     </span>
                                   </div>
-                                  <input type="text" class="form-control" name="emirates_exp_date"
-                                         id="emirates_exp_date" value="">
+                                  <input type="text" class="form-control" name="emirates_exp_date" id="emirates_exp_date" value="">
                               </div>
                           </div>
                       </div>
@@ -264,8 +260,7 @@
                                     <i class="fa fa-passport"></i>
                                     </span>
                                   </div>
-                                  <input type="text" class="form-control" name="passport_exp_date"
-                                         id="passport_exp_date" value="">
+                                  <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="">
                               </div>
                           </div>
                       </div>
@@ -278,8 +273,7 @@
                                     <i class="fab fa-cc-visa"></i>
                                     </span>
                                   </div>
-                                  <input type="text" class="form-control" name="visa_exp_date"
-                                         id="visa_exp_date" value="">
+                                  <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="">
                               </div>
                           </div>
                       </div>
@@ -348,21 +342,27 @@
 
         <div class="row">
           <div class="form-group col-md-4">
-              <label for="country">Country</label>
+              <label for="country_id">Country</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-flag"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="country" id="country" value="">
+                  <select class="form-control" name="country_id" id="country_id">
+                      <option value="">Select Country</option>
+                      @foreach($countries as $country)
+                          <option value="{{$country->id}}">{{$country->name}}</option>
+                      @endforeach
+                  </select>
               </div>
           </div>
           <div class="form-group col-md-4">
-              <label for="state">State</label>
+              <label for="state_id">Emirates/State</label>
               <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="state" id="state" value="">
+                  <select class="form-control" name="state_id" id="state_id">
+                  </select>
               </div>
           </div>
           <div class="col-md-4"></div>
@@ -372,7 +372,8 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-city"></i></span>
                   </div>
-                  <input type="text" class="form-control" name="city" id="city" value="">
+                  <select class="form-control" name="city_id" id="city_id">
+                  </select>
               </div>
           </div>
           <div class="form-group col-md-4">

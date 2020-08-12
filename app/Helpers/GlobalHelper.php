@@ -61,12 +61,12 @@ class GlobalHelper
         return $array;
     }
 
-    public static function multipleFileUpload(Request $request, $disk,$name,$path)
+    public static function multipleFileUpload($request=null, $disk,$name,$path)
     {
         $fileNames = array();
-          if($request->hasfile("$name"))
+          if(request()->hasfile("$name"))
           {
-               $files = $request->$name;
+               $files = request()->$name;
                foreach($files as $file)
                {
                   $fileNames[] = Storage::disk("$disk")->put("$path", $file);
@@ -74,14 +74,14 @@ class GlobalHelper
           }
           return $fileNames;
     }
-    public static function multiStepFileUpload(Request $request, $disk,$file_array,$path)
+    public static function multiStepFileUpload($request, $disk,$file_array,$path)
     {
          $uploads = array();
         foreach($file_array as $name)
         {
-          if($request->hasfile("$name"))
+          if(request()->hasfile("$name"))
           {
-            $file = $request->$name;
+            $file = request()->$name;
             if($file->isValid())
             {
                 $fileName         = array();
@@ -94,12 +94,12 @@ class GlobalHelper
         }
         return $uploads;
     }
-     public static function multipleDocumentUpload(Request $request, $disk,$name,$path)
+     public static function multipleDocumentUpload($request=null, $disk,$name,$path)
     {
         $fileNames = array();
-          if($request->hasfile("$name"))
+          if(request()->hasfile("$name"))
           {
-               $files = $request->$name;
+               $files = request()->$name;
                foreach($files as $file)
                {
                   $fileName['file_url']  = Storage::disk("$disk")->put("$path", $file);
@@ -109,12 +109,12 @@ class GlobalHelper
           }
           return $fileNames;
     }
-    public static function singleFileUpload(Request $request,$disk, $name,$path)
+    public static function singleFileUpload($request=null,$disk, $name,$path)
     {
          $fileName = null;
-          if($request->has("$name"))
+          if(request()->has("$name"))
           {
-               $file = $request->$name;
+               $file = request()->$name;
                   $fileName= Storage::disk("$disk")->put("$path", $file);
           }
           return $fileName;
