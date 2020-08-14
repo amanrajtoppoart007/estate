@@ -72,9 +72,17 @@ class BuyerController extends Controller
     }
 
 
-    public function show($id)
+    public function view($id)
     {
-        //
+        $buyer = Buyer::find($id);
+        if(!empty($buyer))
+        {
+            return view("admin.buyer.view",compact("buyer"));
+        }
+        else
+        {
+            return view("blank")->with(["msg"=>"Invalid Buyer Detail"]);
+        }
     }
 
 

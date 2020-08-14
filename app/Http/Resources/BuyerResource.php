@@ -21,6 +21,7 @@ class BuyerResource extends JsonResource
             'email'=>$this->email,
             'mobile'=>$this->mobile,
             'edit_url'=>route('buyer.edit',$this->id),
+            'view_url'=>route('buyer.view',$this->id),
             'status'=>$this->status,
             'country'=>$this->country,
             'city'=>$this->city,

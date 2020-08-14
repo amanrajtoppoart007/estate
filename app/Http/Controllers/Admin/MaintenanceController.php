@@ -76,16 +76,16 @@ class MaintenanceController extends Controller
                   $disk          = 'local';
                   $visibility    = 'public';
                   $file_type     = 'image';
-                  $referrer_id   = $order->id;
-                  $referrer_type = 'maintenance';
+                  $archive_id   = $order->id;
+                  $archive_type = 'maintenance';
                   $documents     = GlobalHelper::multipleDocumentUpload($request,$disk,'images','maintenance');
                   foreach($documents as $document)
                   {
                       $doc['disk']          = $disk;
                       $doc['visibility']    = $visibility;
                       $doc['file_type']     = $file_type;
-                      $doc['referrer_id']   = $referrer_id;
-                      $doc['referrer_type'] = $referrer_type;
+                      $doc['archive_id']    = $archive_id;
+                      $doc['archive_type']  = $archive_type;
                       $doc['file_url']      = $document['file_url'];
                       $doc['remark']        = 'completed';
                       $doc['extension']     = $document['extension'];

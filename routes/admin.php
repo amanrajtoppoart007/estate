@@ -53,6 +53,7 @@ Route::prefix('buyer')->group(function () {
     Route::post('fetch', 'Admin\BuyerController@fetch')->name('buyer.fetch');
     Route::post('store', 'Admin\BuyerController@store')->name('buyer.store');
     Route::get('edit/{id}', 'Admin\BuyerController@edit')->name('buyer.edit');
+    Route::get('view/{id}', 'Admin\BuyerController@view')->name('buyer.view');
     Route::post('update/{id}', 'Admin\BuyerController@update')->name('buyer.update');
     Route::post('changeStatus', 'Admin\BuyerController@changeStatus')->name('buyer.changeStatus');
 });
@@ -136,7 +137,7 @@ Route::prefix('employee')->group(function () {
     Route::get('edit/{id}', 'Admin\EmployeeController@edit')->name('employee.edit');
     Route::post('store', 'Admin\EmployeeController@store')->name('employee.store');
     Route::post('update/{id}', 'Admin\EmployeeController@update')->name('employee.update');
-    Route::post('show', 'Admin\EmployeeController@show')->name('employee.show');
+    Route::get('view/{id}', 'Admin\EmployeeController@view')->name('employee.view');
     Route::post('delete', 'Admin\EmployeeController@destroy')->name('employee.delete');
 });
 /********************** Attendance listing**************/
@@ -331,6 +332,7 @@ Route::prefix('contact-request')->group(function () {
 });
 Route::prefix('rent-inquiry')->group(function () {
     Route::get('list', 'Admin\RentEnquiryController@index')->name('rentEnquiry.list');
+    Route::get('create/breakdown/{id}', 'Admin\RentEnquiryController@create_breakdown')->name('rentEnquiry.create.breakdown');
     Route::get('create', 'Admin\RentEnquiryController@create')->name('rentEnquiry.create');
     Route::post('store', 'Admin\RentEnquiryController@store')->name('rentEnquiry.store');
     Route::post('fetch', 'Admin\RentEnquiryController@fetch')->name('rentEnquiry.fetch');
