@@ -27,6 +27,8 @@ class UpdatePropertyUnitTypes
             'bathroom'=>$input['bathroom'][$i],
             'balcony'=>$input['balcony'][$i],
             'parking'=>$input['parking'][$i],
+            'floor_from' => $input['floor_from'][$i],
+            'floor_to' => $input['floor_to'][$i],
                   ];
             if(request()->hasFile("floor_plan.$i"))
             {

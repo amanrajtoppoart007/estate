@@ -1,0 +1,1 @@
+ALTER TABLE `tenant_profile` DROP `passport`, DROP `emirates_id`, DROP `visa`, DROP `marriage_certificate`, DROP `bank_passbook`, DROP `last_sewa_id`, DROP `no_sharing_agreement`, DROP `trade_license`, DROP `emirates_id_exp_date`, DROP `passport_exp_date`, DROP `visa_exp_date`, DROP `bank_passbook_exp_date`;

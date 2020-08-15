@@ -219,7 +219,9 @@
                 </div>
             </div>
             <div class="form-group text-right">
-                <button class="btn btn-primary">Save</button>
+                <input type="hidden" id="next_action_input" name="next_action" value="save">
+                <button id="create_rent_breakdown" class="btn btn-primary submit_form_btn">Prepare BreakDown</button>
+                <button id="create_rent_enquiry" class="btn btn-primary submit_form_btn">Save Detail</button>
             </div>
             {{Form::close()}}
         </div>
@@ -228,6 +230,10 @@
 @section('script')
     <script>
         $(document).ready(function(){
+
+            $(document).on("click",".submit_form_btn",function(){
+                $("#next_action_input").val($(this).attr("id"));
+            });
 
             $("#source").on("change",function(e){
                 e.preventDefault();
@@ -270,6 +276,10 @@
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
+                   if(result.next_url)
+                   {
+                       window.location.href = result.next_url;
+                   }
                    $("#add_data_form")[0].reset();
                    $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
                 }

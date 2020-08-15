@@ -257,7 +257,7 @@
 		<thead>
 			<tr>
                 <th>Series</th>
-                <th>Floor</th>
+                <th>Floor (From - To)</th>
                 <th>No. Of Br</th>
                 <th>Size in Sqft</th>
                 <th>No Of Bath</th>
@@ -271,17 +271,23 @@
 			@foreach($property->propertyUnitTypes as $prop_unit_type)
 			<tr>
 			<td><input type="hidden" name="property_unit_type_id[]" value="{{$prop_unit_type->id}}" readonly>
-				<select class="form-control width_150px" name="unit_series[]">
+				<select class="form-control width_105px" name="unit_series[]">
                     @for($i=1;$i<9;$i++)
                         @php $selected = ($i==$prop_unit_type->unit_series)?"selected":null; @endphp
                         <option value="{{$i}}" {{$selected}}>Series {{$i}}</option>
                     @endfor
                 </select>
             </td>
-			<td>
-                <select class="form-control width_100px" name="floor[]">
+			<td class="width_200px">
+                <select class="form-control width_80px d-inline" name="floor_from[]">
                     @for($i=1;$i<300;$i++)
-                        @php $selected = ($i==$prop_unit_type->floor)?"selected":null; @endphp
+                        @php $selected = ($i==$prop_unit_type->floor_from)?"selected":null; @endphp
+                        <option value="{{$i}}" {{$selected}}> {{$i}}</option>
+                    @endfor
+                </select>
+                <select class="form-control width_80px d-inline" name="floor_to[]">
+                    @for($i=1;$i<300;$i++)
+                        @php $selected = ($i==$prop_unit_type->floor_to)?"selected":null; @endphp
                         <option value="{{$i}}" {{$selected}}> {{$i}}</option>
                     @endfor
                 </select>
@@ -465,7 +471,7 @@ initAutocomplete();
              option +=`<option value="${i}">${i}</option>`;
          }
           let html = `<tr>
-					<td> <select class="form-control width_100px" name="unit_series[]">
+					<td> <select class="form-control width_105px" name="unit_series[]">
                               <option value="1">Series 1</option>
                               <option value="2">Series 2</option>
                               <option value="3">Series 3</option>
@@ -476,10 +482,13 @@ initAutocomplete();
                               <option value="8">Series 8</option>
                          </select>
                            </td>
-					<td>
-                <select class="form-control width_100px" name="floor[]">
-                    ${option}
-                </select>
+					<td class="width_200px">
+                      <select class="form-control width_80px d-inline" name="floor_from[]">
+                        ${option}
+                     </select>
+                    <select class="form-control width_80px d-inline" name="floor_to[]">
+                      ${option}
+                    </select>
                          </td>
 					<td>
 						<select class="form-control width_100px" name="bedroom[]">

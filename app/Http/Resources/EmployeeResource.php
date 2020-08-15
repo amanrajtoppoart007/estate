@@ -23,6 +23,7 @@ class EmployeeResource extends JsonResource
              'department_name'=>$this->department_name,
              'job_title'=>$this->job_title,
              'edit_url'=> route('employee.edit',$this->id),
+             'view_url'=> route('employee.view',$this->id),
              'created_at'=>date('d-m-Y',strtotime($this->created_at)),
         ];
     }

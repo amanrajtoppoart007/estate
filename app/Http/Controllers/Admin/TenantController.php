@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Library\CreateTenant;
+use App\Library\CreateTenantProfile;
+use App\Library\CreateTenantRelation;
+use App\Library\UpdateTenant;
+use App\Library\UpdateTenantDoc;
+use App\Library\UpdateTenantProfile;
+use App\Library\UploadEntityDocs;
+use App\Library\UploadTenantDoc;
 use App\RentEnquiry;
 use DB;
 use App\State;
 use App\Tenant;
 use App\Country;
 use App\DataTable\Api;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\PropertyUnitAllotment;
 use App\Http\Controllers\Controller;
@@ -57,8 +66,7 @@ class TenantController extends Controller
     public function store(\App\Http\Requests\StoreTenant $request)
     {
         $request->validated();
-        $action    = new \App\Library\CreateTenant();
-        $tenant_id = $action->execute($request);
+        $tenant_id = (new CreateTenant())->execute($request);
         if($tenant_id)
         {
             if($request->has('request_id'))
@@ -66,14 +74,12 @@ class TenantController extends Controller
                 $request_id = base64_decode($request->request_id);
                 RentEnquiry::where(['id'=>$request_id])->update(['status'=>1]);
             }
-            $doc = new \App\Library\UploadTenantDoc();
-            $documents =  $doc->execute($request,$tenant_id);
-            $profile = new \App\Library\CreateTenantProfile();
-            $profile->execute($request,$tenant_id,$documents);
+            (new UploadEntityDocs($tenant_id,'tenant'))->handle();
+
+            (new CreateTenantProfile())->execute($request,$tenant_id);
             if($request->tenant_type!='bachelor')
             {
-               $relations = new \App\Library\CreateTenantRelation();
-               $relations->execute($tenant_id,$request);
+               (new CreateTenantRelation())->execute($tenant_id,$request);
             }
             if($request->has('next_action'))
             {
@@ -130,7 +136,7 @@ class TenantController extends Controller
         }
         else
         {
-            return view('blank')->with('msg', 'Invalid data request');
+            return view('blank')->with('msg', 'Invalid Tenant Detail');
         }
     }
 
@@ -138,29 +144,23 @@ class TenantController extends Controller
     {
         if(!empty($id))
         {
-            $action = new \App\Library\UpdateTenant($id);
-            $action->execute($request);
-            $doc    = new \App\Library\UpdateTenantDoc($id);
-            $documents = $doc->execute($request);
-            $profile = new \App\Library\UpdateTenantProfile();
-            $profile->execute($request,$id,$documents);
+
+            (new UploadEntityDocs($id,'tenant'))->handle();
+            (new UpdateTenant($id))->execute($request);
+            (new UpdateTenantProfile())->execute($request,$id);
             if($request->tenant_type!='bachelor')
             {
                $relations  = new UpdateTenantRelation();
                $relations->execute($id,$request);
             }
-            $res['next_url']  = route('tenant.view',$id);
-            $res['response']  = 'success';
-            $res['status']    = 1;
-            $res['message']   = "Data updated successfully";
+            $result = ["next_url"=>route('tenant.view',$id),"response"=>"success","status"=>1,"message"=>"Data updated successfully"];
         }
         else
         {
-            $res['status']   = 0;
-            $res['response'] = 'error';
-            $res['message']  = 'Invalid request';
+            $result = ["response"=>"error","status"=>0,"message"=>"Invalid request"];
+
         }
-        echo json_encode($res);
+        echo json_encode($result);
     }
 
     public function destroy($id)
@@ -169,8 +169,10 @@ class TenantController extends Controller
     }
 
 
-
-    /*****tenant status change function */
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function changeStatus(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -185,7 +187,7 @@ class TenantController extends Controller
             }
              else
             {
-                return response()->json(['status'=>'0','response' => 'error', 'message' => 'Status updation failed.']);
+                return response()->json(['status'=>'0','response' => 'error', 'message' => 'Status not updated.']);
             }
         }
         return response()->json(['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()]);

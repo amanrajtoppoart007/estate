@@ -42,12 +42,49 @@ class UploadEntityDocs
                 ]
             );
         }
+        else if($this->table=="tenant")
+        {
+            $documents = array(
+                [
+                    'document_title'=>'emirates_id',
+                    'date_params'=>['EXPIRY_DATE','emirates_id_exp_date']
+                ],
+                [
+                    'document_title'=>'passport',
+                    'date_params'=>['EXPIRY_DATE','passport_exp_date']
+                ],
+                [
+                    'document_title'=>'visa',
+                    'date_params'=>['EXPIRY_DATE','visa_exp_date']
+                ],
+                [
+                    'document_title'=>'bank_passbook',
+                    'date_params'=>['EXPIRY_DATE','bank_passbook_exp_date']
+                ],
+                [
+                    'document_title'=>'last_sewa_id',
+                    'date_params'=>['ISSUE_DATE','last_sewa_id_issue_date']
+                ]
+                ,
+                [
+                    'document_title'=>'marriage_certificate',
+                    'date_params'=>['ISSUE_DATE','marriage_certificate_issue_date']
+                ],
+                [
+                    'document_title'=>'no_sharing_agreement',
+                    'date_params'=>['ISSUE_DATE','no_sharing_agreement_issue_date']
+                ]
+                ,
+                [
+                    'document_title'=>'trade_license',
+                    'date_params'=>['ISSUE_DATE','trade_license_issue_date']
+                ]
+            );
+        }
         else
         {
             $documents = [];
         }
-
-
           if(!empty($documents))
           {
               foreach ($documents as $doc) {

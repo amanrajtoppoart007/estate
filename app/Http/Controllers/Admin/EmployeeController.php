@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
+use App\Employee;
 use App\Http\Requests\StoreEmployee;
 use App\Http\Requests\UpdateEmployee;
 use App\State;
@@ -22,7 +23,7 @@ class EmployeeController extends Controller
 {
     public function fetch(Request $request)
     {
-        $model = new \App\Employee();
+        $model = new Employee();
         $api    = new \App\DataTable\Api($model,$request);
         echo json_encode($api->apply());
     }
@@ -67,7 +68,7 @@ class EmployeeController extends Controller
         {
             $data['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"employees/$folder");
         }
-        if($employee = \App\Employee::create($data))
+        if($employee = Employee::create($data))
         {
             if($request->is_admin==1)
             {
@@ -85,14 +86,20 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return void
+     * @param $id
+     * @return Application|Factory|View
      */
-    public function show($id)
+    public function view($id)
     {
-        //
+        $employee = Employee::find($id);
+        if(!empty($employee))
+        {
+            return view("admin.employee.view",compact("employee"));
+        }
+        else
+        {
+            return view("blank")->with(["msg"=>"Invalid Employee Detail"]);
+        }
     }
 
     /**
@@ -103,7 +110,7 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        $employee = \App\Employee::find($id);
+        $employee = Employee::find($id);
         if(!empty($employee))
         {
             $departments = \App\Department::where(['is_disabled' => '0'])->get();
@@ -151,7 +158,7 @@ class EmployeeController extends Controller
         {
             $data['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"employees/$folder");
         }
-        if(\App\Employee::where(['id'=>$id])->update($data))
+        if(Employee::where(['id'=>$id])->update($data))
         {
             if($request->is_admin==1)
             {
@@ -187,7 +194,7 @@ class EmployeeController extends Controller
         if(!$validator->fails())
         {
             $status = ($request->status) ? '0' : '1';
-            if (\App\Employee::where(['id' => $request->id])->update(['status' => $status]))
+            if (Employee::where(['id' => $request->id])->update(['status' => $status]))
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => ['status' => $status, 'id' => $request->id], 'message' => 'Status updated successfully.']);
             }

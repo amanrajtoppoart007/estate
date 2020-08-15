@@ -186,26 +186,6 @@
 					<input type="text" name="total_shops" id="total_shops" class="form-control numeric" value="{{ old('total_shops')}}" autocomplete="off">
 					</div>
 				</div>
-
-				{{--<div class="col-lg-3 col-md-3">
-					<div class="form-group">
-						<label>Category <i class="text-danger">*</i></label>
-						<select class="form-control" name="category_id" id="category_id">
-							<option value="">Select Category</option>
-							@php
-							$categories = array('1'=>'Residential Rent','2'=>'Commercial Rent','3'=>'Residential Rent','4'=>'Commercial Sale')
-							@endphp
-							@foreach($categories as $cKey=>$cVal)
-							@if($cKey==old('category_id'))
-							<option value="{{ $cKey }}" selected>{{ $cVal }}</option>
-							@else
-							<option value="{{ $cKey }}">{{ $cVal }}</option>
-							@endif
-							@endforeach
-						</select>
-					</div>
-				</div>--}}
-
 			</div>
 		</div>
 		<div class="additional_feature mt-4">
@@ -215,7 +195,7 @@
 				<thead>
 					<tr>
 						<th>Series</th>
-						<th>Floor</th>
+						<th>Floor (From - to)</th>
 						<th>No. Of Br</th>
 						<th>Size in Sqft</th>
 						<th>No Of Bath</th>
@@ -400,8 +380,11 @@
                               <option value="8">Series 8</option>
                          </select>
                            </td>
-					<td>
-                <select class="form-control width_100px" name="floor[]">
+					<td class="width_200px">
+                <select class="form-control width_80px d-inline" name="floor_from[]">
+                    ${option}
+                </select>
+               <select class="form-control width_80px d-inline" name="floor_to[]">
                     ${option}
                 </select>
                          </td>

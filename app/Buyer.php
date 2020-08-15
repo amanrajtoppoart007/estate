@@ -17,7 +17,7 @@ class Buyer extends Model
       return $this->morphMany('App\Invoice', 'party');
    }
 
-      public function country()
+   public function country()
     {
         return $this->belongsTo(Country::class,"country_id","id");
     }

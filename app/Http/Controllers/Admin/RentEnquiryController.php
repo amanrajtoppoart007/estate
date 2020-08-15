@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Agent;
+use App\City;
 use App\Country;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
+use App\Property;
 use App\RentEnquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -34,6 +36,22 @@ class RentEnquiryController extends Controller
         $agents = Agent::where(['is_disabled'=>'0'])->get();
         $countries = Country::where('is_disabled', '0')->get();
        return view('admin.rentEnquiry.create',compact('agents','countries'));
+    }
+
+    public function create_breakdown($id)
+    {
+        $enquiry = RentEnquiry::find($id);
+        if(!empty($enquiry))
+        {
+            $cities = City::where(['is_disabled' => '0'])->get();
+            $properties = Property::where(['is_disabled' => 0])->get();
+            return view("admin.rentEnquiry.breakdown", compact("enquiry","cities", "properties"));
+        }
+        else
+        {
+            return view("blank")->with(["msg"=>"Invalid Enquiry Detail"]);
+        }
+
     }
 
     public function store(Request $request)
@@ -74,7 +92,15 @@ class RentEnquiryController extends Controller
              }
              if($rentEnquiry = RentEnquiry::create($store))
              {
-                  $result = ['status'=>1,'response' => 'success', 'message' => 'Rent enquiry created successfully'];
+                 $next_url = null;
+                  if($request->has("next_action"))
+                  {
+                      if($request->next_action=="create_rent_breakdown")
+                      {
+                          $next_url = route("rentEnquiry.create.breakdown",["id"=>$rentEnquiry->id]);
+                      }
+                  }
+                  $result = ['status'=>1,'response' => 'success','next_url'=>$next_url, 'message' => 'Rent enquiry created successfully'];
              }
              else
              {

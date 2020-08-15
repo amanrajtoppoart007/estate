@@ -14,13 +14,13 @@ class UpdateTenantDoc
    }
    public function execute(Request $request)
    {
-        
+
         $admin_id        = Auth::guard('admin')->user()->id;
         $folder          = 'tenant/'.Str::studly(strtolower($request->tenant_name));
-        $uploads         = array('passport','visa','emirates_id','bank_passbook','last_sewa_id','marriage_certificate','no_sharing_agreement','trade_license');
+        $uploads         = array('last_sewa_id','marriage_certificate','no_sharing_agreement','trade_license');
         $files           = GlobalHelper::multiStepFileUpload($request,'local',$uploads,$folder);
         $return          = array();
-        foreach ($files as $file) 
+        foreach ($files as $file)
         {
             $input              = array();
             $input['tenant_id'] = $this->tenant_id;
@@ -35,12 +35,12 @@ class UpdateTenantDoc
             if($doc = TenantDocument::create($input))
             {
                 $document             = array();
-                $document['doc_type'] = $file['key']; 
-                $document['id']       = $doc->id; 
+                $document['doc_type'] = $file['key'];
+                $document['id']       = $doc->id;
                 array_push($return,$document);
-            } 
+            }
         }
         return $return;
    }
-   
+
 }

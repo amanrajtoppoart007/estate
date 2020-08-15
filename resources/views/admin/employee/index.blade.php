@@ -50,7 +50,9 @@
         }
         function renderActionBtn(data)
         {
-            return `<a  href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-edit text-white"></i>Edit</a>`;
+            return `
+           <a  href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-edit text-white"></i>Edit</a>
+          <a  href="${data.view_url}"  class="btn btn-primary"><i class="fa fa-eye text-white"></i>View</a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         var dataTable = $("#dataTable").dataTable({

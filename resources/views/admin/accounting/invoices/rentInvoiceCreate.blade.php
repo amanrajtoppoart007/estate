@@ -33,7 +33,7 @@
                     <input type="hidden" name="expected" value="{{$installment->expected_date}}">
                     <input type="hidden" name="installment_id" value="{{$installment->id}}">
                     </div>
-                    <div class="col-md-4"><b>Party: {{$tenant->name}}</b>
+                    <div class="col-md-4"><b>Party: {{$tenant? $tenant->name: null}}</b>
                     <input type="hidden" name="party" value="{{$tenant->tenant_id}}">
                     <input type="hidden" name="party_type" value="tenant">
                     </div>
@@ -55,8 +55,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                    @if(!empty($item))
                      <tr>
-                         <td>{{$item->name}}
+                         <td>{{$item ? $item->name: null}}
                           <input type="hidden" name="item" value="{{$item->id}}">
                         </td>
                          <td>
@@ -69,6 +70,7 @@
                            <input type="hidden" name="amount" value="{{$installment->total_amount}}">
                         </td>
                     </tr>
+                     @endif
                     <tr>
                         <td colspan="2" class="text-right">Total</td>
                         <td>{{$installment->total_amount}}

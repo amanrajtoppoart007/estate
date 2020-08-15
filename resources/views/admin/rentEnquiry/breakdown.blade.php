@@ -1,141 +1,30 @@
 @extends('admin.layout.app')
-  @section('head')
+@section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
-      <style>
-          .zero-border{
-              border: 0px;
-          }
-          .padLeft100{
-              padding-left: 100px;
-
-          }
-    .width200{
-        min-width: 200px;
-    }
-
-      </style>
-  @endsection
-    @php
-      $unit = $property_unit ? $property_unit : null;
-    @endphp
-  @section('js')
-  <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
-  @endsection
-  @section('content')
-  @section('breadcrumb')
-  <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Property Allotment</h1>
-            </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Property Allotment</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
-  @endsection
+@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Rent BreakDown"])
+ @section('content')
 <div class="submit_form color-secondery icon_primary p-5 bg-white">
-    {{Form::open(['route'=>'allot.property','id'=>'add_data_form'])}}
-            <input type="hidden" name="tenant_id" value="{{$tenant->id}}">
-
-           <div class="card">
-              <div class="card-header"><h6> <strong>Owner Detail</strong> </h6></div>
-                <div class="card-body table-responsive">
-                <table class="table border-0 border-th-td-none">
-                  <tbody>
-                    <tr>
-                      <th>Name</th>
-                      <td>{{$property_unit ? ($property_unit->owner ? $property_unit->owner->name:null): null}}</td>
-                      <th>Nationality</th>
-                      <td>{{$property_unit ? ($property_unit->owner ? $property_unit->owner->country:null) : null}}</td>
-                      <th>Mobile</th>
-                      <td>{{$property_unit ? ($property_unit->owner ? $property_unit->owner->mobile: null): null}}</td>
-                    </tr>
-                    <tr>
-                      <th>Email Id</th>
-                      <td>{{$property_unit ? ($property_unit->owner ? $property_unit->owner->email: null): null}}</td>
-                      <th></th>
-                      <td></td>
-                      <th></th>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
+    {{Form::open(['id'=>'add_data_form'])}}
             <div class="card">
-              <div class="card-header"><h6> <strong>Tenant Detail</strong> </h6></div>
-                <div class="card-body table-responsive">
-                <table class="table border-0 border-th-td-none">
-                  <tbody>
-                    <tr>
-                      <th>Name</th>
-                      <td>{{$tenant->name}}</td>
-                      <th>Tenancy Type</th>
-                      <td>{{($tenant->tenant_type)?ucwords(str_replace("_"," ",$tenant->tenant_type)):''}}</td>
-                      <th>Number Of Tenants</th>
-                      <td>{{($tenant->profile)?($tenant->profile->tenant_count):'1'}}</td>
-                    </tr>
-                    <tr>
-                      <th>Mobile Number</th>
-                      <td>{{$tenant->mobile}}</td>
-                      <th>Email-Id</th>
-                      <td>{{$tenant->email}}</td>
-                      <th></th>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-
-            <div class="card">
-                <div class="card-header">
+                <div class="card-header bg-gradient-cyan">
                    <h6> <strong>Property Allocation Detail</strong> </h6>
                 </div>
                 <div class="card-body">
               <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="state_id">State</label>
-                    <select name="state_id" id="state_id" class="form-control">
-                      <option value="">Select State</option>
-                      @foreach($states as $state)
-                          @if(!empty($property_unit->property->state_id))
-                             @php $selected = ($property_unit->property->state_id==$state->id)?"selected":"";  @endphp
-                            @else
-                              @php $selected = null; @endphp
-                            @endif
-                        <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
-                      @endforeach
-                    </select>
-                </div>
-
-              </div>
-              <div class="col">
+              <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                 <div class="form-group">
                   <label for="city_id">City</label>
                   <select class="form-control" name="city_id" id="city_id">
                       @foreach($cities as $city)
-                          @php $selected = ($property_unit->property->city_id==$city->id)?"selected":"";  @endphp
-                            <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
-                       @endforeach
+                        <option value="{{$city->id}}">{{$city->name}}</option>
+                      @endforeach
                   </select>
                 </div>
               </div>
-
-            </div>
-              <div class="row">
-                <div class="col-md-6">
+                  <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                   <div class="form-group">
-                  <label for="property_id">Property</label>
+                  <label for="property_id">Building Name</label>
                   <select class="form-control" name="property_id" id="property_id">
                       @if(!empty($property_unit))
                       @foreach($properties as $prop)
@@ -146,44 +35,48 @@
                   </select>
                 </div>
               </div>
-              <div class="col-md-3">
-                  <div class="form-group">
-                  <label for="property_unit_type_id">Property Unit Type</label>
-                  <select class="form-control" name="property_unit_type_id" id="property_unit_type_id">
-                      @if(!empty($property_unit->property->propertyUnitTypes))
-                      @foreach($property_unit->property->propertyUnitTypes as $propertyUnitType)
-                          @if(!empty($property_unit->propertyUnitType->id))
-                           @php $selected = ($property_unit->propertyUnitType->id==$propertyUnitType->id)?"selected":"";  @endphp
-                          @else
-                              @php $selected = null; @endphp
-                              @endif
-                          <option value="{{$propertyUnitType->id}}">{{$propertyUnitType->title}}</option>
-                      @endforeach
-                      @else
-                          <option value="">Select Property Unit</option>
-                       @endif
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-3">
-                  <div class="form-group">
-                  <label for="unit_id">Property Unit</label>
-                  <select class="form-control" name="unit_id" id="unit_id">
-                      @if(!empty($property_unit->property->property_units))
-                       @foreach($property_unit->property->property_units as $unit)
-                           @php $selected = ($property_unit->id==$unit->id)?"selected":"";  @endphp
-                          <option value="{{$unit->id}}">{{$unit->unitcode}}</option>
-                      @endforeach
-                          @endif
-                  </select>
-                </div>
-              </div>
-              </div>
+                  <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                      <div class="form-group">
+                          <label for="unit_id">Property Unit</label>
+                          <select class="form-control" name="unit_id" id="unit_id">
+                          </select>
+                      </div>
+                  </div>
+            </div>
+
             </div>
           </div>
+
+           <div class="card">
+               <div class="card-header bg-gradient-cyan">
+                   <h6>Client Detail</h6>
+               </div>
+               <div class="card-body">
+                     <table class="table table-borderless">
+                         <tbody>
+                           <tr>
+                               <th>Name</th>
+                               <td>{{$enquiry->name}}</td>
+                               <th>Mobile Number</th>
+                               <td>{{$enquiry->mobile}}</td>
+                               <th>Nationality</th>
+                               <td>{{$enquiry->country ?$enquiry->country->name : null}}</td>
+                           </tr>
+                           <tr>
+                               <th>Tenancy Type</th>
+                               <td>{{get_tenancy_type($enquiry->tenancy_type)}}</td>
+                               <th>Number Of Tenants</th>
+                               <td>{{$enquiry->tenant_count}}</td>
+                               <th></th>
+                               <td></td>
+                           </tr>
+                         </tbody>
+                     </table>
+               </div>
+           </div>
             <div class="card">
-              <div class="card-header">
-                <h6> <strong>Rent Detail</strong> </h6>
+              <div class="card-header bg-gradient-cyan">
+                <h6> <strong>Rent BreakDown</strong> </h6>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -250,25 +143,12 @@
                 </div>
             </div>
 
-    <div class="card card-body">
-        {{--<div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="parking"> Parking</label>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="monthly_installment"> <input type="radio" name="parking" value="0"> No Parking</label>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="municipality_fees"> <input type="radio" name="parking" value="1"> With Parking</label>
-                </div>
-            </div>
-        </div>--}}
-        <div class="row">
+    <div class="card">
+        <div class="card-header bg-gradient-cyan">
+            <h6>Rent Installment Detail</h6>
+        </div>
+       <div class="card-body">
+                 <div class="row">
     <div class="col-md-12" style="overflow-x: scroll;">
         <table id="installment_table" class="mb-5">
             <tr id="row1">
@@ -317,10 +197,19 @@
         </table>
     </div>
         </div>
+       </div>
     </div>
-            <button type="submit" class="btn btn-primary mt-4">Allocate Property</button>
+            <div class="form-group">
+                <button type="button" class="btn btn-success">Create Tenant</button>
+                <button type="button" class="btn btn-primary">Preview</button>
+                <button type="button" class="btn btn-info">Print BreakDown</button>
+                <button type="button" class="btn btn-warning text-white">Send BreakDown By E-mail</button>
+            </div>
           {{Form::close()}}
         </div>
+  @endsection
+  @section('js')
+  <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
   @endsection
   @section('script')
     <script>
