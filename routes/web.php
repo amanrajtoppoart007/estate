@@ -34,6 +34,7 @@ Route::post('send/contact-request', 'Guest\AjaxController@send_contact_request')
 
 Route::post('calculate/endDate', 'Common\CalculationController@getEndDate')->name('calculate.endDate');
 Route::get('get/document/{filename}', 'Common\ImageController@view_doc')->name('get.doc');
+Route::get('view/rent/breakdown/{encoded_string}', 'Guest\RentBreakDownController@view')->name('guest.view.rent.breakdown');
 
 Route::post('/agent/enquiry/store', 'Guest\AjaxController@agent_enquiry_form')->name('agent.enquiry.store');
 Auth::routes();
