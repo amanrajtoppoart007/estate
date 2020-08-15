@@ -1,114 +1,251 @@
-@extends('admin.layout.app')
-@section('content')
-<h4 class="color-primary mb-4">Tenant Information</h4>
-<div class="dashboard_personal_info p-5 bg-white">
-    {{Form::open(['route'=>'allot.property','id'=>'allot_property_to_tenant_form','class'=>'form2'])}}
-     <input type="hidden" name="tenant_id" value={{$tenant->id}}>
-     <h5 class="color-primary">Basic Detail</h5>
-        <hr>
-        <div class="row mt-4">
-            <div class="col-lg-6 col-md-12">
-                <dt>Tenant Type</dt> 
-                <dd class="px-1">{{ucwords(str_replace('_',' ',$tenant->tenant_type))}}</dd>
-                <dt>Tenant Name</dt>
-                <dd>{{$tenant->name}}</dd>
-                <dt>Email Address</dt>
-                <dd>{{$tenant->email}}</dd>
-                <div class="d-inline">
-                <dd>Phone Code</dd>
-                <dt>{{($tenant->profile)?$tenant->profile->country_code:null}}</dt>
-                <dt>Phone Number</dt>
-                <dd>{{$tenant->mobile}}</dd>
-                </div>
-             <div class="more_info">
-              <h5 class="color-primary">More Info</h5>
-              <hr>
-              <dt>Country</dt>
-              <dd>{{$tenant->country->name}}</dd>
-              <dt>City / State</dt>
-              <dd>{{($tenant->profile)?$tenant->profile->city:null}}</dd>
-               <dt>Zip Code</dt>
-               <dd>{{($tenant->profile)?$tenant->profile->zip:null}}</dd>
-              <dt>Address</dt>
-              <dd>{{($tenant->profile)?$tenant->profile->address:null}}</dd>
-              <dt>DOB</dt>
-              <dd>{{($tenant->profile)?date('d-m-Y',strtotime($tenant->profile->dob)):null}}</dd>
-              <dt>Number of tenants</dt>
-              <dd>{{($tenant->profile)?$tenant->profile->tenant_count:null}}</dd>
-            </div>
+@extends("admin.layout.app")
+@include("admin.include.breadcrumb",["page_title"=>"View Tenant Detail"])
+@section("content")
+  <div class="card">
+      <div class="card-header bg-gradient-navy">
+          <h6>Personal Detail</h6>
       </div>
-      <div class="col-lg-5 col-md-12">
-        <div class="user_photo" >
-          <img class="profile_image" src="{{route('get.doc',base64_encode(($tenant->profile)?$tenant->profile->profile_image:null))}}"  alt="">
-          <hr>
-          <h5 class="color-primary">Documents</h5>
-          <hr>
-           <div class="row">
-               @foreach($tenant->documents as $doc)
-                 @if($doc['is_disabled']=='0')
-                <div class="col-6">
-                <dt>{{Str::studly($doc['doc_type'])}}</dt>
-                    @if($doc['doc_ext']=='jpeg'||$doc['doc_ext']=='jpg'||$doc['doc_ext']=='png')
-                    <dd>
-                     <img  class="img-thumbnail img250x150" src="{{route('get.doc',base64_encode($doc['doc_url']))}}">
-                     <a class="btn btn-outline-success" target="_blank" href="{{route('get.doc',base64_encode($doc['doc_url']))}}">Download</a>
-                   </dd>
-                    @elseif($doc['doc_ext']=='pdf')
-                    <dd><a target="_blank" href="{{route('get.doc',base64_encode($doc['doc_url']))}}">View</a></dd>
-                    @endif
-                </div>
-                @endif
-               @endforeach
-           </div>
+      <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-gradient-indigo elevation-1">
+                  <i class="fa fa-code-branch"></i>
+              </span>
+
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{ucwords(str_replace('_',' ',$tenant->tenant_type))}}</h6>
+                <span class="info-box-text text-gray">Tenancy Type</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1">
+                  <i class="fa fa-user"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{$tenant->name}}</h6>
+                <span class="info-box-text text-gray">Name</span>
+              </div>
+            </div>
+          </div>
+             <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-success elevation-1">
+                  <i class="fa fa-envelope"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{$tenant->email}}</h6>
+                <span class="info-box-text text-gray">Email</span>
+              </div>
+            </div>
+          </div>
+             <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-primary elevation-1">
+                  <i class="fa fa-mobile"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{($tenant->profile)?'+'.$tenant->profile->country_code:null}}{{$tenant->mobile}}</h6>
+                <span class="info-box-text text-gray">Contact No.</span>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix hidden-md-up"></div>
+
+         <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-gradient-fuchsia elevation-1">
+                  <i class="fa fa-flag"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{$tenant->country ? $tenant->country->name: null}}</h6>
+                <span class="info-box-text text-gray">Country</span>
+              </div>
+            </div>
+          </div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-gradient-teal elevation-1">
+                  <i class="fa fa-city"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{($tenant->profile)?$tenant->profile->city:null}}</h6>
+                <span class="info-box-text text-gray">City</span>
+              </div>
+            </div>
+          </div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-gradient-orange elevation-1">
+                  <i class="fa fa-map-marked text-white"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{($tenant->profile)?$tenant->profile->address:null}}</h6>
+                <span class="info-box-text text-gray">Address</span>
+              </div>
+            </div>
+          </div>
+
+             <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-gradient-maroon elevation-1">
+                  <i class="fa fa-user"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{($tenant->profile)?$tenant->profile->zip:null}}</h6>
+                <span class="info-box-text text-gray">Zipcode</span>
+              </div>
+            </div>
+          </div>
+
+              <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1">
+                  <i class="fa fa-user"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{($tenant->profile)?date('d-m-Y',strtotime($tenant->profile->dob)):null}}</h6>
+                <span class="info-box-text text-gray">DOB</span>
+              </div>
+            </div>
+          </div>
+
+             <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1">
+                  <i class="fa fa-user"></i>
+              </span>
+              <div class="info-box-content">
+                <h6 class="font-weight-bold">{{($tenant->profile)?$tenant->profile->tenant_count:null}}</h6>
+                <span class="info-box-text text-gray">No. Of Tenants</span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
-    <h6>Extra Detail</h6>
-    <div class="row" id="company_extra_detail">
-        <div class="col">
-            <dt>Company Name</dt>
-            <dd>{{($tenant->profile)?$tenant->profile->company_name:null}}</dd>	
+  </div>
+    @if(!$tenant->documents->isEmpty())
+    <div class="card">
+        <div class="card-header bg-gradient-indigo">
+            <h6>Documents</h6>
         </div>
-    </div>	
-    <div class="row" id="extra_relation_detail">
-        <div class="col-md-12">
-             @if(!empty($tenant->relations))
-            <div class="card">
-            <div class="card-header">
-                <h5>Extra Details</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Relation/Designation</th>
-                                <th>Amirates Id</th>
-                                <th>Passport</th>
-                                <th>Visa</th>
-                            </tr>
-                        </thead>
-                        <tbody id="family_detail_grid">
-                        @foreach($tenant->relations as $rel)
-                            <tr>
-                             <td>{{$rel->id}}</td>
-                             <td>{{$rel->name}}</td>
-                             <td>{{$rel->relationship}}</td>
-                             <td><a target="_blank" class="btn btn-outline-primary" href="{{route('get.doc',base64_encode($rel->amirates_id))}}">View</a></td>
-                             <td><a target="_blank" class="btn btn-outline-primary" href="{{route('get.doc',base64_encode($rel->passport))}}">View</a></td>
-                             <td><a target="_blank" class="btn btn-outline-primary" href="{{route('get.doc',base64_encode($rel->visa))}}">View</a></td>
-                            </tr>
-                         @endforeach
-                        </tbody>
-                    </table>
+        <div class="card-body table-responsive">
+            <table class="table table-head-fixed">
+                <thead>
+                  <tr>
+                      <th>Document</th>
+                      <th>View/Download</th>
+                      <th>Date Type</th>
+                      <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                @foreach($tenant->documents as $doc)
+                     <tr>
+                         <td>{{ucwords(strtolower($doc->document_title))}}</td>
+                         <td>
+                             @php
+                                 if(!empty($doc->file_url))
+                                 {
+                                     $url = route('get.doc',base64_encode($doc->file_url));
+                                 }
+                                 else
+                                 {
+                                     $url = asset('theme/default/images/dashboard/4.png');
+                                 }
+                             @endphp
+                             <a target="_blank" class="btn btn-primary" href="{{$url}}" >
+                                 <i class="fa fa-eye"></i>View
+                             </a>
+                             <a target="_blank" class="btn btn-info" href="{{$url}}"  download>
+                                 <i class="fa fa-file-download"></i>Download
+                             </a>
+                         </td>
+                         <td>{{ucwords(strtolower($doc->date_key))}} </td>
+                         <td>{{$doc->date_value ? date("d-m-Y",strtotime($doc->date_value)): null}}</td>
+                     </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endif
+   @if(!empty($tenant->profile->company_name))
+    <div class="card">
+        <div class="card-header bg-gradient-orange">
+            <h6 class="text-white">Company Detail</h6>
+        </div>
+        <div class="card-body">
+            <div class="row" id="company_extra_detail">
+                <div class="col">
+                    <dt>Company Name</dt>
+                    <dd>{{($tenant->profile)?$tenant->profile->company_name:null}}</dd>
                 </div>
-            </div>  
-        </div>
-        @endif
+            </div>
         </div>
     </div>
+    @endif
+
+  @if(!empty($tenant->relations))
+      <div class="card">
+          <div class="card-header bg-gradient-dark">
+              <h5>Extra Details</h5>
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Relation/Designation</th>
+                          <th>Amirates Id</th>
+                          <th>Passport</th>
+                          <th>Visa</th>
+                      </tr>
+                      </thead>
+                      <tbody id="family_detail_grid">
+                      @foreach($tenant->relations as $rel)
+                          <tr>
+                              <td>{{$rel->id}}</td>
+                              <td>{{$rel->name}}</td>
+                              <td>{{$rel->relationship}}</td>
+                              <td>
+                                  @if(!empty($rel->amirates_id))
+                                  <a target="_blank" class="btn btn-outline-primary" href="{{route('get.doc',base64_encode($rel->amirates_id))}}">View</a>
+                                  @else
+                                      <span class="text-warning">Document not uploaded</span>
+                                   @endif
+                              </td>
+                              <td>
+                                  @if(!empty($rel->passport))
+                                  <a target="_blank" class="btn btn-outline-primary" href="{{route('get.doc',base64_encode($rel->passport))}}">View</a>
+                                  @else
+                                      <span class="text-danger">Document not uploaded</span>
+                                  @endif
+                              </td>
+                              <td>
+                                  @if(!empty($rel->visa))
+                                  <a target="_blank" class="btn btn-outline-primary" href="{{route('get.doc',base64_encode($rel->visa))}}">View</a>
+                                  @else
+                                   <span class="text-danger">Document not uploaded</span>
+                                  @endif
+                              </td>
+                          </tr>
+                      @endforeach
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -116,11 +253,9 @@
             </div>
         </div>
     </div>
-    {{Form::close()}}
-</div>
 @endsection
-@section('script')
-   <script>
+@section("script")
+       <script>
        $(document).ready(function(){
             function switch_tenant_type(tenant_type)
         {
@@ -154,11 +289,11 @@
 						$("#family_hs_extra_detail").show();
 						$("#extra_relation_detail").show();
 						$("#company_extra_detail").show();
-						$("#bachelor_extra_detail").show();	
+						$("#bachelor_extra_detail").show();
 					break;
 
 				}
-        };
+        }
         switch_tenant_type('{{$tenant->tenant_type}}');
        })
    </script>

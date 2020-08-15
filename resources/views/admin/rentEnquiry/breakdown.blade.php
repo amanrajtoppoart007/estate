@@ -16,6 +16,7 @@
                 <div class="form-group">
                   <label for="city_id">City</label>
                   <select class="form-control" name="city_id" id="city_id">
+                      <option value="">Select City</option>
                       @foreach($cities as $city)
                         <option value="{{$city->id}}">{{$city->name}}</option>
                       @endforeach
@@ -201,7 +202,7 @@
     </div>
             <div class="form-group">
                 <button type="button" class="btn btn-success">Create Tenant</button>
-                <button type="button" class="btn btn-primary">Preview</button>
+                <button type="submit" class="btn btn-primary">Preview</button>
                 <button type="button" class="btn btn-info">Print BreakDown</button>
                 <button type="button" class="btn btn-warning text-white">Send BreakDown By E-mail</button>
             </div>
@@ -352,7 +353,7 @@
                     $('#lease_start').css({'border-color':'aqua'}).focus();
                     return false;
                 }
-                let url    = '{{route('calculate.endDate')}}';
+                let url    = "{{route('calculate.endDate')}}";
                 let params = {
                    'rent_period_type': $("#rent_period_type").val(),
                    'rent_period'     : $("#rent_period").val(),
@@ -369,30 +370,22 @@
                   toast('error',result.message,'bottom-right');
                 };
                 $.fn_ajax(url,params,fn_success,fn_error);
-         };
+         }
 
-        let base_url = $('meta[name="base-url"]').attr('content');
-        $('#add_data_form').submit(function(event){
+
+        $('#add_data_form').on("submit",function(event){
          event.preventDefault();
-          let base_url = $('meta[name="base-url"]').attr('content');
           let params   = $("#add_data_form").serialize();
-          let url      = '{{route('allot.property')}}';
+          let url      = "{{route('save.rent.breakdown')}}";
           function fn_success(result)
           {
               toast('success', result.message, 'bottom-right');
               window.location.href = result.next_url;
 
-          };
+          }
           function fn_error(result)
           {
-                if(result.response=='validation_error')
-                {
-                    toast('error', result.message, 'bottom-right');
-                }
-                else
-                {
-                      toast('error', result.message, 'bottom-right');
-                }
+                toast('error', result.message, 'bottom-right');
           }
         $.fn_ajax(url,params,fn_success,fn_error);
   });
@@ -405,9 +398,7 @@
            /************ get list of property   ***************/
 
            $('#city_id').on('change',function(e){
-            let params = {
-              'city_id' : $(this).val(),
-            };
+            let params = {'city_id' : $(this).val()};
             function fn_success(result)
             {
                  if(result.response==="success")
@@ -429,56 +420,27 @@
            });
 
            /************ get list of property unit types  ***************/
-          $('#property_id').on('change',function(e)
-           {
-             $("#property_unit_type_id").empty();
-            let params = {
-              'property_id' : $(this).val(),
-            };
+           $("#property_id").on('change',function(e) {
+             $("#unit_id").html('');
+            let params = {'property_id' : $(this).val()};
             function fn_success(result)
             {
-                 if(result.response==="success")
-                 {
-                    $("#property_unit_type_id").append('<option value="">Select Unit Type</option>');
+                    let options = `<option value="">Select Unit</option>`;
                      $.each(result.data,function(i,item)
                      {
+                        options += `<option value="${item.id}">${item.unitcode}</option>`;
 
-                       let option = `<option value="${item.id}">Series ${item.unit_series}</option>`;
-                       $("#property_unit_type_id").append(option);
                      });
-                 }
+                     $("#unit_id").html(options);
+
             }
             function fn_error(result)
             {
                toast('error', result.message, 'bottom-right');
             }
-            $.fn_ajax('{{route('allotment.get.propertyUnitTypes.list')}}',params,fn_success,fn_error);
+            $.fn_ajax('{{route('get.vacant.unit.list')}}',params,fn_success,fn_error);
            });
-           /************ get list of property unit***************/
-          $('#property_unit_type_id').on('change',function(e)
-           {
-             $("#unit_id").empty();
-            let params = {
-              'property_unit_type_id' : $(this).val(),
-            }
-            function fn_success(result)
-            {
-                 if(result.response==="success")
-                 {
-                    $("#unit_id").append('<option value="">Select Unit</option>');
-                     $.each(result.data,function(i,item)
-                     {
-                       let option = `<option value="${item.id}">${item.unitcode}</option>`;
-                       $("#unit_id").append(option);
-                     });
-                 }
-            }
-            function fn_error(result)
-            {
-               toast('error', result.message, 'bottom-right');
-            }
-            $.fn_ajax('{{route('get.getPropertyUnit.list')}}',params,fn_success,fn_error);
-           });
+
       });
     </script>
   @endsection

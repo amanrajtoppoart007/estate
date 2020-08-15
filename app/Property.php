@@ -10,6 +10,11 @@ class Property extends Model
     protected  $guarded   = [];
     protected $appends    = ['full_address','primary_image','total_units'];
 
+    public function rent_breakdown()
+    {
+        return $this->hasMany(RentBreakDown::class,"property_id","id");
+    }
+
      public function getTotalUnitsAttribute()
      {
          return $this->property_units->count();

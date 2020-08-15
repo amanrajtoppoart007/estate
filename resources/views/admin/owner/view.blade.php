@@ -95,13 +95,11 @@
                                                 $url = asset('theme/default/images/dashboard/4.png');
                                             }
                                         @endphp
-                                        <a target="_blank" class="img-thumbnail" href="{{$url}}"
-                                           alt="{{ucwords(strtolower($doc['document_title']))}}">
-                                            <i class="fa fa-eye"></i>
+                                        <a target="_blank" class="btn btn-primary" href="{{$url}}">
+                                            <i class="fa fa-eye"></i>View
                                         </a>
-                                        <a target="_blank" class="img-thumbnail" href="{{$url}}"
-                                           alt="{{ucwords(strtolower($doc['document_title']))}}" download>
-                                            <i class="fa fa-file-download"></i>
+                                        <a target="_blank" class="btn btn-info" href="{{$url}}" download>
+                                            <i class="fa fa-file-download"></i>Download
                                         </a>
                                     </th>
                                     <th>

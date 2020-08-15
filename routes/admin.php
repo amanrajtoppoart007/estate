@@ -5,8 +5,14 @@ Route::get('/home', 'Admin\DashboardController@index')->name('master.dashboard')
 ////Accounting routes
 Route::prefix('accounting')->group(function () {
 
-}); ////////Accounting routes end -----------//------------- Accounting routes end
-///////Tenant routes
+});
+/**Accounting routes end -----------//------------- Accounting routes end **/
+/**rent breakdown routes **/
+Route::prefix("rent-breakdown")->group(function(){
+    Route::post('store', 'Admin\RentBreakDownController@store')->name('save.rent.breakdown');
+    Route::get('view/{id}', 'Admin\RentBreakDownController@view')->name('view.rent.breakdown');
+});
+/*** Tenant Routes ***/
 Route::get('pw-gen', 'Admin\UserController@pw_gen');
 Route::prefix('tenant')->group(function () {
     Route::get('list', 'Admin\TenantController@index')->name('tenant.list');

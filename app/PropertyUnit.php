@@ -14,6 +14,10 @@ class PropertyUnit extends Model
     {
         return $this->hasOne(UnitPrice::class,'property_unit_id','id');
     }
+    public function rent_breakdown()
+    {
+        return $this->hasMany(RentBreakDown::class,"unit_id","id");
+    }
 
     public function getAllotmentPriceAttribute()
     {

@@ -153,7 +153,7 @@ class PropertyAllotmentController extends Controller
             if (!$validator->fails())
             {
                 $params['city_id']  = $request->city_id;
-                $properties = Property::with('images')->where($params)->whereIn('prop_for',[1,3])->get();
+                $properties = Property::with('images')->where($params)->whereIn('prop_for',[1,3,4,6,8])->get();
                 if(!$properties->isEmpty())
                 {
                     $res['status']   = 1;

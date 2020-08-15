@@ -34,6 +34,7 @@ Route::post('send/contact-request', 'Guest\AjaxController@send_contact_request')
 
 Route::post('calculate/endDate', 'Common\CalculationController@getEndDate')->name('calculate.endDate');
 Route::get('get/document/{filename}', 'Common\ImageController@view_doc')->name('get.doc');
+Route::get('view/rent/breakdown/{encoded_string}', 'Guest\RentBreakDownController@view')->name('guest.view.rent.breakdown');
 
 Route::post('/agent/enquiry/store', 'Guest\AjaxController@agent_enquiry_form')->name('agent.enquiry.store');
 Auth::routes();
@@ -81,3 +82,4 @@ Route::prefix('master')->group(function () {
 });
 
 Route::post('/get/property/unit/list', 'Common\CommonController@get_property_units')->name('get.unit.list');
+Route::post('/get/vacant/unit/list', 'Common\CommonController@get_vacant_units')->name('get.vacant.unit.list');
