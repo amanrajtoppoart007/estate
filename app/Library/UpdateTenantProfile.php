@@ -10,10 +10,9 @@ use App\TenantProfile;
 use Auth;
 class UpdateTenantProfile
 {
-   
-   public function execute(Request $request,$tenant_id,$documents)
+
+   public function execute(Request $request,$tenant_id)
    {
-        $input                     = array();
         $input                     = $request->only(['tenant_count','country_code','mobile','address','city','state','country','company_name']);
         $input['name']             = $request->tenant_name;
         $input['dob']              = date('Y-m-d',strtotime($request->dob));
@@ -21,26 +20,12 @@ class UpdateTenantProfile
         $input['admin_id']         = Auth::guard('admin')->user()->id;
         $folder                    = Str::studly(strtolower($request->tenant_name));
         $input['profile_image']    = GlobalHelper::singleFileUpload($request,'local','profile_image',"tenant/$folder");
-        if(!empty($documents))
-        {
-           $valid_docs         = array('passport','visa','emirates_id','bank_passbook','last_sewa_id','marriage_certificate','no_sharing_agreement','trade_license');
-           if(is_array($documents))
-           {
-              foreach($documents as $doc)
-              {
-                  if(in_array($doc['doc_type'],$valid_docs))
-                  {
-                     $input[$doc['doc_type']] = $doc['id'];
-                  }
-              }
-           }
-        }
+
         if($profile = TenantProfile::where(['tenant_id'=>$tenant_id])->update($input))
         {
            return true;
         }
         return false;
    }
-   
+
 }
-  

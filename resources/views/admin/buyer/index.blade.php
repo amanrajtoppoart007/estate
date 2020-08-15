@@ -49,7 +49,8 @@
         }
         function renderActionBtn(data)
         {
-            return `<a href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-edit text-white"></i></a>`;
+            return `<a href="${data.edit_url}"  class="btn btn-primary"><i class="fa fa-edit text-white"></i>Edit</a>
+              <a href="${data.view_url}"  class="btn btn-primary"><i class="fa fa-eye" aria-hidden="true"></i>View</a>`;
         }
         function renderBuyBtn(data)
         {
@@ -79,7 +80,7 @@
                                 { data : "mobile", name : 'mobile'},
                                 { data : "created_at", name : 'created_at' },
                                 { data : "status", name : 'status',
-                                    render: function(data, type, row, meta)  
+                                    render: function(data, type, row, meta)
                                     {
                                         console.log(row);
                                       return renderStatusBtn(row);
@@ -87,14 +88,14 @@
                                 },
                                 {
                                     data : null, name: 'action',searchable: false,orderable :false,
-                                    render: function(data, type, row, meta) 
+                                    render: function(data, type, row, meta)
                                     {
                                     return renderActionBtn(row);
                                     }
                                 },
                                 {
                                     data : "buy_property_url", name: 'buy_property_url',searchable: false,orderable :false,
-                                    render: function(data, type, row, meta) 
+                                    render: function(data, type, row, meta)
                                     {
                                     return renderBuyBtn(row);
                                     }
@@ -128,7 +129,7 @@
                               {
                                     extend: 'print',
                                     title : 'State List',
-                                    exportOptions: 
+                                    exportOptions:
                                     {
                                         columns: [0,1,2,3,4]
                                     }

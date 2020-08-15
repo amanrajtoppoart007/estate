@@ -711,11 +711,8 @@
            });
 
            $(document).on("click",".save_action_btn",function(e){
-               e.stopPropagation();
                let action = $(this).attr("id");
                $("#action").val(action);
-               e.enableEventPropagation();
-
            });
 
            $("#add_auth_person_detail_btn").on("click",function(){

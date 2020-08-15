@@ -24,7 +24,7 @@ class MaintenanceWork extends Model
 
      public function images()
      {
-         return $this->morphMany(Document::class, 'referrer');
+         return $this->morphMany(Document::class, 'archive');
      }
 
      public function maintenance_work_progress()

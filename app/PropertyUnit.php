@@ -31,7 +31,7 @@ class PropertyUnit extends Model
 
         }
         else {
-            $unit_price = $this->unit_price ? $this->unit_price->unit_price:0.00;
+            $unit_price = 00;//$this->unit_price ? $this->unit_price->unit_price:0.00;
         }
         return $unit_price;
     }

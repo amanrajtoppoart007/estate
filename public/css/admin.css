@@ -89,7 +89,7 @@ table.table.border-th-td-none  tr td,table.table.border-th-td-none  tr th
    border-color:transparent;
    border-style: none;
 }
-table.table.cutom-property-unit td, .table.cutom-property-unit th {
+table.table.custom-property-unit td, .table.custom-property-unit th {
     padding: 0rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
@@ -97,13 +97,25 @@ table.table.cutom-property-unit td, .table.cutom-property-unit th {
     border-style: none;
 }
 /**********property add/edit page css styling  */
+.width_50px
+{
+   width: 50px!important;
+}
 .width_100px
 {
    width: 100px!important;
 }
+.width_105px
+ {
+     width: 105px!important;
+ }
 .width_150px
+ {
+     width: 150px!important;
+ }
+.width_200px
 {
-   width: 150px!important;
+   width: 200px!important;
 }
 .width_80px
 {
@@ -115,7 +127,7 @@ table.table.cutom-property-unit td, .table.cutom-property-unit th {
   height: auto;
 }
 /* property view page css */
-.cutom-property-unit
+.custom-property-unit
 {
   font-size: 12px;
 }

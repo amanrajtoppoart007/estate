@@ -18,14 +18,14 @@
           </div>
         </div>
       </div>
-  @endsection	
+  @endsection
 @section('content')
 
-       
-      
+
+
         <div class="card">
-            <div class="card-header"> <h6> <strong>Invoice: {{$invoice_no}}</strong> <strong class="float-right">Party: {{$invoice[0]->party->name}}</strong></h6> 
-            
+            <div class="card-header"> <h6> <strong>Invoice: {{$invoice_no}}</strong> <strong class="float-right">Party: {{$invoice[0]->party->name}}</strong></h6>
+
             </div>
             <div class="card-body table-responsive">
               <form id="MainForm">
@@ -75,23 +75,23 @@
                         <td class="float-right"><b>Payment Status: </b></td>
                         <td class="text-green">Paid</td>
                     </tr>
-                    
+
                     @else
  <tr>
                         <td>
                           <label>Payment Mode</label>
                             <select class="form-control" name="mode" required>
-                       
-                        <option value="1">Cash</option>    
-                        <option value="2">Check</option>    
-                        <option value="3">Wire Transfer</option>    
+
+                        <option value="1">Cash</option>
+                        <option value="2">Check</option>
+                        <option value="3">Wire Transfer</option>
                         </select><br>
                         <label>Bank Account</label>
                          <select class="form-control" name="account" required>
 
                                 @foreach ($bank_acc as $acc)
                                 <option value="{{$acc->id}}">{{$acc->title}}</option>
-                                    
+
                                 @endforeach
                             </select>
                     </td>
@@ -106,20 +106,21 @@
                            <textarea rows="6" class="form-control" placeholder="Remark/Note" name="remark"></textarea>
                         </td>
                         <td>
-                            
+
                         </td>
                         <td><input type="submit" class="btn btn-success mt-4" value="Receive Payment"></td>
                     </tr>
                     @endif
+
             </tbody>
         </table></form>
             </div>
         </div>
-        
-     
-      
-     
-       
+
+
+
+
+
 @endsection
 @section('script')
 
@@ -133,8 +134,8 @@ var paymentStore =  "{{route('store.invoice.payment')}}";
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-    $(document).on('submit', '#MainForm', function(e) { 
-       //swal ( "Success" , result.msg,  "success" );   
+    $(document).on('submit', '#MainForm', function(e) {
+       //swal ( "Success" , result.msg,  "success" );
     var formData = new FormData($(this)[0]);
 
 
@@ -151,9 +152,9 @@ var paymentStore =  "{{route('store.invoice.payment')}}";
           //console.log(result);
           if(result.status=='1'){
            alert(result.msg);
-            
-     location.reload(); 
-             
+
+     location.reload();
+
           }else{
             toast('error',result.msg,'top-center');
           }
@@ -169,9 +170,9 @@ var paymentStore =  "{{route('store.invoice.payment')}}";
 
 
     });
-          
-  
-          
-   
+
+
+
+
  </script>
 @endsection
