@@ -81,3 +81,4 @@ Route::prefix('master')->group(function () {
 });
 
 Route::post('/get/property/unit/list', 'Common\CommonController@get_property_units')->name('get.unit.list');
+Route::post('/get/vacant/unit/list', 'Common\CommonController@get_vacant_units')->name('get.vacant.unit.list');

@@ -16,7 +16,7 @@ class StorePropertyUnit extends FormRequest
      */
     public function authorize()
     {
-        return true;
+         return auth("admin")->user()->id;
     }
 
     /**

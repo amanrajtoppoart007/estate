@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
              <div class="row">
-                 <div class="col-12 col-sm-6 col-md-8 col-xl-8 col-lg-8">
+                 <div class="col-12 col-sm-6 col-md-8 col-xl-8 col-lg-8 table-responsive">
                      <table class="table table-borderless">
                          <tbody>
                          <tr>
@@ -61,7 +61,7 @@
         <div class="card-header bg-gradient-navy">
             <h6>Employment Detail</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
            <table class="table table-borderless">
                <tbody>
                  <tr>
@@ -92,7 +92,7 @@
         <div class="card-header bg-gradient-navy">
             <h6>Address Detail</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
             <table class="table table-borderless">
                 <tbody>
                  <tr>
@@ -120,7 +120,7 @@
         <div class="card-header bg-gradient-navy">
             <h6>Account Detail</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
              <table class="table table-borderless">
                  <tbody>
                    <tr>

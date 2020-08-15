@@ -23,7 +23,7 @@ class Tenant extends Authenticatable
     /******tenant documents  **********/
     public function documents()
     {
-        return $this->hasMany('App\TenantDocument','tenant_id','id');
+        return $this->morphMany(Document::class,'archive');
     }
     /******tenant profile  **********/
     public function profile()

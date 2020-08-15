@@ -139,45 +139,44 @@ return $s;
 
  function getPropertyUnitStatus($code)
  {
-    switch ($code) {
-      case '1':
-        $text = 'VACANT';
-        $color  = 'primary';
-        break;
-      case '2':
-        $text = 'RENTED';
-        $color  = 'warning';
-        break;
-      case '3':
-        $text = 'NEEDS-REHAB';
-        $color  = 'danger';
-        break;
-      case '4':
-        $text = 'UNDER-REHAB';
-        $color  = 'danger';
-        break;
-      case '5':
-        $text = 'EVICTION';
-        $color  = 'danger';
-        break;
-      case '6':
-        $text = 'NEEDS-CLEANING';
-        $color  = 'info';
-        break;
-      case '7':
-        $text = 'BOOKED';
-        $color  = 'disabled';
-        break;
-      case '8':
-        $text = 'SOLD';
-        $color  = 'disabled';
-        break;
-      default:
-        $text = 'VACANT';
-        $color  = 'primary';
-        break;
-    }
-      return compact('text','color');
+     switch ($code) {
+
+         case '2':
+             $text = 'RENTED';
+             $color = 'warning';
+             break;
+         case '3':
+             $text = 'NEEDS-REHAB';
+             $color = 'danger';
+             break;
+         case '4':
+             $text = 'UNDER-REHAB';
+             $color = 'danger';
+             break;
+         case '5':
+             $text = 'EVICTION';
+             $color = 'danger';
+             break;
+         case '6':
+             $text = 'NEEDS-CLEANING';
+             $color = 'info';
+             break;
+         case '7':
+             $text = 'BOOKED';
+             $color = 'disabled';
+             break;
+         case '8':
+             $text = 'SOLD';
+             $color = 'disabled';
+             break;
+         case '1':
+         default:
+             $text = 'VACANT';
+             $color = 'primary';
+             break;
+
+     }
+     return compact('text', 'color');
  }
   function trim_price($input)
  {
@@ -191,4 +190,27 @@ return $s;
     $output = str_replace("sqft", "", $output);
     return trim($output);
  }
-?>
+
+if(!function_exists('get_breakdown_items')) {
+
+    function get_breakdown_items($items)
+    {
+        $i =0;
+        $output = array();
+        foreach($items as $item)
+        {
+            $output["security_deposit"][$i] = $item->security_deposit;
+            $output["municipality_fees"][$i] = $item->municipality_fees;
+            $output["brokerage"][$i] = $item->brokerage;
+            $output["contract"][$i] = $item->contract;
+            $output["remote_deposit"][$i] = $item->remote_deposit;
+            $output["sewa_deposit"][$i] = $item->sewa_deposit;
+            $output["monthly_installment"][$i] = $item->monthly_installment;
+            $output["total_monthly_installment"][$i] = $item->total_monthly_installment;
+            $i++;
+        }
+        return $output;
+    }
+
+}
+
