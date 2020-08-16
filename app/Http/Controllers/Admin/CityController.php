@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\DataTable\Api;
 use App\Country;
@@ -17,10 +19,12 @@ class CityController extends Controller
     {
         $this->middleware('auth:admin');
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return void
      */
     public function fetch(Request $request)
     {
@@ -30,7 +34,7 @@ class CityController extends Controller
     }
     public function index()
     {
-        
+
         $stateObject   = State::all();
         $countryObject = Country::all();
         $states        = array();
@@ -42,7 +46,7 @@ class CityController extends Controller
         }
         $countries     = array();
         $countries[''] = 'Select Country';
-        foreach ($countryObject as $country) 
+        foreach ($countryObject as $country)
         {
             $id               = $country->id;
             $countries["$id"] = $country->name;
@@ -52,8 +56,8 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -62,24 +66,24 @@ class CityController extends Controller
             'state_id' => 'required|numeric',
             'country_id' => 'required|numeric'
         ]);
-        if (!$validator->fails()) 
+        if (!$validator->fails())
         {
             $city                = $request->all();
             $city['admin_id']    = Auth::guard('admin')->user()->id;
             $city['is_disabled'] = '0';
             $city['created_at']  = date('Y-m-d H:i:s');
             $insert              = City::create($city);
-            if ($insert->id) 
+            if ($insert->id)
             {
                 $city = City::with('state')->with('country')->find($insert->id);
                 return response()->json(['status'=>1,'response' => 'success', 'data' => $city, 'message' => 'City added successfully.']);
             }
-             else 
+             else
             {
                 return response()->json(['status'=>0,'response' => 'error', 'message' => 'City addition failed']);
             }
-        } 
-        else 
+        }
+        else
         {
             return response()->json(['status'=>0,'response' => 'error', 'message' => $validator->errors()->all()]);
         }
@@ -88,22 +92,22 @@ class CityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function show(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required',
         ]);
-        if (!$validator->fails()) 
+        if (!$validator->fails())
         {
             $city = City::with('state')->with('country')->find($request->input('id'));
-            if($city) 
+            if($city)
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => $city, 'message' => 'City found.']);
-            } 
-            else 
+            }
+            else
             {
                 return response()->json(['status'=>0,'response' => 'error', 'message' => 'Specified city not found']);
             }
@@ -114,9 +118,8 @@ class CityController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function update(Request $request)
     {
@@ -126,19 +129,19 @@ class CityController extends Controller
             'state_id' => 'required|numeric',
             'id' => 'required|numeric',
         ]);
-        if (!$validator->fails()) 
+        if (!$validator->fails())
         {
             $city             = City::find($request->input('id'));
             $city->name       = $request->input('name');
             $city->state_id   = $request->input('state_id');
             $city->country_id = $request->input('country_id');
             $city->updated_at = date('Y-m-d H:i:s');
-            if ($city->save()) 
+            if ($city->save())
             {
                 $city             = City::with('state')->with('country')->find($request->input('id'));
                 return response()->json(['status'=>1,'response' => 'success', 'data' => $city,  'message' => 'City updated successfully.']);
-            } 
-            else 
+            }
+            else
             {
                 return response()->json(['status'=>0,'response' => 'error', 'message' => 'City updation failed']);
             }
@@ -147,31 +150,33 @@ class CityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function destroy(Request $request)
     {
         $validator = Validator::make($request->all(), ['id' => 'required']);
-        if (!$validator->fails()) 
+        if (!$validator->fails())
         {
-            if (City::destroy($request->input('id'))) 
+            if (City::destroy($request->input('id')))
             {
                 return response()->json(['status'=>1,'response' => 'success', 'message' => 'City deleted successfully.']);
-            } 
-            else 
+            }
+            else
             {
                 return response()->json(['status'=>0,'response' => 'error', 'message' => 'City deletion failed.']);
             }
-        } 
-        else 
+        }
+        else
         {
             return response()->json(['status'=>0,'response' => 'error', 'message' => $validator->errors()->all()]);
         }
     }
-    /********** active inactive model intance    ****************/
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
      public function changeStatus(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -180,11 +185,11 @@ class CityController extends Controller
         ]);
         if (!$validator->fails()) {
             $status = ($request->is_disabled) ? '0' : '1';
-            if (City::where(['id' => $request->id])->update(['is_disabled' => $status])) 
+            if (City::where(['id' => $request->id])->update(['is_disabled' => $status]))
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => ['is_disabled' => $status, 'id' => $request->id], 'message' => 'Status updated successfully.']);
             }
-             else 
+             else
             {
                 return response()->json(['status'=>'0','response' => 'error', 'message' => 'Status updation failed.']);
             }

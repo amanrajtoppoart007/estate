@@ -22,7 +22,7 @@ class RentBreakDown extends Model
     }
     public function rent_enquiry()
     {
-        return $this->belongsTo(RentEnquiry::class,"rent_inquiry_id","id");
+        return $this->belongsTo(RentEnquiry::class,"rent_enquiry_id","id");
     }
     public function rent_break_down_items()
     {

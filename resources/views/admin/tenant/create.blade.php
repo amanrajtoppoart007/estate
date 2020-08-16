@@ -553,8 +553,8 @@
         });
 
   function render_family_detail_form()
-{
-	var str = `<tr><td>#</td>
+ {
+	let str = `<tr><td>#</td>
     <td> <input type="text" class="form-control" name="rel_name[]" value=""> </td>
     <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
     <td><input type="file" class="form-control" name="rel_emirates_id[]"></td>

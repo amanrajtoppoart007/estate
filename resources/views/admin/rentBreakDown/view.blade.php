@@ -99,7 +99,7 @@
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
             <div class="form-group">
                 <button type="button" id="print_btn" class="btn btn-success"><i class="fa fa-print"></i>Print BreakDown</button>
-                <button type="button" class="btn btn-info"><i class="fa fa-envelope"></i>Send BreakDown Via Email </button>
+                <button type="button" id="send_via_mail_btn" class="btn btn-info"><i class="fa fa-envelope"></i>Send BreakDown Via Email </button>
             </div>
         </div>
     </div>
@@ -115,7 +115,36 @@
                      header: "{{config('app.name')}}"
                  });
             });
+
+            $("#send_via_mail_btn").on("click",function(){
+
+                let url = "{{route('send.breakdown.mail')}}";
+                let params = {
+                    break_down_id : {{$breakdown->id}},
+                    rent_enquiry_id : {{$breakdown->rent_enquiry_id}}
+                };
+                function fn_success(result)
+                {
+                    toast("success",result.message,"top-right");
+                }
+                function fn_error(result)
+                {
+                    toast("error",result.message,"top-right");
+                }
+                $.fn_ajax(url,params,fn_success,fn_error);
+            })
         });
     </script>
+    @if(request()->has("action"))
+        @if(request()->action=="print")
+        <script>
+            $(document).ready(function(){
+                $("#printThis").printThis({
+                     header: "{{config('app.name')}}"
+                 });
+            });
+        </script>
+        @endif
+    @endif
 @endsection
 

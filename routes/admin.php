@@ -11,6 +11,7 @@ Route::prefix('accounting')->group(function () {
 Route::prefix("rent-breakdown")->group(function(){
     Route::post('store', 'Admin\RentBreakDownController@store')->name('save.rent.breakdown');
     Route::get('view/{id}', 'Admin\RentBreakDownController@view')->name('view.rent.breakdown');
+    Route::any('send/breakdown/mail', 'Admin\RentBreakDownController@mail')->name('send.breakdown.mail');
 });
 /*** Tenant Routes ***/
 Route::get('pw-gen', 'Admin\UserController@pw_gen');

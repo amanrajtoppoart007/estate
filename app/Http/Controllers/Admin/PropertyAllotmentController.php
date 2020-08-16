@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Http\Controllers\Controller;
 use App\Library\CreateInstallments;
+use App\RentBreakDown;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Property;
@@ -38,13 +39,23 @@ class PropertyAllotmentController extends Controller
             $tenant = Tenant::with('profile','relations')->where(['id'=>$id])->first();
             $properties = Property::where(['is_disabled'=>'0'])->get();
             $states     = State::where(['is_disabled'=>'0'])->get();
-
+            $cities = City::where(['is_disabled'=>'0'])->get();
             if(!empty($property_unit_id))
             {
                 $property_unit = PropertyUnit::find($property_unit_id);
-                $cities = City::where(['is_disabled'=>'0'])->get();
+
             }
-            return view('admin.allotProperty.init',\compact('tenant','properties','states','property_unit','cities'));
+            $breakdown = null;
+            if($request->has("request_id"))
+            {
+                $request_id = base64_decode($request->request_id);
+                $breakdown = RentBreakDown::where(['rent_enquiry_id'=>$request_id])->first();
+                if(!empty($breakdown))
+                {
+                   $property_unit = PropertyUnit::find($breakdown->unit_id);
+                }
+            }
+            return view('admin.allotProperty.init',\compact('tenant','properties','states','property_unit','cities','breakdown'));
         }
         else
         {

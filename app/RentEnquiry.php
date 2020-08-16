@@ -26,6 +26,10 @@ class RentEnquiry extends Model
     }
     public function rent_breakdown()
     {
-        return $this->hasMany(RentBreakDown::class,"rent_inquiry_id","id");
+        return $this->hasMany(RentBreakDown::class,"rent_enquiry_id","id");
     }
+    protected $casts = [
+        'created_at' => 'datetime:d:m:Y H:i:s',
+        'updated_at' => 'datetime:d:m:Y H:i:s',
+    ];
 }

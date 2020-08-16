@@ -1,19 +1,6 @@
 @extends('admin.layout.app')
   @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
-      <style>
-          .zero-border{
-              border: 0px;
-          }
-          .padLeft100{
-              padding-left: 100px;
-
-          }
-    .width200{
-        min-width: 200px;
-    }
-
-      </style>
   @endsection
     @php
       $unit = $property_unit ? $property_unit : null;
@@ -21,30 +8,13 @@
   @section('js')
   <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
   @endsection
-  @section('content')
-  @section('breadcrumb')
-  <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Property Allotment</h1>
-            </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Property Allotment</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
-  @endsection
+@include("admin.include.breadcrumb",["page_title"=>"Property Allotment"])
+@section('content')
 <div class="submit_form color-secondery icon_primary p-5 bg-white">
     {{Form::open(['route'=>'allot.property','id'=>'add_data_form'])}}
             <input type="hidden" name="tenant_id" value="{{$tenant->id}}">
-
            <div class="card">
-              <div class="card-header"><h6> <strong>Owner Detail</strong> </h6></div>
+              <div class="card-header bg-gradient-navy"><h6> <strong>Owner Detail</strong> </h6></div>
                 <div class="card-body table-responsive">
                 <table class="table border-0 border-th-td-none">
                   <tbody>
@@ -70,7 +40,7 @@
             </div>
 
             <div class="card">
-              <div class="card-header"><h6> <strong>Tenant Detail</strong> </h6></div>
+              <div class="card-header bg-gradient-navy"><h6> <strong>Tenant Detail</strong> </h6></div>
                 <div class="card-body table-responsive">
                 <table class="table border-0 border-th-td-none">
                   <tbody>
@@ -97,28 +67,11 @@
 
 
             <div class="card">
-                <div class="card-header">
+                <div class="card-header bg-gradient-navy">
                    <h6> <strong>Property Allocation Detail</strong> </h6>
                 </div>
                 <div class="card-body">
               <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="state_id">State</label>
-                    <select name="state_id" id="state_id" class="form-control">
-                      <option value="">Select State</option>
-                      @foreach($states as $state)
-                          @if(!empty($property_unit->property->state_id))
-                             @php $selected = ($property_unit->property->state_id==$state->id)?"selected":"";  @endphp
-                            @else
-                              @php $selected = null; @endphp
-                            @endif
-                        <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
-                      @endforeach
-                    </select>
-                </div>
-
-              </div>
               <div class="col">
                 <div class="form-group">
                   <label for="city_id">City</label>
@@ -182,7 +135,7 @@
             </div>
           </div>
             <div class="card">
-              <div class="card-header">
+              <div class="card-header bg-gradient-navy">
                 <h6> <strong>Rent Detail</strong> </h6>
               </div>
               <div class="card-body">
@@ -192,16 +145,24 @@
                     <label for="rent_period_type">Rent Period</label>
                     <select  class="form-control" name="rent_period_type" id="rent_period_type">
                        <option value="">Select</option>
-                       <option value="monthly">MONTHLY</option>
-                       <option value="half_yearly">HALF YEARLY</option>
-                       <option value="yearly">YEARLY</option>
+                       @php $types = get_rent_period_types() @endphp
+                        @foreach($types as $tkey=>$tvalue)
+                            @php
+                                $selected = null;
+                                if(!empty($breakdown))
+                                {
+                                    $selected = ($tkey==$breakdown->rent_period_type) ? "selected" : null;
+                                }
+                             @endphp
+                            <option value="{{$tkey}}" {{$selected}}>{{$tkey}}</option>
+                        @endforeach
                     </select>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="rent_period">NO.Of <i id="rent_period_text"></i> </label>
-                    <input type="text" class="form-control numeric" name="rent_period" id="rent_period" value="">
+                    <input type="text" class="form-control numeric" name="rent_period" id="rent_period" value="{{$breakdown ?$breakdown->rent_period : 0}}">
                   </div>
                 </div>
 
@@ -209,41 +170,40 @@
                         <div class="form-group">
                             <label for="parking">Parking <i id="parking"></i> </label>
                             <select class="form-control" name="parking" id="parking">
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
+                                <option value="yes" {{ !empty($breakdown) ? ($breakdown->parking=="yes" ? "selected": null) : null}}>Yes</option>
+                                <option value="no"  {{ !empty($breakdown) ? ($breakdown->parking=="no" ?  "selected": null) : null}}>No</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="parking_number">Parking number <i id="rent_period_text"></i> </label>
-                            <input type="text" class="form-control numeric" name="parking_number" id="parking_number"
-                                   value="">
+                            <input type="text" class="form-control numeric" name="parking_number" id="parking_number" value="{{!empty($breakdown) ? ($breakdown->parking=="yes" ? $breakdown->parking_number: null) : null}}">
                         </div>
                     </div>
 
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="lease_start">Lease Start Date</label>
-                    <input type="text" class="form-control" name="lease_start" id="lease_start" value="">
+                    <input type="text" class="form-control" name="lease_start" id="lease_start" value="{{!empty($breakdown) ? ($breakdown->lease_start_date ? date('d-m-Y',strtotime($breakdown->lease_start_date)) : null) :null }}">
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="lease_end">Lease End Date</label>
-                    <input type="text" class="form-control" name="lease_end" id="lease_end" value="">
+                    <input type="text" class="form-control" name="lease_end" id="lease_end" value="{{ !empty($breakdown) ? ($breakdown->lease_end_date ? date('d-m-Y',strtotime($breakdown->lease_end_date)) : null) :null }}">
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="rent_amount">Total Rent Amount</label>
-                    <input type="text" class="form-control" name="rent_amount" id="rent_amount" value="">
+                    <input type="text" class="form-control" name="rent_amount" id="rent_amount" value="{{ !empty($breakdown) ? $breakdown->rent_amount :null}}">
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="installments">Installments</label>
-                    <input type="text" class="form-control" name="installments" id="installments" value="">
+                    <input type="text" class="form-control" name="installments" id="installments" value="{{(!empty($breakdown)) ? $breakdown->installments : null }}">
                   </div>
                 </div>
                 </div>
@@ -251,26 +211,27 @@
             </div>
 
     <div class="card card-body">
-        {{--<div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="parking"> Parking</label>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="monthly_installment"> <input type="radio" name="parking" value="0"> No Parking</label>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="municipality_fees"> <input type="radio" name="parking" value="1"> With Parking</label>
-                </div>
-            </div>
-        </div>--}}
         <div class="row">
     <div class="col-md-12" style="overflow-x: scroll;">
+        @if(!empty($breakdown))
+            <table id="installment_table" class="table table-borderless">
+                    <tbody>
+                    @php $breakdown_items = get_breakdown_items($breakdown->rent_break_down_items); @endphp
+                    @foreach($breakdown_items as  $item=>$values)
+                        <tr>
+                            <th>{{ucwords(str_replace("_"," ", $item))}}</th>
+                            @foreach($values as $key=>$value)
+                                <td>
+                                    <input type="text" class="form-control numeric" name="{{$key}}[]" value="{{$value}}">
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                    </tbody>
+            </table>
+        @else
         <table id="installment_table" class="mb-5">
+            <tbody>
             <tr id="row1">
                 <td class="width200">Details of cash first payment</td>
                 <td class="padLeft100">AED</td>
@@ -314,7 +275,9 @@
                 <td class="width200">Total  Payment:</td>
                 <td class="padLeft100"><input type="text" class="numeric" name="total_monthly_installment[]" id="total_monthly_installment_1" readonly value="0"></td>
             </tr>
+            </tbody>
         </table>
+            @endif
     </div>
         </div>
     </div>

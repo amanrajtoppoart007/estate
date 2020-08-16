@@ -16,10 +16,23 @@ if (!function_exists('get_rent_breakdown_parameters'))
 {
   function get_rent_breakdown_parameters()
   {
-      $params = array(
+     return $params = array(
           "family_husband_wife"=>"Family (Husband & Wife)",
           "family_brother_sister"=>"Family (Brother & Sister)",
           "company"=>"Company","bachelor"=>"Bachelor"
+      );
+
+  }
+}
+
+if (!function_exists('get_rent_period_types'))
+{
+  function get_rent_period_types()
+  {
+    return   array(
+          "monthly"=>"Monthly",
+          "half_yearly"=>"Half Yearly",
+          "yearly"=>"Yearly",
       );
 
   }
