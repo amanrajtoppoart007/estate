@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AllotProperty;
 use App\Library\CreateInstallments;
 use App\RentBreakDown;
 use Illuminate\Support\Facades\Validator;
@@ -63,7 +64,7 @@ class PropertyAllotmentController extends Controller
         }
     }
 
-    public function allotProperty(\App\Http\Requests\AllotProperty $request)
+    public function allotProperty(AllotProperty $request)
     {
         $request->validated();
         $admin_id = Auth::guard('admin')->user()->id;

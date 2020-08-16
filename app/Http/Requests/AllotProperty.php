@@ -30,7 +30,7 @@ class AllotProperty extends FormRequest
                 'lease_start' => 'required',
                 'lease_end' => 'required',
                 'tenant_id' => 'required|numeric',
-                'state_id' => 'required|numeric',
+                'state_id' => 'numeric',
                 'city_id' => 'required|numeric',
                 'property_id' => 'required|numeric',
                 'property_unit_type_id' => 'required|numeric',

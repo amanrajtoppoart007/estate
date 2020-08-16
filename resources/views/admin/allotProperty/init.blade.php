@@ -222,7 +222,7 @@
                             <th>{{ucwords(str_replace("_"," ", $item))}}</th>
                             @foreach($values as $key=>$value)
                                 <td>
-                                    <input type="text" class="form-control numeric" name="{{$key}}[]" value="{{$value}}">
+                                    <input type="text" class="form-control numeric" name="{{$item}}[]" value="{{$value}}">
                                 </td>
                             @endforeach
                         </tr>
