@@ -2,12 +2,6 @@
 @section('head')
    <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
-    <style>
-    .owner_type_company_grid
-    {
-        display:none;
-    }
-</style>
 @endsection
 @section('breadcrumb')
 <div class="content-header">
@@ -70,7 +64,7 @@
 						<select class="form-control" name="prop_for" id="prop_for">
 
 							@php
-							$purpose = array('1'=>'Rent','2'=>'Sale','3'=>'Rent & Sale')
+							$purpose = get_property_purpose_modes()
 							@endphp
 							@foreach($purpose as $pKey=>$pVal)
 							@if($pKey==old('prop_for'))
@@ -93,14 +87,6 @@
 
 					</div>
 
-
-					<div class="form-group d-none">
-						<label>State  <span class="ml-2 text-danger">*</span></label>
-						<select class="form-control" name="state_id" id="state_id">
-							<option value="">Select State</option>
-						</select>
-
-					</div>
 					<div class="form-group">
 						<label>City  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control select2" name="city_id" id="city_id">
@@ -142,6 +128,12 @@
 					<div class="form-group">
 						<label>Area  <span class="ml-2 text-danger">*</span></label>
 						<input type="text" name="address" id="address" class="form-control" value="{{old('address')}}">
+					</div>
+				</div>
+                <div class="col-lg-4 col-md-4">
+					<div class="form-group">
+						<label>Land Mark </label>
+						<input type="text" class="form-control" name="landmark" id="landmark" value="{{old('landmark')}}">
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-4">
@@ -279,9 +271,8 @@
 @endsection
 @section('js')
 <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
-<!--script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}"></script-->
 <script src="{{asset('theme/default/js/map/map.scripts.js')}}"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}&libraries=places"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}&libraries=places"></script>
 @endsection
 
 @section('script')
@@ -609,7 +600,7 @@
 <script>
 	$(function() {
 		$("input[type='submit']").click(function(e) {
-			var $fileUpload = $("input[type='file']");
+			let $fileUpload = $("input[type='file']");
 			let max = 6;
 			if (parseInt($fileUpload.get(0).files.length) > max) {
 				alert(`You can only upload a maximum of ${max}  files`);

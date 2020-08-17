@@ -29,6 +29,6 @@ class SendRentBreakDownEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('templates.breakdown');
+        return $this->from("amanrajtoppoart@gmail.com")->view('templates.breakdown');
     }
 }

@@ -37,3 +37,15 @@ if (!function_exists('get_rent_period_types'))
 
   }
 }
+if (!function_exists('get_property_purpose_modes'))
+{
+  function get_property_purpose_modes()
+  {
+    return   array(
+          "1"=>"Rent",
+          "2"=>"Sale",
+          "3"=>"Rent & Sale",
+      );
+
+  }
+}

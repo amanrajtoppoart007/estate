@@ -72,7 +72,7 @@ class EditDeveloper extends FormRequest
             'auth_person_emirates_exp_date'=>'required',
             'auth_person_passport'=>'required|mimes:jpeg,png,jpg,pdf|max:10048',
             'auth_person_passport_exp_date'=>'required',
-            'auth_person_visa'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
+            'auth_person_visa'=>'required|mimes:jpeg,png,jpg,pdf|max:10048',
             'auth_person_visa_exp_date'=>'required',
             'auth_person_power_of_attorney'=>'required|mimes:jpeg,png,jpg,pdf|max:10048',
             'auth_poa_exp_date'=>'required|date'

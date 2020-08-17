@@ -71,8 +71,8 @@ class RentBreakDownController extends Controller
 
     public function mail(Request  $request)
     {
-        $result = ["status"=>1,"response" => "success", "message" => "Mail Sent Successfully"];
-        return response()->json($result,200);
+        /*$result = ["status"=>1,"response" => "success", "message" => "Mail Sent Successfully"];
+        return response()->json($result,200);*/
         $validator = Validator::make($request->all(),
         [
             "break_down_id"=>"required|numeric",
@@ -80,16 +80,17 @@ class RentBreakDownController extends Controller
         ]);
         if(!$validator->fails())
         {
-            $user      = RentEnquiry::find($request->rent_enquiry_id);
-            $breakdown = RentBreakDown::find($request->break_down_id);
-            if(Mail::to($user)->send(new SendRentBreakDownEmail($breakdown)))
-            {
+            try {
+                $user      = RentEnquiry::find($request->rent_enquiry_id);
+                $breakdown = RentBreakDown::find($request->break_down_id);
+                Mail::to($user)->send(new SendRentBreakDownEmail($breakdown));
                 $result = ["status"=>1,"response" => "success", "message" => "Mail Sent Successfully"];
             }
-            else
+            catch (\Exception $exception)
             {
-                $result = ["status"=>0,"response" => "error", "message" => "Mail Not Sent,Pleas Try Again"];
+                 $result = ["status"=>0,"response" => "error", "message" => $exception->getMessage()];
             }
+
         }
         else
         {
