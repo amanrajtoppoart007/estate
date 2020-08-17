@@ -205,7 +205,58 @@
                     </div>
                 </div>
             </div>
+@php
+                 $passport = $emirates_id_doc = $visa = $bank_passbook = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
+                         if(!$tenant->documents->isEmpty())
+                             {
+                                 $documents =   extract_doc_keys($tenant->documents,'file_url','document_title','date_key','date_value');
 
+                         foreach($documents as $doc)
+                          {
+                              if($doc['document_title']=='emirates_id_doc')
+                                  {
+                                      $emirates_id_doc         = $doc['file_url'];
+                                      $emirates_id_exp_date    = $doc['date_value'];
+                                  }
+                               if($doc['document_title']=='passport')
+                                  {
+                                      $passport          = $doc['file_url'];
+                                      $passport_exp_date = $doc['date_value'];
+                                  }
+                               if($doc['document_title']=='visa')
+                                  {
+                                      $visa          = $doc['file_url'];
+                                      $visa_exp_date = $doc['date_value'];
+                                  }
+
+                               if($doc['document_title']=='power_of_attorney')
+                                  {
+                                      $poa         = $doc['file_url'];
+                                      $poa_exp_date = $doc['date_value'];
+                                  }
+                          }
+                             }
+                         if(!empty($emirates_id_doc))
+                        {
+                            $emirates_id_doc = route('get.doc',base64_encode($emirates_id_doc));
+                        }
+                         if(!empty($passport))
+                       {
+                           $passport = route('get.doc',base64_encode($passport));
+                       }
+                       if(!empty($visa))
+                       {
+                           $visa = route('get.doc',base64_encode($visa));
+                       }
+                       if(!empty($poa))
+                       {
+                           $poa = route('get.doc',base64_encode($poa));
+                       }
+                       if(!empty($bank_passbook))
+                       {
+                           $bank_passbook = route('get.doc',base64_encode($bank_passbook));
+                       }
+                @endphp
             <div class="card card-info company_extra_detail">
                 <div class="card-header">
                     <h6>Company Detail</h6>
@@ -271,18 +322,10 @@
                             </span>
                         </div>
                      <input type="file" class="form-control" name="emirates_id" id="emirates_id" value="">
-                         @php
-                             $emirates_id = 'javascript:void(0)';
-                              if(!empty($tenant->profile->emirates_id))
-                              {
-                                  $doc = pluck_single_value('tenant_documents','id',$tenant->profile->emirates_id,'doc_url');
 
-                                  $emirates_id = route('get.doc',base64_encode($doc));
-                              }
-                         @endphp
                          <div class="input-group-append">
                                <span class="input-group-text">
-                                   <a data-toggle="tooltip" title="Click to view the file" href="{{$emirates_id}}" {{($tenant->profile->emirates_id)?'target=_blank':''}}>
+                                   <a data-toggle="tooltip" title="Click to view the file" href="{{$emirates_id_doc ? $emirates_id_doc : 'javascript:void(0)'}}" {{($emirates_id_doc)?'target=_blank':''}}>
                                        <i class="fa fa-file"></i>
                                    </a>
                                </span>
@@ -300,18 +343,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="passport" id="passport" value="">
-                                   @php
-                                       $passport = 'javascript:void(0)';
-                                        if(!empty($tenant->profile->passport))
-                                        {
-                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->passport,'doc_url');
 
-                                            $passport = route('get.doc',base64_encode($doc));
-                                        }
-                                   @endphp
                                    <div class="input-group-append">
                                        <span class="input-group-text">
-                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$passport}}" {{($tenant->profile->passport)?'target=_blank':''}}>
+                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$passport ? $passport : 'javascript:void(0)'}}" {{($passport)?'target=_blank':''}}>
                                                <i class="fa fa-file"></i>
                                            </a>
                                        </span>
@@ -329,18 +364,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="visa" id="visa" value="">
-                                   @php
-                                       $visa = 'javascript:void(0)';
-                                        if(!empty($tenant->profile->visa))
-                                        {
-                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->visa,'doc_url');
 
-                                            $visa = route('get.doc',base64_encode($doc));
-                                        }
-                                   @endphp
                                    <div class="input-group-append">
                                        <span class="input-group-text">
-                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$visa}}" {{($tenant->profile->visa)?'target=_blank':''}}>
+                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$visa ? $visa : 'javascript:void(0)'}}" {{($visa)?'target=_blank':''}}>
                                                <i class="fa fa-file"></i>
                                            </a>
                                        </span>
@@ -358,18 +385,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="bank_passbook" id="bank_passbook" value="">
-                                    @php
-                                       $bank_passbook = 'javascript:void(0)';
-                                        if(!empty($tenant->profile->bank_passbook))
-                                        {
-                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->bank_passbook,'doc_url');
 
-                                            $bank_passbook = route('get.doc',base64_encode($doc));
-                                        }
-                                   @endphp
                                    <div class="input-group-append">
                                        <span class="input-group-text">
-                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$bank_passbook}}" {{($tenant->profile->bank_passbook)?'target=_blank':''}}>
+                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$bank_passbook ? $bank_passbook : 'javascript:void(0)'}}" {{($bank_passbook)?'target=_blank':''}}>
                                                <i class="fa fa-file"></i>
                                            </a>
                                        </span>
@@ -388,7 +407,7 @@
                                 <i class="fa fa-file" aria-hidden="true"></i>
                             </span>
                         </div>
-                     <input type="text" class="form-control" name="emirates_id_exp_date" id="emirates_id_exp_date" value="{{$tenant->profile->emirates_id_exp_date ? date('d-m-Y',strtotime($tenant->profile->emirates_id_exp_date)):null}}">
+                     <input type="text" class="form-control" name="emirates_id_exp_date" id="emirates_id_exp_date" value="{{$emirates_id_exp_date ? date('d-m-Y',strtotime($emirates_id_exp_date)):null}}">
                      </div>
                  </div>
               </div>
@@ -401,7 +420,7 @@
                                           <i class="fa fa-passport"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="{{$tenant->profile->passport_exp_date ? date('d-m-Y',strtotime($tenant->profile->passport_exp_date)):null}}">
+                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="{{$passport_exp_date ? date('d-m-Y',strtotime($passport_exp_date)):null}}">
                                </div>
                            </div>
                        </div>
@@ -414,23 +433,11 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="{{$tenant->profile->visa_exp_date ? date('d-m-Y',strtotime($tenant->profile->visa_exp_date)):null}}">
+                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="{{$visa_exp_date ? date('d-m-Y',strtotime($visa_exp_date)):null}}">
                                </div>
                            </div>
                        </div>
-                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 d-none">
-                           <div class="form-group">
-                               <label for="bank_passbook_exp_date">Bank Statement (Expiry Date)</label>
-                               <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                         <i class="fa fa-file" aria-hidden="true"></i>
-                                      </span>
-                                  </div>
-                               <input type="text" class="form-control" name="bank_passbook_exp_date" id="bank_passbook_exp_date" value="{{$tenant->profile->bank_passbook_exp_date ? date('d-m-Y',strtotime($tenant->profile->bank_passbook_exp_date)):null}}">
-                               </div>
-                           </div>
-                       </div>
+
           </div>
                 </div>
             </div>

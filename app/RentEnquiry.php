@@ -24,4 +24,8 @@ class RentEnquiry extends Model
     {
         return $this->belongsTo(Country::class,"country_code","code");
     }
+    public function rent_breakdown()
+    {
+        return $this->hasMany(RentBreakDown::class,"rent_inquiry_id","id");
+    }
 }

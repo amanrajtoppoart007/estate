@@ -9,6 +9,11 @@ class City extends Model
     protected $guarded    = [];
     protected $appends    = ['state_name','country_name'];
 
+    public function rent_breakdown()
+    {
+        return $this->hasMany(RentBreakDown::class,"city_id","id");
+    }
+
     public function state()
     {
         return $this->belongsTo('App\State');
