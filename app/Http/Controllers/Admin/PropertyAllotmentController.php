@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\City;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AllotProperty;
 use App\Library\CreateInstallments;
+use App\RentBreakDown;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Property;
@@ -21,33 +24,47 @@ class PropertyAllotmentController extends Controller
     {
         $this->middleware('auth:admin');
     }
-    /**
-     * Allocate property to a user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function fetch_alloted_properties(Request $request)
     {
         $model  = new PropertyUnitAllotment();
         $api    = new \App\DataTable\Api($model,$request);
         echo json_encode($api->apply());
     }
-    public function index(Request $request,$id)
+    public function index(Request $request,$id,$property_unit_id=null)
     {
         if((isset($id))&&!empty($id))
         {
+            $property_unit  = null;
+            $cities         = [];
             $tenant = Tenant::with('profile','relations')->where(['id'=>$id])->first();
-            $properties = Property::where(['is_disabled'=>'1'])->get();
+            $properties = Property::where(['is_disabled'=>'0'])->get();
             $states     = State::where(['is_disabled'=>'0'])->get();
-            return view('admin.allotProperty.init',\compact('tenant','properties','states'));
+            $cities = City::where(['is_disabled'=>'0'])->get();
+            if(!empty($property_unit_id))
+            {
+                $property_unit = PropertyUnit::find($property_unit_id);
+
+            }
+            $breakdown = null;
+            if($request->has("request_id"))
+            {
+                $request_id = base64_decode($request->request_id);
+                $breakdown = RentBreakDown::where(['rent_enquiry_id'=>$request_id])->first();
+                if(!empty($breakdown))
+                {
+                   $property_unit = PropertyUnit::find($breakdown->unit_id);
+                }
+            }
+            return view('admin.allotProperty.init',\compact('tenant','properties','states','property_unit','cities','breakdown'));
         }
         else
         {
-
+             return view('blank');
         }
     }
-    public function allotProperty(\App\Http\Requests\AllotProperty $request)
+
+    public function allotProperty(AllotProperty $request)
     {
         $request->validated();
         $admin_id = Auth::guard('admin')->user()->id;

@@ -5,7 +5,8 @@
 @include("admin.include.breadcrumb",["page_title"=>"Rent BreakDown"])
  @section('content')
 <div class="submit_form color-secondery icon_primary p-5 bg-white">
-    {{Form::open(['id'=>'add_data_form'])}}
+    {{Form::open(['id'=>'add_data_form','autocomplete'=>'off'])}}
+    <input type="hidden" name="rent_enquiry_id" value="{{$enquiry->id}}">
             <div class="card">
                 <div class="card-header bg-gradient-cyan">
                    <h6> <strong>Property Allocation Detail</strong> </h6>
@@ -29,8 +30,7 @@
                   <select class="form-control" name="property_id" id="property_id">
                       @if(!empty($property_unit))
                       @foreach($properties as $prop)
-                          @php $selected = ($property_unit->property->id==$prop->id)?"selected":"";  @endphp
-                            <option value="{{$prop->id}}" {{$selected}}>{{$prop->title}}</option>
+                            <option value="{{$prop->id}}">{{$prop->title}}</option>
                        @endforeach
                       @endif
                   </select>
@@ -201,10 +201,11 @@
        </div>
     </div>
             <div class="form-group">
-                <button type="button" class="btn btn-success">Create Tenant</button>
-                <button type="submit" class="btn btn-primary">Preview</button>
-                <button type="button" class="btn btn-info">Print BreakDown</button>
-                <button type="button" class="btn btn-warning text-white">Send BreakDown By E-mail</button>
+                <input type="hidden" id="next_action_input" name="next_action" value="">
+                <button type="submit" id="create_tenant" class="btn btn-success submit_breakdown_button">Create Tenant</button>
+                <button type="submit" id="preview" class="btn btn-primary submit_breakdown_button">Preview</button>
+                <button type="submit" id="print_breakdown" class="btn btn-info submit_breakdown_button">Print BreakDown</button>
+                <button type="submit" id="send_breakdown_via_email" class="btn btn-warning text-white submit_breakdown_button">Send BreakDown By E-mail</button>
             </div>
           {{Form::close()}}
         </div>
@@ -215,6 +216,10 @@
   @section('script')
     <script>
       $(document).ready(function(){
+
+          $(document).on("click",".submit_breakdown_button",function(){
+              $("#next_action_input").val($(this).attr("id"));
+          })
           $( "#installment_table").delegate( "tr td input", "change", function() {
               calculateTotalFirstRent($(this).closest('td').index());
             });
@@ -380,7 +385,28 @@
           function fn_success(result)
           {
               toast('success', result.message, 'bottom-right');
-              window.location.href = result.next_url;
+              if(result.next_url)
+              {
+                  if($("#next_action_input").val()==="send_breakdown_via_email")
+                  {
+                        $.ajax({
+                            url : result.next_url,
+                            type : "GET",
+                            success :function(result)
+                            {
+                                toast('success', result.message, 'bottom-right');
+                            },
+                            error :function(result)
+                            {
+                                 toast('error', result.message, 'bottom-right');
+                            }
+                        })
+                  }
+                  else
+                  {
+                         window.location.href = result.next_url;
+                  }
+              }
 
           }
           function fn_error(result)

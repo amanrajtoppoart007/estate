@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Agent;
 use App\Buyer;
+use App\Property;
 use App\Tenant;
 use App\UnitPrice;
 use Carbon\Carbon;
@@ -65,6 +66,13 @@ class PropertyUnitController extends Controller
         $unit_gen             = new CreateUnitCode($request->property_id,$request->property_unit_type_id);
         $input['unit_status'] = 1;
         $input['unitcode']    = $unit_gen->generate_unit_code();
+
+        $property = Property::find($request->property_id);
+        if(!empty($property))
+        {
+            $input['owner_id']    = $property->owner_id;
+        }
+
         if (!empty($request->rent_type))
         {
             $input['rent_type'] = $request->rent_type;

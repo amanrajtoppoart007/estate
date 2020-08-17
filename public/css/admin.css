@@ -121,6 +121,19 @@ table.table.custom-property-unit td, .table.custom-property-unit th {
 {
    width: 80px!important;
 }
+
+.zero-border {
+    border: 0px;
+}
+
+.padLeft100 {
+    padding-left: 100px;
+
+}
+
+.width200 {
+    min-width: 200px;
+}
 .profile_photo
 {
   width: 195px;

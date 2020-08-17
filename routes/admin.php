@@ -11,6 +11,7 @@ Route::prefix('accounting')->group(function () {
 Route::prefix("rent-breakdown")->group(function(){
     Route::post('store', 'Admin\RentBreakDownController@store')->name('save.rent.breakdown');
     Route::get('view/{id}', 'Admin\RentBreakDownController@view')->name('view.rent.breakdown');
+    Route::any('send/breakdown/mail', 'Admin\RentBreakDownController@mail')->name('send.breakdown.mail');
 });
 /*** Tenant Routes ***/
 Route::get('pw-gen', 'Admin\UserController@pw_gen');
@@ -100,11 +101,11 @@ Route::prefix('owner')->group(function () {
 });
 
 Route::prefix('document')->group(function(){
-    Route::get('list','Admin\Notification\DocumentController@index')->name('document.list');
+    Route::get('list','Admin\Notification\DocumentController@index')->name('expiry.warning.document.list');
     Route::post('fetch','Admin\Notification\DocumentController@fetch')->name('document.fetch');
 });
 Route::prefix('notification')->group(function(){
-    Route::get('send','Admin\Notification\NotificationController@create_document_notification')->name('notification.send');
+    Route::post('document/expiry/message/send','Admin\Notification\NotificationController@create_document_notification')->name('send.document.expiry.notification');
 });
 
 /********************** developer listing**************/

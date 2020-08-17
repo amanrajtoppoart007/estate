@@ -103,6 +103,7 @@
               </p>
             </a>
           </li>
+
            <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fa fa-users"></i>
@@ -480,6 +481,14 @@
               <i class="nav-icon fa fa-question"></i>
               <p>
                 Contact Requests
+              </p>
+            </a>
+          </li>
+            <li class="nav-item">
+            <a href="{{route('expiry.warning.document.list')}}" class="nav-link">
+              <i class="nav-icon fa fa-at"></i>
+              <p>
+                Document Renewal
               </p>
             </a>
           </li>

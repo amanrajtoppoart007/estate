@@ -83,7 +83,16 @@ class TenantController extends Controller
             }
             if($request->has('next_action'))
             {
-                $res['next_url']  = route('tenant.allot.property',$tenant_id);
+                if($request->next_action=="allot_unit")
+                {
+                    $next_url  = route('tenant.allot.property',$tenant_id);
+                    if ($request->has('request_id')) {
+                        $request_id = $request->request_id;
+                         $next_url.="?request_id=$request_id";
+                    }
+                    $res['next_url']  = $next_url;
+                }
+
             }
             else
             {

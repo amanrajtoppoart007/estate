@@ -8,6 +8,11 @@ class Agent extends Model
 {
     protected $guarded = [];
 
+    public function authorised_person()
+    {
+        return $this->morphToMany(AuthorisedPerson::class,"authority");
+    }
+
     public function properties()
    {
       return $this->hasMany('App\Property','agent_id','id');

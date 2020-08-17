@@ -55,19 +55,7 @@
 					@endforeach
 			</select>
 		</div>
-		{{--<div class="form-group">
-			<label for="agent_id">Agent</label>
-			<select class="form-control" name="agent_id" id="agent_id">
-				<option value="">Select Agent</option>
-				@foreach($agents as $agent)
-						@if($agent->id==(old('agent_id')?old('agent_id'):$property->agent_id))
-						<option value="{{ $agent->id }}" selected>{{ $agent->name }}</option>
-						@else
-						<option value="{{ $agent->id }}">{{ $agent->name }}</option>
-						@endif
-					@endforeach
-			</select>
-		</div>--}}
+
 			<div class="form-group">
 			<label>Property Type <span class="text-danger">*</span></label>
 				<select class="form-control" name="type" id="type">
@@ -202,25 +190,7 @@
 					<input type="text" name="total_shops" id="total_shops" class="form-control numeric" value="{{ $property->total_shops}}" autocomplete="off">
 					</div>
 				</div>
-{{--
-		<div class="col-lg-4 col-md-4">
-			<div class="form-group">
-				<label>Category</label>
-				<select class="form-control" name="category_id" id="category_id">
-					<option value="">Select Category</option>
-					@php
-					$categories = array('1'=>'Residential Rent','2'=>'Commercial Rent','3'=>'Residential Rent','4'=>'Commercial Sale')
-					@endphp
-					@foreach($categories as $cKey=>$cVal)
-					@if($cKey==(old('category_id')?old('category_id'):$property->category_id))
-					<option value="{{ $cKey }}" selected>{{ $cVal }}</option>
-					@else
-					<option value="{{ $cKey }}">{{ $cVal }}</option>
-					@endif
-					@endforeach
-				</select>
-			</div>
-		</div>--}}
+
 
 	</div>
 </div>
@@ -345,7 +315,7 @@
                     </div>
                 </td>
 			<td>
-				{{--<button type="button" data-property_unit_type_id="{{$prop_unit_type->id}}" class="btn btn-danger btn-disabled"><i class="fa fa-times text-white" disabled="disabled"></i></button>--}}
+
 			</td>
 			</tr>
 			@endforeach
@@ -409,7 +379,7 @@
 	@section('script')
     <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}&libraries=places"></script>
-    <script src="{{asset('theme/default/js/map/map.scripts.js')}}"></script>
+    <script src="{{asset('map/map.scripts.js')}}"></script>
     <script>
            let autocomplete;
     function initAutocomplete() {

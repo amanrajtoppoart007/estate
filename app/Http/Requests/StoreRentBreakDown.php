@@ -26,13 +26,12 @@ class StoreRentBreakDown extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             "property_id"=>"required|numeric",
             "unit_id"=>"required|numeric",
             "rent_period_type"=>"required",
             "rent_period"=>"required",
             "parking"=>"required",
-            "parking_number"=>"required",
             "lease_start"=>"required|date",
             "lease_end"=>"required|date",
             "rent_amount"=>"required|numeric",
@@ -48,6 +47,12 @@ class StoreRentBreakDown extends FormRequest
             "total_monthly_installment.*"=>"numeric",
 
         ];
+
+        if(request()->parking=="yes")
+        {
+            $rules['parking_number'] = "required";
+        }
+        return $rules;
     }
 
     protected function failedValidation(Validator $validator)

@@ -31,9 +31,9 @@ class StoreOwner extends FormRequest
             'mobile'=>'required|unique:owners,mobile|',
             'email'=>'required|email|unique:owners,email|unique:admins,email',
             'password'=>'required',
-            'emirates_id'=>'required',
+
             'passport'=>'required|mimes:jpeg,png,jpg,pdf|max:10048',
-            'visa'=>'mimes:jpeg,png,jpg,pdf|max:10048',
+
             'bank_name'=>'required',
             'bank_swift_code'=>'required',
             'bank_account'=>'required',
@@ -43,12 +43,23 @@ class StoreOwner extends FormRequest
             'address'=>'required',
             'owner_type'=>'required',
             'photo'=>'image|mimes:jpeg,png,jpg|max:10048',
-            'emirates_exp_date'=>'required|date',
+
             'passport_exp_date'=>'required|date',
-            'visa_exp_date'=>'required|date',
             'poa_exp_date'=>'required|date',
 
         ];
+
+        if(request()->hasFile("visa"))
+        {
+            $rules['visa']='mimes:jpeg,png,jpg,pdf|max:10048';
+            $rules['visa_exp_date']='required|date';
+        }
+        if(request()->hasFile("emirates_id_doc"))
+        {
+            $rules['emirates_id_doc']='mimes:jpeg,png,jpg,pdf|max:10048';
+            $rules['emirates_exp_date']='required|date';
+        }
+
 
         if(request()->auth_person_name)
         {
