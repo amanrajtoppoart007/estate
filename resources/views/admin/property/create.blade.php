@@ -271,7 +271,7 @@
 @endsection
 @section('js')
 <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
-<script src="{{asset('theme/default/js/map/map.scripts.js')}}"></script>
+<script src="{{asset('map/map.scripts.js')}}"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}&libraries=places"></script>
 @endsection
 
