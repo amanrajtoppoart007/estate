@@ -81,6 +81,27 @@ class UploadEntityDocs
                 ]
             );
         }
+        else if($this->table=="authorised_person")
+        {
+            $documents = array(
+                [
+                    'document_title' => 'auth_person_emirates_id_doc',
+                    'date_params' => ['EXPIRY_DATE', 'auth_person_emirates_exp_date']
+                ],
+                [
+                    'document_title' => 'auth_person_visa',
+                    'date_params' => ['EXPIRY_DATE', 'auth_person_passport_exp_date']
+                ],
+                [
+                    'document_title' => 'auth_person_passport',
+                    'date_params' => ['EXPIRY_DATE', 'auth_person_visa_exp_date']
+                ],
+                [
+                    'document_title' => 'auth_person_power_of_attorney',
+                    'date_params' => ['EXPIRY_DATE', 'auth_poa_exp_date']
+                ],
+            );
+        }
         else
         {
             $documents = [];

@@ -285,6 +285,226 @@
 </div>
 </div>
 
+         <div class="card card-info">
+             <div class="card-header">
+                 <div class="row">
+                     <div class="col">
+                         <h6> Authorized Person Detail</h6>
+                     </div>
+                     <div class="col text-right">
+                         <button type="button" class="btn btn-info">
+                         <span class="icheck icheck-success">
+                                 <input type="checkbox" id="authorised_person_required"  name="authorised_person_required">
+                                 <label for="authorised_person_required" id="add_auth_person_detail_btn" data-toggle="collapse" data-target="#auth_person_detail" aria-expanded="false" aria-controls="auth_person_detail">
+                                     Add Authorised person
+                                 </label>
+                             </span>
+                         </button>
+
+                     </div>
+                 </div>
+             </div>
+             <div class="collapse card-body" id="auth_person_detail">
+                 <div class="row">
+                     <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                         <div class="row">
+                             <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                 <div class="form-group">
+                                     <label for="auth_person_name">Name</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                         <input type="text" class="form-control" name="auth_person_name" id="auth_person_name" value="">
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                               <div class="form-group">
+                                     <label for="auth_person_designation">Designation/Relation</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                         <input type="text" class="form-control" name="auth_person_designation" id="auth_person_designation" value="">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="row">
+
+                             <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                 <div class="form-group">
+                                     <label for="auth_person_mobile">Mobile</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text">
+                                                 <select name="auth_person_country_code" id="auth_person_country_code">
+                                                     @foreach($countries as $country)
+                                                          @php $selected = ($country->code==971)?"selected":null; @endphp
+                                                         <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
+                                                     @endforeach
+                                                </select>
+                                             </span>
+                                         </div>
+                         <input type="text" class="form-control numeric" name="auth_person_mobile" id="auth_person_mobile" value="">
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                 <div class="form-group">
+                                     <label for="auth_person_email">Email</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i
+                                                     class="fas fa-envelope-square"></i></span>
+                                         </div>
+                                         <input type="text" class="form-control" name="auth_person_email" id="auth_person_email" value=""
+                                                data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                         <div class="text-center">
+                             <div class="user_photo" style="height: 250px;">
+                                 <img id="auth_person_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}"
+                                      style="width:250px;margin-bottom:10px;" alt="">
+                                 <div style="position:absolute;top:211px;right:72px;">
+                                     <label class="btn btn-primary mb-0" for="auth_person_image">
+                                         <i class="fa fa-upload" aria-hidden="true"></i>
+                                     </label>
+                                     <input id="auth_person_image" class="hide" type="file" name="auth_person_image">
+                                     <button type="button" id="remove_auth_person_image" class="btn btn-danger text-white">
+                                         <i class="fa fa-trash"></i>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="card card-warning my-2">
+            <div class="card-header">
+                <h6 class="text-white">Documents</h6>
+            </div>
+            <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                 <div class="form-group">
+                     <label for="auth_person_emirates_id_doc">Emirates Id(scanned copy) </label>
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-passport"></i>
+                            </span>
+                        </div>
+                     <input type="file" class="form-control" name="auth_person_emirates_id_doc" id="auth_person_emirates_id_doc" value="">
+                     </div>
+                 </div>
+              </div>
+                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_passport">Passport (scanned copy)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="auth_person_passport" id="auth_person_passport" value="">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_visa">Visa (scanned copy)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="auth_person_visa" id="auth_person_visa" value="">
+                               </div>
+                           </div>
+                       </div>
+              <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_power_of_attorney">Power Of Attorney (scanned copy)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="auth_person_power_of_attorney" id="auth_person_power_of_attorney" value="">
+                               </div>
+                           </div>
+                       </div>
+
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                 <div class="form-group">
+                     <label for="auth_person_emirates_exp_date">Emirates Id(Expiry Date) </label>
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-passport"></i>
+                            </span>
+                        </div>
+                     <input type="text" class="form-control" name="auth_person_emirates_exp_date" id="auth_person_emirates_exp_date" value="">
+                     </div>
+                 </div>
+              </div>
+                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_passport_exp_date">Passport (Expiry Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="auth_person_passport_exp_date" id="auth_person_passport_exp_date" value="">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_visa_exp_date">Visa (Expiry Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="auth_person_visa_exp_date" id="auth_person_visa_exp_date" value="">
+                               </div>
+                           </div>
+                       </div>
+
+               <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_poa_exp_date">Power Of Attorney (Issue Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="auth_poa_exp_date" id="auth_poa_exp_date" value="">
+                               </div>
+                           </div>
+                       </div>
+
+          </div>
+            </div>
+        </div>
+             </div>
+         </div>
+
         <div class="card card-info">
             <div class="card-header">
                 <h4 class="card-title">Account Detail</h4>
@@ -436,6 +656,7 @@
  </div>
 @endsection
  @section('head')
+      <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
 @endsection
 @section('js')
@@ -460,6 +681,10 @@
                    'visa_exp_date',
                    'passport_exp_date',
                    'license_expiry_date',
+                   'auth_person_emirates_exp_date',
+                   'auth_person_passport_exp_date',
+                   'auth_person_visa_exp_date',
+                   'auth_poa_exp_date'
                ];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});

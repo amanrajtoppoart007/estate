@@ -281,22 +281,7 @@
                              </div>
                          </div>
                          <div class="row">
-                             <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                                 <div class="form-group">
-                                     <label for="auth_person_country_code">Country Code</label>
-                                     <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-code"></i></span>
-                                         </div>
-                                         <select class="form-control" name="auth_person_country_code"
-                                                 id="auth_person_country_code">
-                                             <option value="">Country Code</option>
-                                             <option value="971">971 (UAE)</option>
-                                             <option value="91">91 (INDIA)</option>
-                                         </select>
-                                     </div>
-                                 </div>
-                             </div>
+
                              <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                                  <div class="form-group">
                                      <label for="auth_person_mobile">Mobile</label>

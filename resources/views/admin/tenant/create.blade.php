@@ -230,6 +230,19 @@
                                </div>
                            </div>
                         </div>
+                        <div class="col-12 col-sm-6 com-md-3 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                               <label for="trade_license_exp_date">Trade Certificate Expiry Date</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-file" aria-hidden="true"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="trade_license_exp_date" id="trade_license_exp_date" value="">
+                               </div>
+                           </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -487,6 +500,7 @@
                    'visa_exp_date',
                    'passport_exp_date',
                    'bank_passbook_exp_date',
+                   'trade_license_exp_date'
                ];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});

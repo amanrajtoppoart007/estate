@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAgent;
+use App\Library\CreateAuthorisedPerson;
 use App\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -45,7 +47,7 @@ class AgentController extends Controller
     }
 
 
-    public function store(\App\Http\Requests\StoreAgent $request)
+    public function store(StoreAgent $request)
     {
         $request->validated();
         $store   = $request->only(['agent_type','name','country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
@@ -83,6 +85,7 @@ class AgentController extends Controller
         $store['admin_id'] = Auth::guard('admin')->user()->id;
         if($agent = Agent::create($store))
         {
+            (new CreateAuthorisedPerson($agent->id,'agent'))->handle();
             $data['next_route'] = route("agent.view",$agent->id);
             return response()->json(['status'=>1,'response'=>'success','data'=>$data,'message'=>'Agent successfully created'],200);
         }
