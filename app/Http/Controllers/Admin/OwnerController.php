@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
 use App\Http\Requests\EditOwner;
+use App\Library\CreateAuthorisedPerson;
 use App\Library\CreateOwnerAuthPerson;
+use App\Library\EditAuthorisedPerson;
 use App\Library\EditOwnerAuthPerson;
 use App\Library\UploadEntityDocs;
 use App\Owner;
@@ -92,12 +94,10 @@ class OwnerController extends Controller
         $action = Owner::create($params);
         if($action->id)
         {
+            (new CreateAuthorisedPerson($action->id,'owner'))->handle();
             (new UploadEntityDocs($action->id,'owner'))->handle();
             try {
-                if (!empty($request->auth_person_name)) {
-                       $action = new CreateOwnerAuthPerson($request, $action->id);
-                       $action->execute();
-                }
+
                 if ($request->firm_type == 'company') {
                     if ($request->has('vat_number')) {
                         $doc = array();
@@ -216,11 +216,11 @@ class OwnerController extends Controller
         }
 
         $data['admin_id'] = Auth::guard('admin')->user()->id;
-         (new UploadEntityDocs($id,'owner'))->handle();
+
         if(Owner::where(['id'=>$id])->update($data))
         {
-            $authPersonEdit = new EditOwnerAuthPerson($request,$request->owner_id);
-            $authPersonEdit->execute();
+            (new UploadEntityDocs($id,'owner'))->handle();
+             (new EditAuthorisedPerson($request->owner_id,'owner'))->handle();
             if($request->firm_type == 'company')
             {
                 if($request->has('vat_number'))

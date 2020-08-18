@@ -63,6 +63,12 @@ class EditAuthorisedPerson
         }
         else
         {
+            $check = AuthorisedPerson::where(['authority_id'=>$this->authority_id,'authority_type'=>$this->authority_type])->first();
+             if(!empty($check))
+             {
+                    $check->delete();
+                    return true;
+             }
             return false;
         }
     }

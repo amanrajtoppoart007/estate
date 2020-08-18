@@ -346,9 +346,23 @@
 
          <div class="card card-info">
              <div class="card-header">
-                 <h6>Authorized Person Detail</h6>
+                 <div class="row">
+                     <div class="col">
+                         <h6> Authorized Person Detail</h6>
+                     </div>
+                     <div class="col text-right">
+                         <button type="button" class="btn btn-info">
+                         <span class="icheck icheck-success">
+                                 <input type="checkbox" id="authorised_person_required"  name="authorised_person_required" {{$agent->authorised_person? "checked":null}}>
+                                 <label for="authorised_person_required" id="add_auth_person_detail_btn" data-toggle="collapse" data-target="#auth_person_detail" aria-expanded="false" aria-controls="auth_person_detail">
+                                     Add Authorised person
+                                 </label>
+                             </span>
+                         </button>
+                     </div>
+                 </div>
              </div>
-             <div class="card-body">
+             <div class="collapse card-body {{$agent->authorised_person? "show":null}}" id="auth_person_detail">
                  <div class="row">
                      <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
                          <div class="row">
@@ -795,6 +809,7 @@
 @endsection
  @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+     <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
 @endsection
 @section('js')
 <script src="{{asset('assets/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>

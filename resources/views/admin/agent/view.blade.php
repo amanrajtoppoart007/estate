@@ -160,7 +160,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(!empty($agent->documents))
                             @php
                                 $documents =   extract_doc_keys($agent->authorised_person->documents,'file_url','document_title','date_key','date_value');
                             @endphp
@@ -190,7 +189,7 @@
                                     </th>
                                 </tr>
                             @endforeach
-                        @endif
+
                         </tbody>
                     </table>
                 </div>

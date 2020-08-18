@@ -229,11 +229,18 @@
              <div class="card-header">
                  <div class="row">
                      <div class="col">
-                         <h6>Authorized Person Detail</h6>
+                         <h6> Authorized Person Detail</h6>
                      </div>
-                     <div class="col">
-                         <input type="checkbox" class="d-none" name="authorised_person_required" id="authorised_person_required" value="1">
-                         <button type="button" id="add_auth_person_detail_btn" class="btn btn-warning float-right text-white" data-toggle="collapse" data-target="#auth_person_detail" aria-expanded="false" aria-controls="auth_person_detail">Add Authorised person</button>
+                     <div class="col text-right">
+                         <button type="button" class="btn btn-info">
+                         <span class="icheck icheck-success">
+                                 <input type="checkbox" id="authorised_person_required"  name="authorised_person_required">
+                                 <label for="authorised_person_required" id="add_auth_person_detail_btn" data-toggle="collapse" data-target="#auth_person_detail" aria-expanded="false" aria-controls="auth_person_detail">
+                                     Add Authorised person
+                                 </label>
+                             </span>
+                         </button>
+
                      </div>
                  </div>
              </div>
@@ -272,7 +279,7 @@
                                      <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text">
-                                                 <select name="country_code" id="country_code">
+                                                 <select name="auth_person_country_code" id="auth_person_country_code">
                                                      @foreach($countries as $country)
                                                           @php $selected = ($country->code==971)?"selected":null; @endphp
                                                          <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
@@ -362,7 +369,7 @@
                                </div>
                            </div>
                        </div>
-                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+              <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
                                <label for="auth_person_power_of_attorney">Power Of Attorney (scanned copy)</label>
                                <div class="input-group">
@@ -375,6 +382,7 @@
                                </div>
                            </div>
                        </div>
+
           </div>
           <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
@@ -416,7 +424,8 @@
                                </div>
                            </div>
                        </div>
-                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+
+               <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
                                <label for="auth_poa_exp_date">Power Of Attorney (Issue Date)</label>
                                <div class="input-group">
@@ -429,11 +438,15 @@
                                </div>
                            </div>
                        </div>
+
           </div>
             </div>
         </div>
              </div>
          </div>
+
+
+
         <div class="card card-info">
             <div class="card-header">
                 <h6 class="my-2">Account Detail</h6>

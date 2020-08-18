@@ -443,6 +443,7 @@
         </div>
              </div>
          </div>
+
         <div class="card card-info">
             <div class="card-header">
                 <h6 class="my-2">Account Detail</h6>
@@ -492,6 +493,7 @@
         </div>
             </div>
         </div>
+
         <div class="card card-info">
             <div class="card-header">
                 <h6>Billing Address Detail</h6>
