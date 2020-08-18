@@ -462,7 +462,7 @@
             <div class="card-body">
                 @php
                        $auth_emirates_id = $auth_emirates_id_exp_date = $auth_passport = $auth_passport_exp_date = $auth_visa = $auth_visa_exp_date = $auth_poa =  $auth_poa_exp_date = null;
-                    if(!$owner->authorised_person->documents->isEmpty())
+                    if(!empty($owner->authorised_person->documents))
                         {
                             $documents =   extract_doc_keys($owner->authorised_person->documents,'file_url','document_title','date_key','date_value');
                             foreach($documents as $doc)
