@@ -79,7 +79,7 @@
                             }
                             else
                             {
-                                $img = asset('theme/default/images/dashboard/4.png');
+                                $img = asset('theme/images/4.png');
                             }
                         @endphp
                         <img id="image_grid" class="card-img-top" src="{{$img}}" alt="Card image cap">
@@ -266,7 +266,7 @@
                 render_image(this);
             });
             $("#remove_image").click(function () {
-                $('#image_grid').attr("src", "{{asset('theme/default/images/dashboard/4.png')}}");
+                $('#image_grid').attr("src", "{{asset('theme/images/4.png')}}");
                 var file = document.getElementById("image");
                 file.value = file.defaultValue;
             });

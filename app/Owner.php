@@ -18,6 +18,11 @@ class Owner extends Authenticatable
        return $this->morphMany(Document::class,'archive');
    }
 
+   public function authorised_person()
+    {
+        return $this->morphOne(AuthorisedPerson::class,"authority");
+    }
+
    public function getEditUrlAttribute()
    {
        if($this->owner_type=="developer")
@@ -63,11 +68,6 @@ class Owner extends Authenticatable
    public function maintenance_work()
    {
      return $this->morphMany(MaintenanceWork::class, 'applicant');
-   }
-
-   public function auth_person()
-   {
-       return $this->hasOne(OwnerAuthPerson::class);
    }
 
     public function owner_allotment_history()

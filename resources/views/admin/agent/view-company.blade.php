@@ -55,7 +55,7 @@
                          }
                          else
                          {
-                             $img = asset('theme/default/images/dashboard/4.png');
+                             $img = asset('theme/images/4.png');
                          }
                       @endphp
                             <img class="border-dark" id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -63,87 +63,144 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+             <div class="card">
                 <div class="card-header bg-primary">
                     <h6>Documents</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-borderless">
                         <thead>
-                           <tr>
-                               <th>Document</th>
-                               <th>Link/View</th>
-                               <th>Expiry Date</th>
-                           </tr>
+                        <tr>
+                            <th>Document</th>
+                            <th>Link/View</th>
+                            <th> Date</th>
+                        </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                              <th>Emirates Id</th>
-                              <th>
-                                  @php
-                                      if(!empty($agent->emirates_id_doc))
-                                      {
-                                          $emirates_id_doc = route('get.doc',base64_encode($agent->emirates_id_doc));
-                                      }
-                                      else
-                                      {
-                                          $emirates_id_doc = asset('theme/default/images/dashboard/4.png');
-                                      }
-                                  @endphp
-                                  <a target="_blank" class="img-thumbnail" href="{{$emirates_id_doc}}" alt="Owner Emirates Id">
-                                     <i class="fa fa-file"></i>
-                                  </a>
-                              </th>
-                              <th>
-                                  {{$agent->emirates_exp_date ? date("d-m-Y",strtotime($agent->emirates_exp_date)): null}}
-                              </th>
-                          </tr>
-                          <tr>
-                              <th>Passport</th>
-                              <th>
-                                  @php
-                                      if(!empty($agent->passport))
-                                      {
-                                          $passport = route('get.doc',base64_encode($agent->passport));
-                                      }
-                                      else
-                                      {
-                                          $passport = asset('theme/default/images/dashboard/4.png');
-                                      }
-                                  @endphp
-                                  <a target="_blank" class="img-thumbnail" href="{{$passport}}" alt="Owner Passport">
-                                     <i class="fa fa-file"></i>
-                                  </a>
-                              </th>
-                              <th>
-                                  {{$agent->passport_exp_date ? date("d-m-Y",strtotime($agent->passport_exp_date)): null}}
-                              </th>
-                          </tr>
-                        <tr>
-                              <th>Visa</th>
-                              <th>
-                                  @php
-                                      if(!empty($agent->visa))
-                                      {
-                                          $visa = route('get.doc',base64_encode($agent->visa));
-                                      }
-                                      else
-                                      {
-                                          $visa = asset('theme/default/images/dashboard/4.png');
-                                      }
-                                  @endphp
-                                  <a target="_blank" class="img-thumbnail" href="{{$visa}}" alt="Owner Visa">
-                                     <i class="fa fa-file"></i>
-                                  </a>
-                              </th>
-                              <th>
-                                  {{$agent->visa_exp_date ? date("d-m-Y",strtotime($agent->visa_exp_date)): null}}
-                              </th>
-                          </tr>
+                        @if(!empty($agent->documents))
+                            @php
+                                $documents =   extract_doc_keys($agent->documents,'file_url','document_title','date_key','date_value');
+                            @endphp
+                            @foreach($documents as $doc)
+                                <tr>
+                                    <th>{{ucwords(strtolower($doc['document_title']))}}</th>
+                                    <th>
+                                        @php
+                                            if(!empty($doc['file_url']))
+                                            {
+                                                $url = route('get.doc',base64_encode($doc['file_url']));
+                                            }
+                                            else
+                                            {
+                                                $url = asset('theme/images/4.png');
+                                            }
+                                        @endphp
+                                        <a target="_blank" class="btn btn-primary" href="{{$url}}">
+                                            <i class="fa fa-eye"></i>View
+                                        </a>
+                                        <a target="_blank" class="btn btn-info" href="{{$url}}" download>
+                                            <i class="fa fa-file-download"></i>Download
+                                        </a>
+                                    </th>
+                                    <th>
+                                       {{ucwords(strtolower($doc['date_key']))}} : {{$doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])): null}}
+                                    </th>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>
             </div>
+     @if(!empty($agent->authorised_person))
+            <div class="card">
+                <div class="card-header bg-primary">
+                     <h6>Authorised Person Detail</h6>
+                </div>
+                <div class="card-body">
+                   <div class="row">
+                       <div class="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                           <table class="table table-borderless">
+                              <tbody>
+                                 <tr>
+                                     <th>Name</th>
+                                     <td>{{$agent->authorised_person->name}}</td>
+                                     <th>Email</th>
+                                     <td>{{$agent->authorised_person->email}}</td>
+                                     <th></th>
+                                     <td></td>
+                                 </tr>
+                                 <tr>
+                                     <th>Mobile</th>
+                                     <td>{{$agent->authorised_person->mobile}}</td>
+                                     <th>Account Created</th>
+                                     <td>{{date("d-m-Y",strtotime($agent->authorised_person->created_at))}}</td>
+                                     <th></th>
+                                     <td></td>
+                                 </tr>
+                              </tbody>
+                          </table>
+                       </div>
+                   </div>
+
+                    @if(!empty($agent->authorised_person->documents))
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+               <div class="card">
+                <div class="card-header bg-warning">
+                    <h6 class="text-white">Documents</h6>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th>Link/View</th>
+                            <th> Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if(!empty($agent->documents))
+                            @php
+                                $documents =   extract_doc_keys($agent->authorised_person->documents,'file_url','document_title','date_key','date_value');
+                            @endphp
+                            @foreach($documents as $doc)
+                                <tr>
+                                    <th>{{str_replace("Auth_person_","",ucwords(strtolower($doc['document_title'])))}}</th>
+                                    <th>
+                                        @php
+                                            if(!empty($doc['file_url']))
+                                            {
+                                                $url = route('get.doc',base64_encode($doc['file_url']));
+                                            }
+                                            else
+                                            {
+                                                $url = asset('theme/images/4.png');
+                                            }
+                                        @endphp
+                                        <a target="_blank" class="btn btn-primary" href="{{$url}}">
+                                            <i class="fa fa-eye"></i>View
+                                        </a>
+                                        <a target="_blank" class="btn btn-info" href="{{$url}}" download>
+                                            <i class="fa fa-file-download"></i>Download
+                                        </a>
+                                    </th>
+                                    <th>
+                                       {{ucwords(strtolower($doc['date_key']))}} : {{$doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])): null}}
+                                    </th>
+                                </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                        </div>
+                    </div>
+                        @endif
+                </div>
+            </div>
+     @endif
 
             <div class="card">
                 <div class="card-header bg-primary">

@@ -6,7 +6,9 @@ use App\City;
 use App\Country;
 use App\Http\Requests\EditDeveloper;
 use App\Http\Requests\StoreDeveloper;
+use App\Library\CreateAuthorisedPerson;
 use App\Library\CreateOwnerAuthPerson;
+use App\Library\EditAuthorisedPerson;
 use App\Library\EditOwnerAuthPerson;
 use App\Library\UploadEntityDocs;
 use App\Owner;
@@ -67,15 +69,12 @@ class DeveloperController extends Controller
         $developer = Owner::create($data);
         if($developer->id)
         {
-            (new UploadEntityDocs($developer->id,'owner'))->handle();
-
             try {
-                if (!empty($request->auth_person_name))
-                {
-                        (new CreateOwnerAuthPerson($request, $developer->id))->execute();
-                }
+                (new UploadEntityDocs($developer->id,'owner'))->handle();
+                (new CreateAuthorisedPerson($developer->id,'owner'))->handle();
 
-                if ($request->firm_type == 'company') {
+                if ($request->firm_type == 'company')
+                {
                     if ($request->has('vat_number')) {
                         $doc = array();
                         $doc['owner_id'] = $developer->id;
@@ -138,9 +137,11 @@ class DeveloperController extends Controller
         }
 
         $data['admin_id'] = Auth::guard('admin')->user()->id;
-         (new UploadEntityDocs($id,'owner'))->handle();
+
         if(Owner::where(['id'=>$id])->update($data))
         {
+              (new UploadEntityDocs($id,'owner'))->handle();
+              (new EditAuthorisedPerson($request->owner_id,'owner'))->handle();
             if(!empty($request->auth_person_name))
             {
                        $action = new EditOwnerAuthPerson($request,$request->owner_id);

@@ -1,27 +1,9 @@
 @extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Add Property Agent (Individual Type)</h4>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{route('agent.index')}}">Agents</a></li>
-              <li class="breadcrumb-item active">Add property Agent</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Add Property Agent (Individual Type)"])
 @section('content')
  <div class="card">
      <div class="card-body">
          {{Form::open(['route'=>'owner.store','id'=>'add_data_form','autocomplete'=>'off'])}}
-
           <div class="card card-info">
               <div class="card-header">
                   <h6>Agent Detail</h6>
@@ -90,7 +72,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="text-center">
                   <div class="user_photo">
-                    <img id="profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
+                    <img id="profile_image_grid" src="{{asset('theme/images/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
                     <div style="position:absolute;top:211px;right:72px;">
                       <label class="btn btn-primary mb-0" for="profile_image">
                           <i class="fa fa-upload"></i>
@@ -284,7 +266,7 @@
                      <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                          <div class="text-center">
                              <div class="user_photo" style="height: 250px;">
-                                 <img id="auth_person_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}"
+                                 <img id="auth_person_image_grid" src="{{asset('theme/images/4.png')}}"
                                       style="width:250px;margin-bottom:10px;" alt="">
                                  <div style="position:absolute;top:211px;right:72px;">
                                      <label class="btn btn-primary mb-0" for="auth_person_image">
@@ -592,7 +574,7 @@
                 render_image(this);
             });
             $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
@@ -611,7 +593,7 @@
                     }
 
                    $("#add_data_form")[0].reset();
-                   $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                   $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 }
                 function fn_error(result)
                 {

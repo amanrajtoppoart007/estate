@@ -123,7 +123,7 @@
                          }
                          else
                          {
-                             $img = asset('theme/default/images/dashboard/4.png');
+                             $img = asset('theme/images/4.png');
                          }
                       @endphp
                     <img id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -147,7 +147,7 @@
                 <h6>Documents</h6>
                 @php
                  $passport = $visa = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
-                         if(!$owner->documents->isEmpty())
+                         if(!empty($owner->documents))
                              {
                                  $documents =   extract_doc_keys($owner->documents,'file_url','document_title','date_key','date_value');
 
@@ -156,23 +156,23 @@
                               if($doc['document_title']=='emirates_id_doc')
                                   {
                                       $emirates_id_doc         = $doc['file_url'];
-                                      $emirates_id_exp_date = $doc['date_value'];
+                                      $emirates_id_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
                                   }
                                if($doc['document_title']=='passport')
                                   {
                                       $passport          = $doc['file_url'];
-                                      $passport_exp_date = $doc['date_value'];
+                                      $passport_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
                                   }
                                if($doc['document_title']=='visa')
                                   {
                                       $visa          = $doc['file_url'];
-                                      $visa_exp_date = $doc['date_value'];
+                                      $visa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
                                   }
 
                                if($doc['document_title']=='power_of_attorney')
                                   {
                                       $poa         = $doc['file_url'];
-                                      $poa_exp_date = $doc['date_value'];
+                                      $poa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
                                   }
                           }
                              }
@@ -339,9 +339,24 @@
         </div>
      <div class="card card-info">
              <div class="card-header">
-                 <h6>Authorized Person Detail</h6>
+                 <div class="row">
+                     <div class="col">
+                         <h6> Authorized Person Detail</h6>
+                     </div>
+                     <div class="col text-right">
+                         <button type="button" class="btn btn-info">
+                         <span class="icheck icheck-success">
+                                 <input type="checkbox" id="authorised_person_required"  name="authorised_person_required" {{$owner->authorised_person? "checked":null}}>
+                                 <label for="authorised_person_required" id="add_auth_person_detail_btn" data-toggle="collapse" data-target="#auth_person_detail" aria-expanded="false" aria-controls="auth_person_detail">
+                                     Add Authorised person
+                                 </label>
+                             </span>
+                         </button>
+
+                     </div>
+                 </div>
              </div>
-             <div class="card-body">
+             <div class="collapse card-body {{$owner->authorised_person? "show":null}}" id="auth_person_detail">
                  <div class="row">
                      <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
                          <div class="row">
@@ -352,7 +367,7 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
                                          </div>
-                                         <input type="text" class="form-control" name="auth_person_name" id="auth_person_name" value="{{($owner->auth_person)?$owner->auth_person->name:null}}">
+                                         <input type="text" class="form-control" name="auth_person_name" id="auth_person_name" value="{{($owner->authorised_person)?$owner->authorised_person->name:null}}">
                                      </div>
                                  </div>
                              </div>
@@ -363,7 +378,7 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
                                          </div>
-                                         <input type="text" class="form-control" name="auth_person_designation" id="auth_person_designation" value="{{($owner->auth_person)?$owner->auth_person->designation:null}}">
+                                         <input type="text" class="form-control" name="auth_person_designation" id="auth_person_designation" value="{{($owner->authorised_person)?$owner->authorised_person->designation:null}}">
                                      </div>
                                  </div>
                              </div>
@@ -379,8 +394,8 @@
                                                  <select name="auth_person_country_code" id="auth_person_country_code">
                                                     <option value="">Select</option>
                                                      @foreach($countries as $country)
-                                                         @if(!empty($owner->auth_person->auth_person_country_code))
-                                                         @php $selected = ($country->code==$owner->auth_person->auth_person_country_code)?'selected':''; @endphp
+                                                         @if(!empty($owner->authorised_person->auth_person_country_code))
+                                                         @php $selected = ($country->code==$owner->authorised_person->auth_person_country_code)?'selected':''; @endphp
                                                          @else
                                                              @php $selected = ($country->code==971)?'selected':''; @endphp
                                                          @endif
@@ -390,7 +405,7 @@
                                                </select>
                                              </span>
                                          </div>
-                         <input type="text" class="form-control numeric" name="auth_person_mobile" id="auth_person_mobile" value="{{($owner->auth_person)?$owner->auth_person->mobile:null}}">
+                         <input type="text" class="form-control numeric" name="auth_person_mobile" id="auth_person_mobile" value="{{($owner->authorised_person)?$owner->authorised_person->mobile:null}}">
                                      </div>
                                  </div>
                              </div>
@@ -402,7 +417,7 @@
                                              <span class="input-group-text"><i
                                                      class="fas fa-envelope-square"></i></span>
                                          </div>
-                                         <input type="text" class="form-control" name="auth_person_email" id="auth_person_email" value="{{($owner->auth_person)?$owner->auth_person->email:null}}"
+                                         <input type="text" class="form-control" name="auth_person_email" id="auth_person_email" value="{{($owner->authorised_person)?$owner->authorised_person->email:null}}"
                                                 data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
                                      </div>
                                  </div>
@@ -413,13 +428,13 @@
                          <div class="text-center">
                              <div class="user_photo">
                                  @php
-                                     if(!empty($owner->auth_person->photo))
+                                     if(!empty($owner->authorised_person->photo))
                                      {
-                                         $img_auth = route('get.doc',base64_encode($owner->auth_person->photo));
+                                         $img_auth = route('get.doc',base64_encode($owner->authorised_person->photo));
                                      }
                                      else
                                      {
-                                         $img_auth = asset('theme/default/images/dashboard/4.png');
+                                         $img_auth = asset('theme/images/4.png');
                                      }
                                  @endphp
                                  <img id="auth_person_image_grid" src="{{$img_auth}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -442,22 +457,50 @@
             </div>
             <div class="card-body">
                 @php
-                       $auth_emirates_id =  $auth_passport = $auth_visa = $auth_poa =   'javascript:void(0)';
-                       if(!empty($owner->auth_person->emirates_id))
+                       $auth_emirates_id = $auth_emirates_id_exp_date = $auth_passport = $auth_passport_exp_date = $auth_visa = $auth_visa_exp_date = $auth_poa =  $auth_poa_exp_date = null;
+                    if(!empty($owner->authorised_person->documents))
+                        {
+                            $documents =   extract_doc_keys($owner->authorised_person->documents,'file_url','document_title','date_key','date_value');
+                            foreach($documents as $doc)
+                          {
+                              if($doc['document_title']=='auth_person_emirates_id_doc')
+                                  {
+                                      $auth_emirates_id           = $doc['file_url'];
+                                      $auth_emirates_id_exp_date   = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                               if($doc['document_title']=='auth_person_passport')
+                                  {
+                                      $auth_passport          = $doc['file_url'];
+                                      $auth_passport_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                               if($doc['document_title']=='auth_person_visa')
+                                  {
+                                      $auth_visa          = $doc['file_url'];
+                                      $auth_visa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+
+                               if($doc['document_title']=='auth_person_power_of_attorney')
+                                  {
+                                      $auth_poa         = $doc['file_url'];
+                                      $auth_poa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                          }
+                        }
+                       if(!empty($auth_emirates_id))
                        {
-                           $auth_emirates_id = route('get.doc',base64_encode($owner->auth_person->emirates_id));
+                           $auth_emirates_id = route('get.doc',base64_encode($auth_emirates_id));
                        }
-                       if(!empty($owner->auth_person->passport))
+                       if(!empty($auth_passport))
                        {
-                           $auth_passport = route('get.doc',base64_encode($owner->auth_person->passport));
+                           $auth_passport = route('get.doc',base64_encode($auth_passport));
                        }
-                       if(!empty($owner->auth_person->visa))
+                       if(!empty($auth_visa))
                        {
-                           $auth_visa = route('get.doc',base64_encode($owner->auth_person->visa));
+                           $auth_visa = route('get.doc',base64_encode($auth_visa));
                        }
-                       if(!empty($owner->auth_person->poa))
+                       if(!empty($auth_poa))
                        {
-                           $auth_poa = route('get.doc',base64_encode($owner->auth_person->poa));
+                           $auth_poa = route('get.doc',base64_encode($auth_poa));
                        }
                      @endphp
           <div class="row">
@@ -471,7 +514,7 @@
                             </span>
                         </div>
                      <input type="file" class="form-control" name="auth_person_emirates_id_doc" id="auth_person_emirates_id_doc" value="">
-                         @if(!empty($owner->auth_person->emirates_id))
+                         @if(!empty($auth_emirates_id))
                              <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                  <div class="input-group-text">
                                      <a href="{{$auth_emirates_id}}" target="{{($auth_emirates_id)?'_blank':'#'}}">
@@ -493,7 +536,7 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="auth_person_passport" id="auth_person_passport" value="">
-                                   @if(!empty($owner->auth_person->passport))
+                                   @if(!empty($auth_passport))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
                                                <a href="{{$auth_passport}}" target="{{($auth_passport)?'_blank':'#'}}">
@@ -515,7 +558,7 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="auth_person_visa" id="auth_person_visa" value="">
-                                   @if(!empty($owner->auth_person->visa))
+                                   @if(!empty($auth_visa))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
                                                <a href="{{$auth_visa}}" target="{{($auth_visa)?'_blank':'#'}}">
@@ -537,7 +580,7 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="auth_person_power_of_attorney" id="auth_person_power_of_attorney" value="">
-                                   @if(!empty($owner->auth_person->poa))
+                                   @if(!empty($auth_poa))
                                        <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                            <div class="input-group-text">
                                                <a href="{{$auth_poa}}" target="{{($auth_poa)?'_blank':'#'}}">
@@ -560,7 +603,7 @@
                                 <i class="fa fa-passport"></i>
                             </span>
                         </div>
-                     <input type="text" class="form-control" name="auth_person_emirates_exp_date" id="auth_person_emirates_exp_date" value="{{ $owner->auth_person ? ( ($owner->auth_person->emirates_exp_date)?date('d-m-Y',strtotime($owner->auth_person->emirates_exp_date)):null):null}}">
+                     <input type="text" class="form-control" name="auth_person_emirates_exp_date" id="auth_person_emirates_exp_date" value="{{$auth_emirates_id_exp_date}}">
                      </div>
                  </div>
               </div>
@@ -573,7 +616,7 @@
                                           <i class="fa fa-passport"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_person_passport_exp_date" id="auth_person_passport_exp_date" value="{{$owner->auth_person?( ($owner->auth_person->passport_exp_date)?date('d-m-Y',strtotime($owner->auth_person->passport_exp_date)):null):null}}">
+                               <input type="text" class="form-control" name="auth_person_passport_exp_date" id="auth_person_passport_exp_date" value="{{$auth_passport_exp_date}}">
                                </div>
                            </div>
                        </div>
@@ -586,7 +629,7 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_person_visa_exp_date" id="auth_person_visa_exp_date" value="{{$owner->auth_person?(($owner->auth_person->visa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->visa_exp_date)):null):null}}">
+                               <input type="text" class="form-control" name="auth_person_visa_exp_date" id="auth_person_visa_exp_date" value="{{$auth_visa_exp_date}}">
                                </div>
                            </div>
                        </div>
@@ -599,7 +642,7 @@
                                           <i class="fab fa-cc-visa"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="auth_poa_exp_date" id="auth_poa_exp_date" value="{{$owner->auth_person?(($owner->auth_person->poa_exp_date)?date('d-m-Y',strtotime($owner->auth_person->poa_exp_date)):null):null}}">
+                               <input type="text" class="form-control" name="auth_poa_exp_date" id="auth_poa_exp_date" value="{{$auth_poa_exp_date}}">
                                </div>
                            </div>
                        </div>
@@ -608,6 +651,7 @@
         </div>
              </div>
          </div>
+
         <div class="card card-info">
             <div class="card-header">
                 <h6 class="my-2">Account Detail</h6>
@@ -838,6 +882,7 @@
  </div>
 @endsection
  @section('head')
+     <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
     <style>
     .owner_type_company_grid
@@ -902,12 +947,12 @@
                 render_image(this,'auth_person_image_grid');
             });
             $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#remove_auth_person_image").click(function(){
-                $('#auth_person_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#auth_person_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });

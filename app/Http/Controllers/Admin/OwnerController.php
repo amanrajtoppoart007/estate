@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Country;
+use App\Http\Requests\EditOwner;
+use App\Library\CreateAuthorisedPerson;
 use App\Library\CreateOwnerAuthPerson;
+use App\Library\EditAuthorisedPerson;
 use App\Library\EditOwnerAuthPerson;
 use App\Library\UploadEntityDocs;
 use App\Owner;
@@ -91,12 +94,10 @@ class OwnerController extends Controller
         $action = Owner::create($params);
         if($action->id)
         {
+            (new CreateAuthorisedPerson($action->id,'owner'))->handle();
             (new UploadEntityDocs($action->id,'owner'))->handle();
             try {
-                if (!empty($request->auth_person_name)) {
-                       $action = new CreateOwnerAuthPerson($request, $action->id);
-                       $action->execute();
-                }
+
                 if ($request->firm_type == 'company') {
                     if ($request->has('vat_number')) {
                         $doc = array();
@@ -160,7 +161,15 @@ class OwnerController extends Controller
     public function view($id)
     {
         $owner = Owner::find($id);
-        return view('admin.owner.view',compact('owner'));
+        if(!empty($owner))
+        {
+            return view('admin.owner.view',compact('owner'));
+        }
+        else
+        {
+            return view("blank")->with(["msg"=>"Invalid Owner Detail"]);
+        }
+
     }
 
 
@@ -195,7 +204,7 @@ class OwnerController extends Controller
     }
 
 
-    public function update(\App\Http\Requests\EditOwner $request,$id)
+    public function update(EditOwner $request,$id)
     {
         $request->validated();
         $data  = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address','country_code']);
@@ -207,11 +216,11 @@ class OwnerController extends Controller
         }
 
         $data['admin_id'] = Auth::guard('admin')->user()->id;
-         (new UploadEntityDocs($id,'owner'))->handle();
+
         if(Owner::where(['id'=>$id])->update($data))
         {
-            $authPersonEdit = new EditOwnerAuthPerson($request,$request->owner_id);
-            $authPersonEdit->execute();
+            (new UploadEntityDocs($id,'owner'))->handle();
+             (new EditAuthorisedPerson($request->owner_id,'owner'))->handle();
             if($request->firm_type == 'company')
             {
                 if($request->has('vat_number'))
@@ -292,7 +301,7 @@ class OwnerController extends Controller
          }
          else
          {
-             dd("Invalid Owner Id");
+            return view("blank")->with(["msg"=>"Invalid Owner Id"]);
          }
     }
 

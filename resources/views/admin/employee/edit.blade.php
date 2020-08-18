@@ -88,7 +88,7 @@
                          }
                          else
                          {
-                             $img = asset('theme/default/images/dashboard/4.png');
+                             $img = asset('theme/images/4.png');
                          }
                       @endphp
                       <img id="profile_image_grid" class="img-thumbnail profile_photo" src="{{$img}}" alt="">
@@ -503,7 +503,7 @@
                 render_image(this);
             });
             $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 var file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });

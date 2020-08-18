@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EditAgent;
 use App\Http\Requests\StoreAgent;
 use App\Library\CreateAuthorisedPerson;
+use App\Library\EditAuthorisedPerson;
+use App\Library\UploadEntityDocs;
 use App\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -60,31 +63,14 @@ class AgentController extends Controller
             $store['trade_license']  = GlobalHelper::singleFileUpload($request,'local','trade_license',"agents/$folder");
             $store['vat_number']     = GlobalHelper::singleFileUpload($request,'local','vat_number',"agents/$folder");
         }
-
-        $store['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
-
-        if($request->hasFile('emirates_id_doc'))
+        if($request->hasFile("photo"))
         {
-            $store['emirates_id_doc']    = GlobalHelper::singleFileUpload($request,'local','emirates_id_doc',"agents/$folder");
-
-            $store['emirates_exp_date']  = date('Y-m-d',strtotime($request->emirates_exp_date));
+            $store['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
         }
-
-         if($request->hasFile('passport'))
-         {
-              $store['passport']    = GlobalHelper::singleFileUpload($request,'local','passport',"agents/$folder");
-              $store['passport_exp_date']  = date('Y-m-d',strtotime($request->passport_exp_date));
-         }
-
-         if($request->hasFile('visa'))
-         {
-             $store['visa']    = GlobalHelper::singleFileUpload($request,'local','visa',"agents/$folder");
-             $store['visa_exp_date']  = date('Y-m-d',strtotime($request->visa_exp_date));
-         }
-
         $store['admin_id'] = Auth::guard('admin')->user()->id;
         if($agent = Agent::create($store))
         {
+            (new UploadEntityDocs($agent->id,'agent'))->handle();
             (new CreateAuthorisedPerson($agent->id,'agent'))->handle();
             $data['next_route'] = route("agent.view",$agent->id);
             return response()->json(['status'=>1,'response'=>'success','data'=>$data,'message'=>'Agent successfully created'],200);
@@ -117,7 +103,6 @@ class AgentController extends Controller
         $agent = Agent::find($id);
         if(!empty($agent))
         {
-
             $country_id = $agent->country_id ? $agent->country_id :null;
             if(!empty($country_id))
             {
@@ -150,7 +135,7 @@ class AgentController extends Controller
 
 
 
-    public function update(\App\Http\Requests\EditAgent $request, $id)
+    public function update(EditAgent $request, $id)
     {
         $request->validated();
 
@@ -181,32 +166,16 @@ class AgentController extends Controller
         }
 
 
-        if($request->hasFile('emirates_id_doc'))
-        {
-            $update['emirates_id_doc']    = GlobalHelper::singleFileUpload($request,'local','emirates_id_doc',"agents/$folder");
-
-            $update['emirates_exp_date']  = date('Y-m-d',strtotime($request->emirates_exp_date));
-        }
-
-         if($request->hasFile('passport'))
-         {
-              $update['passport']    = GlobalHelper::singleFileUpload($request,'local','passport',"agents/$folder");
-              $update['passport_exp_date']  = date('Y-m-d',strtotime($request->passport_exp_date));
-         }
-
-         if($request->hasFile('visa'))
-         {
-             $update['visa']    = GlobalHelper::singleFileUpload($request,'local','visa',"agents/$folder");
-             $update['visa_exp_date']  = date('Y-m-d',strtotime($request->visa_exp_date));
-         }
           $update['admin_id'] = Auth::guard('admin')->user()->id;
         if(Agent::where(['id'=>$id])->update($update))
         {
-          return response()->json(['status'=>1,'response'=>'success','message'=>'Agent successfully updated'],200);
+             (new UploadEntityDocs($id,'agent'))->handle();
+            (new EditAuthorisedPerson($id,'agent'))->handle();
+           return response()->json(['status'=>1,'response'=>'success','message'=>'Agent successfully updated'],200);
         }
         else
         {
-            return response()->json(['status'=>0,'response'=>'error','message'=>'Agent updation failed'],200);
+            return response()->json(['status'=>0,'response'=>'error','message'=>'Agent not updated'],200);
         }
     }
 

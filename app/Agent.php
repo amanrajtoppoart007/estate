@@ -10,7 +10,12 @@ class Agent extends Model
 
     public function authorised_person()
     {
-        return $this->morphToMany(AuthorisedPerson::class,"authority");
+        return $this->morphOne(AuthorisedPerson::class,"authority");
+    }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class,"archive");
     }
 
     public function properties()

@@ -102,6 +102,27 @@ class UploadEntityDocs
                 ],
             );
         }
+        else if($this->table=="agent")
+        {
+            $documents = array(
+                [
+                    'document_title' => 'emirates_id_doc',
+                    'date_params' => ['EXPIRY_DATE', 'emirates_exp_date']
+                ],
+                [
+                    'document_title' => 'passport',
+                    'date_params' => ['EXPIRY_DATE', 'passport_exp_date']
+                ],
+                [
+                    'document_title' => 'visa',
+                    'date_params' => ['EXPIRY_DATE', 'visa_exp_date']
+                ],
+                [
+                    'document_title' => 'power_of_attorney',
+                    'date_params' => ['EXPIRY_DATE', 'poa_exp_date']
+                ],
+            );
+        }
         else
         {
             $documents = [];
