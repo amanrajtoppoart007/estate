@@ -77,7 +77,11 @@
                   <label for="city_id">City</label>
                   <select class="form-control" name="city_id" id="city_id">
                       @foreach($cities as $city)
+                          @if(!empty($property_unit->property))
                           @php $selected = ($property_unit->property->city_id==$city->id)?"selected":"";  @endphp
+                          @else
+                             @php  $selected = null; @endphp
+                          @endif
                             <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
                        @endforeach
                   </select>
