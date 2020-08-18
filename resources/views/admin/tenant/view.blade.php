@@ -157,7 +157,7 @@
                                  }
                                  else
                                  {
-                                     $url = asset('theme/default/images/dashboard/4.png');
+                                     $url = asset('theme/images/4.png');
                                  }
                              @endphp
                              <a target="_blank" class="btn btn-primary" href="{{$url}}" >

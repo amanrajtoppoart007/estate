@@ -71,7 +71,7 @@
                        </div>
                        <div class="col-md-6">
                            <div class="card" style="width: 18rem;">
-                                  <img id="image_grid" class="card-img-top" src="{{asset('theme/default/images/dashboard/4.png')}}" alt="Card image cap">
+                                  <img id="image_grid" class="card-img-top" src="{{asset('theme/images/4.png')}}" alt="Card image cap">
                                   <div class="card-footer text-right">
                                     <div class="d-inline">
                                         <label for="image" class="btn btn-success">
@@ -229,7 +229,7 @@
                 render_image(this);
             });
             $("#remove_image").click(function(){
-                $('#image_grid').attr("src", "{{asset('theme/default/images/dashboard/4.png')}}");
+                $('#image_grid').attr("src", "{{asset('theme/images/4.png')}}");
                 let file = document.getElementById("image");
                 file.value = file.defaultValue;
             });
@@ -241,7 +241,7 @@
                 {
                    toast('success',result.message,'bottom-right');
                    $("#add_data_form")[0].reset();
-                   $('#image_grid').attr("src", "{{asset('theme/default/images/dashboard/4.png')}}");
+                   $('#image_grid').attr("src", "{{asset('theme/images/4.png')}}");
                 }
                 function fn_error(result)
                 {

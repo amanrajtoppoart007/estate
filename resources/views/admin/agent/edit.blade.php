@@ -83,7 +83,7 @@
                          }
                          else
                          {
-                             $img = asset('theme/default/images/dashboard/4.png');
+                             $img = asset('theme/images/4.png');
                          }
                       @endphp
                     <img id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -102,6 +102,56 @@
         </div>
            </div>
        </div>
+
+         @php
+                 $passport = $visa = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
+                         if(!empty($agent->documents))
+                             {
+                                 $documents =   extract_doc_keys($agent->documents,'file_url','document_title','date_key','date_value');
+
+                         foreach($documents as $doc)
+                          {
+                              if($doc['document_title']=='emirates_id_doc')
+                                  {
+                                      $emirates_id_doc         = $doc['file_url'];
+                                      if(!empty($emirates_id_doc))
+                                        {
+                                            $emirates_id_doc = route('get.doc',base64_encode($emirates_id_doc));
+                                        }
+                                      $emirates_id_exp_date   = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                               if($doc['document_title']=='passport')
+                                  {
+                                      $passport          = $doc['file_url'];
+                                       if(!empty($passport))
+                                        {
+                                           $passport = route('get.doc',base64_encode($passport));
+                                        }
+                                      $passport_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                               if($doc['document_title']=='visa')
+                                  {
+                                      $visa          = $doc['file_url'];
+                                      if(!empty($visa))
+                                       {
+                                           $visa = route('get.doc',base64_encode($visa));
+                                       }
+                                      $visa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+
+                               if($doc['document_title']=='power_of_attorney')
+                                  {
+                                      $poa         = $doc['file_url'];
+                                      if(!empty($poa))
+                                       {
+                                           $poa = route('get.doc',base64_encode($poa));
+                                       }
+                                      $poa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                          }
+                             }
+                @endphp
+
          <div class="card card-info">
                 <div class="card-header">
                     <h6>Documents</h6>
@@ -234,6 +284,307 @@
           </div>
                 </div>
             </div>
+
+         <div class="card card-info">
+             <div class="card-header">
+                 <h6>Authorized Person Detail</h6>
+             </div>
+             <div class="card-body">
+                 <div class="row">
+                     <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                         <div class="row">
+                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                 <div class="form-group">
+                                     <label for="auth_person_name">Name</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                         <input type="text" class="form-control" name="auth_person_name" id="auth_person_name" value="{{($agent->authorised_person)?$agent->authorised_person->name:null}}">
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                               <div class="form-group">
+                                     <label for="auth_person_designation">Designation/Relation</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                         </div>
+                                         <input type="text" class="form-control" name="auth_person_designation" id="auth_person_designation" value="{{($agent->authorised_person)?$agent->authorised_person->designation:null}}">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="row">
+
+                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                 <div class="form-group">
+                                     <label for="auth_person_mobile">Mobile</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text">
+                                                 <select name="auth_person_country_code" id="auth_person_country_code">
+                                                    <option value="">Select</option>
+                                                     @foreach($countries as $country)
+                                                         @if(!empty($agent->authorised_person->auth_person_country_code))
+                                                         @php $selected = ($country->code==$agent->authorised_person->auth_person_country_code)?'selected':''; @endphp
+                                                         @else
+                                                             @php $selected = ($country->code==971)?'selected':''; @endphp
+                                                         @endif
+                                                         <option
+                                                             value="{{$country->code}}" {{$selected}}>{{$country->code}}</option>
+                                                     @endforeach
+                                               </select>
+                                             </span>
+                                         </div>
+                         <input type="text" class="form-control numeric" name="auth_person_mobile" id="auth_person_mobile" value="{{($agent->authorised_person)?$agent->authorised_person->mobile:null}}">
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                 <div class="form-group">
+                                     <label for="auth_person_email">Email</label>
+                                     <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i
+                                                     class="fas fa-envelope-square"></i></span>
+                                         </div>
+                                         <input type="text" class="form-control" name="auth_person_email" id="auth_person_email" value="{{($agent->authorised_person)?$agent->authorised_person->email:null}}"
+                                                data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                         <div class="text-center">
+                             <div class="user_photo">
+                                 @php
+                                     if(!empty($agent->authorised_person->photo))
+                                     {
+                                         $img_auth = route('get.doc',base64_encode($agent->authorised_person->photo));
+                                     }
+                                     else
+                                     {
+                                         $img_auth = asset('theme/images/4.png');
+                                     }
+                                 @endphp
+                                 <img id="auth_person_image_grid" src="{{$img_auth}}" style="width:250px;margin-bottom:10px;" alt="">
+                                 <div style="position:absolute;top:211px;right:72px;">
+                                     <label class="btn btn-primary mb-0" for="auth_person_image">
+                                         <i class="fa fa-upload"></i>
+                                     </label>
+                                     <input id="auth_person_image" class="hide" type="file" name="auth_person_image">
+                                     <button type="button" id="remove_auth_person_image" class="btn btn-danger text-white">
+                                         <i class="fa fa-trash"></i>
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="card card-warning my-2">
+            <div class="card-header">
+                <h6 class="text-white">Documents</h6>
+            </div>
+            <div class="card-body">
+                @php
+                       $auth_emirates_id = $auth_emirates_id_exp_date = $auth_passport = $auth_passport_exp_date = $auth_visa = $auth_visa_exp_date = $auth_poa =  $auth_poa_exp_date = null;
+                    if(!$agent->authorised_person->documents->isEmpty())
+                        {
+                            $documents =   extract_doc_keys($agent->authorised_person->documents,'file_url','document_title','date_key','date_value');
+                            foreach($documents as $doc)
+                          {
+                              if($doc['document_title']=='auth_person_emirates_id_doc')
+                                  {
+                                      $auth_emirates_id           = $doc['file_url'];
+                                      $auth_emirates_id_exp_date   = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                               if($doc['document_title']=='auth_person_passport')
+                                  {
+                                      $auth_passport          = $doc['file_url'];
+                                      $auth_passport_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                               if($doc['document_title']=='auth_person_visa')
+                                  {
+                                      $auth_visa          = $doc['file_url'];
+                                      $auth_visa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+
+                               if($doc['document_title']=='auth_person_power_of_attorney')
+                                  {
+                                      $auth_poa         = $doc['file_url'];
+                                      $auth_poa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
+                                  }
+                          }
+                        }
+                       if(!empty($auth_emirates_id))
+                       {
+                           $auth_emirates_id = route('get.doc',base64_encode($auth_emirates_id));
+                       }
+                       if(!empty($auth_passport))
+                       {
+                           $auth_passport = route('get.doc',base64_encode($auth_passport));
+                       }
+                       if(!empty($auth_visa))
+                       {
+                           $auth_visa = route('get.doc',base64_encode($auth_visa));
+                       }
+                       if(!empty($auth_poa))
+                       {
+                           $auth_poa = route('get.doc',base64_encode($auth_poa));
+                       }
+                     @endphp
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                 <div class="form-group">
+                     <label for="auth_person_emirates_id_doc">Emirates Id(scanned copy) </label>
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-passport"></i>
+                            </span>
+                        </div>
+                     <input type="file" class="form-control" name="auth_person_emirates_id_doc" id="auth_person_emirates_id_doc" value="">
+                         @if(!empty($auth_emirates_id))
+                             <div class="input-group-append" data-toggle="tooltip" title="click to view file">
+                                 <div class="input-group-text">
+                                     <a href="{{$auth_emirates_id}}" target="{{($auth_emirates_id)?'_blank':'#'}}">
+                                         <i class="fa fa-file"></i>
+                                     </a>
+                                 </div>
+                             </div>
+                         @endif
+                     </div>
+                 </div>
+              </div>
+                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_passport">Passport (scanned copy)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="auth_person_passport" id="auth_person_passport" value="">
+                                   @if(!empty($auth_passport))
+                                       <div class="input-group-append" data-toggle="tooltip" title="click to view file">
+                                           <div class="input-group-text">
+                                               <a href="{{$auth_passport}}" target="{{($auth_passport)?'_blank':'#'}}">
+                                                   <i class="fa fa-file"></i>
+                                               </a>
+                                           </div>
+                                       </div>
+                                   @endif
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_visa">Visa (scanned copy)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="auth_person_visa" id="auth_person_visa" value="">
+                                   @if(!empty($auth_visa))
+                                       <div class="input-group-append" data-toggle="tooltip" title="click to view file">
+                                           <div class="input-group-text">
+                                               <a href="{{$auth_visa}}" target="{{($auth_visa)?'_blank':'#'}}">
+                                                   <i class="fa fa-file"></i>
+                                               </a>
+                                           </div>
+                                       </div>
+                                   @endif
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_power_of_attorney">Power Of Attorney (scanned copy)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="file" class="form-control" name="auth_person_power_of_attorney" id="auth_person_power_of_attorney" value="">
+                                   @if(!empty($auth_poa))
+                                       <div class="input-group-append" data-toggle="tooltip" title="click to view file">
+                                           <div class="input-group-text">
+                                               <a href="{{$auth_poa}}" target="{{($auth_poa)?'_blank':'#'}}">
+                                                   <i class="fa fa-file"></i>
+                                               </a>
+                                           </div>
+                                       </div>
+                                   @endif
+                               </div>
+                           </div>
+                       </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                 <div class="form-group">
+                     <label for="auth_person_emirates_exp_date">Emirates Id(Expiry Date) </label>
+                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-passport"></i>
+                            </span>
+                        </div>
+                     <input type="text" class="form-control" name="auth_person_emirates_exp_date" id="auth_person_emirates_exp_date" value="{{$auth_emirates_id_exp_date}}">
+                     </div>
+                 </div>
+              </div>
+                 <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_passport_exp_date">Passport (Expiry Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-passport"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="auth_person_passport_exp_date" id="auth_person_passport_exp_date" value="{{$auth_passport_exp_date}}">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_person_visa_exp_date">Visa (Expiry Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="auth_person_visa_exp_date" id="auth_person_visa_exp_date" value="{{$auth_visa_exp_date}}">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                           <div class="form-group">
+                               <label for="auth_poa_exp_date">Power Of Attorney (Expiry Date)</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fab fa-cc-visa"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="auth_poa_exp_date" id="auth_poa_exp_date" value="{{$auth_poa_exp_date}}">
+                               </div>
+                           </div>
+                       </div>
+          </div>
+            </div>
+        </div>
+             </div>
+         </div>
+
          <div class="card card-info">
              <div class="card-header">
                  <h6>Account Detail</h6>
@@ -345,9 +696,6 @@
         </div>
               </div>
           </div>
-
-
-
         <div class="row">
             <div class="col-md-12">
                 <button class="btn btn-success float-right" type="submit">Update</button>
@@ -382,6 +730,10 @@
                    'emirates_exp_date',
                    'visa_exp_date',
                    'passport_exp_date',
+                   'auth_person_emirates_exp_date',
+                   'auth_person_passport_exp_date',
+                   'auth_person_visa_exp_date',
+                   'auth_poa_exp_date',
                ];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
@@ -390,7 +742,7 @@
             {
                 if(input.files && input.files[0])
                 {
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function (e) {
                     $('#profile_image_grid').attr('src', e.target.result);
                 }
@@ -401,22 +753,22 @@
                 render_image(this);
             });
             $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
-                var file = document.getElementById("profile_image");
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
+                let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#edit_data_form").on('submit',function(e){
                 e.preventDefault();
-                var url = "{{route('agent.update',$agent->id)}}";
-                var params = new FormData(document.getElementById('edit_data_form'));
+                let url = "{{route('agent.update',$agent->id)}}";
+                let params = new FormData(document.getElementById('edit_data_form'));
                 function fn_success(result)
                 {
                    toast('success',result.message,'bottom-right');
-                };
+                }
                 function fn_error(result)
                 {
                     toast('error',result.message,'bottom-right');
-                };
+                }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             })
        });

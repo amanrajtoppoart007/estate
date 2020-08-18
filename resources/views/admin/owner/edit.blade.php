@@ -123,7 +123,7 @@
                          }
                          else
                          {
-                             $img = asset('theme/default/images/dashboard/4.png');
+                             $img = asset('theme/images/4.png');
                          }
                       @endphp
                     <img id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -147,7 +147,7 @@
                 <h6>Documents</h6>
                 @php
                  $passport = $visa = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
-                         if(!$owner->documents->isEmpty())
+                         if(!empty($owner->documents))
                              {
                                  $documents =   extract_doc_keys($owner->documents,'file_url','document_title','date_key','date_value');
 
@@ -156,23 +156,23 @@
                               if($doc['document_title']=='emirates_id_doc')
                                   {
                                       $emirates_id_doc         = $doc['file_url'];
-                                      $emirates_id_exp_date = $doc['date_value'];
+                                      $emirates_id_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
                                   }
                                if($doc['document_title']=='passport')
                                   {
                                       $passport          = $doc['file_url'];
-                                      $passport_exp_date = $doc['date_value'];
+                                      $passport_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
                                   }
                                if($doc['document_title']=='visa')
                                   {
                                       $visa          = $doc['file_url'];
-                                      $visa_exp_date = $doc['date_value'];
+                                      $visa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
                                   }
 
                                if($doc['document_title']=='power_of_attorney')
                                   {
                                       $poa         = $doc['file_url'];
-                                      $poa_exp_date = $doc['date_value'];
+                                      $poa_exp_date = $doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])) : null;
                                   }
                           }
                              }
@@ -419,7 +419,7 @@
                                      }
                                      else
                                      {
-                                         $img_auth = asset('theme/default/images/dashboard/4.png');
+                                         $img_auth = asset('theme/images/4.png');
                                      }
                                  @endphp
                                  <img id="auth_person_image_grid" src="{{$img_auth}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -902,12 +902,12 @@
                 render_image(this,'auth_person_image_grid');
             });
             $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#remove_auth_person_image").click(function(){
-                $('#auth_person_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#auth_person_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });

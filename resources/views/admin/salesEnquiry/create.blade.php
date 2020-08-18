@@ -93,7 +93,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="text-center">
                   <div class="user_photo">
-                    <img id="profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
+                    <img id="profile_image_grid" src="{{asset('theme/images/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
                     <div style="position: absolute;top:211px;right:72px;">
                       <label class="btn btn-primary mb-0" for="profile_image">
                             <i class="fa fa-upload" aria-hidden="true"></i>
@@ -358,7 +358,7 @@
                 render_image(this);
             });
             $("#remove_profile_image").click(function () {
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
@@ -374,7 +374,7 @@
                 {
                    toast('success',result.message,'bottom-right');
                    $("#add_data_form")[0].reset();
-                   $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                   $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 }
                 function fn_error(result)
                 {

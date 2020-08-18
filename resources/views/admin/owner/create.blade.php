@@ -1,21 +1,5 @@
 @extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Add Property Owner</h4>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Add property owner</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Add Flat Owner"])
 @section('content')
  <div class="card" style="box-shadow: none;">
      <div class="card-body">
@@ -110,7 +94,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="text-center">
                   <div class="user_photo">
-                    <img id="profile_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
+                    <img id="profile_image_grid" src="{{asset('theme/images/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
                     <div style="position: absolute;top:211px;right:72px;">
                       <label class="btn btn-primary mb-0" for="profile_image">
                           <i class="fa fa-upload"></i>
@@ -318,7 +302,7 @@
                      <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                          <div class="text-center">
                              <div class="user_photo" style="height: 250px;">
-                                 <img id="auth_person_image_grid" src="{{asset('theme/default/images/dashboard/4.png')}}"
+                                 <img id="auth_person_image_grid" src="{{asset('theme/images/4.png')}}"
                                       style="width:250px;margin-bottom:10px;" alt="">
                                  <div style="position:absolute;top:211px;right:72px;">
                                      <label class="btn btn-primary mb-0" for="auth_person_image">
@@ -672,6 +656,7 @@
  </div>
 @endsection
  @section('head')
+     <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
     <style>
     .owner_type_company_grid
@@ -772,12 +757,12 @@
                 render_image(this,'auth_person_image_grid');
             });
             $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#remove_auth_person_image").click(function(){
-                $('#auth_person_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#auth_person_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });

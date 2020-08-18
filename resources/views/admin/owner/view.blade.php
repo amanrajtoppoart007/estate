@@ -55,7 +55,7 @@
                          }
                          else
                          {
-                             $img = asset('theme/default/images/dashboard/4.png');
+                             $img = asset('theme/images/4.png');
                          }
                       @endphp
                             <img class="border-dark" id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -92,7 +92,7 @@
                                             }
                                             else
                                             {
-                                                $url = asset('theme/default/images/dashboard/4.png');
+                                                $url = asset('theme/images/4.png');
                                             }
                                         @endphp
                                         <a target="_blank" class="btn btn-primary" href="{{$url}}">
@@ -202,7 +202,7 @@
                                       }
                                       else
                                       {
-                                          $emirates_id_doc = asset('theme/default/images/dashboard/4.png');
+                                          $emirates_id_doc = asset('theme/images/4.png');
                                       }
                                   @endphp
                                   <a target="_blank" class="img-thumbnail" href="{{$emirates_id_doc}}" alt="Owner Emirates Id">
@@ -224,7 +224,7 @@
                                       }
                                       else
                                       {
-                                          $passport = asset('theme/default/images/dashboard/4.png');
+                                          $passport = asset('theme/images/4.png');
                                       }
                                   @endphp
                                   <a target="_blank" class="img-thumbnail" href="{{$passport}}" alt="Owner Passport">
@@ -245,7 +245,7 @@
                                       }
                                       else
                                       {
-                                          $visa = asset('theme/default/images/dashboard/4.png');
+                                          $visa = asset('theme/images/4.png');
                                       }
                                   @endphp
                                   <a target="_blank" class="img-thumbnail" href="{{$visa}}" alt="Owner Visa">
@@ -266,7 +266,7 @@
                                       }
                                       else
                                       {
-                                          $poa = asset('theme/default/images/dashboard/4.png');
+                                          $poa = asset('theme/images/4.png');
                                       }
                                   @endphp
                                   <a target="_blank" class="img-thumbnail" href="{{$poa}}" alt="Owner's Power Of Attorney">

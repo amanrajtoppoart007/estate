@@ -127,7 +127,7 @@
                          }
                          else
                          {
-                             $img = asset('theme/default/images/dashboard/4.png');
+                             $img = asset('theme/images/4.png');
                          }
                       @endphp
                     <img id="profile_image_grid" src="{{$img}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -418,7 +418,7 @@
                                      }
                                      else
                                      {
-                                         $img_auth = asset('theme/default/images/dashboard/4.png');
+                                         $img_auth = asset('theme/images/4.png');
                                      }
                                  @endphp
                                  <img id="auth_person_image_grid" src="{{$img_auth}}" style="width:250px;margin-bottom:10px;" alt="">
@@ -894,12 +894,12 @@
                 render_image(this,'auth_person_image_grid');
             });
             $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });
             $("#remove_auth_person_image").click(function(){
-                $('#auth_person_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#auth_person_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });

@@ -56,7 +56,7 @@
                     <div class="row">
                         @foreach($maintenance->images as $image)
                             <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                                @php   $url = ($image->file_url)?route('get.doc',base64_encode($image->file_url)):asset('theme/default/images/dashboard/4.png'); @endphp
+                                @php   $url = ($image->file_url)?route('get.doc',base64_encode($image->file_url)):asset('theme/images/4.png'); @endphp
                                 <img src="{{$url}}" alt="" class="img250x150 m-1">
                             </div>
                         @endforeach

@@ -81,7 +81,7 @@
                <div class="col-md-12 col-lg-6">
                   <div class="card">
                       <div class="card-img-top">
-                      <img id="profile_image_grid" class="img-thumbnail profile_photo" src="{{asset('theme/default/images/dashboard/4.png')}}" alt="">
+                      <img id="profile_image_grid" class="img-thumbnail profile_photo" src="{{asset('theme/images/4.png')}}" alt="">
                       <input type="file" name="photo" id="profile_image" style="display:none;">
                       </div>
                       <div class="card-footer">
@@ -478,7 +478,7 @@
                 render_image(this);
             });
             $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/default/images/dashboard/4.png');
+                $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 var file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
             });

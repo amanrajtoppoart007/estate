@@ -12,4 +12,9 @@ class AuthorisedPerson extends Model
     {
         return $this->morphTo();
     }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class,'archive');
+    }
 }

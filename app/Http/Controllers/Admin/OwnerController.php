@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Country;
+use App\Http\Requests\EditOwner;
 use App\Library\CreateOwnerAuthPerson;
 use App\Library\EditOwnerAuthPerson;
 use App\Library\UploadEntityDocs;
@@ -160,7 +161,15 @@ class OwnerController extends Controller
     public function view($id)
     {
         $owner = Owner::find($id);
-        return view('admin.owner.view',compact('owner'));
+        if(!empty($owner))
+        {
+            return view('admin.owner.view',compact('owner'));
+        }
+        else
+        {
+            return view("blank")->with(["msg"=>"Invalid Owner Detail"]);
+        }
+
     }
 
 
@@ -195,7 +204,7 @@ class OwnerController extends Controller
     }
 
 
-    public function update(\App\Http\Requests\EditOwner $request,$id)
+    public function update(EditOwner $request,$id)
     {
         $request->validated();
         $data  = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address','country_code']);
@@ -292,7 +301,7 @@ class OwnerController extends Controller
          }
          else
          {
-             dd("Invalid Owner Id");
+            return view("blank")->with(["msg"=>"Invalid Owner Id"]);
          }
     }
 
