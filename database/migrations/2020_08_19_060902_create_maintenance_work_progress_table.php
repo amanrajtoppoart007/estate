@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaintenanceWorkProgressesTable extends Migration
+class CreateMaintenanceWorkProgressTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateMaintenanceWorkProgressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('maintenance_work_progresses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('maintenance_work_progress', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ class CreateMaintenanceWorkProgressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('maintenance_work_progresses');
+        Schema::dropIfExists('maintenance_work_progress');
     }
 }
