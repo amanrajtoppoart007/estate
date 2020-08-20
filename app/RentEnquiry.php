@@ -10,11 +10,15 @@ class RentEnquiry extends Model
     use SoftDeletes;
     protected $guarded = [];
 
-    protected $appends = ['create_tenant_url','country_name'];
+    protected $appends = ['create_tenant_url','country_name','view_rent_breakdown'];
 
     public function getCreateTenantUrlAttribute()
     {
         return route('tenant.create',['request_id'=>base64_encode($this->id)]);
+    }
+    public function getViewRentBreakdownAttribute()
+    {
+        return $this->rent_breakdown ? route('view.rent.breakdown',$this->rent_breakdown->id): null;
     }
     public function getCountryNameAttribute()
     {
@@ -26,7 +30,7 @@ class RentEnquiry extends Model
     }
     public function rent_breakdown()
     {
-        return $this->hasMany(RentBreakDown::class,"rent_enquiry_id","id");
+        return $this->hasOne(RentBreakDown::class,"rent_enquiry_id","id");
     }
     protected $casts = [
         'created_at' => 'datetime:d:m:Y H:i:s',

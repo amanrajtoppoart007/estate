@@ -82,14 +82,16 @@
           <table class="table table-borderless">
               <tbody>
               @php $breakdown_items = get_breakdown_items($breakdown->rent_break_down_items); @endphp
-              @foreach($breakdown_items as  $item=>$values)
-                  <tr>
-                      <th>{{$item}}</th>
-                      @foreach($values as $key=>$value)
-                          <td>{{$value}}</td>
-                      @endforeach
-                  </tr>
-              @endforeach
+              @if(!empty($breakdown_items))
+                  @foreach($breakdown_items as  $item_key=>$item_values)
+                      <tr>
+                          <th>{{$item_key}}</th>
+                          @foreach($item_values as $key=>$value)
+                              <td>{{$value}}</td>
+                          @endforeach
+                      </tr>
+                  @endforeach
+              @endif
               </tbody>
           </table>
         </div>

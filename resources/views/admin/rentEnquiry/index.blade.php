@@ -27,6 +27,7 @@
 				<th>Email & Mobile</th>
 				<th>Preferred Bedroom</th>
 				<th>Preferred Location</th>
+				<th>View BreakDown</th>
 				<th>Action</th>
 			</tr>
 		</thead>
@@ -43,6 +44,18 @@
         function renderMessageBtn(data)
         {
             return `<a  href="javascript:void(0)" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-edit text-white"></i></a>`;
+        }
+        function renderBreakdownViewBtn(data)
+        {
+            if(data.view_rent_breakdown)
+            {
+                return `<a  href="${data.view_rent_breakdown}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-eye text-white"></i></a>`;
+            }
+            else
+            {
+                return "no breakdown created";
+            }
+
         }
         function renderActionBtn(data)
         {
@@ -84,6 +97,13 @@
                                  }},
                                 { data : "bedroom", name : "bedroom"},
                                 { data : "address", name : "address"},
+                                {
+                                    data : null, name: 'action',searchable: false,orderable :false,
+                                    render: function(data, type, row, meta)
+                                    {
+                                      return renderBreakdownViewBtn(data);
+                                    }
+                                },
                                 {
                                     data : null, name: 'action',searchable: false,orderable :false,
                                     render: function(data, type, row, meta)

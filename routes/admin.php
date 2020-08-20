@@ -9,6 +9,7 @@ Route::prefix('accounting')->group(function () {
 /**Accounting routes end -----------//------------- Accounting routes end **/
 /**rent breakdown routes **/
 Route::prefix("rent-breakdown")->group(function(){
+    Route::get('setting', 'Admin\RentBreakDownSettingController@index')->name('setting.rent.breakdown');
     Route::post('store', 'Admin\RentBreakDownController@store')->name('save.rent.breakdown');
     Route::get('view/{id}', 'Admin\RentBreakDownController@view')->name('view.rent.breakdown');
     Route::any('send/breakdown/mail', 'Admin\RentBreakDownController@mail')->name('send.breakdown.mail');
