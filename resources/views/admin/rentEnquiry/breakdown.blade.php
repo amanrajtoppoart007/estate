@@ -65,7 +65,7 @@
                            </tr>
                            <tr>
                                <th>Tenancy Type</th>
-                               <td>{{get_tenancy_type($enquiry->tenancy_type)}}</td>
+                               <td>{{get_tenancy_type_title($enquiry->tenancy_type)}}</td>
                                <th>Number Of Tenants</th>
                                <td>{{$enquiry->tenant_count}}</td>
                                <th></th>

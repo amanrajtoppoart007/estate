@@ -698,15 +698,7 @@
                $("#action").val(action);
            });
 
-           $("#add_auth_person_detail_btn").on("click",function(){
-              if($("#authorised_person_required").is(":checked")) {
-                  $("#authorised_person_required").prop({"checked": false});
-              }
-               else
-              {
-                  $("#authorised_person_required").prop({"checked": true});
-              }
-           });
+
            let pickers =
                [
                    'emirates_exp_date',

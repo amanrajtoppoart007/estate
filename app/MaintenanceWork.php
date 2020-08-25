@@ -31,4 +31,5 @@ class MaintenanceWork extends Model
      {
          return $this->hasMany(MaintenanceWorkProgress::class,'maintenance_work_order_id','id');
      }
+
 }

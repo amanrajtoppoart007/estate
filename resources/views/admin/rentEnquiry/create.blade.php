@@ -1,21 +1,5 @@
 @extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Create Rent Inquiry</h4>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Create Rent Inquiry</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Create Rent Inquiry"])
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -123,7 +107,6 @@
                                     <option value="">Select Category</option>
                                     <option value="residential">Residential</option>
                                     <option value="commercial">Commercial</option>
-                                    <option value="land">Land</option>
                                 </select>
                             </td>
                         </tr>
@@ -131,14 +114,6 @@
                             <th>Property Type</th>
                             <td>
                                 <select name="property_type" id="property_type" class="form-control">
-                                    <option value="">Select Category</option>
-                                    <option value="apartment">Apartment</option>
-                                    <option value="villa">Villa</option>
-                                    <option value="townhouse">TownHouse</option>
-                                    <option value="office">Office</option>
-                                    <option value="retail">Retail</option>
-                                    <option value="shop">Shop</option>
-                                    <option value="warehouse">WareHouse</option>
                                 </select>
                             </td>
                         </tr>
@@ -231,6 +206,41 @@
     <script>
         $(document).ready(function(){
 
+            function get_property_types()
+            {
+                $("#property_type").empty();
+                let html = '<option value="">Select Type</option>';
+                let residential_property_types = {
+                    'apartment': 'Apartment',
+                    'villa' : 'Vila',
+                    'townhouse' : 'Town House',
+                };
+                let commercial_property_types = {
+                    'office':'Office',
+                    'shop':'Shop',
+                    'retail' : 'Retail',
+                    'warehouse':'Ware House'
+                }
+
+                if($("#category").val()==='residential')
+                {
+                    $.each(residential_property_types,function(index,item){
+                        html+=`<option value="${index}">${item}</option>`;
+                    });
+                }
+                if($("#category").val()==='commercial')
+                {
+                    $.each(commercial_property_types,function(index,item){
+                        html+=`<option value="${index}">${item}</option>`;
+                    });
+                }
+
+                $("#property_type").html(html);
+            }
+
+            $("#category").on("change", function () {
+                get_property_types();
+            });
             $(document).on("click",".submit_form_btn",function(){
                 $("#next_action_input").val($(this).attr("id"));
             });

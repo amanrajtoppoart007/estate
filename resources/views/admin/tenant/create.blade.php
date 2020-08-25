@@ -421,6 +421,9 @@
                 </div>
             </div>
                 <div class="form-group text-right">
+                    {{--@if(empty($tenant->rent_breakdown))
+                     <a href="{{route('')}}" class="btn btn-primary">Prepare BreakDown</a>
+                    @endif--}}
                     <button class="btn btn-primary">Save</button>
                     <button type="button" id="save_and_allot_unit" class="btn btn-primary">Save & Allot Unit</button>
                 </div>
