@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-light-blue elevation-4">
   <a href="{{route('admin.dashboard')}}" class="brand-link">
       <img src="{{asset('assets/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">ESTATE</span>
@@ -16,7 +16,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
            <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
             <a href="javascript:void(0)" class="nav-link">
-             <i class="fa fa-info-circle"></i>
+                <img src="{{asset('assets/img/icons/enquiry.png')}}" alt="">
               <p>
                Rent Inquiry
                 <i class="right fas fa-angle-left"></i>
@@ -39,7 +39,7 @@
           </li>
             <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="fa fa-info-circle"></i>
+              <img src="{{asset('assets/img/icons/sale.png')}}" alt="">
               <p>
                Sales Inquiry
                 <i class="right fas fa-angle-left"></i>
@@ -62,7 +62,7 @@
           </li>
            <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+              <img src="{{asset('assets/img/icons/tenant.png')}}" alt="">
               <p>
                 Tenant
                 <i class="right fas fa-angle-left"></i>
@@ -95,18 +95,36 @@
               </li>
             </ul>
           </li>
-            <li class="nav-item">
-            <a href="{{route('agent.index')}}" class="nav-link">
-              <i class="nav-icon fa fa-at"></i>
+
+            <li class="nav-item has-treeview menu-close" id="sidebar-tenant">
+            <a href="javascript:void(0)" class="nav-link">
+              <img src="{{asset('assets/img/icons/agent.png')}}" alt="">
               <p>
                 Agents
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('agent.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add New Agent</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('agent.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Agent List</p>
+                </a>
+              </li>
+            </ul>
           </li>
+
+
 
            <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-users"></i>
+              <img src="{{asset('assets/img/icons/buyer.png')}}" alt="">
               <p>
                 Buyers
                 <i class="right fas fa-angle-left"></i>
@@ -130,7 +148,7 @@
 
             <li class="nav-item has-treeview menu-close">
                 <a href="javascript:void(0)" class="nav-link">
-                    <i class="nav-icon fa fa-users"></i>
+                    <img src="{{asset('assets/img/icons/construction.png')}}" alt="">
                     <p>
                         Developers
                         <i class="right fas fa-angle-left"></i>
@@ -154,7 +172,7 @@
 
            <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-users"></i>
+              <img src="{{asset('assets/img/icons/team.png')}}" alt="">
               <p>
                 Flat Owners
                 <i class="right fas fa-angle-left"></i>
@@ -183,7 +201,7 @@
           </li>
            <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-building"></i>
+              <img src="{{asset('assets/img/icons/property_management.png')}}" alt="">
               <p>
                 Property Management
                 <i class="right fas fa-angle-left"></i>
@@ -230,7 +248,7 @@
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-money-check-alt"></i>
+              <img src="{{asset('assets/img/icons/sales.png')}}" alt="">
               <p>
                 Sales
                 <i class="right fas fa-angle-left"></i>
@@ -254,7 +272,7 @@
 
           <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-credit-card"></i>
+              <img src="{{asset('assets/img/icons/accounting.png')}}" alt="">
               <p>
                 Accounting
                 <i class="right fas fa-angle-left"></i>
@@ -291,7 +309,7 @@
 
               <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-tasks"></i>
+              <img src="{{asset('assets/img/icons/maintenance.png')}}" alt="">
               <p>
                 Maintenance  Request
                 <i class="right fas fa-angle-left"></i>
@@ -314,7 +332,7 @@
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-tasks"></i>
+              <img src="{{asset('assets/img/icons/task.png')}}" alt="">
               <p>
                 Task
                 <i class="right fas fa-angle-left"></i>
@@ -332,7 +350,7 @@
 
           <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-building"></i>
+              <img src="{{asset('assets/img/icons/department.png')}}" alt="">
               <p>
                 Department
                 <i class="right fas fa-angle-left"></i>
@@ -349,7 +367,7 @@
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-address-card"></i>
+              <img src="{{asset('assets/img/icons/work.png')}}" alt="">
               <p>
                 Employee
                 <i class="right fas fa-angle-left"></i>
@@ -372,7 +390,7 @@
           </li>
            <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-align-justify"></i>
+              <img src="{{asset('assets/img/icons/attendance.png')}}" alt="">
               <p>
                 Attendance
                 <i class="right fas fa-angle-left"></i>
@@ -401,7 +419,7 @@
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-th-list"></i>
+              <img src="{{asset('assets/img/icons/designation.png')}}" alt="">
               <p>
                 Designation
                 <i class="right fas fa-angle-left"></i>
@@ -419,7 +437,7 @@
 
           <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-wallet"></i>
+              <img src="{{asset('assets/img/icons/salary.png')}}" alt="">
               <p>
                 Salary
                 <i class="right fas fa-angle-left"></i>
@@ -442,7 +460,7 @@
           </li>
  <li class="nav-item has-treeview menu-close">
             <a href="javascript:void(0)" class="nav-link active">
-              <i class="nav-icon fa fa-cog"></i>
+              <img src="{{asset('assets/img/icons/gear.png')}}" alt="">
               <p>
                 Setting
                 <i class="right fas fa-angle-left"></i>
@@ -478,7 +496,7 @@
 
           <li class="nav-item">
             <a href="{{route('contact-request.list')}}" class="nav-link">
-              <i class="nav-icon fa fa-question"></i>
+              <img src="{{asset('assets/img/icons/request.png')}}" alt="">
               <p>
                 Contact Requests
               </p>
@@ -486,7 +504,7 @@
           </li>
             <li class="nav-item">
             <a href="{{route('expiry.warning.document.list')}}" class="nav-link">
-              <i class="nav-icon fa fa-at"></i>
+              <img src="{{asset('assets/img/icons/power.png')}}" alt="">
               <p>
                 Document Renewal
               </p>

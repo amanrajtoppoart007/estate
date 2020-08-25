@@ -2,11 +2,13 @@
 @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
 @endsection
-@include("admin.include.breadcrumb",["page_title"=>"Rent BreakDown"])
+@include("admin.include.breadcrumb",["page_title"=>"Edit Rent BreakDown"])
  @section('content')
 <div class="submit_form color-secondery icon_primary p-5 bg-white">
-    {{Form::open(['id'=>'add_data_form','autocomplete'=>'off'])}}
+    {{Form::open(['id'=>'edit_data_form','autocomplete'=>'off'])}}
     <input type="hidden" name="rent_enquiry_id" value="{{$enquiry->id}}">
+    <input type="hidden" name="tenant_id" value="{{$enquiry->tenant_id}}">
+    <input type="hidden" name="rent_breakdown_id" value="{{$enquiry->rent_breakdown->id}}">
             <div class="card">
                 <div class="card-header bg-gradient-cyan">
                    <h6> <strong>Property Allocation Detail</strong> </h6>
@@ -19,7 +21,8 @@
                   <select class="form-control" name="city_id" id="city_id">
                       <option value="">Select City</option>
                       @foreach($cities as $city)
-                        <option value="{{$city->id}}">{{$city->name}}</option>
+                          @php $selected = ($enquiry->rent_breakdown->city_id)?"selected":null;  @endphp
+                        <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
                       @endforeach
                   </select>
                 </div>
@@ -28,11 +31,12 @@
                   <div class="form-group">
                   <label for="property_id">Building Name</label>
                   <select class="form-control" name="property_id" id="property_id">
-                      @if(!empty($property_unit))
+                      <option value="">Select Building</option>
                       @foreach($properties as $prop)
-                            <option value="{{$prop->id}}">{{$prop->title}}</option>
+                            @php $selected = ($prop->id==$enquiry->rent_breakdown->property_id)?"selected":null;  @endphp
+                            <option value="{{$prop->id}}" {{$selected}}>{{$prop->title}}</option>
                        @endforeach
-                      @endif
+
                   </select>
                 </div>
               </div>
@@ -40,6 +44,11 @@
                       <div class="form-group">
                           <label for="unit_id">Property Unit</label>
                           <select class="form-control" name="unit_id" id="unit_id">
+                              <option value="">Select Unit</option>
+                              @foreach($property_units as $unit)
+                                  @php $selected = ($unit->id == $enquiry->rent_breakdown->unit_id)?"selected":null;  @endphp
+                                  <option value="{{$unit->id}}" {{$selected}}>{{$unit->unitcode}}</option>
+                              @endforeach
                           </select>
                       </div>
                   </div>
@@ -86,16 +95,18 @@
                     <label for="rent_period_type">Rent Period</label>
                     <select  class="form-control" name="rent_period_type" id="rent_period_type">
                        <option value="">Select</option>
-                       <option value="monthly">MONTHLY</option>
-                       <option value="half_yearly">HALF YEARLY</option>
-                       <option value="yearly">YEARLY</option>
+                       @php $period_types = rent_period_types();@endphp
+                        @foreach($period_types as $key=>$value)
+                            @php $selected = ($key==$enquiry->rent_breakdown->rent_period_type)?"selected":null; @endphp
+                            <option value="{{$key}}" {{$selected}}>{{$value}}</option>
+                        @endforeach
                     </select>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="rent_period">NO.Of <i id="rent_period_text"></i> </label>
-                    <input type="text" class="form-control numeric" name="rent_period" id="rent_period" value="">
+                    <input type="text" class="form-control numeric" name="rent_period" id="rent_period" value="{{$enquiry->rent_breakdown->rent_period}}">
                   </div>
                 </div>
 
@@ -103,8 +114,8 @@
                         <div class="form-group">
                             <label for="parking">Parking <i id="parking"></i> </label>
                             <select class="form-control" name="parking" id="parking">
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
+                                <option value="yes" {{$enquiry->rent_breakdown->parking=='yes'?'selected':null}}>Yes</option>
+                                <option value="no" {{$enquiry->rent_breakdown->parking=='no'?'selected':null}}>No</option>
                             </select>
                         </div>
                     </div>
@@ -112,32 +123,32 @@
                         <div class="form-group">
                             <label for="parking_number">Parking number <i id="rent_period_text"></i> </label>
                             <input type="text" class="form-control numeric" name="parking_number" id="parking_number"
-                                   value="">
+                                   value="{{$enquiry->rent_breakdown->parking=='yes'?((!empty($enquiry->rent_breakdown->parking_number))?$enquiry->rent_breakdown->parking_number:null):null}}">
                         </div>
                     </div>
 
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="lease_start">Lease Start Date</label>
-                    <input type="text" class="form-control" name="lease_start" id="lease_start" value="">
+                    <input type="text" class="form-control" name="lease_start" id="lease_start" value="{{(!empty($enquiry->rent_breakdown->lease_start_date)) ? date('d-m-Y',strtotime($enquiry->rent_breakdown->lease_start_date)) :null }}">
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="lease_end">Lease End Date</label>
-                    <input type="text" class="form-control" name="lease_end" id="lease_end" value="">
+                    <input type="text" class="form-control" name="lease_end" id="lease_end" value="{{(!empty($enquiry->rent_breakdown->lease_end_date)) ? date('d-m-Y',strtotime($enquiry->rent_breakdown->lease_end_date)) :null }}">
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="rent_amount">Total Rent Amount</label>
-                    <input type="text" class="form-control" name="rent_amount" id="rent_amount" value="">
+                    <input type="text" class="form-control" name="rent_amount" id="rent_amount" value="{{$enquiry->rent_breakdown->rent_amount}}">
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="installments">Installments</label>
-                    <input type="text" class="form-control" name="installments" id="installments" value="">
+                    <input type="text" class="form-control" name="installments" id="installments" value="{{$enquiry->rent_breakdown->installments}}">
                   </div>
                 </div>
                 </div>
@@ -151,50 +162,24 @@
        <div class="card-body">
                  <div class="row">
     <div class="col-md-12" style="overflow-x: scroll;">
-        <table id="installment_table" class="mb-5">
-            <tr id="row1">
-                <td class="width200">Details of cash first payment</td>
-                <td class="padLeft100">AED</td>
-            </tr>
-            <tr id="row2" class="text-danger text-center">
-                <td class="width200"></td>
-                <td class="padLeft100 inst text-center">1st</td>
-            </tr>
-            <tr id="row3">
-                <td class="width200">Security Deposit</td>
-                <td class="padLeft100"><input type="text" class="numeric" name="security_deposit[]" id="security_deposit_1" value="0" ></td>
-            </tr>
-            <tr id="row4">
-                <td class="width200">Municipality Fees (4% from rent value)</td>
-                <td class="padLeft100"><input type="text" class="numeric" name="municipality_fees[]" id="municipality_fees_1" value="0"></td>
-            </tr>
-            <tr id="row5">
-                <td class="width200">Office Commission + VAT</td>
-                <td class="padLeft100"><input type="text" class="numeric" name="brokerage[]" id="brokerage_1" value="0"></td>
-            </tr>
-            <tr id="row6">
-                <td class="width200">Tenancy Contract</td>
-                <td class="padLeft100">
-                    <input type="text" class="numeric" name="contract[]" id="contract_1" value="0">
-
-                </td>
-            </tr>
-            <tr id="row7">
-                <td class="width200">Remote Deposit:</td>
-                <td class="padLeft100"><input type="text" class="numeric" name="remote_deposit[]" id="remote_deposit_1" value="0"></td>
-            </tr>
-            <tr id="row8">
-                <td class="width200">Sewa Deposit:</td>
-                <td class="padLeft100"><input type="text" class="numeric" name="sewa_deposit[]" id="sewa_deposit_1" value="0"></td>
-            </tr>
-            <tr id="row9">
-                <td class="width200">Monthly Installment:</td>
-                <td class="padLeft100"><input type="text" name="monthly_installment[]" id="monthly_installment_1" class="numeric" readonly value="0"></td>
-            </tr>
-            <tr id="row10">
-                <td class="width200">Total  Payment:</td>
-                <td class="padLeft100"><input type="text" class="numeric" name="total_monthly_installment[]" id="total_monthly_installment_1" readonly value="0"></td>
-            </tr>
+        <table class="table table-bordered" id="installment_table">
+            <tbody>
+              @php $breakdown_items = get_breakdown_items($enquiry->rent_breakdown->rent_break_down_items); @endphp
+              @if(!empty($breakdown_items))
+                  @php $i=1 @endphp
+                  @foreach($breakdown_items as  $item_key=>$item_values)
+                      <tr id="row{{$i}}">
+                          <th>{{snake_case_string_to_word(get_breakdown_item_title($item_key))}}</th>
+                          @foreach($item_values as $key=>$value)
+                              <td>
+                                  <input type="text" class="form-control numeric" name="{{$item_key}}[]" value="{{$value}}">
+                              </td>
+                          @endforeach
+                      </tr>
+                      @php $i++ @endphp
+                  @endforeach
+              @endif
+              </tbody>
         </table>
     </div>
         </div>
@@ -202,7 +187,6 @@
     </div>
             <div class="form-group">
                 <input type="hidden" id="next_action_input" name="next_action" value="">
-                <button type="submit" id="create_tenant" class="btn btn-success submit_breakdown_button">Create Tenant</button>
                 <button type="submit" id="preview" class="btn btn-primary submit_breakdown_button">Preview</button>
                 <button type="submit" id="print_breakdown" class="btn btn-info submit_breakdown_button">Print BreakDown</button>
                 <button type="submit" id="send_breakdown_via_email" class="btn btn-warning text-white submit_breakdown_button">Send BreakDown By E-mail</button>
@@ -264,23 +248,22 @@
                   let total_rent = amtPer + municipality_fees;
                   $("#row2").append(`<td class="inst dyn"></td>`);
                   $("#row3").append(`<td class="dyn"></td>`);
-                  $("#row4").append(`<td class="dyn"><input type="text" name="municipality_fees[]" id="municipality_fees_${tr_count}" value="${municipality_fees}"></td>`);
-                  $("#row5").append(`<td class="dyn"><input type="text" name='brokerage[]' id="brokerage_${tr_count}" value="0"></td>`);
-                  $("#row6").append(`<td class="dyn"><input type="text" name="contract[]" id="contract_${tr_count}" value="0"></td>`);
+                  $("#row4").append(`<td class="dyn"><input class="form-control" type="text" name="municipality_fees[]" id="municipality_fees_${tr_count}" value="${municipality_fees}"></td>`);
+                  $("#row5").append(`<td class="dyn"><input class="form-control" type="text" name='brokerage[]' id="brokerage_${tr_count}" value="0"></td>`);
+                  $("#row6").append(`<td class="dyn"><input class="form-control" type="text" name="contract[]" id="contract_${tr_count}" value="0"></td>`);
                   $("#row7").append("<td class='dyn'></td>");
                   $("#row8").append("<td class='dyn'></td>");
-                  $("#row9").append(`<td class="dyn"><input type="text" id="monthly_installment_${tr_count}" name="monthly_installment[]" value="${amtPer}" readonly></td>`);
-                  $("#row10").append(`<td class="dyn"><input type="text" id="total_monthly_installment_${tr_count}" name="total_monthly_installment[]" value="${total_rent}"></td>`);
+                  $("#row9").append(`<td class="dyn"><input class="form-control" type="text" id="monthly_installment_${tr_count}" name="monthly_installment[]" value="${amtPer}" readonly></td>`);
+                  $("#row10").append(`<td class="dyn"><input class="form-control" type="text" id="total_monthly_installment_${tr_count}" name="total_monthly_installment[]" value="${total_rent}"></td>`);
                   tr_count++;
               }
      generateInstNumber();
      calculateTotalFirstRent(1);
           });
-
-        $("#rent_period_type").on('change',function(){
-              let rent_period_type = $(this).val();
-              let rent_period_text = null;
-              switch (rent_period_type)
+function rent_period_type_text(rent_period_type)
+{
+    let rent_period_text;
+   switch (rent_period_type)
               {
                 case 'monthly':
                    rent_period_text = 'Month';
@@ -292,7 +275,11 @@
                    rent_period_text = 'Years';
                   break;
               }
-              $("#rent_period_text").text(rent_period_text);
+              return rent_period_text;
+}
+        $("#rent_period_type").on('change',function(){
+              let rent_period_type = $(this).val();
+              $("#rent_period_text").text(rent_period_type_text(rent_period_type));
         });
           let start_date =  $('#lease_start').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',
             minDate : '{{now()->format('d-m-Y')}}',
@@ -378,10 +365,10 @@
          }
 
 
-        $('#add_data_form').on("submit",function(event){
+        $('#edit_data_form').on("submit",function(event){
          event.preventDefault();
-          let params   = $("#add_data_form").serialize();
-          let url      = "{{route('save.rent.breakdown')}}";
+          let params   = $("#edit_data_form").serialize();
+          let url      = "{{route('update.rent.breakdown')}}";
           function fn_success(result)
           {
               toast('success', result.message, 'bottom-right');
@@ -466,6 +453,7 @@
             }
             $.fn_ajax('{{route('get.vacant.unit.list')}}',params,fn_success,fn_error);
            });
+        $("#rent_period_text").text(rent_period_type_text('{{$enquiry->rent_breakdown->rent_period_type}}'));
 
       });
     </script>

@@ -1,37 +1,25 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Rent Enquiry List</h4>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Rent Enquiry List</li>
-            </ol>
-          </div>
+@extends("admin.layout.app")
+@include("admin.include.breadcrumb",["page_title"=>"Rent Enquiry List"])
+@section("content")
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Nationality</th>
+                    <th>Email & Mobile</th>
+                    <th>Preferred Bedroom</th>
+                    <th>Preferred Location</th>
+                    <th>View BreakDown</th>
+                    <th class="width_200px">Action</th>
+                </tr>
+                </thead>
+            </table>
         </div>
-      </div>
     </div>
-@endsection
-@section('content')
-<div class="items_list color-secondary">
-	<table class="table table-bordered" id="dataTable">
-		<thead>
-			<tr>
-				<th>Date</th>
-				<th>Name</th>
-				<th>Nationality</th>
-				<th>Email & Mobile</th>
-				<th>Preferred Bedroom</th>
-				<th>Preferred Location</th>
-				<th>View BreakDown</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-	</table>
 </div>
 @endsection
 @section('script')
@@ -49,11 +37,11 @@
         {
             if(data.view_rent_breakdown)
             {
-                return `<a  href="${data.view_rent_breakdown}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-eye text-white"></i></a>`;
+                return `<a  href="${data.view_rent_breakdown}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-eye text-white">View</i></a>`;
             }
             else
             {
-                return "no breakdown created";
+                return `<a  href="${data.view_rent_breakdown}" data-id="${data.id}" class="btn btn-success"><i class="fa fa-plus text-white"></i> Add</a>`;
             }
 
         }
@@ -64,9 +52,13 @@
                 return `<a title="Create Tenant"  href="javascript:void(0)"  class="btn btn-outline-success"><i class="fa fa-check"></i></a>`;
             }
             return `
-          <a title="Create Tenant"  href="${data.create_tenant_url}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-sign-in-alt text-white"></i></a>
-           <a title="Send current enquiry to archive folder"  href="javascript:void(0)" data-id="${data.id}" class="btn btn-danger deleteBtn"><i class="fa fa-file-archive text-white"></i></a>
-           `;
+             <span class="form-group">
+             <a title="View Rent Enquiry"  href="${data.edit_url}" data-id="${data.id}" class="btn btn-primary"><i class="fa fa-edit text-white"></i></a>
+             <a title="Edit Rent Enquiry"  href="${data.view_url}" data-id="${data.id}" class="btn btn-info"><i class="fa fa-eye text-white"></i></a>
+             <a title="Create Tenant"  href="${data.create_tenant_url}" data-id="${data.id}" class="btn btn-success"><i class="fa fa-sign-in-alt text-white"></i></a>
+             <a title="Send current enquiry to archive folder"  href="javascript:void(0)" data-id="${data.id}" class="btn btn-danger deleteBtn"><i class="fa fa-file-archive text-white"></i></a>
+             </span>
+             `;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         let dataTable = $("#dataTable").dataTable({

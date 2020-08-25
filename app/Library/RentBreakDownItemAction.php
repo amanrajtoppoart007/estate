@@ -16,7 +16,7 @@ class RentBreakDownItemAction
     public function handle()
     {
         try {
-
+             $this->delete_existing_breakdown_items($this->rent_breakdown_id);
             $i = 0;
             $j = 0;
 
@@ -30,26 +30,8 @@ class RentBreakDownItemAction
                 $item["monthly_installment"] = (!empty(request()->monthly_installment[$i])) ? request()->monthly_installment[$i] : 0;
                 $item["total_monthly_installment"] = (!empty(request()->total_monthly_installment[$i])) ? request()->total_monthly_installment[$i] : 0;
                 $item["rent_break_down_id"] = $this->rent_breakdown_id;
-                if(request()->has("rent_break_down_item_id"))
+                if(RentBreakDownItem::create($item))
                 {
-                    $item_id = (!empty(request()->rent_break_down_item_id[$i])) ? request()->rent_break_down_item_id[$i] : null;
-                    if (!empty($item_id)) {
-                        if (request()->has("$item_id")) {
-                            if ($this->check($item_id)) {
-                                RentBreakDownItem::where(["id" => $item_id])->update($item);
-                                $j++;
-                            }
-                        } else {
-                            RentBreakDownItem::create($item);
-                            $j++;
-                        }
-                    } else {
-                        RentBreakDownItem::create($item);
-                        $j++;
-                    }
-                }
-                else{
-                    RentBreakDownItem::create($item);
                     $j++;
                 }
 
@@ -66,5 +48,13 @@ class RentBreakDownItemAction
     {
         $check = RentBreakDownItem::find($item_id);
         return !empty($check);
+    }
+    private function delete_existing_breakdown_items($rent_break_down_id)
+    {
+         $check = RentBreakDownItem::where(['rent_break_down_id'=>$rent_break_down_id])->get();
+         if(!$check->isEmpty())
+         {
+             RentBreakDownItem::where(['rent_break_down_id'=>$rent_break_down_id])->delete();
+         }
     }
 }

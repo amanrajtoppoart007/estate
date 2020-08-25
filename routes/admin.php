@@ -11,7 +11,11 @@ Route::prefix('accounting')->group(function () {
 Route::prefix("rent-breakdown")->group(function(){
     Route::get('setting', 'Admin\RentBreakDownSettingController@index')->name('setting.rent.breakdown');
     Route::post('store', 'Admin\RentBreakDownController@store')->name('save.rent.breakdown');
+    Route::post('update', 'Admin\RentBreakDownController@update')->name('update.rent.breakdown');
     Route::get('view/{id}', 'Admin\RentBreakDownController@view')->name('view.rent.breakdown');
+    Route::get('print/{id}', 'Admin\RentBreakDownController@print_breakdown')->name('print.rent.breakdown');
+    Route::get('edit/{id}', 'Admin\RentBreakDownController@edit')->name('edit.rent.breakdown');
+
     Route::any('send/breakdown/mail', 'Admin\RentBreakDownController@mail')->name('send.breakdown.mail');
 });
 /*** Tenant Routes ***/
@@ -341,9 +345,13 @@ Route::prefix('contact-request')->group(function () {
 Route::prefix('rent-inquiry')->group(function () {
     Route::get('list', 'Admin\RentEnquiryController@index')->name('rentEnquiry.list');
     Route::get('create/breakdown/{id}', 'Admin\RentEnquiryController@create_breakdown')->name('rentEnquiry.create.breakdown');
+    Route::get('edit/breakdown/{id}', 'Admin\RentEnquiryController@edit_breakdown')->name('rentEnquiry.edit.breakdown');
     Route::get('create', 'Admin\RentEnquiryController@create')->name('rentEnquiry.create');
     Route::post('store', 'Admin\RentEnquiryController@store')->name('rentEnquiry.store');
+    Route::post('update', 'Admin\RentEnquiryController@update')->name('rentEnquiry.update');
     Route::post('fetch', 'Admin\RentEnquiryController@fetch')->name('rentEnquiry.fetch');
+     Route::get('edit/{id}', 'Admin\RentEnquiryController@edit')->name('edit.rentEnquiry');
+    Route::get('view/{id}', 'Admin\RentEnquiryController@view')->name('view.rentEnquiry');
     Route::post('archive', 'Admin\RentEnquiryController@archive')->name('rentEnquiry.archive');
 });
 
