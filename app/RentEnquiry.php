@@ -10,11 +10,16 @@ class RentEnquiry extends Model
     use SoftDeletes;
     protected $guarded = [];
 
-    protected $appends = ['create_tenant_url','country_name','view_rent_breakdown','edit_url','view_url'];
+    protected $appends = ['create_tenant_url','country_name','view_rent_breakdown','edit_url','view_url','create_breakdown_url'];
 
     public function getEditUrlAttribute()
     {
         return route("edit.rentEnquiry",$this->id);
+    }
+
+    public function getCreateBreakdownUrlAttribute()
+    {
+        return route("rentEnquiry.create.breakdown",["id"=>$this->id]);
     }
 
     public function getViewUrlAttribute()

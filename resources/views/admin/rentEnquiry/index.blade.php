@@ -41,7 +41,7 @@
             }
             else
             {
-                return `<a  href="${data.view_rent_breakdown}" data-id="${data.id}" class="btn btn-success"><i class="fa fa-plus text-white"></i> Add</a>`;
+                return `<a  href="${data.create_breakdown_url}" data-id="${data.id}" class="btn btn-success"><i class="fa fa-plus text-white"></i> Add</a>`;
             }
 
         }
