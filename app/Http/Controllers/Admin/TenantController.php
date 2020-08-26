@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\City;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenant;
-use App\Library\CreateTenant;
-use App\Library\CreateTenantProfile;
+use App\Http\Requests\EditTenant;
 use App\Library\CreateTenantRelation;
-use App\Library\UpdateTenant;
-use App\Library\UpdateTenantProfile;
+use App\Library\TenantAction;
 use App\Library\UploadEntityDocs;
 use App\RentEnquiry;
-use DB;
 use App\State;
 use App\Tenant;
 use App\Country;
 use App\DataTable\Api;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use App\PropertyUnitAllotment;
-use App\Http\Controllers\Controller;
 use App\Library\UpdateTenantRelation;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,7 +62,7 @@ class TenantController extends Controller
     public function store(StoreTenant $request)
     {
         $request->validated();
-        $tenant_id = (new CreateTenant())->execute($request);
+        $tenant_id = (new TenantAction())->store_data();
         if($tenant_id)
         {
             if($request->has('request_id'))
@@ -75,10 +72,9 @@ class TenantController extends Controller
             }
             (new UploadEntityDocs($tenant_id,'tenant'))->handle();
 
-            (new CreateTenantProfile())->execute($request,$tenant_id);
             if($request->tenant_type!='bachelor')
             {
-               (new CreateTenantRelation())->execute($tenant_id,$request);
+               (new CreateTenantRelation())->execute($tenant_id);
             }
             if($request->has('next_action'))
             {
@@ -114,14 +110,10 @@ class TenantController extends Controller
 
     public function show($id)
     {
-        $tenant = Tenant::with('documents', 'profile', 'relations')->find($id);
+        $tenant = Tenant::find($id);
         if(!empty($tenant))
         {
-            $data               = array();
-            $data['state']      = State::where('is_disabled', '0')->get();
-            $data['countries']  = Country::where('is_disabled', '0')->get();
-            $data['tenant']     = $tenant;
-            return view('admin.tenant.view')->with($data);
+            return view('admin.tenant.view',compact('tenant'));
         }
         else
         {
@@ -138,7 +130,8 @@ class TenantController extends Controller
 
             $state      = State::where('is_disabled', '0')->get();
             $countries  = Country::where('is_disabled', '0')->get();
-            return view('admin.tenant.edit',compact('state','countries','tenant'));
+            $cities     = City::where(['is_disabled'=>'0'])->get();
+            return view('admin.tenant.edit',compact('state','cities','countries','tenant'));
         }
         else
         {
@@ -146,20 +139,25 @@ class TenantController extends Controller
         }
     }
 
-    public function update(UpdateTenant $request, $id)
+    public function update(EditTenant $request, $id)
     {
         if(!empty($id))
         {
-
-            (new UploadEntityDocs($id,'tenant'))->handle();
-            (new UpdateTenant($id))->execute($request);
-            (new UpdateTenantProfile())->execute($request,$id);
-            if($request->tenant_type!='bachelor')
+            $tenant = Tenant::find($id);
+            if(!empty($tenant))
             {
-               $relations  = new UpdateTenantRelation();
-               $relations->execute($id,$request);
+                (new TenantAction())->update_data();
+                (new UploadEntityDocs($id,'tenant'))->handle();
+                if($request->tenant_type!='bachelor')
+                {
+                   (new UpdateTenantRelation())->execute($id);
+                }
+                $result = ["next_url"=>route('tenant.view',$id),"response"=>"success","status"=>1,"message"=>"Data updated successfully"];
             }
-            $result = ["next_url"=>route('tenant.view',$id),"response"=>"success","status"=>1,"message"=>"Data updated successfully"];
+            else
+            {
+                $result = ["response"=>"error","status"=>0,"message"=>"Invalid request"];
+            }
         }
         else
         {
@@ -174,11 +172,6 @@ class TenantController extends Controller
         //
     }
 
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function changeStatus(Request $request)
     {
         $validator = Validator::make($request->all(), [

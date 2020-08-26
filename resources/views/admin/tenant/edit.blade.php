@@ -1,25 +1,11 @@
 @extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Edit Tenant</h4>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Edit Tenant</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Edit Tenant"])
+
 @section('content')
     <div class="card">
         <div class="card-body">
-          {{Form::open(['route'=>'tenant.store','id'=>'add_data_form','method'=>'post','autocomplete'=>'off'])}}
+          {{Form::open(['id'=>'edit_data_form','method'=>'post','autocomplete'=>'off'])}}
+            <input type="hidden" name="tenant_id" value="{{$tenant->id}}">
              <div class="card card-info">
                 <div class="card-header">
                     <h6>Basic Detail</h6>
@@ -39,14 +25,7 @@
                                          </div>
                                         <select name="tenant_type" id="tenant_type" class="form-control">
                                             <option value="">Select Tenancy</option>
-                                            @php $tenancy  =
-                                              [
-                                                  'family_husband_wife'=>'Family(Husband-Wife)',
-                                                  'family_brother_sister'=>'Family(Brother-Sister)',
-                                                  'company'=>'Company',
-                                                  'bachelor'=>'Bachelor',
-                                              ];
-                                            @endphp
+                                            @php $tenancy  = get_tenancy_types();@endphp
                                             @foreach($tenancy as $key=>$value)
                                                 @php $selected = ($key==$tenant->tenant_type)?'selected':''; @endphp
                                                 <option value="{{$key}}" {{$selected}}>{{$value}}</option>
@@ -132,7 +111,13 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-building"></i></span>
                                          </div>
-                                         <input type="text" name="city" class="form-control" value="{{($tenant->profile)?$tenant->profile->city:null}}">
+                                             <select name="city_id" id="city_id">
+                                                 <option value="">Select City</option>
+                                                 @foreach($cities as $city)
+                                                     @php $selected = ($city->id==$tenant->city_id)?"selected":null; @endphp
+                                                     <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
+                                                 @endforeach
+                                             </select>
                                      </div>
                                     </div>
                                 </div>
@@ -146,7 +131,7 @@
                                              </span>
                                          </div>
                                          <textarea type="text" name="address" id="address" class="form-control">
-                                             {{($tenant->profile)?$tenant->profile->address:null}}
+                                             {{$tenant->address}}
                                          </textarea>
                                      </div>
                                     </div>
@@ -160,7 +145,7 @@
                                                  <i class="fa fa-birthday-cake" aria-hidden="true"></i>
                                              </span>
                                          </div>
-                                         <input type="text" name="dob" id="dob" class="form-control" value="{{($tenant->profile)?$tenant->profile->dob:null}}" placeholder="DD-MM-YY (Optional)">
+                                         <input type="text" name="dob" id="dob" class="form-control" value="{{$tenant->dob ? date('d-m-Y',strtotime($tenant->dob)) : null}}" placeholder="DD-MM-YY (Optional)">
                                      </div>
                                     </div>
                                 </div>
@@ -173,7 +158,7 @@
                                                  <i class="fa fa-calculator" aria-hidden="true"></i>
                                              </span>
                                          </div>
-                                         <input type="text" name="tenant_count" id="tenant_count" class="form-control numeric" placeholder="Enter number of tenants" value="{{($tenant->profile)?$tenant->profile->tenant_count:0}}">
+                                         <input type="text" name="tenant_count" id="tenant_count" class="form-control numeric" placeholder="Enter number of tenants" value="{{$tenant->tenant_count}}">
                                      </div>
                                     </div>
                                 </div>
@@ -181,17 +166,16 @@
                         </div>
                         <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
                             @php
-                                if(!empty($tenant->profile->profile_image))
+                                if(!empty($tenant->profile_image))
                                 {
-                                    $img = route('get.doc',base64_encode($tenant->profile->profile_image));
+                                    $img = route('get.doc',base64_encode($tenant->profile_image));
                                 }
                                 else
                                 {
                                     $img = asset('theme/images/4.png');
                                 }
                             @endphp
-                            <img id="profile_image_grid" src="{{$img}}"
-                                 style="width: 250px;margin-bottom: 10px;" alt="">
+                            <img id="profile_image_grid" src="{{$img}}" style="width: 250px;margin-bottom: 10px;" alt="">
                              <div style="position: absolute;top:211px;right:10px;">
                                 <label class="btn btn-primary mb-0" for="profile_image">
                                     <i class="fa fa-upload" aria-hidden="true"></i>
@@ -206,7 +190,7 @@
                 </div>
             </div>
 @php
-                 $passport = $emirates_id_doc = $visa = $bank_passbook = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
+                 $passport = $no_sharing_agreement = $marriage_certificate = $emirates_id_doc = $visa = $bank_passbook = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
                          if(!$tenant->documents->isEmpty())
                              {
                                  $documents =   extract_doc_keys($tenant->documents,'file_url','document_title','date_key','date_value');
@@ -234,6 +218,16 @@
                                       $poa         = $doc['file_url'];
                                       $poa_exp_date = $doc['date_value'];
                                   }
+                               if($doc['document_title']=='marriage_certificate')
+                                  {
+                                      $marriage_certificate         = $doc['file_url'];
+
+                                  }
+                               if($doc['document_title']=='no_sharing_agreement')
+                                  {
+                                      $no_sharing_agreement         = $doc['file_url'];
+
+                                  }
                           }
                              }
                          if(!empty($emirates_id_doc))
@@ -256,6 +250,14 @@
                        {
                            $bank_passbook = route('get.doc',base64_encode($bank_passbook));
                        }
+                       if(!empty($no_sharing_agreement))
+                       {
+                           $no_sharing_agreement = route('get.doc',base64_encode($no_sharing_agreement));
+                       }
+                       if(!empty($marriage_certificate))
+                       {
+                           $marriage_certificate = route('get.doc',base64_encode($marriage_certificate));
+                       }
                 @endphp
             <div class="card card-info company_extra_detail">
                 <div class="card-header">
@@ -272,7 +274,7 @@
                                           <i class="fa fa-users"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="company_name" id="company_name" value="{{($tenant->profile)?$tenant->profile->company_name:null}}">
+                               <input type="text" class="form-control" name="company_name" id="company_name" value="{{$tenant->company_name}}">
                                </div>
                            </div>
                         </div>
@@ -288,14 +290,14 @@
                                <input type="file" class="form-control" name="trade_licence" id="trade_licence" value="">
                                    @php
                                        $trade_licence = 'javascript:void(0)';
-                                        if(!empty($tenant->profile->trade_lincense))
+                                        if(!empty($tenant->trade_lincense))
                                         {
-                                            $trade_licence = route('get.doc',base64_encode($tenant->profile->trade_lincense));
+                                            $trade_licence = route('get.doc',base64_encode($tenant->trade_lincense));
                                         }
                                    @endphp
                                    <div class="input-group-append">
                                        <span class="input-group-text">
-                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$trade_licence}}" {{($tenant->profile->trade_lincense)?'target=_blank':''}}>
+                                           <a data-toggle="tooltip" title="Click to view the file" href="{{$trade_licence}}" {{($tenant->trade_lincense)?'target=_blank':''}}>
                                                <i class="fa fa-file"></i>
                                            </a>
                                        </span>
@@ -442,7 +444,7 @@
                 </div>
             </div>
 
-            <div class="card card-info extra_relation_detail" {{($tenant->profile->tenant_count>1)?'':'style=display:block'}}>
+            <div class="card card-info extra_relation_detail" {{($tenant->tenant_count>1)?'':'style=display:block'}}>
                 <div class="card-header">
                     <h6 id="extra_relation_detail_title">Family Detail</h6>
                 </div>
@@ -454,7 +456,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Relation/Designation</th>
-                                <th>Amirates Id</th>
+                                <th>Emirates Id</th>
                                 <th>Passport</th>
                                 <th>Visa</th>
                                 <th>add/remove</th>
@@ -566,19 +568,11 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="no_sharing_agreement" id="no_sharing_agreement" value="">
-                                   @php
-                                       $no_sharing_agreement = 'javascript:void(0)';
-                                        if(!empty($tenant->profile->no_sharing_agreement))
-                                        {
-                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->no_sharing_agreement,'doc_url');
 
-                                            $no_sharing_agreement = route('get.doc',base64_encode($doc));
-                                        }
-                                   @endphp
                                    <div class="input-group-append">
                                        <span class="input-group-text">
                                            <a data-toggle="tooltip" title="Click to view the file"
-                                              href="{{$no_sharing_agreement}}" {{($tenant->profile->no_sharing_agreement)?'target=_blank':''}}>
+                                              href="{{$no_sharing_agreement}}" {{($no_sharing_agreement)?'target=_blank':''}}>
                                                <i class="fa fa-file"></i>
                                            </a>
                                        </span>
@@ -596,19 +590,10 @@
                                       </span>
                                   </div>
                                <input type="file" class="form-control" name="marriage_certificate" id="marriage_certificate" value="">
-                                   @php
-                                       $marriage_certificate = 'javascript:void(0)';
-                                        if(!empty($tenant->profile->marriage_certificate))
-                                        {
-                                            $doc = pluck_single_value('tenant_documents','id',$tenant->profile->marriage_certificate,'doc_url');
-
-                                            $marriage_certificate = route('get.doc',base64_encode($doc));
-                                        }
-                                   @endphp
                                    <div class="input-group-append">
                                        <span class="input-group-text">
                                            <a data-toggle="tooltip" title="Click to view the file"
-                                              href="{{$marriage_certificate}}" {{($tenant->profile->marriage_certificate)?'target=_blank':''}}>
+                                              href="{{$marriage_certificate}}" {{($marriage_certificate)?'target=_blank':''}}>
                                                <i class="fa fa-file"></i>
                                            </a>
                                        </span>
@@ -622,7 +607,6 @@
                 <div class="form-group text-right">
                     <button class="btn btn-primary">Save</button>
                 </div>
-
         {{Form::close()}}
         </div>
     </div>
@@ -716,7 +700,7 @@
 
 				}
         }
-     $('#add_data_form').on("submit",function(e){
+     $('#edit_data_form').on("submit",function(e){
 	  e.preventDefault();
 
       let params = new FormData($(this)[0]);
@@ -729,7 +713,7 @@
       }
       function fn_error(result)
       {
-             if(result.response=='validation_error')
+             if(result.response==='validation_error')
             {
                 toast('error', result.message, 'bottom-right');
             }
@@ -742,7 +726,7 @@
   });
   function render_family_detail_form()
 {
-	var str = `<tr><td>#</td>
+	let str = `<tr><td>#</td>
     <td> <input type="text" class="form-control" name="rel_name[]" value=""> </td>
     <td><input type="text" class="form-control" name="rel_relationship[]" value=""></td>
     <td><input type="file" class="form-control" name="rel_emirates_id[]"></td>
