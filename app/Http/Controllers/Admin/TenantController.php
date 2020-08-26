@@ -128,10 +128,10 @@ class TenantController extends Controller
         if(!empty($tenant))
         {
 
-            $state      = State::where('is_disabled', '0')->get();
+            $states      = State::where('is_disabled', '0')->get();
             $countries  = Country::where('is_disabled', '0')->get();
             $cities     = City::where(['is_disabled'=>'0'])->get();
-            return view('admin.tenant.edit',compact('state','cities','countries','tenant'));
+            return view('admin.tenant.edit',compact('states','cities','countries','tenant'));
         }
         else
         {

@@ -89,12 +89,12 @@
                                 </div>
                                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="country">Nationality <span class="text-danger">*</span></label>
+                                        <label for="country_id">Nationality <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                          </div>
-                                             <select name="country" id="country" class="form-control">
+                                             <select name="country_id" id="country_id" class="form-control">
                                                  <option>Select Country</option>
                                                  @foreach($countries as $country)
                                                           @php $selected = ($tenant->country->code==$country->code)?'selected':''; @endphp
@@ -106,12 +106,29 @@
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="city">City <span class="text-danger">*</span></label>
+                                        <label for="state_id">State <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-building"></i></span>
                                          </div>
-                                             <select name="city_id" id="city_id">
+                                             <select class="form-control" name="state_id" id="state_id">
+                                                 <option value="">Select State</option>
+                                                 @foreach($states as $state)
+                                                     @php $selected = ($state->id==$tenant->state_id)?"selected":null; @endphp
+                                                     <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
+                                                 @endforeach
+                                             </select>
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="city_id">City <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                         </div>
+                                             <select class="form-control" name="city_id" id="city_id">
                                                  <option value="">Select City</option>
                                                  @foreach($cities as $city)
                                                      @php $selected = ($city->id==$tenant->city_id)?"selected":null; @endphp
