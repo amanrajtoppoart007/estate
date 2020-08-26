@@ -50,7 +50,7 @@
                       <th>Tenancy Type</th>
                       <td>{{($tenant->tenant_type)?ucwords(str_replace("_"," ",$tenant->tenant_type)):''}}</td>
                       <th>Number Of Tenants</th>
-                      <td>{{($tenant->profile)?($tenant->profile->tenant_count):'1'}}</td>
+                      <td>{{($tenant->tenant_count)?$tenant->tenant_count:1}}</td>
                     </tr>
                     <tr>
                       <th>Mobile Number</th>

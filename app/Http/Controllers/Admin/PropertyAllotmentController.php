@@ -38,7 +38,7 @@ class PropertyAllotmentController extends Controller
         {
             $property_unit  = null;
             $cities         = [];
-            $tenant = Tenant::with('profile','relations')->where(['id'=>$id])->first();
+            $tenant = Tenant::with('relations')->where(['id'=>$id])->first();
             $properties = Property::where(['is_disabled'=>'0'])->get();
             $states     = State::where(['is_disabled'=>'0'])->get();
             $cities = City::where(['is_disabled'=>'0'])->get();
