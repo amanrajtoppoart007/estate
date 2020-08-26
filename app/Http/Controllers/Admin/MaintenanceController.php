@@ -78,7 +78,7 @@ class MaintenanceController extends Controller
                   $file_type     = 'image';
                   $archive_id   = $order->id;
                   $archive_type = 'maintenance';
-                  $documents     = GlobalHelper::multipleDocumentUpload($request,$disk,'images','maintenance');
+                  $documents     = GlobalHelper::multipleDocumentUpload($disk,'images','maintenance');
                   foreach($documents as $document)
                   {
                       $doc['disk']          = $disk;
@@ -116,7 +116,7 @@ class MaintenanceController extends Controller
         }
         else
         {
-            show_error();
+            return view("blank")->with(["msg"=>"Invalid Detail"]);
         }
     }
 

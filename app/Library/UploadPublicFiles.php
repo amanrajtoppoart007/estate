@@ -4,14 +4,14 @@ class UploadPublicFiles
 {
 
 
-    public static function handle($request,$unique_key,$name,$path)
+    public static function handle($unique_key,$name,$path)
     {
         $upload = null;
         try {
 
-            if ($request->hasfile("$name"))
+            if (request()->hasfile("$name"))
             {
-                $file = $request->file("$name");
+                $file = request()->file("$name");
                     if($file->isValid())
                     {
                         $path = "/uploads/images/$path/" .'FOLDER'.$unique_key . "/";
@@ -22,7 +22,7 @@ class UploadPublicFiles
                         }
                         ini_set('memory_limit', '256M');
                         $ext = $file->extension();
-                        $upload = $image = 'FILE' . time() . rand(1000, 9999) . '.' . $ext;
+                        $image = 'FILE' . time() . rand(1000, 9999) . '.' . $ext;
                         $file->move($full_path, $image);
                         $upload = $path.$image;
                     }
@@ -30,7 +30,7 @@ class UploadPublicFiles
         }
         catch (\Exception $exception)
         {
-          return $upload;
+          return false;
         }
         return $upload;
     }

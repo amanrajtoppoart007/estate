@@ -25,7 +25,7 @@ class CreateAuthorisedPerson {
              $store['authority_type'] = $this->authority_type;
              if(request()->hasFile("auth_person_image"))
              {
-               $store["image"]  = GlobalHelper::singleFileUpload(request(), 'local', 'auth_person_image', 'agent/auth_persons');
+               $store["image"]  = GlobalHelper::singleFileUpload( 'local', 'auth_person_image', 'agent/auth_persons');
              }
              if($model = AuthorisedPerson::create($store))
              {

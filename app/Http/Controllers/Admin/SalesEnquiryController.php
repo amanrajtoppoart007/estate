@@ -8,7 +8,6 @@ use App\Country;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\SalesEnquiry;
-use Illuminate\Http\FileHelpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -78,22 +77,22 @@ class SalesEnquiryController extends Controller
              $folder = "enquiries/sales/$mobile";
              if($request->hasFile('photo'))
              {
-                 $store['photo']  = GlobalHelper::singleFileUpload($request,'local','photo',$folder);
+                 $store['photo']  = GlobalHelper::singleFileUpload('local','photo',$folder);
              }
              if($request->hasFile('passport'))
              {
-                 $store['passport']  = GlobalHelper::singleFileUpload($request,'local','passport',$folder);
+                 $store['passport']  = GlobalHelper::singleFileUpload('local','passport',$folder);
                  $store['passport_exp_date']  = date('Y-m-d',strtotime($request->passport_exp_date));
              }
              if($request->hasFile('visa'))
              {
-                 $store['visa']  = GlobalHelper::singleFileUpload($request,'local','visa',$folder);
+                 $store['visa']  = GlobalHelper::singleFileUpload('local','visa',$folder);
                  $store['visa_exp_date']  = date('Y-m-d',strtotime($request->visa_exp_date));
              }
 
               if($request->hasFile('emirates_id'))
              {
-                 $store['emirates_id_doc']  = GlobalHelper::singleFileUpload($request,'local','emirates_id_doc',$folder);
+                 $store['emirates_id_doc']  = GlobalHelper::singleFileUpload('local','emirates_id_doc',$folder);
                  $store['emirates_exp_date']  = date('Y-m-d',strtotime($request->emirates_exp_date));
              }
 

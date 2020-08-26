@@ -5,23 +5,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Property;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
+
 class AdminCommonController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware('auth:admin');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
 
 public function checkcode($code)
 {
@@ -43,7 +37,7 @@ public function checkcode($code)
 }
     public function generate_property_code(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'state_id' => 'required',
             'city_id' => 'required',
         ]);

@@ -95,7 +95,7 @@ class RentEnquiryController extends Controller
              {
                  $mobile = $request->mobile;
                  $folder = "enquiries/rent/$mobile";
-                 $store['photo']  = GlobalHelper::singleFileUpload($request,'public','photo',$folder);
+                 $store['photo']  = GlobalHelper::singleFileUpload('public','photo',$folder);
              }
              if(!empty($request->source))
              {
@@ -151,7 +151,7 @@ class RentEnquiryController extends Controller
              {
                  $mobile = $request->mobile;
                  $folder = "enquiries/rent/$mobile";
-                 $update['photo']  = GlobalHelper::singleFileUpload($request,'public','photo',$folder);
+                 $update['photo']  = GlobalHelper::singleFileUpload('public','photo',$folder);
              }
              if(!empty($request->source))
              {

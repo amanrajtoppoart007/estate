@@ -17,7 +17,7 @@ class UploadTenantDoc
         $admin_id        = Auth::guard('admin')->user()->id;
         $folder          = 'tenant/'.Str::studly(strtolower($request->tenant_name));
         $uploads         = array('last_sewa_id','marriage_certificate','no_sharing_agreement','trade_license');
-        $files           = GlobalHelper::multiStepFileUpload($request,'local',$uploads,$folder);
+        $files           = GlobalHelper::multiStepFileUpload('local',$uploads,$folder);
         $return          = array();
         foreach ($files as $file)
         {

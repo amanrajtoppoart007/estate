@@ -49,11 +49,11 @@ Route::prefix('allot-property')->group(function () {
     Route::post('allot/property', 'Admin\PropertyAllotmentController@allotProperty')->name('allot.property');
     Route::get('renewal-breakdown/{id}', 'Admin\PropertyAllotmentController@renewal_break_down')->name('tenancy.renew.breakdown');
     Route::post('fetch-renewal', 'Admin\TenantController@fetch_renewal')->name('tenant.renewal.fetch');
-    Route::post('breakdown-save-send', 'Admin\PropertyAllotmentController@teanancy_breakdown_save_send')->name('tenancy.breakdown.save.send');
+    Route::post('breakdown-save-send', 'Admin\PropertyAllotmentController@tenancy_breakdown_save_send')->name('tenancy.breakdown.save.send');
     Route::post('renewal-tenancy', 'Admin\PropertyAllotmentController@renewTenancy')->name('tenancy.renewal.post');
     Route::get('renewal-tenancy-breakdown-pdf/{breakdown}', 'Admin\PropertyAllotmentController@breakdown_pdf_view')->name('renewal.breakdown.pdf');
     Route::post('store-evict', 'Admin\PropertyAllotmentController@store_eviction')->name('store.eviction');
-    Route::post('store-moveout', 'Admin\PropertyAllotmentController@store_moveout')->name('store.moveout');
+    Route::post('store-moveout', 'Admin\PropertyAllotmentController@store_move_out')->name('store.moveout');
     Route::post('fetch-all-remove-req', 'Admin\PropertyAllotmentController@fetch_all_removal_req')->name('fetch.remove.req');
     Route::post('update-remove-req', 'Admin\PropertyAllotmentController@store_remove_action')->name('update.remove.actions');
 

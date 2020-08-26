@@ -5,16 +5,15 @@ use Illuminate\Http\Request;
 use App\Tenant;
 class CreateTenant
 {
-   
-   public function execute(Request $request)
+
+   public function execute()
    {
-        $params['name'] = $request->tenant_name;
-        $params['email'] = $request->email;
-        $params['mobile'] = $request->mobile;
-        $params['tenant_type'] = $request->tenant_type;
-        $params['country_id'] = $request->country;
-        $params['password'] = Hash::make($request->password);
-        if($tenant = Tenant::create($params))
+        $store = request()->only(["tenant_name","email","mobile","tenant_type","country_id","state_id","city_id"]);
+        if(request()->has("password"))
+        {
+            $store['password'] = Hash::make(request()->password);
+        }
+        if($tenant = Tenant::create($store))
         {
            return $tenant->id;
         }

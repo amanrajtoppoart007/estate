@@ -27,21 +27,21 @@ class EditOwnerAuthPerson
         $params['designation'] = ($this->request->auth_person_designation) ? $this->request->auth_person_designation : null;
         if($this->request->hasFile('auth_person_emirates_id_doc'))
         {
-            $params['emirates_id'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_emirates_id_doc', 'owner/auth_persons');
+            $params['emirates_id'] = GlobalHelper::singleFileUpload( 'local', 'auth_person_emirates_id_doc', 'owner/auth_persons');
         }
 
         if($this->request->hasFile('auth_person_passport'))
         {
-            $params['passport'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_passport', 'owner/auth_persons');
+            $params['passport'] = GlobalHelper::singleFileUpload( 'local', 'auth_person_passport', 'owner/auth_persons');
         }
         if($this->request->hasFile('auth_person_visa'))
         {
-            $params['visa'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_visa', 'owner/auth_persons');
+            $params['visa'] = GlobalHelper::singleFileUpload( 'local', 'auth_person_visa', 'owner/auth_persons');
         }
 
        if($this->request->hasFile('auth_person_power_of_attorney'))
         {
-            $params['poa'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_power_of_attorney', 'owner/auth_persons');
+            $params['poa'] = GlobalHelper::singleFileUpload( 'local', 'auth_person_power_of_attorney', 'owner/auth_persons');
         }
 
         $params['admin_id'] = $this->admin_id;

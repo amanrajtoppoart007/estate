@@ -638,6 +638,13 @@
 <script>
     $(document).ready(function(){
 
+        $("#country_id").on("change",function(){
+            $.get_state_list($("#country_id"),$("#state_id"));
+        });
+        $("#state_id").on("change",function(){
+            $.get_state_list($("#state_id"),$("#city_id"));
+        });
+
         function applied_class_hide(elements)
         {
             elements.forEach(function(item){

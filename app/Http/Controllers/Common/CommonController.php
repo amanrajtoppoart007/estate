@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\City;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CountryRequest;
 use App\Http\Resources\PropertyUnitResource;
 use App\PropertyUnit;
 use Illuminate\Http\Request;
@@ -57,6 +59,21 @@ class CommonController extends Controller
         else
         {
            $result = ['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()];
+        }
+        return response()->json($result,200);
+    }
+
+    public function get_country_city_list(CountryRequest $request)
+    {
+        $request->validated();
+        $cities = City::where(['country_id'=>$request->country_id])->get();
+        if(!$cities->isEmpty())
+        {
+            $result = ["status"=>1,"response"=>"success","data"=>$cities,"message"=>"Data found"];
+        }
+        else
+        {
+            $result = ["status"=>0,"response"=>"error","message"=>"Data not found"];
         }
         return response()->json($result,200);
     }

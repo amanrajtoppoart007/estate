@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StoreTenant;
 use App\Library\CreateTenant;
 use App\Library\CreateTenantProfile;
 use App\Library\CreateTenantRelation;
 use App\Library\UpdateTenant;
-use App\Library\UpdateTenantDoc;
 use App\Library\UpdateTenantProfile;
 use App\Library\UploadEntityDocs;
-use App\Library\UploadTenantDoc;
 use App\RentEnquiry;
 use DB;
 use App\State;
@@ -63,7 +62,7 @@ class TenantController extends Controller
     }
 
 
-    public function store(\App\Http\Requests\StoreTenant $request)
+    public function store(StoreTenant $request)
     {
         $request->validated();
         $tenant_id = (new CreateTenant())->execute($request);
@@ -147,7 +146,7 @@ class TenantController extends Controller
         }
     }
 
-    public function update(\App\Http\Requests\UpdateTenant $request, $id)
+    public function update(UpdateTenant $request, $id)
     {
         if(!empty($id))
         {

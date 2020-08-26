@@ -20,7 +20,7 @@ class CreateTenantProfile
         $input['tenant_id']        = $tenant_id;
         $input['admin_id']         = Auth::guard('admin')->user()->id;
         $folder                    = Str::studly(strtolower($request->tenant_name));
-        $input['profile_image']    = GlobalHelper::singleFileUpload($request,'local','profile_image',"tenant/$folder");
+        $input['profile_image']    = GlobalHelper::singleFileUpload('local','profile_image',"tenant/$folder");
 
         if($profile = TenantProfile::create($input))
         {

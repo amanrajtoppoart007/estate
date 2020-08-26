@@ -112,12 +112,12 @@
                                 </div>
                                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="country">Nationality <span class="text-danger">*</span></label>
+                                        <label for="country_id">Nationality <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                          </div>
-                                             <select name="country" id="country" class="form-control">
+                                             <select name="country_id" id="country_id" class="form-control">
                                                  <option>Select Country</option>
                                                  @foreach($countries as $country)
                                                      @php  $selected = ($country->code==($user ? $user->country_code: null))?"selected":""; @endphp
@@ -127,14 +127,30 @@
                                      </div>
                                     </div>
                                 </div>
+
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="city">City <span class="text-danger">*</span></label>
+                                        <label for="state_id">State <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                         </div>
+                                             <select name="state_id" id="state_id" class="form-control">
+                                             </select>
+                                     </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="city_id">City <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-building"></i></span>
                                          </div>
-                                         <input type="text" name="city" class="form-control" value="">
+                                         <select  id="city_id" name="city_id" class="form-control">
+                                             <option value="">Select City</option>
+                                         </select>
                                      </div>
                                     </div>
                                 </div>
@@ -442,6 +458,13 @@
 @section('script')
 <script>
     $(document).ready(function(){
+
+        $("#country_id").on("change",function(){
+            $.get_state_list($("#country_id"),$("#state_id"));
+        });
+        $("#state_id").on("change",function(){
+            $.get_state_list($("#state_id"),$("#city_id"));
+        });
 
         @php
          if(!empty($user))

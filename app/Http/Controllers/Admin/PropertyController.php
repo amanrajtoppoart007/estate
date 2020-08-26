@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Library\CreatePropertyCode;
+use App\Library\StorePropertyUnitTypes;
+use App\Library\UpdatePropertyUnitTypes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProperty;
@@ -60,15 +63,14 @@ class PropertyController extends Controller
         $features             = array_values($request->input('feature'));
         $insert['feature']    = implode(',', $features);
         $insert['admin_id']   = $admin_id = Auth::guard('admin')->user()->id;
-        $propcode             = new \App\Library\CreatePropertyCode();
-        $insert['propcode']   = $propcode = $propcode->generate_property_code($request->all());
+        $insert['propcode']   = $propcode = (new CreatePropertyCode())->generate_property_code($request->all());
         $property             = Property::create($insert);
         if($property)
         {
             $images          =  new CreatePropertyImage($property->id,$propcode);
             $images->execute($request);
 
-            $prop_unit         = new \App\Library\StorePropertyUnitTypes($property->id,$admin_id);
+            $prop_unit         = new StorePropertyUnitTypes($property->id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $propcode;
             $prop_unit->handle($request,$input);
@@ -133,7 +135,7 @@ class PropertyController extends Controller
         $update['admin_id']   = $admin_id   = Auth::guard('admin')->user()->id;
         if(Property::where(['id'=>$id])->update($update))
         {
-            $action            = new \App\Library\UpdatePropertyUnitTypes($id,$admin_id);
+            $action            = new UpdatePropertyUnitTypes($id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $request->propcode;
             $action->handle($request,$input);
@@ -181,7 +183,7 @@ class PropertyController extends Controller
         $data = array();
         return view('admin.property.setting')->with($data);
     }
-    /********** active inactive model intance    ****************/
+    /********** active inactive model instance    ****************/
      public function changeStatus(Request $request)
     {
         $validator = Validator::make($request->all(), [

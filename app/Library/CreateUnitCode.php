@@ -25,14 +25,13 @@ class CreateUnitCode
     public function get_unit_code($counter)
     {
          $code     = $this->propcode.'U'.$this->sequence.$counter;
-         
+
          if(!$this->check_unitcode($code))
          {
             return $code;
          }
          else
          {
-             dd('code  exist'.$code);
              return $this->get_unit_code(intval($counter)+1);
          }
     }
@@ -46,7 +45,7 @@ class CreateUnitCode
         {
             return $this->get_unit_code($this->get_unit_counter());
         }
-         
+
     }
-    
+
 }

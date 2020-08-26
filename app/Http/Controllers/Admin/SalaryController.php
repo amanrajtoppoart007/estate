@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Employee;
 use Carbon\Carbon;
 use App\SalarySheet;
 use App\SalarySheetDetail;
-use Auth;
+
 use Excel;
 use App\Exports\WpsSheetExports;
 use \App\Library\CreateSalarySheet;
@@ -21,20 +21,12 @@ class SalaryController extends Controller
         $count = SalarySheet::count();
         return 'AH'.str_pad(($count+1),6, '0', STR_PAD_LEFT);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('admin.salary.index');
     }
-    /**
-     * fetch data from salary sheet model
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function fetch(Request $request)
     {
         $model = new SalarySheet();
@@ -50,12 +42,12 @@ class SalaryController extends Controller
                 $data              = $createSalarySheet->execute();
                 return view('admin.salary.create_salary_sheet',compact('data'));
         }
-        else 
+        else
         {
             return view('admin.salary.search_employee');
         }
-         
-        
+
+
     }
 
     public function generateSalarySheet(Request $request)
@@ -74,15 +66,15 @@ class SalaryController extends Controller
             'variable_pay.*'  => 'numeric',
             'total_salary_ind.*'  => 'required|numeric',
             'start_date'  => 'required',
-            'end_date'  => 'required',   
+            'end_date'  => 'required',
         ]);
         $validator->after(function ($validator) use($request){
-            if($this->checkFutureDates($request)) 
+            if($this->checkFutureDates($request))
             {
                 $validator->errors()->add('exists', 'Future dates are not allowed');
                 return true;
             }
-            if($this->checkSalarySheetExists($request)) 
+            if($this->checkSalarySheetExists($request))
             {
                 $validator->errors()->add('exists', 'Salary Sheet for this period allready exist');
             }
@@ -106,7 +98,7 @@ class SalaryController extends Controller
             {
                 for($i=0;count($request->employee_id)>$i;$i++)
                 {
-                     
+
                         $details['employee_id']=$request->employee_id[$i];
                         $details['department_id']=$request->department_id[$i];
                         $details['designation_id']=$request->designation_id[$i];
@@ -118,21 +110,21 @@ class SalaryController extends Controller
                         $details['fixed_salary']=$request->fixed_salary[$i];
                         $details['fixed_pay']=$request->fixed_pay[$i];
                         $details['variable_pay']=$request->variable_pay[$i];
-                        $details['total_salary_ind']=$request->total_salary_ind[$i];  
+                        $details['total_salary_ind']=$request->total_salary_ind[$i];
                         $details['sheet_id'] = $sheet->id;
                         $details['start_date'] = date('Y-m-d',strtotime($request->start_date));
                         $details['end_date']   = date('Y-m-d',strtotime($request->end_date));
                         $details['status']     = 0;
                         SalarySheetDetail::create($details);
                 }
-                
+
               return response()->json(['status'=>'1','response' => 'success', 'message' => 'Salary sheet successfully created'],200);
             }
             else
             {
                 return response()->json(['status'=>'1','response' => 'success', 'message' => 'Salary sheet creation failed'],200);
             }
-           
+
         }
         else
         {
@@ -158,34 +150,20 @@ class SalaryController extends Controller
        }
        return false;
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function exportWpsSheet($id) 
+
+    public function exportWpsSheet($id)
     {
         $date = date('Y-m-d');
         return Excel::download(new WpsSheetExports($id), "wps_sheets_$date.xlsx");
@@ -196,29 +174,18 @@ class SalaryController extends Controller
         return view('admin.salary.view@wps-sheet',\compact('salary_sheet'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function editSalarySheet($id)
     {
         $salary_sheet = SalarySheet::find($id);
-        if(empty($salary_sheet->salary_sheet_details[0])) 
+        if(empty($salary_sheet->salary_sheet_details[0]))
         {
             return redirect()->back();
         }
         return view('admin.salary.edit@salary-sheet',\compact('salary_sheet'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function updateSalarySheet(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -237,9 +204,9 @@ class SalaryController extends Controller
             'variable_pay.*'  => 'numeric',
             'total_salary_ind.*'  => 'required|numeric',
             'start_date'  => 'required',
-            'end_date'  => 'required',   
+            'end_date'  => 'required',
         ]);
-        
+
         if(!$validator->fails())
         {
             $salary_sheet['admin_id']   = Auth::guard('admin')->user()->id;
@@ -262,14 +229,14 @@ class SalaryController extends Controller
                     $details['total_salary_ind']=floatval($request->total_salary_ind[$i]);
                     SalarySheetDetail::where(['id'=>$request->salary_sheet_detail_id[$i]])->update($details);
                 }
-                
+
               return response()->json(['status'=>'1','response' => 'success', 'message' => 'Salary sheet updated successfully'],200);
             }
             else
             {
                 return response()->json(['status'=>'1','response' => 'success', 'message' => 'Salary sheet updation failed'],200);
             }
-           
+
         }
         else
         {
@@ -277,12 +244,7 @@ class SalaryController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
