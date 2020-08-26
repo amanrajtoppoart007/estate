@@ -59,12 +59,12 @@
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="tenant_name">Tenant Name <span class="text-danger">*</span></label>
+                                        <label for="name">Tenant Name <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
                                          </div>
-                                        <input class="form-control" name="tenant_name" id="tenant_name" type="text"  value="{{$user ? $user->name : null}}" autocomplete="off">
+                                        <input class="form-control" name="name" id="name" type="text"  value="{{$user ? $user->name : null}}" autocomplete="off">
                                      </div>
 
                                     </div>

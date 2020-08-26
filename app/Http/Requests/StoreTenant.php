@@ -34,7 +34,7 @@ class StoreTenant extends FormRequest
             'state_id'=>'required|numeric',
             'city_id'=>'required|numeric',
             'address'=>'required',
-            'tenant_name'=>'required|unique:tenants,name',
+            'name'=>'required|unique:tenants,name',
             'email'=>'required|email|unique:tenants,email',
             'mobile'=>'required|numeric|digits:10|unique:tenants,email',
             'passport'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',

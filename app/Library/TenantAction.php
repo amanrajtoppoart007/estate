@@ -11,14 +11,14 @@ class TenantAction
 
    public function data()
    {
-        $store = request()->only(["tenant_name","email","mobile","tenant_type","country_id","state_id","city_id"]);
+        $store = request()->only(["name","email","mobile","tenant_type","country_id","state_id","city_id"]);
         if(request()->has("password"))
         {
             $store['password'] = Hash::make(request()->password);
         }
         if(request()->has("profile_image"))
         {
-            $folder = Str::studly(request()-tenant_name);
+            $folder = Str::studly(request()->name);
             $store['profile_image'] = GlobalHelper::singleFileUpload('local','photo',"owners/$folder");
         }
         return $store;

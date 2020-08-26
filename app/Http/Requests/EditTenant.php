@@ -30,10 +30,11 @@ class EditTenant extends FormRequest
 
         $validate = [
             'tenant_type'=>'required',
-            'country'=>'required|numeric',
-            'city'=>'required',
+            'country_id'=>'required|numeric',
+            'state_id'=>'required|numeric',
+            'city_id'=>'required|numeric',
             'address'=>'required',
-            'tenant_name'=>'required',
+            'name'=>'required',
             'email'=>'required|email',
             'mobile'=>'required|numeric|digits:10',
             'passport'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
