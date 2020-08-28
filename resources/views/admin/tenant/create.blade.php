@@ -235,14 +235,14 @@
                         </div>
                         <div class="col-12 col-sm-6 com-md-3 col-lg-3 col-xl-3">
                             <div class="form-group">
-                               <label for="trade_licence">Trade Certificate</label>
+                               <label for="trade_license">Trade Certificate</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
                                           <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
-                               <input type="file" class="form-control" name="trade_licence" id="trade_licence" value="">
+                               <input type="file" class="form-control" name="trade_license" id="trade_license" value="">
                                </div>
                            </div>
                         </div>

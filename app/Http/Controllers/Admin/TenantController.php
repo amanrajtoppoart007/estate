@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\City;
+use App\Library\CreateTenantCode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenant;
@@ -65,6 +66,9 @@ class TenantController extends Controller
         $tenant_id = (new TenantAction())->store_data();
         if($tenant_id)
         {
+            $tenant = Tenant::find($tenant_id);
+            $tenant->tenant_code = (new CreateTenantCode())->handle();
+            $tenant->save();
             if($request->has('request_id'))
             {
                 $request_id = base64_decode($request->request_id);

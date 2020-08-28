@@ -16,15 +16,14 @@
 
         return words.join(' ');
     };
-    $.isEmpty = function isEmpty(obj)
-    {
-          for(let prop in obj) {
-            if(obj.hasOwnProperty(prop)) {
-              return false;
+    $.isEmpty = function isEmpty(obj) {
+        for (let prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                return false;
             }
-          }
-          return JSON.stringify(obj) === JSON.stringify({});
-        };
+        }
+        return JSON.stringify(obj) === JSON.stringify({});
+    };
     toast = function (icon, msg, placement) {
         $.toast({
             heading: $.ucfirst(icon),
@@ -52,29 +51,9 @@
 $(document).ready(function () {
     $(".numeric").keydown(function (e) {
         let numeric = $(this);
-        if (numeric.val().length < 10) {
-            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                // Allow: Ctrl+A, Command+A
-                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                // Allow: home, end, left, right, down, up
-                (e.keyCode >= 35 && e.keyCode <= 40)) {
-                // let it happen, don't do anything
-                return;
-            }
-        }
-        else {
-
-            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                // Allow: Ctrl+A, Command+A
-                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                // Allow: home, end, left, right, down, up
-                (e.keyCode >= 35 && e.keyCode <= 40)) {
-                // let it happen, don't do anything
-                return;
-            }
+        if (numeric.val().length > 10) {
             e.preventDefault();
         }
-        // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
@@ -88,21 +67,33 @@ $(document).ready(function () {
             e.preventDefault();
         }
     });
-});
 
-$(document).ready(function () {
     $(window).on("resize", function (e) {
         checkScreenSize();
     });
 
+    $(document).on("change", 'input[type="file"]', function (e) {
+        let file = e.target.files;
+            if (file.length)
+            {
+
+                $(this).addClass('is-valid');
+            }
+            else
+            {
+                $(this).removeClass('is-valid');
+            }
+    });
+
     checkScreenSize();
 
-    function checkScreenSize(){
+    function checkScreenSize() {
         let newWindowWidth = $(window).width();
         if (newWindowWidth < 380) {
-            $(".filter-anchor").on("click", function(){
+            $(".filter-anchor").on("click", function () {
                 $(".filter-tab").toggle();
             });
         }
     }
+
 });

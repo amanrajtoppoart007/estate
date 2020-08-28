@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', 'Guest\GuestController@index');
+Route::get('/buy', 'Guest\GuestController@buy');
 Route::post('/bookingRequest/store', 'Guest\BookingRequestController@store')->name('bookingRequest.store');
 Route::post('get/property/listing/map', 'Guest\SearchController@map_search_api')->name('get.property.listing.map');
 Route::post('search/property/listing', 'Guest\SearchController@web_api_search')->name('search.property.listing');

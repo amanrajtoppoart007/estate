@@ -207,7 +207,7 @@
                 </div>
             </div>
 @php
-                 $passport = $no_sharing_agreement = $marriage_certificate = $emirates_id_doc = $visa = $bank_passbook = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
+                 $passport = $no_sharing_agreement = $trade_license = $trade_license_exp_date = $marriage_certificate = $emirates_id_doc = $visa = $bank_passbook = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
                          if(!$tenant->documents->isEmpty())
                              {
                                  $documents =   extract_doc_keys($tenant->documents,'file_url','document_title','date_key','date_value');
@@ -243,6 +243,12 @@
                                if($doc['document_title']=='no_sharing_agreement')
                                   {
                                       $no_sharing_agreement         = $doc['file_url'];
+
+                                  }
+                                if($doc['document_title']=='trade_license')
+                                  {
+                                      $trade_license         = $doc['file_url'];
+                                      $trade_license_exp_date = $doc['date_value'] ? date('d-m-Y',strtotime($doc['date_value'])) : null;
 
                                   }
                           }
@@ -319,6 +325,19 @@
                                            </a>
                                        </span>
                                    </div>
+                               </div>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6 com-md-3 col-lg-3 col-xl-3">
+                            <div class="form-group">
+                               <label for="trade_license_exp_date">Trade Certificate Expiry Date</label>
+                               <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fa fa-file" aria-hidden="true"></i>
+                                      </span>
+                                  </div>
+                               <input type="text" class="form-control" name="trade_license_exp_date" id="trade_license_exp_date" value="{{$trade_license_exp_date}}">
                                </div>
                            </div>
                         </div>

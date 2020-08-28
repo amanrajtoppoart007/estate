@@ -46,6 +46,7 @@ class EditTenant extends FormRequest
         {
             $validate['company_name'] = 'required';
             $validate['trade_license'] = 'mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            $validate['trade_license_exp_date'] = 'required|date';
             $validate['tenant_count'] = 'required|numeric';
         }
         else if($request['tenant_type']=='family_husband_wife')

@@ -9,7 +9,7 @@
 	}
 
 	@media screen and (min-width: 250px) and (max-width: 768px) {
-        
+
     }
 </style>
 

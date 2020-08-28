@@ -77,7 +77,7 @@ class UploadEntityDocs
                 ,
                 [
                     'document_title'=>'trade_license',
-                    'date_params'=>['ISSUE_DATE','trade_license_issue_date']
+                    'date_params'=>['ISSUE_DATE','trade_license_exp_date']
                 ]
             );
         }

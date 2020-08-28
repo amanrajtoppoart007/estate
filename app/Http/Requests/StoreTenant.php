@@ -46,6 +46,7 @@ class StoreTenant extends FormRequest
         {
             $validate['company_name'] = 'required';
             $validate['trade_license'] = 'required|mimes:jpeg,jpg,png,pdf|max:10000';
+            $validate['trade_license_exp_date'] = 'required|date';
             $validate['tenant_count'] = 'required|numeric';
         }
         else if($request['tenant_type']=='family_husband_wife')
@@ -54,7 +55,7 @@ class StoreTenant extends FormRequest
             $validate['tenant_count'] = 'required|numeric';
             $validate['rel_name.*'] = 'required';
             $validate['rel_relationship.*'] = 'required';
-            $validate['rel_amirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            $validate['rel_emirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
             $validate['rel_passport.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
             $validate['rel_visa.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
         }
@@ -63,7 +64,7 @@ class StoreTenant extends FormRequest
             $validate['tenant_count'] = 'required|numeric';
             $validate['rel_name.*'] = 'required';
             $validate['rel_relationship.*'] = 'required';
-            $validate['rel_amirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            $validate['rel_emirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
             $validate['rel_passport.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
             $validate['rel_visa.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
         }

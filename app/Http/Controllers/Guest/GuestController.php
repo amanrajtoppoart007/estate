@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Guest;
 
 use App\State;
 use App\Feature;
-use App\Slider; 
+use App\Slider;
 use App\Property;
 use App\PropertyType;
 use App\PropertyUnitType;
@@ -30,7 +30,7 @@ class GuestController extends Controller
            $query->whereNotNull('propcode')->where(['is_disabled'=>'0']);
         })->limit(20)->inRandomOrder()->get();
         $propertyUnitTypes = $view->execute($propertyUnitTypes);
-        $features      = Feature::where('is_disabled','0')->orderBy('created_at','DESC')->get(); 
+        $features      = Feature::where('is_disabled','0')->orderBy('created_at','DESC')->get();
         $states        = State::withCount('properties')->where('is_disabled','0')->inRandomOrder()->limit(8)->get();
         $all_states    = State::withCount('properties')->where('is_disabled','0')->get();
         $propertyTypes    = PropertyType::where('is_disabled','0')->get();
@@ -64,7 +64,7 @@ class GuestController extends Controller
         {
                return redirect()->back()->with('error','Specified property could not be found');
         }
-        
+
     }
     public function agentListing(Request $request)
     {
@@ -73,16 +73,16 @@ class GuestController extends Controller
         $model   = new PropertyUnitType();
         $recents = $model->whereHas('property',function($query){$query->whereNotNull('propcode');})->inRandomOrder()->limit($agents->total())->get();
         $recents = $view->execute($recents);
-        
+
         if($request->view=='list')
         {
              $view = 'guest.agent.list';
         }
-        else 
+        else
         {
-            $view = 'guest.agent.grid'; 
+            $view = 'guest.agent.grid';
         }
-        return view($view,compact('agents','recents'));  
+        return view($view,compact('agents','recents'));
     }
     public function viewAgentDetail($id)
     {
@@ -95,6 +95,11 @@ class GuestController extends Controller
         $prop_links = $properties->links();
         $properties = $view->execute($properties);
         return view('guest.agent.view',\compact('agent','properties','prop_links'));
+    }
+
+    public function buy()
+    {
+        return view("guest.buy");
     }
     public function contact()
     {
