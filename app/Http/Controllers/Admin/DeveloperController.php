@@ -38,7 +38,7 @@ class DeveloperController extends Controller
 
     public function create()
     {
-        $countries = Country::where(['is_disabled'=>0,'code'=>'971'])->get();
+        $countries = Country::where(['is_disabled'=>0,'code'=>'971'])->orderBy('name','ASC')->get();
         $states = State::where(['is_disabled'=>0,'country_id'=>1])->get();
         return view('admin.developer.create',compact("countries","states"));
     }
@@ -119,7 +119,7 @@ class DeveloperController extends Controller
     public function edit($id)
     {
         $owner = Owner::find($id);
-        $countries = Country::where(['is_disabled'=>0,'code'=>'971'])->get();
+        $countries = Country::where(['is_disabled'=>0,'code'=>'971'])->orderBy('name','ASC')->get();
         $states = State::where(['is_disabled'=>0,'country_id'=>1])->get();
         $cities = City::where(['is_disabled'=>0,'country_id'=>1])->get();
         return view('admin.developer.edit',compact('owner','countries','states','cities'));

@@ -61,7 +61,7 @@ class OwnerController extends Controller
 
     public function create()
     {
-        $countries = Country::where(['is_disabled'=>0])->get();
+        $countries = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
         return view('admin.owner.create',compact("countries"));
     }
 
@@ -175,7 +175,7 @@ class OwnerController extends Controller
         $owner = Owner::find($id);
         if(!empty($owner))
         {
-            $countries = Country::where(['is_disabled'=>0])->get();
+            $countries = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
             $country_id = $owner->country_id ? $owner->country_id :null;
             if(!empty($country_id))
             {

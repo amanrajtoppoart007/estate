@@ -47,7 +47,7 @@ class PropertyController extends Controller
         $agents        = Agent::where(['is_disabled'=>'0'])->get();
         $owners        = Owner::where(['is_disabled'=>'0'])->whereIn('owner_type',['developer','both'])->get();
         $propertyTypes = PropertyType::where('is_disabled','0')->get();
-        $countries     = Country::where('is_disabled','0')->get();
+        $countries     = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
         $cities        = City::where(['is_disabled'=>0,'country_id'=>1])->get();
         $features      = Feature::where('is_disabled', '0')->get();
         return view('admin.property.create',compact('agents','owners','features', 'countries', 'propertyTypes','cities'));
@@ -110,7 +110,7 @@ class PropertyController extends Controller
         $owners        = Owner::where(['is_disabled'=>'0'])->get();
         $states        = State::where('is_disabled','0')->get();
         $propertyTypes = PropertyType::where('is_disabled', '0')->get();
-        $countries     = Country::where('is_disabled', '0')->get();
+        $countries     = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
         $features      = Feature::where('is_disabled', '0')->get();
         $cities        = City::where(['is_disabled'=>0,'country_id'=>1])->get();
         $property      = Property::with("images","propertyUnitTypes","city","state","country","propertyType")->find($id);

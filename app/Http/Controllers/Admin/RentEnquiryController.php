@@ -37,7 +37,7 @@ class RentEnquiryController extends Controller
     public function create()
     {
         $agents = Agent::where(['is_disabled'=>'0'])->get();
-        $countries = Country::where('is_disabled', '0')->get();
+        $countries = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
        return view('admin.rentEnquiry.create',compact('agents','countries'));
     }
 
