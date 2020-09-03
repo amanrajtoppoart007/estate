@@ -40,7 +40,7 @@ class AgentController extends Controller
 
     public function create()
     {
-        $countries  = Country::where('is_disabled', '0')->get();
+        $countries  = Country::where('is_disabled', '0')->orderBy('name','ASC')->get();
         return view('admin.agent.create',compact('countries'));
     }
     public function create_company_type_agent()
@@ -59,13 +59,13 @@ class AgentController extends Controller
         {
             $company = $request->only(['owner_name','owner_email','owner_mobile']);
             $store   = array_merge($store,$company);
-            $store['owner_photo']    = GlobalHelper::singleFileUpload($request,'local','owner_photo',"agents/$folder");
-            $store['trade_license']  = GlobalHelper::singleFileUpload($request,'local','trade_license',"agents/$folder");
-            $store['vat_number']     = GlobalHelper::singleFileUpload($request,'local','vat_number',"agents/$folder");
+            $store['owner_photo']    = GlobalHelper::singleFileUpload('local','owner_photo',"agents/$folder");
+            $store['trade_license']  = GlobalHelper::singleFileUpload('local','trade_license',"agents/$folder");
+            $store['vat_number']     = GlobalHelper::singleFileUpload('local','vat_number',"agents/$folder");
         }
         if($request->hasFile("photo"))
         {
-            $store['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
+            $store['photo']    = GlobalHelper::singleFileUpload('local','photo',"agents/$folder");
         }
         $store['admin_id'] = Auth::guard('admin')->user()->id;
         if($agent = Agent::create($store))
@@ -143,7 +143,7 @@ class AgentController extends Controller
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {
-            $update['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
+            $update['photo']    = \App\Helpers\GlobalHelper::singleFileUpload('local','photo',"agents/$folder");
         }
          if($request->agent_type=='company')
         {
@@ -151,17 +151,17 @@ class AgentController extends Controller
             $update   = array_merge($update,$company);
             if($request->hasFile('owner_photo'))
             {
-                $update['owner_photo']    = GlobalHelper::singleFileUpload($request,'local','owner_photo',"agents/$folder");
+                $update['owner_photo']    = GlobalHelper::singleFileUpload('local','owner_photo',"agents/$folder");
             }
 
             if($request->hasFile('trade_license'))
             {
-                $update['trade_license']  = GlobalHelper::singleFileUpload($request,'local','trade_license',"agents/$folder");
+                $update['trade_license']  = GlobalHelper::singleFileUpload('local','trade_license',"agents/$folder");
             }
 
             if($request->hasFile('vat_number'))
             {
-                 $update['vat_number']     = GlobalHelper::singleFileUpload($request,'local','vat_number',"agents/$folder");
+                 $update['vat_number']     = GlobalHelper::singleFileUpload('local','vat_number',"agents/$folder");
             }
         }
 

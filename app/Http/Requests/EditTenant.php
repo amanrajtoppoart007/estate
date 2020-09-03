@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\Request;
 
-class UpdateTenant extends FormRequest
+class EditTenant extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,10 +30,11 @@ class UpdateTenant extends FormRequest
 
         $validate = [
             'tenant_type'=>'required',
-            'country'=>'required|numeric',
-            'city'=>'required',
+            'country_id'=>'required|numeric',
+            'state_id'=>'required|numeric',
+            'city_id'=>'required|numeric',
             'address'=>'required',
-            'tenant_name'=>'required',
+            'name'=>'required',
             'email'=>'required|email',
             'mobile'=>'required|numeric|digits:10',
             'passport'=> 'mimes:jpeg,jpg,png,gif,pdf|max:10000',
@@ -45,6 +46,7 @@ class UpdateTenant extends FormRequest
         {
             $validate['company_name'] = 'required';
             $validate['trade_license'] = 'mimes:jpeg,jpg,png,gif,pdf|max:10000';
+            $validate['trade_license_exp_date'] = 'required|date';
             $validate['tenant_count'] = 'required|numeric';
         }
         else if($request['tenant_type']=='family_husband_wife')

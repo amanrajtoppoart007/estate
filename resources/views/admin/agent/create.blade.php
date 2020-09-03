@@ -20,7 +20,7 @@
 @section('content')
  <div class="card">
      <div class="card-body">
-         {{Form::open(['route'=>'owner.store','id'=>'add_data_form'])}}
+         {{Form::open(['route'=>'owner.store','id'=>'add_data_form','autocomplete'=>'off'])}}
           <div class="card card-info">
               <div class="card-header">
                  <h4> <span class="agent_type">Company</span> Detail</h4>
@@ -131,61 +131,69 @@
                  <h4>Company Owner Detail</h4>
               </div>
               <div class="card-body">
+
                   <div class="row">
-            <div class="col-sm-6 col-md-8 row">
-                <div class="form-group col-md-12">
-                    <label for="owner_name">Owner Name</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        </div>
-                        <input type="text" class="form-control" name="owner_name" id="owner_name" value="">
-                    </div>
-                </div>
-                <div class="form-group position-relative col-md-6">
-                    <label>Country Code Number</label>
-                    <select name="country_code" class="form-control" class="phone_code">
-                        @foreach($countries as $country)
-                          <option value="{{$country->code}}">+{{$country->code}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="owner_mobile">Telephone Number</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                        </div>
-                        <input type="text" class="form-control numeric" name="owner_mobile" id="owner_mobile" value="">
-                    </div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="owner_email">Email</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
-                        </div>
-                        <input type="text" class="form-control" name="owner_email" id="owner_email" value="" data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <div class="text-center">
-                  <div class="user_photo">
-                    <img id="owner_profile_image_grid" src="{{asset('theme/images/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
-                    <div style="position:absolute;top:211px;right:72px;">
-                      <label class="btn btn-primary mb-0" for="owner_profile_image">
-                          <i class="fa fa-upload"></i>
-                      </label>
-                      <input id="owner_profile_image" class="hide" type="file" name="owner_photo">
-                      <button type="button" id="remove_owner_profile_image" class="btn btn-danger font-weight-bold">
-                          <i class="fa fa-trash"></i>
-                      </button>
-                    </div>
+                      <div class="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                          <div class="row">
+                      <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                           <div class="form-group">
+                               <label for="owner_name">Owner Name</label>
+                               <div class="input-group">
+                                   <div class="input-group-prepend">
+                                       <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                   </div>
+                                   <input type="text" class="form-control" name="owner_name" id="owner_name" value="">
+                               </div>
+                           </div>
+                      </div>
+                      <div class="col-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                          <label for="owner_mobile">Telephone Number</label>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <select name="country_code" class="phone_code">
+                                  @foreach($countries as $country)
+                                        <option value="{{$country->code}}">+{{$country->code}}</option>
+                                    @endforeach
+                                </select>
+                            </span>
+                              </div>
+                              <input type="text" class="form-control numeric" name="owner_mobile" id="owner_mobile"
+                                     value="">
+                          </div>
+                      </div>
+                      <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                          <div class="form-group">
+                              <label for="owner_email">Email</label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+                                  </div>
+                                  <input type="text" class="form-control" name="owner_email" id="owner_email" value=""
+                                         data-inputmask="'alias': 'email'" inputmode="email" data-mask="">
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                </div>
-            </div>
-        </div>
+                      </div>
+                      <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                          <div class="text-center">
+                          <div class="user_photo">
+                            <img id="owner_profile_image_grid" src="{{asset('theme/images/4.png')}}" style="width:250px;margin-bottom:10px;" alt="">
+                            <div style="position:absolute;top:211px;right:72px;">
+                              <label class="btn btn-primary mb-0" for="owner_profile_image">
+                                  <i class="fa fa-upload"></i>
+                              </label>
+                              <input id="owner_profile_image" class="hide" type="file" name="owner_photo">
+                              <button type="button" id="remove_owner_profile_image" class="btn btn-danger font-weight-bold">
+                                  <i class="fa fa-trash"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
   <div class="row mt-2">
       <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
           <div class="card card-warning">
@@ -666,6 +674,13 @@
   <script>
        $(document).ready(function(){
 
+           $("#country_id").on("change",function(){
+               $.get_state_list($("#country_id"),$("#state_id"));
+           });
+           $("#state_id").on("change",function(){
+               $.get_city_list($("#state_id"),$("#city_id"));
+           });
+
 
            function change_agent_type()
            {
@@ -686,12 +701,10 @@
               change_agent_type();
            });
 
-           $(document).on("click",".submit_form_btn",function(e){
-               e.stopPropagation();
+           $(document).on("click",".submit_form_btn",function(){
+
                let action = $(this).attr("id");
                $("#action").val(action);
-               e.enableEventPropagation();
-
            });
 
            let pickers =
@@ -703,11 +716,12 @@
                    'auth_person_emirates_exp_date',
                    'auth_person_passport_exp_date',
                    'auth_person_visa_exp_date',
-                   'auth_poa_exp_date'
                ];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
            });
+
+           $("#auth_poa_exp_date").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
 
            $('[data-mask]').inputmask();
 

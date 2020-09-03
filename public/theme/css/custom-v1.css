@@ -25,14 +25,6 @@ h4 {
     font-size: 24px !important;
 }
 
-.font-14 {
-    font-size: 14px !important;
-}
-
-.font-12 {
-    font-size: 12px !important;
-}
-
 .section-light {
     background-color: #fafafa;
 }
@@ -62,19 +54,11 @@ h4 {
 }
 
 .hero-section {
-    background-image: url(../images/hero_section.jpg);
+    background-image: url(../uploads/hero_section.jpg);
     background-size: cover;
     background-position: center;
-    border-radius: 0;
-    margin-bottom: 0;
-}
-
-.inner-page-jumbotron {
-    background-image: url(../images/hero_section.jpg);
-    background-size: cover;
-    background-position: center;
-    border-radius: 0;
-    margin-bottom: 0;
+    border-radius: 0px;
+    margin-bottom: 0px;
 }
 
 .advanced-tabs {
@@ -117,14 +101,14 @@ h4 {
     border: 0px !important;
 }
 
-.btn-form-submit {
+.btn-Formsubmit {
     height: 50px;
     background-color: #ED6A0F;
     border: 0px;
     border-radius: 0px;
 }
 
-.btn-form-submit:hover {
+.btn-Formsubmit:hover {
     background-color: #ED6A0F;
     opacity: 0.8;
 }
@@ -219,84 +203,7 @@ h4 {
     text-decoration: none;
 }
 
-.borderColumn {
-    background-color: #fff;
-    border: 1px solid #dadada;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-}
-
-.propertyListing-ul {
-    padding-left: 0px;
-}
-
-.propertyListing-ul>li {
-    list-style: none;
-    display: inline;
-    padding-right: 10px;
-    color: #403b45;
-}
-
-.special-li {
-    color: #ed6a0f !important;
-}
-
-.propertyList-img {
-    position: relative;
-    height: 100%;
-    width: 100%;
-}
-
-.img-24 {
-    width: 24px;
-    margin-left: 5px;
-}
-
-#shortBy {
-    border: 1px solid #dadada !important;
-}
-
-#shortBy:focus {
-    box-shadow: none !important;
-    border: 1px solid #dadada !important;
-}
-
-.btn-h50 {
-    height: 50px;
-}
-
-.colorOrange {
-    color: #ed6a0f !important;
-}
-
-.mob-hide {
-    display: inline-flex;
-}
-
-.gold-font {
-    color: goldenrod;
-    margin-top: 20px !important;
-    display: block;
-}
-
-.list-group-flush>li>a {
-    color: #403b45;
-}
-
-.list-group-flush>li>a:hover {
-    text-decoration: none;
-    color: #ED6A0F;
-}
-
 @media screen and (min-width: 250px) and (max-width: 768px) {
-    .mob-mt20 {
-        margin-top: 20px;
-    }
-    .mob-hide {
-        display: none;
-    }
-    .borderColumn {
-        padding: 10px;
-    }
     .specialGallery-img {
         height: auto;
     }

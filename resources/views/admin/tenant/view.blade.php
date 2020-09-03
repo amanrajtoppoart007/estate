@@ -48,7 +48,7 @@
                   <i class="fa fa-mobile"></i>
               </span>
               <div class="info-box-content">
-                <h6 class="font-weight-bold">{{($tenant->profile)?'+'.$tenant->profile->country_code:null}}{{$tenant->mobile}}</h6>
+                <h6 class="font-weight-bold">{{($tenant->country_code)?'+'.$tenant->country_code:null}}{{$tenant->mobile}}</h6>
                 <span class="info-box-text text-gray">Contact No.</span>
               </div>
             </div>
@@ -73,7 +73,7 @@
                   <i class="fa fa-city"></i>
               </span>
               <div class="info-box-content">
-                <h6 class="font-weight-bold">{{($tenant->profile)?$tenant->profile->city:null}}</h6>
+                <h6 class="font-weight-bold">{{($tenant->city)?$tenant->city->name:null}}</h6>
                 <span class="info-box-text text-gray">City</span>
               </div>
             </div>
@@ -85,7 +85,7 @@
                   <i class="fa fa-map-marked text-white"></i>
               </span>
               <div class="info-box-content">
-                <h6 class="font-weight-bold">{{($tenant->profile)?$tenant->profile->address:null}}</h6>
+                <h6 class="font-weight-bold">{{$tenant->address}}</h6>
                 <span class="info-box-text text-gray">Address</span>
               </div>
             </div>
@@ -97,7 +97,7 @@
                   <i class="fa fa-user"></i>
               </span>
               <div class="info-box-content">
-                <h6 class="font-weight-bold">{{($tenant->profile)?$tenant->profile->zip:null}}</h6>
+                <h6 class="font-weight-bold">{{$tenant->zip}}</h6>
                 <span class="info-box-text text-gray">Zipcode</span>
               </div>
             </div>
@@ -109,7 +109,7 @@
                   <i class="fa fa-user"></i>
               </span>
               <div class="info-box-content">
-                <h6 class="font-weight-bold">{{($tenant->profile)?date('d-m-Y',strtotime($tenant->profile->dob)):null}}</h6>
+                <h6 class="font-weight-bold">{{($tenant->dob)?date('d-m-Y',strtotime($tenant->dob)):null}}</h6>
                 <span class="info-box-text text-gray">DOB</span>
               </div>
             </div>
@@ -121,7 +121,7 @@
                   <i class="fa fa-user"></i>
               </span>
               <div class="info-box-content">
-                <h6 class="font-weight-bold">{{($tenant->profile)?$tenant->profile->tenant_count:null}}</h6>
+                <h6 class="font-weight-bold">{{($tenant->tenant_count)?$tenant->tenant_count:1}}</h6>
                 <span class="info-box-text text-gray">No. Of Tenants</span>
               </div>
             </div>
@@ -176,7 +176,7 @@
         </div>
     </div>
     @endif
-   @if(!empty($tenant->profile->company_name))
+   @if(!empty($tenant->company_name))
     <div class="card">
         <div class="card-header bg-gradient-orange">
             <h6 class="text-white">Company Detail</h6>
@@ -185,7 +185,7 @@
             <div class="row" id="company_extra_detail">
                 <div class="col">
                     <dt>Company Name</dt>
-                    <dd>{{($tenant->profile)?$tenant->profile->company_name:null}}</dd>
+                    <dd>{{($tenant->company_name)?$tenant->profile->company_name:null}}</dd>
                 </div>
             </div>
         </div>
@@ -205,7 +205,7 @@
                           <th>#</th>
                           <th>Name</th>
                           <th>Relation/Designation</th>
-                          <th>Amirates Id</th>
+                          <th>Emirates Id</th>
                           <th>Passport</th>
                           <th>Visa</th>
                       </tr>

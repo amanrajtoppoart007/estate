@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
+use App\Http\Requests\StoreBuyer;
+use App\Http\Requests\UpdateBuyer;
 use App\SalesEnquiry;
 use App\State;
 use Illuminate\Support\Facades\Hash;
@@ -46,15 +48,15 @@ class BuyerController extends Controller
     }
 
 
-    public function store(\App\Http\Requests\StoreBuyer $request)
+    public function store(StoreBuyer $request)
     {
         $request->validated();
         $input = $request->only(['name','email','mobile','emirates_id','country_id','state_id','city_id','address']);
         $input['password']    = Hash::make($request->password);
         $folder               = $request->mobile;
-        $input['passport']    = GlobalHelper::singleFileUpload($request,'local', 'passport',"buyers/$folder");
-        $input['visa']        = GlobalHelper::singleFileUpload($request,'local', 'visa',"buyers/$folder");
-        $input['buyer_image'] = GlobalHelper::singleFileUpload($request,'local', 'buyer_image',"buyers/$folder");
+        $input['passport']    = GlobalHelper::singleFileUpload('local', 'passport',"buyers/$folder");
+        $input['visa']        = GlobalHelper::singleFileUpload('local', 'visa',"buyers/$folder");
+        $input['buyer_image'] = GlobalHelper::singleFileUpload('local', 'buyer_image',"buyers/$folder");
         if(Buyer::create($input))
         {
 
@@ -116,7 +118,7 @@ class BuyerController extends Controller
     }
 
 
-    public function update(\App\Http\Requests\UpdateBuyer $request, $id)
+    public function update(UpdateBuyer $request, $id)
     {
         $request->validated();
         $input = $request->only(['name','email','mobile','emirates_id','country_id','state_id','city_id','address']);
@@ -128,15 +130,15 @@ class BuyerController extends Controller
         $folder               = $request->mobile;
         if($request->hasfile('passport'))
         {
-           $input['passport']    = GlobalHelper::singleFileUpload($request,'local', 'passport',"buyers/$folder");
+           $input['passport']    = GlobalHelper::singleFileUpload('local', 'passport',"buyers/$folder");
         }
         if($request->hasfile('visa'))
         {
-           $input['passport']    = GlobalHelper::singleFileUpload($request,'local', 'visa',"buyers/$folder");
+           $input['passport']    = GlobalHelper::singleFileUpload('local', 'visa',"buyers/$folder");
         }
         if($request->hasfile('buyer_image'))
         {
-           $input['passport']    = GlobalHelper::singleFileUpload($request,'local', 'buyer_image',"buyers/$folder");
+           $input['passport']    = GlobalHelper::singleFileUpload('local', 'buyer_image',"buyers/$folder");
         }
         if(Buyer::where(['id'=>$id])->update($input))
         {

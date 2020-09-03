@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
 Route::get('/', 'Guest\GuestController@index');
+Route::get('/buy', 'Guest\GuestController@buy');
 Route::post('/bookingRequest/store', 'Guest\BookingRequestController@store')->name('bookingRequest.store');
 Route::post('get/property/listing/map', 'Guest\SearchController@map_search_api')->name('get.property.listing.map');
 Route::post('search/property/listing', 'Guest\SearchController@web_api_search')->name('search.property.listing');
@@ -83,3 +87,4 @@ Route::prefix('master')->group(function () {
 
 Route::post('/get/property/unit/list', 'Common\CommonController@get_property_units')->name('get.unit.list');
 Route::post('/get/vacant/unit/list', 'Common\CommonController@get_vacant_units')->name('get.vacant.unit.list');
+Route::post('/get/city/list/via/country', 'Common\CommonController@get_country_city_list')->name('get.country.city.list');

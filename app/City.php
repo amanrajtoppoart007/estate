@@ -14,13 +14,18 @@ class City extends Model
         return $this->hasMany(RentBreakDown::class,"city_id","id");
     }
 
+    public function tenants()
+    {
+        return $this->hasMany(Tenant::class,'city_id','id');
+    }
+
     public function state()
     {
-        return $this->belongsTo('App\State');
+        return $this->belongsTo(State::class);
     }
     public function country()
     {
-        return $this->belongsTo('App\Country');
+        return $this->belongsTo(Country::class);
     }
     public function owners()
    {

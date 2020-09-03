@@ -1,8 +1,8 @@
 <?php
 namespace App\Library;
 use Illuminate\Http\Request;
-use Auth;
 use App\Image;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image as IntImage;
 class CreatePropertyImage

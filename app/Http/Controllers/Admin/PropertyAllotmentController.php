@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AllotProperty;
+use App\Http\Requests\RenewPropertyAllotment;
 use App\Library\CreateInstallments;
 use App\RentBreakDown;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Property;
@@ -16,8 +19,6 @@ use App\PropertyUnit;
 use App\PropertyUnitAllotment;
 use App\TenantRemove;
 use App\Tenant;
-use Auth;
-use DB;
 class PropertyAllotmentController extends Controller
 {
      public function __construct()
@@ -37,7 +38,7 @@ class PropertyAllotmentController extends Controller
         {
             $property_unit  = null;
             $cities         = [];
-            $tenant = Tenant::with('profile','relations')->where(['id'=>$id])->first();
+            $tenant = Tenant::with('relations')->where(['id'=>$id])->first();
             $properties = Property::where(['is_disabled'=>'0'])->get();
             $states     = State::where(['is_disabled'=>'0'])->get();
             $cities = City::where(['is_disabled'=>'0'])->get();
@@ -104,7 +105,7 @@ class PropertyAllotmentController extends Controller
         return response()->json($res);
     }
 
-    public function renewTenancy(\App\Http\Requests\RenewPropertyAllotment $request)
+    public function renewTenancy(RenewPropertyAllotment $request)
     {
         $request->validated();
         $admin_id = Auth::guard('admin')->user()->id;
@@ -126,7 +127,7 @@ class PropertyAllotmentController extends Controller
                 $res['status']   = 1;
                 $res['next_url'] = route('allotment.detail',[$request->tenant_id,$unitAllotment->id]);
                 $res['response'] = 'success';
-                $res['message']  = 'Property alloted to tenant';
+                $res['message']  = 'Property allotment done to tenant';
             }
             else
             {
@@ -140,14 +141,14 @@ class PropertyAllotmentController extends Controller
         {
             $res['status']   = 0;
             $res['response'] = 'error';
-            $res['message']  = 'Property allready alloted';
+            $res['message']  = 'Property allotment already done';
         }
         return response()->json($res);
     }
 
     public function view($tenant_id,$allotmentId)
     {
-        $allotment =  \App\PropertyUnitAllotment::with(['tenant','property_unit','rent_installments'])->where(['id'=>$allotmentId,'tenant_id'=>$tenant_id])->
+        $allotment =  PropertyUnitAllotment::with(['tenant','property_unit','rent_installments'])->where(['id'=>$allotmentId,'tenant_id'=>$tenant_id])->
         whereHas('property_unit',function($query){
             $query->with('propertyUnitType');
         })->first();
@@ -215,7 +216,7 @@ class PropertyAllotmentController extends Controller
             }
             return response()->json(['response'=>'error','message' => $validator->errors()->all()]);
     }
-        /* ************ get proprety unit  list************* */
+        /* ************ get property unit  list************* */
     public function getPropertyUnit(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -279,7 +280,7 @@ class PropertyAllotmentController extends Controller
 
         return view('pdf.property.renewalBreakDown')->with($data);
     }
-    public function teanancy_breakdown_save_send(Request $request)
+    public function tenancy_breakdown_save_send(Request $request)
     {
          $data = array();
          $arr = $request->all();
@@ -315,7 +316,7 @@ class PropertyAllotmentController extends Controller
     }
         return json_encode($result);
     }
-    public function store_moveout(Request $request)
+    public function store_move_out(Request $request)
     {
         if (TenantRemove::where('tenant_id', $request->tenant)->where('unit', $request->unit)->where('status', '0')->doesntExist()) {
         $obj = new TenantRemove();

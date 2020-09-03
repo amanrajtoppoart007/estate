@@ -11,6 +11,11 @@ class State extends Model
     {
        return $this->belongsTo('App\Country');
     }
+    public function tenants()
+    {
+        return $this->hasMany(Tenant::class,'state_id','id');
+    }
+
     public function state()
     {
        return $this->belongsTo('App\State');

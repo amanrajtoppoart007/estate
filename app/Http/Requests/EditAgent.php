@@ -65,8 +65,24 @@ class EditAgent extends FormRequest
         {
             $rules['visa_exp_date'] = 'required|date';
         }
+
         return $rules;
     }
+
+    public function withValidator(Validator $validator)
+    {
+        $validator->after(function ($validator) {
+            if((!empty(request()->emirates_exp_data)) && (!empty(request()->visa_exp_date)))
+            {
+                if (request()->emirates_exp_date != request()->visa_exp_date) {
+                    $validator->errors()->add('expiry date', 'Emirates id expiry date & visa expiry data should be same');
+                }
+            }
+
+        });
+        return $validator;
+    }
+
     protected function failedValidation(Validator $validator)
     {
         $res['status']   = '0';

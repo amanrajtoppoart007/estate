@@ -96,6 +96,23 @@ class StoreAgent extends FormRequest
         return $rules;
     }
 
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+
+            if((!empty(request()->emirates_exp_date)) && (!empty(request()->visa_exp_date)))
+            {
+
+                if (strtotime(request()->emirates_exp_date) !== strtotime(request()->visa_exp_date)) {
+
+                    $validator->errors()->add('expiry_date', 'Emirates id expiry date & visa expiry data should be same');
+                }
+            }
+
+        });
+        return $validator;
+    }
+
     protected function failedValidation(Validator $validator)
     {
         $res['status']   = '0';

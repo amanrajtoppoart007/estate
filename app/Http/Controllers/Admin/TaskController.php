@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Admin;
+use App\City;
+use App\Designation;
+use App\Employee;
+use App\Library\GenerateTaskCode;
+use App\Property;
+use App\PropertyUnit;
+use App\State;
 use App\Task;
 use App\Department;
 use App\TaskAssignment;
 use App\Library\Comments;
+use App\TaskComment;
 use App\TaskList;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -57,8 +66,8 @@ class TaskController extends Controller
             $chat['date']      = $folder = date('Y-m-d');
             $chat['user_id']   = Auth::guard('admin')->user()->id;
             $chat['user_type'] = pluck_single_value('admins','id',$chat['user_id'],'role');
-            $chat['media']     = GlobalHelper::singleFileUpload($request,'local','media',"task/chat/$folder");
-            if(\App\TaskComment::create($chat))
+            $chat['media']     = GlobalHelper::singleFileUpload('local','media',"task/chat/$folder");
+            if(TaskComment::create($chat))
             {
                 return response()->json(['status'=>1,'response' => 'success','message' => 'Messages created successfully']);
             }
@@ -74,7 +83,7 @@ class TaskController extends Controller
         ]);
         if(!$validator->fails())
         {
-            $gen_action = new \App\Library\GenerateTaskCode($request->all());
+            $gen_action = new GenerateTaskCode($request->all());
             $task_code  = $gen_action->execute();
             if($task_code)
             {
@@ -101,9 +110,9 @@ class TaskController extends Controller
     public function create(Request $request)
     {
         $data                = array();
-        $data['states']      = \App\State::where(['is_disabled'=>'0'])->get();
+        $data['states']      = State::where(['is_disabled'=>'0'])->get();
         $data['departments'] = Department::where('is_disabled','0')->orderBy('name')->get();
-        $data['designations'] = \App\Designation::where('is_disabled','0')->orderBy('name')->get();
+        $data['designations'] = Designation::where('is_disabled','0')->orderBy('name')->get();
         return view('admin.task.create')->with($data);
     }
 
@@ -116,7 +125,7 @@ class TaskController extends Controller
         ]);
         if(!$validator->fails())
         {
-            if($employees = \App\Employee::where(['department_id' => $request->department_id,'designation_id' => $request->designation_id,'status'=>'1'])->orderBy('name')->get())
+            if($employees = Employee::where(['department_id' => $request->department_id,'designation_id' => $request->designation_id,'status'=>'1'])->orderBy('name')->get())
             {
                 foreach($employees as $employee)
                 {
@@ -124,7 +133,7 @@ class TaskController extends Controller
                 }
                 if(!empty($employee_id))
                 {
-                    if($data = \App\Admin::whereIn('employee_id',$employee_id)->get())
+                    if($data = Admin::whereIn('employee_id',$employee_id)->get())
                     {
                       return response()->json(['status'=>1,'response' => 'success', 'data' => $data, 'message' => 'Data Found.']);
                     }
@@ -147,7 +156,7 @@ class TaskController extends Controller
         ]);
         if(!$validator->fails())
         {
-            if($data = \App\City::where(['state_id' => $request->state_id,'is_disabled'=>'0'])->get())
+            if($data = City::where(['state_id' => $request->state_id,'is_disabled'=>'0'])->get())
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => $data, 'message' => 'Data Found.']);
             }
@@ -167,7 +176,7 @@ class TaskController extends Controller
         ]);
         if(!$validator->fails())
         {
-            if($data = \App\Property::where(['city_id' => $request->city_id,'is_disabled'=>'0'])->get())
+            if($data = Property::where(['city_id' => $request->city_id,'is_disabled'=>'0'])->get())
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => $data, 'message' => 'Data Found.']);
             }
@@ -187,7 +196,7 @@ class TaskController extends Controller
         ]);
         if(!$validator->fails())
         {
-            if($data = \App\PropertyUnit::where(['property_id' => $request->property_id,'status'=>'1'])->get())
+            if($data = PropertyUnit::where(['property_id' => $request->property_id,'status'=>'1'])->get())
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => $data, 'message' => 'Data Found.']);
             }
@@ -349,8 +358,5 @@ class TaskController extends Controller
 
         return response()->json($result,200);
     }
-
-
-
 
 }

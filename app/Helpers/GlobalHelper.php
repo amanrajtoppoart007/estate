@@ -24,16 +24,14 @@ class GlobalHelper
         }
         return [];
      }
-     public static function  get_sum()
+     public static function get_sum()
     {
         $total = 0;
-        $arr   = [];
         foreach(func_get_args() as $arg)
         {
             if(!empty($arg))
                 {
                     $total+=$arg;
-                    $arr[] = $arg;
                 }
         }
         return $total;
@@ -61,7 +59,7 @@ class GlobalHelper
         return $array;
     }
 
-    public static function multipleFileUpload($request=null, $disk,$name,$path)
+    public static function multipleFileUpload($disk,$name,$path)
     {
         $fileNames = array();
           if(request()->hasfile("$name"))
@@ -74,7 +72,7 @@ class GlobalHelper
           }
           return $fileNames;
     }
-    public static function multiStepFileUpload($request, $disk,$file_array,$path)
+    public static function multiStepFileUpload($disk,$file_array,$path)
     {
          $uploads = array();
         foreach($file_array as $name)
@@ -94,7 +92,7 @@ class GlobalHelper
         }
         return $uploads;
     }
-     public static function multipleDocumentUpload($request=null, $disk,$name,$path)
+     public static function multipleDocumentUpload($disk,$name,$path)
     {
         $fileNames = array();
           if(request()->hasfile("$name"))
@@ -109,7 +107,7 @@ class GlobalHelper
           }
           return $fileNames;
     }
-    public static function singleFileUpload($request=null,$disk, $name,$path)
+    public static function singleFileUpload($disk, $name,$path)
     {
          $fileName = null;
           if(request()->has("$name"))

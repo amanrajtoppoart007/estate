@@ -25,12 +25,7 @@ class SalePropertyController extends Controller
     {
         return view('admin.sale.index');
     }
-    /**
-     * Allocate property to a user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function fetch(Request $request)
     {
         $model  = new PropertySale();
@@ -79,7 +74,7 @@ class SalePropertyController extends Controller
                     $res['next_url'] = '';
                     $res['data']     = $data;
                 }
-                else 
+                else
                 {
                     $res['status']   = 0;
                     $res['response'] = 'error';
@@ -87,7 +82,7 @@ class SalePropertyController extends Controller
                 }
                 return response()->json($res);
             }
-            return response()->json(['response'=>'error','message' => $validator->errors()->all()]);     
+            return response()->json(['response'=>'error','message' => $validator->errors()->all()]);
     }
     public function show($id)
     {
@@ -111,7 +106,7 @@ class SalePropertyController extends Controller
                     $res['message']  = 'Data found';
                     $res['data']     = $properties;
                 }
-                else 
+                else
                 {
                     $res['status']   = 0;
                     $res['response'] = 'error';
@@ -137,7 +132,7 @@ class SalePropertyController extends Controller
                     $res['message']  = 'Data found';
                     $res['data']     = $propertyUnitTypes;
                 }
-                else 
+                else
                 {
                     $res['status']   = 0;
                     $res['response'] = 'error';
@@ -166,7 +161,7 @@ class SalePropertyController extends Controller
                 $res['message']  = 'Data found';
                 $res['data']     = $propertyUnits;
             }
-            else 
+            else
             {
                 $res['status']   = 0;
                 $res['response'] = 'error';
@@ -191,7 +186,7 @@ class SalePropertyController extends Controller
                 $res['message']  = 'Data found';
                 $res['data']     = $unit;
             }
-            else 
+            else
             {
                 $res['status']   = 0;
                 $res['response'] = 'error';
@@ -217,7 +212,7 @@ class SalePropertyController extends Controller
                 $res['message']  = 'Data found';
                 $res['data']     = $property->owner;
             }
-            else 
+            else
             {
                 $res['status']   = 0;
                 $res['response'] = 'error';
@@ -241,9 +236,9 @@ class SalePropertyController extends Controller
         if (!$validator->fails())
         {
              $folder                    = date('Y-m-d');
-             $upload['mulkia_by_owner'] = GlobalHelper::singleFileUpload($request,'local','mulkia_by_owner',"agreements/$folder");
-             $upload['mulkia_by_buyer'] = GlobalHelper::singleFileUpload($request,'local','mulkia_by_buyer',"agreements/$folder");
-             $upload['sell_agreement']  = GlobalHelper::singleFileUpload($request,'local','sell_agreement',"agreements/$folder");
+             $upload['mulkia_by_owner'] = GlobalHelper::singleFileUpload('local','mulkia_by_owner',"agreements/$folder");
+             $upload['mulkia_by_buyer'] = GlobalHelper::singleFileUpload('local','mulkia_by_buyer',"agreements/$folder");
+             $upload['sell_agreement']  = GlobalHelper::singleFileUpload('local','sell_agreement',"agreements/$folder");
              $upload['status']          = 1;//status code for registration process activation
             if(PropertySale::where(['id'=>$request->property_sales_id])->update($upload))
             {
@@ -251,7 +246,7 @@ class SalePropertyController extends Controller
                 $res['response'] = 'success';
                 $res['message']  = 'Sales record updated successfully';
             }
-            else 
+            else
             {
                 $res['status']   = 0;
                 $res['response'] = 'error';
@@ -270,7 +265,7 @@ class SalePropertyController extends Controller
         if (!$validator->fails())
         {
              $folder                    = date('Y-m-d');
-             $upload['title_deed']      = GlobalHelper::singleFileUpload($request,'local','title_deed',"agreements/$folder");
+             $upload['title_deed']      = GlobalHelper::singleFileUpload('local','title_deed',"agreements/$folder");
              $upload['status']          = 2;//status code for registration process activation
             if(PropertySale::where(['id'=>$request->id])->update($upload))
             {
@@ -283,7 +278,7 @@ class SalePropertyController extends Controller
                 $res['response'] = 'success';
                 $res['message']  = 'Sales record updated successfully';
             }
-            else 
+            else
             {
                 $res['status']   = 0;
                 $res['response'] = 'error';
@@ -293,5 +288,5 @@ class SalePropertyController extends Controller
         }
         return response()->json(['response'=>'error','message' => $validator->errors()->all()]);
     }
-    
+
 }

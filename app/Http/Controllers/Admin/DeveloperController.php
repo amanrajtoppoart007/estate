@@ -7,7 +7,7 @@ use App\Country;
 use App\Http\Requests\EditDeveloper;
 use App\Http\Requests\StoreDeveloper;
 use App\Library\CreateAuthorisedPerson;
-use App\Library\CreateOwnerAuthPerson;
+
 use App\Library\EditAuthorisedPerson;
 use App\Library\EditOwnerAuthPerson;
 use App\Library\UploadEntityDocs;
@@ -61,7 +61,7 @@ class DeveloperController extends Controller
 
         if($request->has('photo'))
         {
-            $data['photo']    = GlobalHelper::singleFileUpload($request, 'local', 'photo', "developers/$folder");
+            $data['photo']    = GlobalHelper::singleFileUpload( 'local', 'photo', "developers/$folder");
         }
 
 
@@ -78,7 +78,7 @@ class DeveloperController extends Controller
                     if ($request->has('vat_number')) {
                         $doc = array();
                         $doc['owner_id'] = $developer->id;
-                        $doc['doc_url'] = GlobalHelper::singleFileUpload($request, 'local', 'vat_number', "owners/$folder");
+                        $doc['doc_url'] = GlobalHelper::singleFileUpload( 'local', 'vat_number', "owners/$folder");
                         $doc['doc_type'] = 'vat_number';
                         OwnerDoc::create($doc);
 
@@ -87,7 +87,7 @@ class DeveloperController extends Controller
                     if ($request->has('trade_license')) {
                         $doc = array();
                         $doc['owner_id'] = $developer->id;
-                        $doc['doc_url'] = GlobalHelper::singleFileUpload($request, 'local', 'trade_license', "owners/$folder");
+                        $doc['doc_url'] = GlobalHelper::singleFileUpload( 'local', 'trade_license', "owners/$folder");
                         $doc['doc_type'] = 'trade_license';
                         OwnerDoc::create($doc);
                     }
@@ -133,7 +133,7 @@ class DeveloperController extends Controller
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {
-            $data['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"owners/$folder");
+            $data['photo']    = GlobalHelper::singleFileUpload('local','photo',"owners/$folder");
         }
 
         $data['admin_id'] = Auth::guard('admin')->user()->id;
@@ -154,7 +154,7 @@ class DeveloperController extends Controller
                 {
                     $doc                = array();
                     $doc['owner_id']    = $id;
-                    $doc['doc_url']     = GlobalHelper::singleFileUpload($request, 'local', 'vat_number', "owners/$folder");
+                    $doc['doc_url']     = GlobalHelper::singleFileUpload('local', 'vat_number', "owners/$folder");
                     $doc['doc_type']    = 'vat_number';
                     OwnerDoc::create($doc);
 
@@ -164,7 +164,7 @@ class DeveloperController extends Controller
                 {
                     $doc                  = array();
                     $doc['owner_id']      = $id;
-                    $doc['doc_url']       = GlobalHelper::singleFileUpload($request, 'local', 'trade_license', "owners/$folder");
+                    $doc['doc_url']       = GlobalHelper::singleFileUpload('local', 'trade_license', "owners/$folder");
                     $doc['doc_type']      = 'trade_license';
                     OwnerDoc::create($doc);
                 }

@@ -7,30 +7,24 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreFeature;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FeatureResource;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Auth;
+
 class FeatureController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:admin');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $features = Feature::orderBy('created_at','DESC')->paginate(8);
         return view('admin.features.index')->with('features', $features);
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function store(StoreFeature $request)
     {
             $request->validated();
@@ -49,12 +43,7 @@ class FeatureController extends Controller
             }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -75,13 +64,7 @@ class FeatureController extends Controller
         return response()->json(['response' => 'error', 'message' => $validator->errors()->all()]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -106,12 +89,7 @@ class FeatureController extends Controller
         return response()->json(['response' => 'error', 'message' => $validator->errors()->all()]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Request $request)
     {
         $validator = Validator::make($request->all(), ['id' => 'required']);

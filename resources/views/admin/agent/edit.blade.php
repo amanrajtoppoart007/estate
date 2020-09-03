@@ -748,11 +748,11 @@
                    'auth_person_emirates_exp_date',
                    'auth_person_passport_exp_date',
                    'auth_person_visa_exp_date',
-                   'auth_poa_exp_date',
                ];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
            });
+            $("#auth_poa_exp_date").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
            function render_image(input)
             {
                 if(input.files && input.files[0])
