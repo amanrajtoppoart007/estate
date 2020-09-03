@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
 Route::get('/', 'Guest\GuestController@index');
 Route::get('/buy', 'Guest\GuestController@buy');
 Route::post('/bookingRequest/store', 'Guest\BookingRequestController@store')->name('bookingRequest.store');

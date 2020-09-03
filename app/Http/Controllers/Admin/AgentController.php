@@ -40,7 +40,7 @@ class AgentController extends Controller
 
     public function create()
     {
-        $countries  = Country::where('is_disabled', '0')->get();
+        $countries  = Country::where('is_disabled', '0')->orderBy('name','ASC')->get();
         return view('admin.agent.create',compact('countries'));
     }
     public function create_company_type_agent()
