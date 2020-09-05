@@ -1,3 +1,65 @@
+@extends("guest.layout.main")
+
+@section("content")
+    <!-- Login Section -->
+    <div class="container-fluid mb-5 py-5">
+        <div class="row">
+            <div class="col-lg-4 col-sm-4 col-12 offset-lg-4 offset-sm-4">
+                <form action="" class="p-4 bgGray box-shadow mt-5">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <h2 class="text-center mb-0">Register Now</h2>
+                            <h5 class="text-center mb-4 colorOrange">Fill the Registration Form</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Your Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Username">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Your Password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block btn-Formsubmit">Sign Up</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12 text-center">
+                            Already have an Account ? <a href="login.html" class="colorOrange">LogIn</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Login Section -->
+@endsection
+
+{{--
 @extends('guest.layout.main')
 @include('guest.include.navbar')
 @section('content')
@@ -86,7 +148,7 @@
 					    <label class="form-check-label" for="exampleCheck1">Accept Terms and Condition</label>
 					  </div>
 					  <button type="submit" class="btn btn-default1 mt_15">{{ __('Register') }}</button>
-                    <a  class="color-primary d-block mt_30" href="#">View Terms and Conditions</a>					  
+                    <a  class="color-primary d-block mt_30" href="#">View Terms and Conditions</a>
 					</form>
 				</div>
 			</div>
@@ -94,3 +156,4 @@
 	</div>
 </section>
 @endsection
+--}}

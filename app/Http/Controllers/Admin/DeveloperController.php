@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Http\Requests\EditDeveloper;
 use App\Http\Requests\StoreDeveloper;
 use App\Library\CreateAuthorisedPerson;
@@ -30,9 +31,7 @@ class DeveloperController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Owner();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Owner())))->getResult());
     }
 
 

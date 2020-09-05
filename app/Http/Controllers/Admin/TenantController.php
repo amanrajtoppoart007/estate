@@ -30,9 +30,7 @@ class TenantController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Tenant();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Tenant())))->getResult());
     }
 
     public function index()

@@ -27,9 +27,7 @@ class PropertyUnitController extends Controller
     }
     public function fetch(Request $request)
     {
-        $model  = new PropertyUnit();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new PropertyUnit())))->getResult());
     }
 
     public function index()

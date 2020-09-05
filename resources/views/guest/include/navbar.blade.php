@@ -8,22 +8,20 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">HOME <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{URL::to('/')}}">HOME <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">BUY</a>
+                        <a class="nav-link" href="{{route('property.search',['mode'=>2])}}">BUY</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('property.search',['mode'=>1])}}">RENT</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">SELL</a>
+                        <a class="nav-link" href="{{route('property.agent.list')}}">AGENTS</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">RENT</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">AGENTS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">LOGIN</a>
+                        <a class="nav-link" href="{{route('login')}}">LOGIN</a>
                     </li>
                 </ul>
             </div>

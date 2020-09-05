@@ -33,7 +33,7 @@ if (!function_exists('get_unit_types'))
           "studio"=>"Studio",
           "one_br"=>"1 BR",
           "two_br"=>"2 BR",
-          "three_br"=>"3BR"
+          "three_br"=>"3 BR"
       );
   }
 }

@@ -5,23 +5,7 @@
 @section('js')
 <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 @endsection
-@section('breadcrumb')
-<div class="content-header">
-   <div class="container-fluid">
-      <div class="row mb-2">
-         <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Rent Breakdown</h1>
-         </div>
-         <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-               <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-               <li class="breadcrumb-item active">Rent Installment Breakdown </li>
-            </ol>
-         </div>
-      </div>
-   </div>
-</div>
-@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Rent BreakDown"])
 @section('content')
 <div class="submit_form color-secondery icon_primary p-5 bg-white">
    @php
@@ -68,7 +52,7 @@
 
    <input type="hidden" name="unit_id" value="{{$current->unit_id}}">
    <input type="hidden" name="property_id" value="{{$current->property_id}}">
-  
+
    <input type="hidden" name="tenant_id" value="{{$tenant->id}}">
    <div class="card">
       <div class="card-header">
@@ -120,7 +104,7 @@
                   {{$current->property['propcode']}}, {{$current->property['title']}}
                   <input type="hidden" name="property" value="{{$current->property['propcode']}}, {{$current->property['title']}}">
                   <input type="hidden" name="property_id" value="{{$current->property['id']}}">
-                 
+
                </div>
                <div class="form-group">
                   <label for="city_id">Unit :</label>
@@ -343,7 +327,7 @@
          </div>
       </div>
    </div>
-   <button type="submit" class="btn btn-primary mt-4"><i class="fa fa-paper-plane"></i> Send Breakdown</button> 
+   <button type="submit" class="btn btn-primary mt-4"><i class="fa fa-paper-plane"></i> Send Breakdown</button>
    <button type="button" class="btn btn-success mt-4 renew_tenancy_btn"><i class="fa fa-retweet"></i> Renew Tenancy</button>
    {{Form::close()}}
 </div>
@@ -406,7 +390,7 @@
              }
        }
      $.fn_ajax(url,params,fn_success,fn_error);
-   }); 
+   });
 
    $(document).on('click','.renew_tenancy_btn',function(event){
       event.preventDefault();

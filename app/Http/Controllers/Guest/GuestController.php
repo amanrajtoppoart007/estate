@@ -74,15 +74,7 @@ class GuestController extends Controller
         $recents = $model->whereHas('property',function($query){$query->whereNotNull('propcode');})->inRandomOrder()->limit($agents->total())->get();
         $recents = $view->execute($recents);
 
-        if($request->view=='list')
-        {
-             $view = 'guest.agent.list';
-        }
-        else
-        {
-            $view = 'guest.agent.grid';
-        }
-        return view($view,compact('agents','recents'));
+        return view("guest.agent.list",compact('agents','recents'));
     }
     public function viewAgentDetail($id)
     {

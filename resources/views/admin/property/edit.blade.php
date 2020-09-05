@@ -1,32 +1,10 @@
 @extends('admin.layout.app')
 @section('head')
   <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
-    <style>
-    .owner_type_company_grid
-    {
-        display:none;
-    }
-</style>
+  <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
 @endsection
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Edit Property</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Edit Property</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
-    @section('content')
+@include("admin.include.breadcrumb",["page_title"=>"Edit Property"])
+@section('content')
 <div class="submit_form color-secondery icon_primary p-5 bg-white">
   <form action="{{route('property.update',['id'=>$property->id])}}" enctype="multipart/form-data" method="POST" id="edit_data_form" autocomplete="off">
   @csrf
@@ -36,8 +14,7 @@
 	<div class="row">
 		<div class="col-lg-12 col-md-12">
 			<div class="form-group">
-				<label>Building Name <span class="text-danger">*</span></label>
-
+				<label for="title">Building Name <span class="text-danger">*</span></label>
 				<input type="text" name="title" id="title" class="form-control" value="{{$property->title}}">
 			</div>
         </div>
@@ -57,7 +34,7 @@
 		</div>
 
 			<div class="form-group">
-			<label>Property Type <span class="text-danger">*</span></label>
+			<label for="type">Property Type <span class="text-danger">*</span></label>
 				<select class="form-control" name="type" id="type">
 					<option value="">Select Property Type</option>
 					@foreach($propertyTypes as $type)
@@ -71,7 +48,7 @@
 			</div>
 
 			<div class="form-group">
-			<label>Purpose <span class="text-danger">*</span></label>
+			<label for="prop_for">Purpose <span class="text-danger">*</span></label>
 				<select class="form-control" name="prop_for" id="prop_for">
 					<option value="">Select Purpose</option>
 					@php
@@ -88,34 +65,24 @@
 			</div>
 
 			<div class="form-group">
-			<label>Country <span class="text-danger">*</span></label>
+			<label for="country_id">Country <span class="text-danger">*</span></label>
 				<select class="form-control" name="country_id" id="country_id">
 					@foreach($countries as $country)
-						@if($country->id==(old('country_id')?old('country_id'):$property->country_id))
-						<option value="{{ $country->id }}" selected>{{ $country->name }}</option>
-						@endif
+                        @if($country->id==$property->country_id)
+						@php $selected =  ($country->id==$property->country_id)?'selected':null; @endphp
+						<option value="{{ $country->id }}" {{$selected}}>{{ $country->name }}</option>
+                        @endif
 					@endforeach
 				</select>
 			</div>
-			<div class="form-group d-none">
-				<label>State <span class="text-danger">*</span></label>
-				<select class="form-control" name="state_id" id="state_id" >
-					<option value="">Select State</option>
-				@foreach($states as $state)
-						@if($state->id==(old('state_id')?old('state_id'):$property->state_id))
-							<option value="{{ $state->id }}" selected>{{ $state->name }}</option>
-						@endif
-					@endforeach
-				</select>
-			</div>
+
 			<div class="form-group">
-			<label>City <span class="text-danger">*</span></label>
+			<label for="city_id">City <span class="text-danger">*</span></label>
 			<select class="form-control" name="city_id" id="city_id">
 				<option value="">Select City</option>
 				@foreach($cities as $city)
-				@if($city->id==(old('city_id')?old('city_id'):$property->city_id))
-					<option value="{{ $city->id }}" selected>{{$city->name}}</option>
-					@endif
+				@php $selected = ($city->id==$property->city_id)?'selected':null; @endphp
+					<option value="{{$city->id }}" {{$selected}}>{{$city->name}}</option>
 				@endforeach
 			</select>
 		</div>
@@ -144,7 +111,7 @@
 		<div class="row mt-2">
 			<div class="col-lg-8 col-md-8">
 				<div class="form-group">
-					<label>Area <span class="text-danger">*</span></label>
+					<label for="address">Area <span class="text-danger">*</span></label>
 				<input type="text" name="address" id="address" class="form-control" value="{{old('address')?old('address'):$property->address}}">
 				</div>
 			</div>
@@ -162,31 +129,31 @@
 	<div class="row">
 		<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 			<div class="form-group">
-				<label>Property Code <span class="text-danger">*</span></label>
+				<label for="prop_code">Property Code <span class="text-danger">*</span></label>
 			<input type="text" name="propcode" id="prop_code" class="form-control" value="{{old('propcode')?old('propcode'):$property->propcode}}" autocomplete="off" readonly>
 			</div>
 		</div>
 		<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Completion Date <span class="text-danger">*</span></label>
+					<label for="completion_date">Completion Date <span class="text-danger">*</span></label>
 						<input type="text" name="completion_date" id="completion_date" class="form-control" value="{{ $property->completion_date}}" autocomplete="off">
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Total Floors <span class="text-danger">*</span></label>
+					<label for="total_floors">Total Floors <span class="text-danger">*</span></label>
 					<input type="text" name="total_floors" id="total_floors" class="form-control numeric" value="{{ $property->total_floors}}" autocomplete="off">
 					</div>
 				</div>
 				<div class=" col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Total Number Of Flats <span class="text-danger">*</span></label>
+					<label for="total_flats">Total Number Of Flats <span class="text-danger">*</span></label>
 					<input type="text" name="total_flats" id="total_flats" class="form-control numeric" value="{{ $property->total_flats}}" autocomplete="off">
 					</div>
 				</div>
 				<div class=" col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-					<label>Total Number Of Shops <span class="text-danger">(If Any)</span></label>
+					<label for="total_shops">Total Number Of Shops <span class="text-danger">(If Any)</span></label>
 					<input type="text" name="total_shops" id="total_shops" class="form-control numeric" value="{{ $property->total_shops}}" autocomplete="off">
 					</div>
 				</div>
@@ -229,7 +196,7 @@
                 <th>Series</th>
                 <th>Floor (From - To)</th>
                 <th>No. Of Br</th>
-                <th>Size in Sqft</th>
+                <th>Size in SqFt</th>
                 <th>No Of Bath</th>
                 <th>No Of Parking</th>
                 <th>No Of Balcony</th>
@@ -415,23 +382,14 @@ initAutocomplete();
     })(jQuery);
     </script>
     <script type="text/javascript">
-	$(document).ready(function(){
+	(function($){
 
 	    let pickers = ["completion_date"];
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
            });
 
-		$("#property_unit_type").on('change',function(){
-			if($(this).val()==1)
-			{
-				$("#addMorePropertyUnitTypeDiv").hide();
-			}
-			else
-			{
-				$("#addMorePropertyUnitTypeDiv").show();
-			}
-		});
+
 		function addRow()
 		{
             let option = '';
@@ -535,55 +493,56 @@ initAutocomplete();
 		let url    = '{{route('property.update',['id'=>$property->id])}}';
 		function fn_success(result)
 		{
-			if(result.response=='success')
+			if(result.response==='success')
 			{
 				toast('success', result.message, 'top-right');
 				window.location.href=window.location.href;
 			}
-		};
+		}
 		function fn_error(result)
 		{
             toast('error', result.message, 'top-right');
-		};
+		}
 		$.fn_ajax_multipart(url,params,fn_success,fn_error);
 	});
-$("#prop_code, #state_id, #city_id").on('change',function(e){
+$("#prop_code, #country_id, #city_id").on('change',function(e){
      $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             })
 
-            var type  = "POST";
-            var url   = "{{route('property.code.gen')}}";
+            let type  = "POST";
+            let url   = "{{route('property.code.gen')}}";
             $.ajax({
                 type  : type,
                 url   : url,
                 data  : {
-                'state_id' : $("#state_id option:selected").text(),
-				'city_id'  : $("#city_id option:selected").text(),
-                'code'     : $("#prop_code").val()
+                'country_id' : $("#country_id option:selected").text(),
+				'city_id'    : $("#city_id option:selected").text(),
+                'code'       : $("#prop_code").val()
             },
                 dataType: 'json',
-                success: function(data)
+                success: function(result)
 				{
-                    if(data.status=='1')
+                    if(result.status==='1')
 					{
-						$("#prop_code").val(data.code).prop('readonly',true);
+						$("#prop_code").val(result.code).prop('readonly',true);
                     }
 					else
 					{
+					    console.log(result);
                     }
                 },
-                error: function(data)
+                error: function(result)
 				{
-                    console.log('Error:', data);
+                    console.log('Error:', result);
                 }
             });
 
 });
 $(document).on('click','.deleteImage',function(e){
-	id = $(this).attr('data-id');
+	let id = $(this).attr('data-id');
 	Swal.fire({
 				title: 'Are you sure?',
 				text: "You won't be able to revert this!",
@@ -600,8 +559,8 @@ $(document).on('click','.deleteImage',function(e){
                 }
             })
 
-            var type  = "POST";
-            var url   = "{{route('ajax.delete.image')}}";
+            let type  = "POST";
+            let url   = "{{route('ajax.delete.image')}}";
             $.ajax({
                 type  : type,
                 url   : url,
@@ -627,103 +586,21 @@ $(document).on('click','.deleteImage',function(e){
 });
 
 });
-$("#country_id").on('change',function(e){
-	if(!$.trim($("#country_id").val()).length)
-	{
-		 $("#country_id").css({'border-color':'red'}).focus();
-         toast('error', 'Please select country', 'top-right');
-						return false;
-	}
-	else
-	{
-              $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{csrf_token()}}'
-                }
-            })
-            $.ajax({
-                type     : "POST",
-                url      : "{{route('ajax.get.states')}}",
-                data     : {'country_id' : $("#country_id").val()},
-                dataType : 'json',
-                success  : function(res)
-				{
-                    if(res.response==='success')
-					{
-						$("#state_id").html('');
-						$("#state_id").append($('<option></option>').text('Select State').val(''));
-						$.each(res.data,function(index,obj){
-                              $("#state_id").append($('<option/>').text(obj.name).val(obj.id));
-						});
-						$("#state_id").css({'border-color':'green'}).focus();
-                    }
-					else
-					{
-                        $("#alert-code").addClass('hideme');
-                    }
-                },
-                error: function(ERROR)
-				{
-                    console.log('Error:', ERROR);
-                }
-            });
-	}
-});
-$("#state_id").on('change',function(e){
-	if(!$.trim($("#state_id").val()).length)
-	{
-		 $("#state_id").css({'border-color':'red'}).focus();
-         toast('error', 'Please select state', 'top-right');
-		return false;
-	}
-	else
-	{
-              $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{csrf_token()}}'
-                }
-            })
-            $.ajax({
-                type     : "POST",
-                url      : "{{route('ajax.get.cities')}}",
-                data     : {'state_id' : $("#state_id").val()},
-                dataType : 'json',
-                success  : function(res)
-				{
-                    if(res.response==='success')
-					{
-						$("#city_id").html('');
-						$("#city_id").append($('<option></option>').text('Select City').val(''));
-						$.each(res.data,function(index,obj){
-                              $("#city_id").append($('<option/>').text(obj.name).val(obj.id));
-						});
-						$("#city_id").css({'border-color':'green'}).focus();
-                    }
-					else
-					{
-                        toast('error',res.message, 'top-right');
-                    }
-                },
-                error: function(ERROR)
-				{
-                    console.log('Error:', ERROR);
-                }
-            });
-	}
-});
-	});
+
+
+	})(jQuery);
 
 	</script>
 	<script>
 		$(function() {
     // Multiple images preview in browser
-    var imagesPreview = function(input, placeToInsertImagePreview) {
+    let imagesPreview = function(input, placeToInsertImagePreview) {
 
         if (input.files) {
-            var filesAmount = input.files.length;
+            let filesAmount = input.files.length;
 
-            for (i = 0; i < filesAmount; i++) {
-                var reader = new FileReader();
+            for (let i = 0; i < filesAmount; i++) {
+                let reader = new FileReader();
 
                 reader.onload = function(event)
 				{
@@ -754,9 +631,9 @@ $("#state_id").on('change',function(e){
 });
 	</script>
 	<script>
-$(function()
+(function($)
 {
-	$("input[type='submit']").click(function(e)
+	$("input[type='submit']").on('click',function(e)
 	{
 		let $fileUpload = $("input[type='file']");
 		let max         = 6;
@@ -774,6 +651,6 @@ $(function()
 		   e.preventDefault();
 		}
 	});
-});
+})(jQuery);
 	</script>
     @endsection

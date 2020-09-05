@@ -7,9 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class State extends Model
 {
     protected $guarded   = [];
+    protected $appends   = ['country_name'];
+
+    public function getCountryNameAttribute()
+    {
+        return $this->country ? $this->country->name : null;
+    }
     public function country()
     {
-       return $this->belongsTo('App\Country');
+       return $this->belongsTo(Country::class,'country_id','id');
     }
     public function tenants()
     {

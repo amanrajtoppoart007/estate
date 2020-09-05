@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Admin;
 use App\City;
+use App\DataTable\Api;
 use App\Designation;
 use App\Employee;
 use App\Library\GenerateTaskCode;
@@ -31,9 +32,7 @@ class TaskController extends Controller
     }
      public function fetch(Request $request)
     {
-        $model  = new Task();
-        $api    = new  \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Task())))->getResult());
     }
 
     public function get_chat_list(Request $request)

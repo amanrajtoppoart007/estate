@@ -20,9 +20,7 @@ class StateController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new State();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new State())))->getResult());
     }
     public function index()
     {

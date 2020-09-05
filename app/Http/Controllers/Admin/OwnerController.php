@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Http\Requests\EditOwner;
 use App\Http\Requests\StoreOwner;
 use App\Library\CreateAuthorisedPerson;
@@ -53,9 +54,7 @@ class OwnerController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Owner();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Owner())))->getResult());
     }
 
 

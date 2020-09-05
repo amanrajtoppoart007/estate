@@ -1,19 +1,59 @@
 <?php
 
+
 namespace App\DataTable\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-class Filter
+
+class Filter implements FilterInterface
 {
-    var $keyword;
-    var $column;
-    var $dir;
-    public function __construct()
+    /**
+     * @param Builder $builder
+     * @param $method
+     * @param $param
+     * @return Builder
+     */
+     public static function apply(Builder $builder,$method, $param)
     {
-       $request       = request()->all();
-       $this->column  = $request['columns'][$request['order'][0]['column']]['data'];
-       $this->dir     = $request['order'][0]['dir'];
-       $this->keyword = $request['search']['value'];
+        if(method_exists(__CLASS__,$method))
+        {
+            $class = __CLASS__;
+            return $class::$method($builder,$param);
+        }
+         return $builder;
     }
+
+   public static function start(Builder $builder,$value)
+   {
+        if(!empty($value))
+        {
+             $builder->skip($value);
+        }
+        return $builder;
+
+   }
+
+    /**
+     * @param $builder
+     * @param $value
+     * @return mixed
+     */
+   public static function length($builder,$value)
+   {
+      if(!empty($value))
+      {
+          $builder->take($value, 10);
+      }
+       return $builder;
+   }
+
+    /**
+     * @param $builder
+     * @param $value
+     * @return mixed
+     */
+   public static function order($builder,$value)
+   {
+      return $builder->orderBy('created_at','DESC');
+   }
 }

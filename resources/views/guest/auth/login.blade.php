@@ -1,3 +1,65 @@
+@extends("guest.layout.main")
+@section("content")
+     <!-- Login Section -->
+    <div class="container-fluid mb-5 py-5">
+        <div class="row">
+            <div class="col-lg-4 col-sm-4 col-12 offset-lg-4 offset-sm-4">
+                <form action="" class="p-4 bgGray box-shadow mt-5">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <h2 class="text-center mb-0">Welcome Back</h2>
+                            <h5 class="text-center mb-4 colorOrange">Login To Your Panel</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Username">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-12 text-right">
+                            <div class="form-group form-check">
+                                <a href="#" class="colorOrange">Forgot Password?</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block btn-Formsubmit">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12 text-center">
+                            Don't have an Account ? <a href="signup.html" class="colorOrange">Sign Up</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Login Section -->
+@endsection
+
+{{--
+
+
 @extends('guest.layout.main')
 @include('guest.include.navbar')
 @section('content')
@@ -83,3 +145,4 @@
 	</div>
 </section>
 @endsection
+--}}

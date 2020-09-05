@@ -57,8 +57,7 @@ class StoreProperty extends FormRequest
             'description' => 'required',
             'feature'    => 'required|array|min:1',
             'feature.*'    => 'distinct',
-            'images' => 'required',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,webp,svg|max:10048',
 
         ];
     }

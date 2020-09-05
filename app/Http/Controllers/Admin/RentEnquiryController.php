@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Agent;
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditRentEnquiry;
@@ -29,9 +30,7 @@ class RentEnquiryController extends Controller
 
      public function fetch(Request $request)
     {
-        $model = new RentEnquiry();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+         echo json_encode((new Api((new RentEnquiry())))->getResult());
     }
 
     public function create()

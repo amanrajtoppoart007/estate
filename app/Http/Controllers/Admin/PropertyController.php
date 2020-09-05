@@ -30,9 +30,7 @@ class PropertyController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Property();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+         echo json_encode((new Api((new Property())))->getResult());
     }
 
 
@@ -48,7 +46,7 @@ class PropertyController extends Controller
         $owners        = Owner::where(['is_disabled'=>'0'])->whereIn('owner_type',['developer','both'])->get();
         $propertyTypes = PropertyType::where('is_disabled','0')->get();
         $countries     = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
-        $cities        = City::where(['is_disabled'=>0,'country_id'=>1])->get();
+        $cities        = City::where(['is_disabled'=>0,'country_id'=>231])->get();
         $features      = Feature::where('is_disabled', '0')->get();
         return view('admin.property.create',compact('agents','owners','features', 'countries', 'propertyTypes','cities'));
     }
@@ -92,10 +90,9 @@ class PropertyController extends Controller
             $propertyTypes  = PropertyType::where('is_disabled', '0')->get();
             $countries      = Country::where('is_disabled', '0')->get();
             $features       = Feature::where('is_disabled', '0')->get();
-            $cities         = City::where('is_disabled', '0')->get();
             $owners         = Owner::where(['owner_type'=>'flat_owner','is_disabled'=> '0'])->get();
             $agents         = Agent::where('is_disabled', '0')->get();
-            return view('admin.property.view', compact('property', 'states', 'features', 'countries', 'cities', 'propertyTypes','owners','agents'));
+            return view('admin.property.view', compact('property', 'states', 'features', 'countries', 'propertyTypes','owners','agents'));
         }
         else
         {

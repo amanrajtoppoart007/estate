@@ -79,7 +79,7 @@
 						<label>Country  <span class="ml-2 text-danger">*</span></label>
 						<select class="form-control" name="country_id" id="country_id">
 							@foreach($countries as $country)
-							@if($country->id==1)
+							@if($country->code==971)
 							<option value="{{ $country->id }}" selected>{{ $country->name }}</option>
 							@endif
 							@endforeach
@@ -197,7 +197,7 @@
 						<th>Action</th>
 					</tr>
 					</thead>
-					<tbody id="propertyUnitTypeGrid"></tbody>
+					<tbody id="property_unit_type_grid"></tbody>
 				</table>
 			</div>
 			<div class="row mt-2" id="addMorePropertyUnitTypeDiv">
@@ -322,7 +322,9 @@
 </script>
 <script type="text/javascript">
 	let propAddLink = "{{route('property.store')}}";
-	$(document).ready(function() {
+	(function($) {
+
+	    addRow();
 
 	    let pickers = ["completion_date"];
            pickers.forEach(function(item){
@@ -332,22 +334,13 @@
 		$(document).on('click','.removeRowBtn',function(e){
 			e.preventDefault();
 			let primary_tr = $(this).closest('tr');
-            if($("#propertyUnitTypeGrid").find('tr').index(primary_tr)!=0)
+            if($("#property_unit_type_grid").find('tr').index(primary_tr)!=0)
 			{
 				$(this).closest('tr').remove();
 			}
 		});
-		addRow();
-		$("#property_unit_type").on('change',function(){
-		if($(this).val()==1)
-		{
-			$("#addMorePropertyUnitTypeDiv").hide();
-		}
-		else
-		{
-			$("#addMorePropertyUnitTypeDiv").show();
-		}
-	});
+
+
 	$("#addMorePropertyUnitTypeBtn").on('click',function(){
 			addRow();
 		});
@@ -437,24 +430,29 @@
 							<button  class="btn btn-danger removeRowBtn" type="button"><i class="fa fa-times text-white"></i></button>
 						</td>
 					</tr>`;
-					$("#propertyUnitTypeGrid").append(html);
+					$("#property_unit_type_grid").append(html);
 		}
-		$("#prop_code, #state_id, #city_id").on('change', function(e){
+		$("#prop_code,#country_id,#city_id").on('change', function(e){
 
 			$.ajaxSetup({headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 			$.ajax({
 				type : "POST",
 				url  : "{{route('property.code.gen')}}",
-				data : {
-					'state_id': $("#state_id option:selected").text(),
-					'city_id' : $("#city_id option:selected").text(),
-					'code'    : $("#prop_code").val()
-				},
+				data :
+                    {
+					'country_id': $("#country_id option:selected").text(),
+					'city_id'   : $("#city_id option:selected").text(),
+					'code'      : $("#prop_code").val()
+				    },
 				dataType: 'json',
-				success: function(data) {
-					if (data.status == '1') {
-						$("#prop_code").val(data.code).prop('readonly', true);
-					} else {
+				success: function(result)
+                {
+					if(result.status === '1')
+					{
+						$("#prop_code").val(result.code).prop('readonly', true);
+					}
+					else
+                    {
 
                     }
 				},
@@ -464,106 +462,29 @@
 			});
 
 		});
-		$("#country_id").on('change', function(e) {
-			if (!$.trim($("#country_id").val()).length) {
-				$("#country_id").css({
-					'border-color': 'red'
-				}).focus();
-				toast('error', 'Please select country', 'top-right');
-				return false;
-			} else {
-				$.ajaxSetup({
-					headers: {
-						'X-CSRF-TOKEN': '{{csrf_token()}}'
-					}
-				})
-				$.ajax({
-					type: "POST",
-					url: "{{route('ajax.get.states')}}",
-					data: {
-						country_id: $("#country_id").val()
-					},
-					dataType: 'json',
-					success: function(res){
-						if (res.response == 'success')
-						{
-							$("#state_id").html('');
-							$("#state_id").append($('<option></option>').text('Select State').val(''));
-							$.each(res.data, function(index, obj){
-								$("#state_id").append($('<option/>').text(obj.name).val(obj.id));
-							});
-							$("#state_id").css({'border-color': 'green'}).focus();
-						}
-						else
-						{
-							toast('error', res.message, 'top-right');
-						}
-					},
-					error: function(ERROR) {
-						console.log('Error:', ERROR);
-					}
-				});
-			}
-		});
-		$("#state_id").on('change', function(e) {
-			if (!$.trim($("#state_id").val()).length) {
-				$("#state_id").css({'border-color': 'red'}).focus();
-				toast('error', 'Please select state', 'top-right');
-				return false;
-			} else {
-				$.ajaxSetup({
-					headers: {
-						'X-CSRF-TOKEN': '{{csrf_token()}}'
-					}
-				})
-				$.ajax({
-					type: "POST",
-					url: "{{route('ajax.get.cities')}}",
-					data: {
-						state_id: $("#state_id").val()
-					},
-					dataType: 'json',
-					success: function(res) {
-						if (res.response == 'success') {
-							$("#city_id").html('');
-							$("#city_id").append($('<option></option>').text('Select City').val(''));
-							$.each(res.data, function(index, obj) {
-								$("#city_id").append($('<option/>').text(obj.name).val(obj.id));
-							});
-							$("#city_id").css({
-								'border-color': 'green'
-							}).focus();
-						} else
-						{
-							toast('error', res.message, 'top-right');
-						}
-					},
-					error: function(ERROR) {
-						console.log('Error:', ERROR);
-					}
-				});
-			}
-		});
-	});
-	$("#add_data_form").on('submit',function(e){
+
+		$("#add_data_form").on('submit',function(e){
 		e.preventDefault();
-		var params = new FormData(document.getElementById('add_data_form'));
-		var url    = '{{route('property.store')}}';
+		let params = new FormData(document.getElementById('add_data_form'));
+		let url    = '{{route('property.store')}}';
 		function fn_success(result)
 		{
-			if(result.response=='success')
+			if(result.response==='success')
 			{
 				toast('success', result.message, 'top-right');
 				$("#add_data_form")[0].reset();
 				$("#gallery").empty();
 			}
-		};
+		}
 		function fn_error(result)
 		{
             toast('error', result.message, 'top-right');
-		};
+		}
 		$.fn_ajax_multipart(url,params,fn_success,fn_error);
 	});
+
+	})(jQuery);
+
 </script>
 <script>
 	$(function() {
@@ -573,7 +494,7 @@
 			if (input.files) {
 				let filesAmount = input.files.length;
 
-				for (i = 0; i < filesAmount; i++) {
+				for (let i = 0; i < filesAmount; i++) {
 					let reader = new FileReader();
 
 					reader.onload = function(event)
