@@ -19,7 +19,7 @@ class SearchController extends Controller
         {
 
         }
-        $listings   = (new PropertyView())->execute((new SearchApi(new PropertyUnit()))->getResult());
+        $listings   = (new PropertyView())->multiple((new SearchApi(new PropertyUnit()))->getResult());
 
         switch($request->view)
         {
