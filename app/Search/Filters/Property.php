@@ -5,14 +5,16 @@ namespace App\Search\Filters;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-class PropertyUnitType
+class Property
 {
+
     public static function apply(Builder $builder,$key, $value)
     {
         if(method_exists(__CLASS__,$key))
         {
             $class = __CLASS__;
             return $class::$key($builder,$value);
+
         }
          return $builder;
     }
@@ -75,9 +77,7 @@ class PropertyUnitType
     {
         if(!empty($value))
         {
-          return    $builder->whereHas('property',function($query) use($value){
-                       $query->where('properties.prop_for', $value);
-            });
+          return    $builder->where('prop_for',$value);
         }
         return $builder;
     }
@@ -86,7 +86,9 @@ class PropertyUnitType
         if(!empty($value))
         {
             $value = intval($value);
-            return $builder->where('bathroom','<=', $value);
+            return $builder->whereHas('propertyUnitTypes',function($query) use ($value){
+               $query->where( 'bathroom','<=', $value);
+            });
         }
         return $builder;
     }
@@ -95,7 +97,9 @@ class PropertyUnitType
         if(!empty($value))
         {
             $value = intval($value);
-            return $builder->where('bedroom','<=', $value);
+            return $builder->whereHas('propertyUnitTypes',function($query) use ($value){
+               $query->where( 'bedroom','<=', $value);
+            });
         }
         return $builder;
     }
@@ -103,12 +107,9 @@ class PropertyUnitType
     {
         if(!empty($value))
         {
-          return    $builder->whereHas('property',function($query) use($value){
-                       $query->where('properties.city_id', $value);
-            });
+            $builder->where('city_id', $value);
         }
         return $builder;
-
     }
     public static function feature(Builder $builder, $value)
     {
@@ -120,20 +121,14 @@ class PropertyUnitType
                 {
                     if(!empty($feature))
                     {
-                        $builder->whereHas('property',function($query) use($feature){
-                              $query->where('feature','like',"%$feature%");
-                       });
+                        $builder->where('feature','like',"%$feature%");
                     }
                 }
                 return $builder;
             }
             else
             {
-                if(!empty($value))
-                {
-                    $builder->where('feature', 'like', "%$value%");
-                }
-
+                $builder->where('feature', 'like', "%$value%");
             }
         }
          return $builder;
@@ -150,15 +145,11 @@ class PropertyUnitType
         }
         else if($value == 'top-rated')
         {
-            return $builder->whereHas('property',function($query) {
-                              $query->orderBy('property_rating', 'DESC');
-                    });
+            return $builder->orderBy('property_rating', 'DESC');
         }
         else if($value == 'most-popular')
         {
-            return $builder->whereHas('property',function($query){
-                              $query->orderBy('view_count', 'DESC');
-                    });
+            return $builder->orderBy('view_count', 'DESC');
         }
         else
         {
@@ -168,26 +159,21 @@ class PropertyUnitType
 
     public static  function search(Builder $builder,$value)
     {
-        if(empty($value))
+        if(!empty($value))
         {
-            return $builder;
-        }
-        return $builder->whereHas('property',function($query) use($value){
-                $query->where("title", 'LIKE', '%' . $value . '%');
-                $query->orWhere("address", 'LIKE', '%' . $value . '%');
-                $query->orWhereHas('city',function($q) use($value){
+               $builder->where("title", 'LIKE', '%' . $value . '%');
+                $builder->orWhere("address", 'LIKE', '%' . $value . '%');
+                $builder->orWhereHas('city',function($q) use($value){
                      $q->where("name", 'LIKE', '%' . $value . '%');
                 });
-            });
-
+        }
+        return $builder;
     }
     public static function propertyType(Builder $builder, $value)
     {
         if(!empty($value))
         {
-            return $builder->whereHas('property',function($query) use($value){
-                              $query->where('type',$value);
-                    });
+            return $builder->where('type',$value);
         }
         return $builder;
     }
@@ -195,10 +181,7 @@ class PropertyUnitType
     {
         if(!empty($value))
         {
-
-            return $builder->whereHas('property',function($query) use($value){
-                              $query->where('state_id',$value);
-                    });
+            return $builder->where('state_id',$value);
         }
         return $builder;
     }
@@ -207,9 +190,7 @@ class PropertyUnitType
     {
         if(!empty($value))
         {
-            return $builder->whereHas('property',function($query) use($value){
-                              $query->where('title', 'LIKE', '%' . $value . '%');
-                    });
+            return  $builder->where('title', 'LIKE', '%' . $value . '%');
         }
         return $builder;
     }
@@ -217,10 +198,9 @@ class PropertyUnitType
     {
         if(!empty($value))
         {
-            return $builder->whereHas('property',function($query) use($value){
-                              $query->where('address', 'LIKE', '%' . $value . '%');
-                    });
+            return  $builder->where('address', 'LIKE', '%' . $value . '%');
         }
         return $builder;
     }
+
 }

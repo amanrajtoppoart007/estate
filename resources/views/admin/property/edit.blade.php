@@ -24,7 +24,7 @@
 			<select class="form-control" name="owner_id" id="owner_id">
 				<option value="">Select Developer</option>
 				@foreach($owners as $owner)
-						@if($owner->id==(old('owner_id')?old('owner_id'):$property->owner_id))
+						@if($owner->id==$property->owner_id))
 						<option value="{{ $owner->id }}" selected>{{ $owner->name }}</option>
 						@else
 						<option value="{{ $owner->id }}">{{ $owner->name }}</option>
@@ -38,7 +38,7 @@
 				<select class="form-control" name="type" id="type">
 					<option value="">Select Property Type</option>
 					@foreach($propertyTypes as $type)
-						@if($type->id==(old('type')?old('type'):$property->type))
+						@if($type->id==$property->type))
 						<option value="{{ $type->id }}" selected>{{ $type->title }}</option>
 						@else
 						<option value="{{ $type->id }}">{{ $type->title }}</option>
@@ -55,7 +55,7 @@
 						$purpose = array('1'=>'For Rent','2'=>'For Sale','3'=>'Rent & Sale')
 					@endphp
 					@foreach($purpose as $pKey=>$pVal)
-						@if($pKey==old('prop_for')?old('prop_for'):$property->prop_for)
+						@if($pKey==$property->prop_for)
 						<option value="{{$pKey}}" selected>{{$pVal}}</option>
 						@else
 						<option value="{{$pKey}}">{{$pVal}}</option>
@@ -68,7 +68,7 @@
 			<label for="country_id">Country <span class="text-danger">*</span></label>
 				<select class="form-control" name="country_id" id="country_id">
 					@foreach($countries as $country)
-                        @if($country->id==$property->country_id)
+                        @if($country->code==971)
 						@php $selected =  ($country->id==$property->country_id)?'selected':null; @endphp
 						<option value="{{ $country->id }}" {{$selected}}>{{ $country->name }}</option>
                         @endif

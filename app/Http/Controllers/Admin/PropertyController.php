@@ -109,7 +109,7 @@ class PropertyController extends Controller
         $propertyTypes = PropertyType::where('is_disabled', '0')->get();
         $countries     = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
         $features      = Feature::where('is_disabled', '0')->get();
-        $cities        = City::where(['is_disabled'=>0,'country_id'=>1])->get();
+        $cities        = City::where(['is_disabled'=>0,'country_id'=>231])->get();
         $property      = Property::with("images","propertyUnitTypes","city","state","country","propertyType")->find($id);
           if($property)
           {

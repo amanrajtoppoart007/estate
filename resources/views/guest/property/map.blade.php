@@ -2,6 +2,7 @@
 @section("content")
     <!-- Top Filter -->
     <div class="container-fluid bgGray pt-3">
+
         <div class="row">
             <div class="col-lg-12 col-sm-12 col-12">
                 <div class="row">
@@ -68,6 +69,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row justify-content-center align-self-center">
             <div class="col-lg-6 col-sm-6 col-12 bg-light ">
                 <div class="row">

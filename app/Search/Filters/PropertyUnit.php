@@ -5,7 +5,7 @@ namespace App\Search\Filters;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-class PropertyUnitType
+class PropertyUnit
 {
     public static function apply(Builder $builder,$key, $value)
     {
@@ -62,7 +62,8 @@ class PropertyUnitType
                 $max = trim_price($value['max']);
                 if((!empty($min))&&(!empty($max)))
                 {
-                    return $builder->whereBetween('rental_amount', [$min, $max]);
+                     $builder->whereBetween('unit_rent', [$min, $max]);
+                     $builder->orWhereBetween('unit_price', [$min, $max]);
                 }
                 return $builder;
            }
@@ -75,9 +76,7 @@ class PropertyUnitType
     {
         if(!empty($value))
         {
-          return    $builder->whereHas('property',function($query) use($value){
-                       $query->where('properties.prop_for', $value);
-            });
+          return    $builder->where('purpose', $value);
         }
         return $builder;
     }
@@ -92,11 +91,23 @@ class PropertyUnitType
     }
     public static function bedroom(Builder $builder, $value)
     {
-        if(!empty($value))
+        if (!empty($value))
         {
-            $value = intval($value);
-            return $builder->where('bedroom','<=', $value);
-        }
+           if(is_array($value))
+           {
+                $min = trim_price($value['min']);
+                $max = trim_price($value['max']);
+                if((!empty($min))&&(!empty($max)))
+                {
+                     $builder->whereBetween('bedroom', [$min, $max]);
+                }
+
+           }
+           else
+           {
+                $builder->where('bedroom','<=', $value);
+           }
+         }
         return $builder;
     }
     public static function city(Builder $builder, $value)
@@ -129,11 +140,7 @@ class PropertyUnitType
             }
             else
             {
-                if(!empty($value))
-                {
-                    $builder->where('feature', 'like', "%$value%");
-                }
-
+                $builder->where('feature', 'like', "%$value%");
             }
         }
          return $builder;
@@ -224,3 +231,4 @@ class PropertyUnitType
         return $builder;
     }
 }
+

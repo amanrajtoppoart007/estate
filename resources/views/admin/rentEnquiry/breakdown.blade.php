@@ -4,8 +4,9 @@
 @endsection
 @include("admin.include.breadcrumb",["page_title"=>"Rent BreakDown"])
 @section('content')
-    <div class="submit_form color-secondery icon_primary p-5 bg-white">
-        {{Form::open(['id'=>'add_data_form','autocomplete'=>'off'])}}
+    <div class="card">
+        <div class="card-body">
+                    {{Form::open(['id'=>'add_data_form','autocomplete'=>'off'])}}
         <input type="hidden" name="rent_enquiry_id" value="{{$enquiry->id}}">
         <div class="card">
             <div class="card-header bg-gradient-cyan">
@@ -15,12 +16,19 @@
                 <div class="row">
                     <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <div class="form-group">
+                            <label for="state_id">Emirates/State</label>
+                            <select class="form-control" name="state_id" id="state_id">
+                                <option value="">Select State</option>
+                                @foreach($states as $state)
+                                    <option value="{{$state->id}}">{{$state->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                        <div class="form-group">
                             <label for="city_id">City</label>
                             <select class="form-control" name="city_id" id="city_id">
-                                <option value="">Select City</option>
-                                @foreach($cities as $city)
-                                    <option value="{{$city->id}}">{{$city->name}}</option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -206,6 +214,7 @@
             <button type="submit" id="send_breakdown_via_email" class="btn btn-warning text-white submit_breakdown_button">Send BreakDown By E-mail</button>
         </div>
         {{Form::close()}}
+        </div>
     </div>
 @endsection
 @section('js')
@@ -216,6 +225,7 @@
     <script>
 
         (function ($) {
+
             $(document).on("change","#rent_breakdown_grid tr td input",function(){
 
               let index =  $(this).index();
