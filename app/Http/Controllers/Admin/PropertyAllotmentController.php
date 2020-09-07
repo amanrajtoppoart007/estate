@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\City;
+use App\DataTable\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AllotProperty;
 use App\Http\Requests\RenewPropertyAllotment;
@@ -28,9 +29,7 @@ class PropertyAllotmentController extends Controller
 
     public function fetch_alloted_properties(Request $request)
     {
-        $model  = new PropertyUnitAllotment();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new PropertyUnitAllotment())))->getResult());
     }
     public function index(Request $request,$id,$property_unit_id=null)
     {
@@ -86,7 +85,7 @@ class PropertyAllotmentController extends Controller
                 $res['status']   = 1;
                 $res['next_url'] = route('allotment.detail',[$request->tenant_id,$unitAllotment->id]);
                 $res['response'] = 'success';
-                $res['message']  = 'Property alloted to tenant';
+                $res['message']  = 'Property allotment successful to tenant';
             }
             else
             {
@@ -100,7 +99,7 @@ class PropertyAllotmentController extends Controller
         {
             $res['status']   = 0;
             $res['response'] = 'error';
-            $res['message']  = 'Property allready alloted';
+            $res['message']  = 'Property already allocated to someone else';
         }
         return response()->json($res);
     }
@@ -247,8 +246,6 @@ class PropertyAllotmentController extends Controller
     }
     public function renewal_break_down(Request $request, $id)
     {
-
-
             $breakdown_template = array();
         if ((isset($id)) && !empty($id)) {
             $current    = PropertyUnitAllotment::where('id',$id)
@@ -268,6 +265,7 @@ class PropertyAllotmentController extends Controller
             }
             return view('admin.allotProperty.breakDown', \compact('tenant', 'current', 'breakdown', 'breakdown_template'));
         } else {
+            return view("blank")->with(["msg"=>"Invalid request"]);
         }
     }
      public function breakdown_pdf_view($breakdown='')

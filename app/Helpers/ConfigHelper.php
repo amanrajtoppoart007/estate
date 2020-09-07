@@ -33,7 +33,7 @@ if (!function_exists('get_unit_types'))
           "studio"=>"Studio",
           "one_br"=>"1 BR",
           "two_br"=>"2 BR",
-          "three_br"=>"3BR"
+          "three_br"=>"3 BR"
       );
   }
 }
@@ -147,6 +147,51 @@ if (!function_exists('rent_period_types'))
           "half_yearly"=>"Half Yearly",
           "yearly"=>"Yearly",
       );
+
+  }
+}
+
+if (!function_exists('get_bedrooms'))
+{
+  function get_bedrooms()
+  {
+    return  ["1","2","3","4","5","6","7","7+"];
+
+  }
+}
+
+if (!function_exists('get_bathrooms'))
+{
+  function get_bathrooms()
+  {
+    return  ["1","2","3","4","5","6","7","7+"];
+
+  }
+}
+
+if (!function_exists('get_furnishing_types'))
+{
+  function get_furnishing_types()
+  {
+      return [
+          "furnished" => "Furnished",
+          "unfurnished" => "Unfurnished",
+          "semifurnished" => "Semi furnished",
+      ];
+
+  }
+}
+
+if (!function_exists('get_property_types'))
+{
+  function get_property_types()
+  {
+      return [
+          "flat"=>"Flat",
+          "townhouse" => "TownHouse",
+          "vila" => "Villa",
+          "office" => "Office",
+      ];
 
   }
 }

@@ -6,7 +6,7 @@ class CreateRentBreakDown
 {
     public function handle()
     {
-         $store = request()->only(['city_id','property_id','unit_id','rent_period_type','rent_period','parking','parking_number','rent_amount','installments']);
+         $store = request()->only(['city_id','tenancy_type','unit_type','property_id','unit_id','rent_period_type','rent_period','parking','parking_number','rent_amount','installments']);
          if(request()->has("lease_start"))
          {
              $store["lease_start_date"] = request()->lease_start ? date("Y-m-d",strtotime(request()->lease_start)) : null;

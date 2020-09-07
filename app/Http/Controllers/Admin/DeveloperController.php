@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Http\Requests\EditDeveloper;
 use App\Http\Requests\StoreDeveloper;
 use App\Library\CreateAuthorisedPerson;
@@ -30,15 +31,13 @@ class DeveloperController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Owner();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Owner())))->getResult());
     }
 
 
     public function create()
     {
-        $countries = Country::where(['is_disabled'=>0,'code'=>'971'])->get();
+        $countries = Country::where(['is_disabled'=>0,'code'=>'971'])->orderBy('name','ASC')->get();
         $states = State::where(['is_disabled'=>0,'country_id'=>1])->get();
         return view('admin.developer.create',compact("countries","states"));
     }
@@ -119,7 +118,7 @@ class DeveloperController extends Controller
     public function edit($id)
     {
         $owner = Owner::find($id);
-        $countries = Country::where(['is_disabled'=>0,'code'=>'971'])->get();
+        $countries = Country::where(['is_disabled'=>0,'code'=>'971'])->orderBy('name','ASC')->get();
         $states = State::where(['is_disabled'=>0,'country_id'=>1])->get();
         $cities = City::where(['is_disabled'=>0,'country_id'=>1])->get();
         return view('admin.developer.edit',compact('owner','countries','states','cities'));

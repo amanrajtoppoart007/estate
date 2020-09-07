@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Agent;
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditRentEnquiry;
@@ -12,6 +13,7 @@ use App\Http\Requests\StoreRentEnquiry;
 use App\Property;
 use App\PropertyUnit;
 use App\RentEnquiry;
+use App\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,15 +31,13 @@ class RentEnquiryController extends Controller
 
      public function fetch(Request $request)
     {
-        $model = new RentEnquiry();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+         echo json_encode((new Api((new RentEnquiry())))->getResult());
     }
 
     public function create()
     {
         $agents = Agent::where(['is_disabled'=>'0'])->get();
-        $countries = Country::where('is_disabled', '0')->get();
+        $countries = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
        return view('admin.rentEnquiry.create',compact('agents','countries'));
     }
 
@@ -46,9 +46,9 @@ class RentEnquiryController extends Controller
         $enquiry = RentEnquiry::find($id);
         if(!empty($enquiry))
         {
-            $cities = City::where(['is_disabled' => '0'])->get();
+            $states = State::where(['is_disabled' => '0','country_id'=>231])->get();
             $properties = Property::where(['is_disabled' => 0])->get();
-            return view("admin.rentEnquiry.breakdown", compact("enquiry","cities", "properties"));
+            return view("admin.rentEnquiry.breakdown", compact("enquiry","states", "properties"));
         }
         else
         {

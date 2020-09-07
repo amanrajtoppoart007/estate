@@ -13,11 +13,7 @@ use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|Response|View
-     */
+
     public function search()
     {
         return view('admin.attendance.search');
@@ -64,11 +60,6 @@ class AttendanceController extends Controller
         return view('admin.attendance.index',compact('date','year','month','daysCountInMonth','employees'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|Response|View
-     */
     public function create()
     {
         $employees = Employee::whereDoesntHave('attendances',function(Builder $query){
@@ -77,12 +68,7 @@ class AttendanceController extends Controller
         return view('admin.attendance.create',\compact('employees'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -121,7 +107,7 @@ class AttendanceController extends Controller
      * @param int $id
      * @return void
      */
-    public function show($id)
+    public function show(int $id)
     {
         //
     }
@@ -132,7 +118,7 @@ class AttendanceController extends Controller
      * @param int $id
      * @return void
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         //
     }
@@ -155,7 +141,7 @@ class AttendanceController extends Controller
      * @param int $id
      * @return void
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
     }

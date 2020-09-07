@@ -52,7 +52,7 @@ class EditProperty extends FormRequest
             'description' => 'required',
             'feature'    => 'required|array|min:1',
             'feature.*'    => 'distinct',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,webp,svg|max:10048',
 
         ];
     }

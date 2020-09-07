@@ -2,6 +2,17 @@
 
 
 use App\SystemSetting;
+
+function get_first_letters($txt)
+{
+    $words = preg_split("/\s+/", "$txt");
+    $acronym = "";
+
+    foreach ($words as $w) {
+        $acronym .= strtoupper($w[0]);
+    }
+    return $acronym;
+}
 if (!function_exists('extract_doc_keys'))
 {
   function extract_doc_keys($object,...$keys)

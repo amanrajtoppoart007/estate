@@ -17,7 +17,7 @@ class AdminCommonController extends Controller
 
 
 
-public function checkcode($code)
+public function check_code($code)
 {
 
       //this recursive code will check and generate code if already exist then it will add +1 and again check for existent of newly generated code and finaly return non existent code.
@@ -27,7 +27,7 @@ public function checkcode($code)
         $string = substr($code, 0, 3);//taking first 3 char of code which is investor and state code
         $plus   = preg_replace( '/[^0-9]/', '', $code)+1;
         $string.=str_pad($plus, get_systemSetting('property_code_length'), '0', STR_PAD_LEFT);
-        return $this->checkcode($string);
+        return $this->check_code($string);
 
       }
       else
@@ -35,10 +35,12 @@ public function checkcode($code)
           return $code;
       }
 }
+
+
     public function generate_property_code(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'state_id' => 'required',
+            'country_id' => 'required',
             'city_id' => 'required',
         ]);
 
@@ -49,10 +51,10 @@ public function checkcode($code)
         }
         else
         {
-                $state = $request->state_id;
-                $city  = $request->city_id;
-                $code = strtoupper(substr($state, 0, 2));
-                $code.= strtoupper(substr($city, 0, 1));
+                $country = $request->country_id;
+                $city    = $request->city_id;
+                $code    = get_first_letters($country);
+                $code.= get_first_letters($city);
 
                 $result = Property::select('propcode')->where('propcode','LIKE','%'.$code.'%')->get();//fetching all propcode matching with code investor+state code
               if(count($result)>0)
@@ -69,10 +71,10 @@ public function checkcode($code)
                   $x = str_pad($x,get_systemSetting('property_code_length'), '0', STR_PAD_LEFT);//adding 0 as system setting
                   $code.=$x;
               }
-              $code = $this->checkcode($code);//calling recursive function
+              $code = $this->check_code($code);//calling recursive function
 
 
-            $data=array('status'=>1,'msg'=>  'Successfully Generated',);
+            $data=array('status'=>"1",'msg'=>  'Successfully Generated',);
             $data['code'] = $code;
             return json_encode($data);
           }
@@ -85,14 +87,14 @@ public function checkcode($code)
           if(count($result)>0)
           {
             //if code exist then generate and suggest new one
-                  $codenew = $this->checkcode($code);//calling recursive function
-                  $msg='Unacceptable, We suggest '.$codenew;
+                  $code_new = $this->check_code($code);//calling recursive function
+                  $msg='Unacceptable, We suggest '.$code_new;
                   $data=array('status'=>'0','msg'=>  $msg,);
                     return json_encode($data);
           }
           else
           {
-              $data=array('status'=>1,'msg'=>  'MSG',);
+              $data=array('status'=>"1",'msg'=>  'MSG',);
               return json_encode($data);
           }
     }

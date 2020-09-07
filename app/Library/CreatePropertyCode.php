@@ -28,8 +28,10 @@ class CreatePropertyCode
     {
 
         $input['city']  = pluck_single_value('cities','id',$request['city_id'],'name');
+        $input['country']  = pluck_single_value('countries','id',$request['country_id'],'name');
         $validator      = Validator::make($input,[
             'city' => 'required',
+            'country' => 'required',
         ]);
         if($validator->fails())
         {
@@ -37,9 +39,10 @@ class CreatePropertyCode
         }
         else
         {
-
-                $city  = $input['city'];
-                $code  = strtoupper(substr($city, 0, 1));
+                $country = $input['country'];
+                $city    = $input['city'];
+                $code    = get_first_letters($country);
+                $code.= get_first_letters($city);
                 $result = Property::select('propcode')->where('propcode','LIKE','%'.$code.'%')->get();
               if(count($result)>0)
               {

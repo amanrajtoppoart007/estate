@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Department;
 use App\Designation;
 use App\Employee;
@@ -23,9 +24,7 @@ class EmployeeController extends Controller
 {
     public function fetch(Request $request)
     {
-        $model = new Employee();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Employee())))->getResult());
     }
 
     public function index()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTable\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -29,9 +30,7 @@ class SalaryController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new SalarySheet();
-        $api   = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new SalarySheet())))->getResult());
     }
 
     public function createSalarySheet(Request $request)

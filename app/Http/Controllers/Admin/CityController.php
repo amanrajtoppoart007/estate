@@ -19,17 +19,10 @@ class CityController extends Controller
         $this->middleware('auth:admin');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function fetch(Request $request)
+
+    public function fetch()
     {
-        $model = new City();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+         echo json_encode((new Api((new City())))->getResult());
     }
     public function index()
     {

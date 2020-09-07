@@ -305,7 +305,7 @@ Route::prefix('state')->group(function () {
     Route::post('delete', 'Admin\StateController@destroy')->name('state.delete');
 });
 Route::prefix('city')->group(function () {
-    Route::post('fetch', 'Admin\CityController@fetch')->name('city.fetch');
+    Route::any('fetch', 'Admin\CityController@fetch')->name('city.fetch');
     Route::post('changeStatus', 'Admin\CityController@changeStatus')->name('city.changeStatus');
     Route::get('list', 'Admin\CityController@index')->name('city.list');
     Route::post('store', 'Admin\CityController@store')->name('city.store');

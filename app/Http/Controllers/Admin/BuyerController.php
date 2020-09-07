@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Http\Requests\StoreBuyer;
 use App\Http\Requests\UpdateBuyer;
 use App\SalesEnquiry;
@@ -24,9 +25,7 @@ class BuyerController extends Controller
 
     public function fetch(Request $request)
     {
-        $model  = new Buyer();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+       echo json_encode((new Api((new Buyer())))->getResult());
     }
 
 
@@ -43,7 +42,6 @@ class BuyerController extends Controller
             $data['user'] = null;
         }
         $data['countries'] = Country::where(['is_disabled'=>0])->get();
-        $data['cities']    = City::where(['is_disabled'=>0])->get();
         return view('admin.buyer.create',$data);
     }
 

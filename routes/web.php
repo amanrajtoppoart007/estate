@@ -27,7 +27,7 @@ Route::get('property/search/state/{id}/{name}', 'Guest\SearchController@search')
 Route::get('/contact', 'Guest\GuestController@contact')->name('contact');
 Route::get('/about-us', 'Guest\GuestController@about')->name('about-us');
 Route::get('/how-it-work', 'Guest\GuestController@how_it_work')->name('how-it-work');
-Route::get('/property/agent/list', 'Guest\GuestController@agentListing')->name('property.agent.list');
+Route::get('/agent/list', 'Guest\GuestController@agentListing')->name('property.agent.list');
 Route::get('/view/agent/{id}/detail', 'Guest\GuestController@viewAgentDetail')->name('view.agent.detail');
 Route::get('faq', 'Guest\GuestController@faq')->name('faq');
 Route::get('terms-conditions', 'Guest\GuestController@terms')->name('terms-conditions');
@@ -39,6 +39,7 @@ Route::post('send/contact-request', 'Guest\AjaxController@send_contact_request')
 Route::post('calculate/endDate', 'Common\CalculationController@getEndDate')->name('calculate.endDate');
 Route::get('get/document/{filename}', 'Common\ImageController@view_doc')->name('get.doc');
 Route::get('view/rent/breakdown/{encoded_string}', 'Guest\RentBreakDownController@view')->name('guest.view.rent.breakdown');
+Route::post('get/breakdown/config/items', 'Common\CommonController@get_breakdown_constants')->name('get.breakdown.constants');
 
 Route::post('/agent/enquiry/store', 'Guest\AjaxController@agent_enquiry_form')->name('agent.enquiry.store');
 Auth::routes();

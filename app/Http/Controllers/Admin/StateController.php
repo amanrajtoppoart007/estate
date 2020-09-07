@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use App\DataTable\Api;
 use App\State;
 use App\Country;
-use Auth;
-use File;
 
 class StateController extends Controller
 {
@@ -20,13 +20,11 @@ class StateController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new State();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new State())))->getResult());
     }
     public function index()
     {
-        $countryObject = Country::where(['is_disabled'=>'0'])->get();
+        $countryObject =  Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
         $countries     = array();
         foreach($countryObject as $country)
         {
@@ -55,7 +53,7 @@ class StateController extends Controller
                 if ($file->isValid()) {
                     $ext                = $file->getClientOriginalExtension();
                     $fileNameStore      = 'STATE' . time() . rand(1000, 9999) . '.' . $ext;
-                    $path               = $file->move(public_path() . '/images/states/', $fileNameStore);
+                    $path               = $file->move(public_path('/images/states/'), $fileNameStore);
                     $state['image']     = '/images/states/'.basename($path);
 
                 }

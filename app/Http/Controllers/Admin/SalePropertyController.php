@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTable\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -28,9 +29,7 @@ class SalePropertyController extends Controller
 
     public function fetch(Request $request)
     {
-        $model  = new PropertySale();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+         echo json_encode((new Api((new PropertySale())))->getResult());
     }
     public function buyer_list()
     {

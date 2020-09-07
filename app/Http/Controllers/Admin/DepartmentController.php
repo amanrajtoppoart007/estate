@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTable\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +16,7 @@ class DepartmentController extends Controller
 
     public function fetch(Request $request)
     {
-        $model  = new Department();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Department())))->getResult());
     }
     public function index(){
         $departments = Department::orderBy('created_at','desc')->paginate(10);

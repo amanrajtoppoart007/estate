@@ -16,25 +16,8 @@ class GuestController extends Controller
 {
     public function index(Request $request)
     {
-        $model           = new PropertyUnitType();
-        $view            = new PropertyView();
-        $propertyForSale = $model->whereHas('property',function($query){
-           $query->whereNotNull('propcode')->where(['prop_for'=>'2','is_disabled'=>'0']);
-        })->get();
-        $propertyForSale = $view->execute($propertyForSale);
-        $propertyForRent = $model->whereHas('property',function($query){
-           $query->whereNotNull('propcode')->where(['prop_for'=>'1','is_disabled'=>'0']);
-        })->get();
-        $propertyForRent = $view->execute($propertyForRent);
-        $propertyUnitTypes   =  $model->whereHas('property',function($query){
-           $query->whereNotNull('propcode')->where(['is_disabled'=>'0']);
-        })->limit(20)->inRandomOrder()->get();
-        $propertyUnitTypes = $view->execute($propertyUnitTypes);
-        $features      = Feature::where('is_disabled','0')->orderBy('created_at','DESC')->get();
-        $states        = State::withCount('properties')->where('is_disabled','0')->inRandomOrder()->limit(8)->get();
-        $all_states    = State::withCount('properties')->where('is_disabled','0')->get();
-        $propertyTypes    = PropertyType::where('is_disabled','0')->get();
-        return view('guest.welcome',\compact('propertyForSale','propertyForRent','features','states','all_states', 'propertyUnitTypes','propertyTypes'));
+
+        return view("guest.welcome");
     }
 
     public function propertyView($propcode,$id)
@@ -74,15 +57,7 @@ class GuestController extends Controller
         $recents = $model->whereHas('property',function($query){$query->whereNotNull('propcode');})->inRandomOrder()->limit($agents->total())->get();
         $recents = $view->execute($recents);
 
-        if($request->view=='list')
-        {
-             $view = 'guest.agent.list';
-        }
-        else
-        {
-            $view = 'guest.agent.grid';
-        }
-        return view($view,compact('agents','recents'));
+        return view("guest.agent.list",compact('agents','recents'));
     }
     public function viewAgentDetail($id)
     {

@@ -21,11 +21,11 @@ class City extends Model
 
     public function state()
     {
-        return $this->belongsTo(State::class);
+        return $this->belongsTo(State::class,'state_id','id');
     }
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Country::class,'country_id','id');
     }
     public function owners()
    {
@@ -46,7 +46,7 @@ class City extends Model
 
     public function properties()
     {
-        return $this->hasMany('App\Property');
+        return $this->hasMany(Property::class);
     }
      protected $casts = [
         'created_at' => 'datetime:Y-m-d h:i A',
@@ -55,10 +55,10 @@ class City extends Model
 
     public function getStateNameAttribute()
     {
-         return  $this->state->name;
+         return $this->state ? $this->state->name : null;
     }
     public function getCountryNameAttribute()
     {
-        return $this->country->name;
+        return $this->country ? $this->country->name : null;
     }
 }

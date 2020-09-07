@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditAgent;
 use App\Http\Requests\StoreAgent;
@@ -32,9 +33,7 @@ class AgentController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Agent();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api(new Agent()))->getResult());
     }
 
 

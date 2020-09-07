@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Agent;
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\SalesEnquiry;
@@ -20,9 +21,7 @@ class SalesEnquiryController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new SalesEnquiry();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new SalesEnquiry())))->getResult());
     }
 
     public function index()

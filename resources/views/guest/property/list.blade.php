@@ -1,356 +1,182 @@
-@extends('guest.layout.main')
+@extends("guest.layout.main")
+@section("content")
 
-@include('guest.include.header')
+    <!-- Hero Section -->
+    <div class="jumbotron inner-page-jumbotron">
+        <div class="container">
 
-@section('head')
-
-@endsection
-
-@section('content')
-
-<!-- Advanced Search -->
-<div class="container-fluid mt-t pt-5 pb-3 filter-tab">
-	<div class="container container-shadow mt-4 pt-5 mb-5">
-		<div class="row">
-			<div class="col-sm-12 col-12">
-				 {{Form::open(['route'=>'property.search','method'=>'get'])}}
-					<div class="row">
-						<div class="col-sm-3 col-12">
-							<select class="custom-select advanced-search-fields" name="mode" id="mode">
-                                <option selected disabled value="">Purpose</option>
-								<option value=1"">Rent</option>
-								<option value="2">Sale</option>
-								<option value="3">Rent & Sale</option>
-							</select>
-						</div>
-						<div class="col-sm-9 col-12 mob-mb-10">
-							<div class="input-group">
-								<input type="text" name="location" id="location" class="form-control advanced-search-fields" placeholder="Add more locations">
-								<div class="input-group-append">
-									<button type="submit" class="btn btn-default1" type="button"> Find </button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-3 col-12">
-							<select class="custom-select advanced-search-fields" name="property_type" id="property_type">
-								<option selected disabled value="">Property Type</option>
-								 @foreach($propertyTypes as $prop_type)
-								<option value="{{$prop_type->id}}">{{$prop_type->title}}</option>
-                                @endforeach
-							</select>
-						</div>
-						<div class="col-sm-3 col-12">
-							<select class="custom-select advanced-search-fields" name="rent_interval">
-								<option selected disabled value="">Rent Period</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="yearly">Yearly</option>
-                                <option value="half_yearly">Half Yearly</option>
-							</select>
-						</div>
-						<div class="col-sm-6 col-12">
-							<div class="row">
-								<div class="col-sm-3 col-12">
-									<select class="custom-select advanced-search-fields" name="price[min]" id="min_price">
-										<option selected disabled value="">Min. price</option>
-                                        <option value="10000">10000</option>
-                                        <option value="20000">20000</option>
-                                        <option value="30000">30000</option>
-                                        <option value="40000">40000</option>
-                                        <option value="50000">50000</option>
-                                        <option value="60000">60000</option>
-									</select>
-								</div>
-								<div class="col-sm-3 col-12">
-									<select class="custom-select advanced-search-fields" name="price[max]" id="max_price">
-										<option selected disabled value="">Max. price</option>
-										<option value="20000">20000</option>
-                                        <option value="30000">30000</option>
-                                        <option value="40000">40000</option>
-                                        <option value="50000">50000</option>
-                                        <option value="60000">60000</option>
-                                        <option value="70000">70000</option>
-									</select>
-								</div>
-								<div class="col-sm-3 col-12">
-									<select class="custom-select advanced-search-fields" name="bedroom[min]" id="min_beds">
-										<option selected disabled value="">Min. bed</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="5">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-									</select>
-								</div>
-								<div class="col-sm-3 col-12">
-									<select class="custom-select advanced-search-fields" name="bedroom[max]" id="max_beds">
-										<option selected disabled value="">Max. bed</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="7+">7+</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-3 col-12">
-							<div class="row">
-								<div class="col-sm-6 col-12">
-									<select class="custom-select advanced-search-fields" name="area[min]" id="min_area_id">
-										<option selected disabled value="">Min. area</option>
-                                        <option value="1000">1000</option>
-                                        <option value="2000">2000</option>
-                                        <option value="3000">3000</option>
-                                        <option value="4000">4000</option>
-                                        <option value="5000">5000</option>
-                                        <option value="6000">6000</option>
-                                        <option value="7000">7000</option>
-                                        <option value="8000">8000</option>
-                                        <option value="9000">9000</option>
-									</select>
-								</div>
-								<div class="col-sm-6 col-12">
-									<select class="custom-select advanced-search-fields" name="area[max]" id="max_area">
-										<option selected disabled value="">Max. area</option>
-                                        <option value="2000">2000</option>
-                                        <option value="3000">3000</option>
-                                        <option value="4000">4000</option>
-                                        <option value="5000">5000</option>
-                                        <option value="6000">6000</option>
-                                        <option value="7000">7000</option>
-                                        <option value="8000">8000</option>
-                                        <option value="9000">9000</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-3 col-12">
-							<select class="custom-select advanced-search-fields" name="furnishing" id="furnishing">
-								<option selected disabled value="">All furnishings</option>
-								<option value="furnished"></option>
-								<option value="semi-furnished"></option>
-							</select>
-						</div>
-						<div class="col-sm-3 col-12">
-							<select class="custom-select advanced-search-fields" name="state_id" id="state_id">
-								<option selected disabled value="">Emirates</option>
-								@foreach($states as $state)
-                                    <option value="{{$state->id}}">{{$state->name}}</option>
-                                @endforeach
-							</select>
-						</div>
-						<div class="col-sm-3 col-12">
-							<select class="custom-select advanced-search-fields" name="city_id" id="city_id">
-								<option selected disabled value="">Al hoor</option>
-								<option>...</option>
-							</select>
-							<div class="row">
-								<div class="col-sm-4 offset-sm-8 col-12">
-									<input type="reset" class="reset-input btn-danger text-white" value="Reset">
-								</div>
-							</div>
-						</div>
-					</div>
-				{{Form::close()}}
-			</div>
-		</div>
-	</div>
-</div>
-<!-- End Advanced Search -->
-
-<!-- Property View Page -->
-
-<div class="container-fluid pt-5 pb-5">
-
-    <div class="container">
-
-        <div class="row">
-
-            <div class="col-sm-8 col-12">
-
-                <div class="property-listing-header">
-
-                    <span class="property-count left">Showing  {{$propUnitTypes['count']}} out of {{$propUnitTypes['total']}} results</span>
-
-                    <div class="property-layout-toggle right">
-
-                        <a href="{{route('property.search',['view'=>'map'])}}" class="property-layout-toggle-item"><i class="fa fa-map"></i></a>
-
-                        <a href="{{route('property.search',['view'=>'grid'])}}" class="property-layout-toggle-item"><i class="fa fa-th-large"></i></a>
-
-                        <a href="{{route('property.search',['view'=>'list'])}}" class="property-layout-toggle-item active"><i class="fa fa-bars"></i></a>
-
-                    </div>
-
-                    <div class="clear"></div>
-
-                </div>
-
-                @foreach($propUnitTypes['property_unit_types'] as $prop_unit_type)
-
-                <div class="property property-row property-row-sidebar shadow-hover">
-
-                <a href="{{$prop_unit_type['view_url']}}" class="property-img">
-
-                        <div class="img-fade"></div>
-
-                        <div class="property-tag button status">For {{$prop_unit_type['mode']}}</div>
-
-                        <div class="property-price">{!!$prop_unit_type['price']!!}</div>
-
-                        <div class="property-color-bar"></div>
-
-                        <img src="{{$prop_unit_type['image']}}" alt="">
-
-                    </a>
-
-                    <div class="property-content">
-
-                        <div class="property-title">
-
-                        <h4><a href="{{$prop_unit_type['view_url']}}">{{$prop_unit_type['title']}}</a></h4>
-
-                        <p class="property-address"><i class="fa fa-map-marker icon"></i>{{$prop_unit_type['city_name']}}</p>
-
-                        <div class="clear"></div>
-
-                        <p class="property-text">
-
-                           {{ \Illuminate\Support\Str::limit($prop_unit_type['description'], 100, $end='...')}}</p>
-
-                        </div>
-
-                        <table class="property-details">
-
-                        <tbody><tr>
-
-                            <td><i class="fa fa-bed"></i> {{$prop_unit_type['bedroom']}} Beds</td>
-
-                            <td><i class="fa fa-tint"></i> {{$prop_unit_type['bathroom']}} Baths</td>
-
-                            <td><i class="fa fa-expand"></i> {{$prop_unit_type['unit_size']}} Sq Ft</td>
-
-                        </tr>
-
-                        </tbody></table>
-
-                    </div>
-
-                    <div class="property-footer">
-
-                        <span class="left"><i class="fa fa-calendar-o icon"></i> {{$prop_unit_type['created_at']}}</span>
-
-                        <span class="right">
-
-                          <a href="{{$prop_unit_type['view_url']}}" class="button button-icon"><i class="fa fa-angle-right"></i>Details</a>
-
-                        </span>
-
-                        <div class="clear"></div>
-
-                    </div>
-
-                    <div class="clear"></div>
-
-                </div>
-
-          @endforeach
-
-                {{$propUnitTypes['links']}}
-
-            </div>
-
-            <div class="col-sm-4 col-12">
-                <div class="widget widget-sidebar recent-properties">
-
-                   @include('guest.common.quickLink')
-
-                </div>
-                <img class="img-fluid img-thumbnail" src="https://camblycontent.files.wordpress.com/2017/02/advertising-word-block.jpg">
-
-                <img class="img-fluid img-thumbnail mt-4" src="https://camblycontent.files.wordpress.com/2017/02/advertising-word-block.jpg">
-
-                <img class="img-fluid img-thumbnail mt-4" src="https://camblycontent.files.wordpress.com/2017/02/advertising-word-block.jpg">
-                <img class="img-fluid img-thumbnail mt-4" src="https://camblycontent.files.wordpress.com/2017/02/advertising-word-block.jpg">
-            </div>
+             @include("guest.filter.filter")
 
         </div>
-
     </div>
+    <!-- End -->
 
-</div>
+    <!-- Top Filters -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-7 col-sm-7 col-12">
+                <h5 class="mb-0">Properties for sale in UAE</h5>
+                <small>36178 results</small>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-6 mob-mt20">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend mob-hide">
+                        <label class="input-group-text" for="shortBy">Short By:</label>
+                    </div>
+                    <select class="custom-select" id="shortBy">
+                        <option selected value="Featured">Featured</option>
+                        <option value="Newest">Newest</option>
+                        <option value="Price (Low)">Price (Low)</option>
+                        <option value="Price (High)">Price (High)</option>
+                        <option value="Beds (Least)">Beds (Least)</option>
+                        <option value="Beds (Most)">Beds (Most)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-2 col-6 mob-mt20">
+                <a href="mapView.html" type="button" class="btn btn-outline-secondary btn-block btn-h50">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i> Map View
+                    <span class="badge badge-danger">New</span>
+                </a>
+            </div>
+        </div>
+        <hr />
+    </div>
+    <!-- End Top Filters -->
 
-@endsection
+    <!-- Property listings -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-9 col-sm-9 col-12">
+             @if(!empty($listings['data']))
+                 @foreach($listings['data'] as $item)
+                 <div class="row my-2">
+                    <div class="col-lg-12 col-sm-12 col-12">
+                        <div class="borderColumn">
+                            <div class="row">
+                                <div class="col-lg-4 col-sm-4 col-12">
+                                    <img class="img-fluid propertyList-img" src="{{$item['primary_image']}}" alt="">
+                                </div>
+                                <div class="col-lg-6 col-sm-6 col-12 pt-2">
+                                    <h6>{{$item['title']}}</h6>
+                                    <h6 class="colorOrange">{{$item['price']}} {{--<strong class="colorOrange">AED</strong>--}}</h6>
+                                    <p class="font-14">
+                                        <i class="fa fa-map-marker" aria-hidden="true"></i> {{$item['full_address']}}
+                                    </p>
+                                    <ul class="propertyListing-ul">
+                                        <li class="special-li">
+                                            Apartment :
+                                        </li>
+                                        <li>
+                                            {{$item['bedroom']}}
+                                            <img class="img-fluid img-24" src="{{asset('theme/images/bed.svg')}}" alt="Number of bedrooms">
 
-@section('script')
-
-  <script>
-
-      $(document).ready(function(){
-
-          var price_slider = document.getElementById('custom_price_slider');
-
-            noUiSlider.create(price_slider, {
-
-                connect: true,
-
-                start: [ {{trim_price((request()->price)?request()->price['min']:1000)}}, {{trim_price((request()->price)?request()->price['max']:999999)}} ],
-
-                step: 100,
-
-                margin:600,
-
-                range: {
-
-                    'min': [1000],
-
-                    'max': [999999]
-
-                },
-
-                tooltips: true,
-
-                format: wNumb({
-
-                    decimals: 0,
-
-                    thousand: ',',
-
-                    prefix: 'AED',
-
-                }),
-
-            });
-
-        price_slider.noUiSlider.on('update', function (values, handle) {
-
-            $("#min_price").val(get_int(values[0]));
-
-            $("#max_price").val(get_int(values[1]));
-
-        });
-
-        function get_int(input)
-
-        {
-
-         var output = input.replace(",","");
-
-             output = output.replace("AED","");
-
-          return $.trim(output);
-
-        }
-
-      });
-
-  </script>
-
+                                        </li>
+                                        <li>
+                                            {{$item['bathroom']}}
+                                            <img class="img-fluid img-24" src="{{asset('theme/images/bathroom.svg')}}" alt="Number of bathrooms">
+                                        </li>
+                                        <li>
+                                            {{$item['unit_size']}} SqFt
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-outline-secondary mb-2">
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                        Call
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary mb-2">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        Email
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary mb-2">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                        Save
+                                    </button>
+                                </div>
+                                <div class="col-lg-2 col-sm-2 col-12 pr-4">
+                                    <a href="#" class="font-14 gold-font pt-3 mr-3">PREMIUM</a>
+                                    <img class="img-fluid mt-2" src="{{asset('theme/images/524-logo.webp')}}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             @endforeach
+             @endif
+            </div>
+            <div class="col-lg-3 col-sm-3 col-12">
+                <div class="card">
+                    <h5 class="px-3 py-2">Popular searches</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="">Properties for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Apartments for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Villas for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Townhouses for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Penthouses for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Compounds for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Duplexes for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Land for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Bungalows for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Hotel apartments for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">1 bedroom properties for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">2 bedroom properties for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">3 bedroom properties for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">4 bedroom properties for sale</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">5 bedroom properties for sale</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card mt-4">
+                    <h5 class="px-3 py-2">Nearby Areas</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="">Properties for sale in Dubai</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Properties for sale in Abu Dhabi</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Properties for sale in Sharjah</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Properties for sale in Ras Al Khaimah</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="">Properties for sale in Ajman</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Property listings -->
 @endsection
