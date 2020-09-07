@@ -22,7 +22,7 @@ Route::post('get/property/listing/map', 'Guest\SearchController@map_search_api')
 Route::post('search/property/listing', 'Guest\SearchController@web_api_search')->name('search.property.listing');
 Route::get('property/search', 'Guest\SearchController@search')->name('property.search');
 Route::post('property/search', 'Guest\SearchController@search')->name('property.search');
-Route::get('property/view/{propcode}/{id}', 'Guest\GuestController@propertyView')->name('view-property');
+Route::get('property/view/{unit_code}', 'Guest\GuestController@propertyView')->name('property.listing.detail');
 Route::get('property/search/state/{id}/{name}', 'Guest\SearchController@search')->name('property.search.state');
 Route::get('/contact', 'Guest\GuestController@contact')->name('contact');
 Route::get('/about-us', 'Guest\GuestController@about')->name('about-us');

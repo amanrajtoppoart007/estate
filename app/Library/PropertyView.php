@@ -9,7 +9,7 @@ class PropertyView extends ObjectView
 
     }
 
-    public function execute($list)
+    public function multiple($list)
     {
         if(!$list->isEmpty())
         {
@@ -21,6 +21,8 @@ class PropertyView extends ObjectView
             $i=0;
             foreach($list as $unit)
             {
+                $result['data'][$i]['id']     = $unit->id ? $unit->id: 0;
+
                 $result['data'][$i]['title'] = $unit->property ? $unit->property->title: null;
                 $result['data'][$i]['primary_image'] = $unit->property ? $unit->property->primary_image: 0;
                 $result['data'][$i]['description'] = $unit->property ? $unit->property->description: null;
@@ -60,5 +62,10 @@ class PropertyView extends ObjectView
                 return $result;
         }
         return [];
+    }
+
+    public function single()
+    {
+        
     }
 }

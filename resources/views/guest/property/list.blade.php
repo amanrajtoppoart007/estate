@@ -55,7 +55,9 @@
                         <div class="borderColumn">
                             <div class="row">
                                 <div class="col-lg-4 col-sm-4 col-12">
-                                    <img class="img-fluid propertyList-img" src="{{$item['primary_image']}}" alt="">
+                                    <a href="{{route('property.listing.detail',$item['unitcode'])}}">
+                                       <img class="img-fluid propertyList-img" src="{{$item['primary_image']}}" alt="">
+                                    </a>
                                 </div>
                                 <div class="col-lg-6 col-sm-6 col-12 pt-2">
                                     <h6>{{$item['title']}}</h6>

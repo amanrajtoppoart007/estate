@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Guest;
 
+use App\PropertyUnit;
 use App\State;
 use App\Feature;
 use App\Slider;
@@ -20,28 +21,13 @@ class GuestController extends Controller
         return view("guest.welcome");
     }
 
-    public function propertyView($propcode,$id)
+    public function propertyView($unit_code)
     {
-        $view                        = new PropertyView();
-        $model                       = new PropertyUnitType();
-        $prop_unit_type              = $model->find($id);
-        if($prop_unit_type)
+        $unit                   = PropertyUnit::where('unitcode',$unit_code)->first();
+        if(!empty($unit))
         {
-            $property                = Property::where(['propcode' =>$propcode])->first();
-            event(new \App\Events\PropertyPageFirstVisited($property));
-            $data['features']        = Feature::where('is_disabled', '0')->get();
-            $rel_prop_unit_types     = $model->whereNotIn('id',[$id])->whereHas('property',function($query){
-                 $query->whereNotNull('propcode');
-            })->where(['property_id'=>$property->id])->inRandomOrder()->limit(2)->get();
-            $recents                 = $model->whereHas('property',function($query){
-                 $query->whereNotNull('propcode');
-            })->orderBy('id')->limit(20)->get();
-            $data['prop_unit_type']  = $prop_unit_type;
-            $data['rel_prop_unit_types'] = $view->execute($rel_prop_unit_types);
-            $data['recents']         = $view->execute($recents);
-            $propertyTypes    = PropertyType::where('is_disabled', '0')->get();
-            $states    = State::withCount('properties')->where('is_disabled', '0')->get();
-           return view('guest.property.view',compact('propertyTypes', 'states'))->with($data);
+            event(new \App\Events\PropertyPageFirstVisited($unit->property));
+            return view('guest.property.view',compact('unit'));
         }
         else
         {
