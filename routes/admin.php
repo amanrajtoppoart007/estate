@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/home', 'Admin\DashboardController@index')->name('master.dashboard');
+
 ////Accounting routes
 Route::prefix('accounting')->group(function () {
 

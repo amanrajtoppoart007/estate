@@ -1,5 +1,6 @@
 <?php
 namespace App\Library;
+use App\Http\Resources\ApiResource;
 use Illuminate\Support\Arr;
 
 class PropertyView extends ObjectView
@@ -41,14 +42,17 @@ class PropertyView extends ObjectView
                 if($unit->purpose==1)
                 {
                     $result['data'][$i]['price'] = $unit->unit_rent ? $unit->unit_rent.' AED/'.$unit->rent_type : null;
+                    $result['data'][$i]['purpose'] = 'RENT';
                 }
                 if($unit->purpose==2)
                 {
                     $result['data'][$i]['price'] = $unit->unit_price ? $unit->unit_price.' AED' : null;
+                    $result['data'][$i]['purpose'] = 'SALE';
                 }
                 if($unit->purpose==3)
                 {
                     $result['data'][$i]['price'] = $unit->unit_price. ' AED FOR SELL/'.$unit->unit_rent.' AED/'.$unit->rent_type.' FOR RENT';
+                    $result['data'][$i]['purpose'] = 'RENT & SALE';
                 }
 
                 $i++;
@@ -64,8 +68,75 @@ class PropertyView extends ObjectView
         return [];
     }
 
-    public function single()
+    public function single($unit)
     {
-        
+       $result = null;
+        if(!empty($unit))
+        {
+                $result['id']     = $unit->id ? $unit->id: 0;
+
+                $result['title'] = $unit->property ? $unit->property->title: null;
+                $result['primary_image'] = $unit->property ? $unit->property->primary_image: 0;
+                $result['description'] = $unit->property ? $unit->property->description: null;
+                $result['full_address'] = $unit->property ? $unit->property->full_address: null;
+
+                $result['unit_size'] = $unit->unit_size ? $unit->unit_size: 0;
+                $result['unit_rent'] = $unit->unit_rent ? $unit->unit_rent: 0;
+                $result['unit_price'] = $unit->unit_price ? $unit->unit_price: 0;
+                $result['bedroom'] = $unit->bedroom ? $unit->bedroom: 0;
+                $result['bathroom'] = $unit->bathroom ? $unit->bathroom: 0;
+                $result['parking'] = $unit->parking ? $unit->parking: 0;
+                $result['created_at'] = $unit->created_at ? $unit->created_at->diffForHumans(): 0;
+                $result['unitcode'] = $unit->unitcode ? $unit->unitcode: null;
+                $result['floor_no'] = $unit->floor_no ? $unit->floor_no: null;
+                $result['floor_plan'] = $unit->floor_plan ? $unit->floor_plan: null;
+                $result['agent_name'] = $unit->agent ? $unit->agent->name : null;
+
+                if($unit->purpose==1)
+                {
+                    $result['price'] = $unit->unit_rent ? $unit->unit_rent.' AED/'.$unit->rent_type : null;
+                    $result['purpose'] = 'RENT';
+                }
+                if($unit->purpose==2)
+                {
+                     $result['price'] = $unit->unit_price ? $unit->unit_price.' AED' : null;
+                     $result['purpose'] = 'SALE';
+                }
+                if($unit->purpose==3)
+                {
+                     $result['price'] = $unit->unit_price. ' AED FOR SELL/'.$unit->unit_rent.' AED/'.$unit->rent_type.' FOR RENT';
+                     $result['purpose'] = 'RENT & SALE';
+                }
+
+                if(!empty($unit->property->imageable))
+                {
+                    $i =0;
+                    foreach($unit->property->imageable as $image)
+                    {
+                        $result['images'][$i] = $image->image_url ? asset($image->image_url) : null;
+                        $i++;
+                    }
+                }
+
+                if(!empty($unit->property->feature))
+                {
+                    $features = explode(",",$unit->property->feature);
+                    if(is_array($features))
+                    {
+                        $i=0;
+                        foreach($features as $feature)
+                        {
+                            $result['amenities'][$i] = pluck_single_value("property_features","id",$feature,"title");
+                        }
+                    }
+                    else
+                    {
+                        $result['amenities'][0] = pluck_single_value("property_features","id",$features,"title");
+                    }
+                }
+
+
+        }
+        return $result;
     }
 }

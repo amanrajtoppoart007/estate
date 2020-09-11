@@ -53,6 +53,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'mobile' => ['required', 'numeric', 'digits:10', 'unique:users'],
+            'nationality' => ['required', 'numeric'],
         ]);
     }
 
@@ -72,6 +74,6 @@ class RegisterController extends Controller
     }
     public function showRegistrationForm()
     {
-        return view('user.auth.register');
+        return view('guest.auth.register');
     }
 }

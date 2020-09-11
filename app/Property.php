@@ -74,6 +74,10 @@ class Property extends Model
     {
         return $this->hasMany(Image::class,'property_id','id');
     }
+    public function imageable()
+    {
+        return $this->morphMany(Image::class,"imageable");
+    }
     public function updateProperty($input, $id)
     {
         return  Property::where('id', $id)->update($input);

@@ -132,23 +132,18 @@ class PropertyController extends Controller
         $update['admin_id']   = $admin_id   = Auth::guard('admin')->user()->id;
         if(Property::where(['id'=>$id])->update($update))
         {
-            $action            = new UpdatePropertyUnitTypes($id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $request->propcode;
-            $action->handle($request,$input);
-            $images =  new CreatePropertyImage($id,$request->propcode);
-            $images->execute($request);
-            $res['status']   = '1';
-            $res['response'] = 'success';
-            $res['message']  = 'Property updated successfully';
+            (new UpdatePropertyUnitTypes($id,$admin_id))->handle($request,$input);
+            (new CreatePropertyImage($id,$request->propcode))->execute($request);
+            $result = ["status"=>1,"response"=>"success","message"=>"Property updated successfully"];
         }
         else
         {
-            $res['status']   = '0';
-            $res['response'] = 'error';
-            $res['message']  = 'Property not updated';
+            $result = ["status"=>0,"response"=>"error","message"=>"Property not updated"];
+
         }
-        return response()->json($res,200);
+        return response()->json($result,200);
     }
 
 

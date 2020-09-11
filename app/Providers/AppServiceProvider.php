@@ -36,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
             'rent' => \App\PropertyUnitAllotment::class,
             'sale' => \App\PropertySale::class,
             'maintenance' => \App\MaintenanceWork::class,
+            'property' => \App\Property::class,
         ]);
     }
 }

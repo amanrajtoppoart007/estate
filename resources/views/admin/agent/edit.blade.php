@@ -45,7 +45,7 @@
                                 <select name="country_code" id="country_code">
                                     @foreach($countries as $country)
                                         @php $selected = ($country->cod===$agent->country_code)?"selected":null; @endphp
-                                        <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
+                                        <option value="{{$country->code}}" {{$selected}}>{{$country->code}}</option>
                                     @endforeach
                                 </select>
                             </span>

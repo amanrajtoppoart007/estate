@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', 'Guest\GuestController@index');
+Route::get('/', 'Guest\GuestController@index')->name("guest.home");
 Route::get('/buy', 'Guest\GuestController@buy');
 Route::post('/bookingRequest/store', 'Guest\BookingRequestController@store')->name('bookingRequest.store');
 Route::post('get/property/listing/map', 'Guest\SearchController@map_search_api')->name('get.property.listing.map');
@@ -84,6 +84,7 @@ Route::prefix('owner')->group(function () {
 
 Route::prefix('master')->group(function () {
     Route::post('fetch-all-task', 'Admin\TaskController@fetch_all_task')->name('admin.task.fetch');
+    Route::post('/logout', 'AdminAuth\LoginController@logout')->name('admin.logout');
 });
 
 Route::post('/get/property/unit/list', 'Common\CommonController@get_property_units')->name('get.unit.list');
