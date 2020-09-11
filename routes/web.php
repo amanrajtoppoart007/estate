@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * user after login routes
+ */
+Route::get('/home', 'User\HomeController@index')->name("user.home");
+Route::get('/profile', 'User\UserController@profile')->name("profile");
+/**
+ * end user after login routes
+ */
 
 
 Route::get('/', 'Guest\GuestController@index')->name("guest.home");

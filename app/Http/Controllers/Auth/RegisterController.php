@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Country;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
@@ -54,7 +55,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'mobile' => ['required', 'numeric', 'digits:10', 'unique:users'],
-            'nationality' => ['required', 'numeric'],
+            'country_id' => ['required', 'numeric'],
         ]);
     }
 
@@ -69,11 +70,14 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'mobile' => $data['mobile'],
+            'country_id' => $data['country_id'],
             'password' => Hash::make($data['password']),
         ]);
     }
     public function showRegistrationForm()
     {
-        return view('guest.auth.register');
+        $countries = Country::where(['is_disabled'=>'0'])->get();
+        return view('guest.auth.register',compact('countries'));
     }
 }

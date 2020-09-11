@@ -20,12 +20,30 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('property.agent.list')}}">AGENTS</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('login')}}">LOGIN</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('register')}}">SIGN UP</a>
-                    </li>
+                    @auth()
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{auth()->user()->name}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" onclick="event.preventDefault();document.getElementById('user_logout_form').submit()" href="javascript:void(0)">Log Out</a>
+                                {{Form::open(['id'=>'user_logout_form','method'=>'post','route'=>'logout'])}}
+                                {{Form::close()}}
+                            </div>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('login')}}">LOGIN</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('register')}}">SIGN UP</a>
+                        </li>
+                    @endauth
+
+
                 </ul>
             </div>
         </div>
