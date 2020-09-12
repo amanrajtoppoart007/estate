@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-6 col-12 pt-2">
                                     <h6>{{$item['title']}}</h6>
-                                    <h6 class="colorOrange">{{$item['price']}} {{--<strong class="colorOrange">AED</strong>--}}</h6>
+                                    <h6 class="colorOrange">{{$item['price']}}</h6>
                                     <p class="font-14">
                                         <i class="fa fa-map-marker" aria-hidden="true"></i> {{$item['full_address']}}
                                     </p>
@@ -82,15 +82,15 @@
                                             {{$item['unit_size']}} SqFt
                                         </li>
                                     </ul>
-                                    <button type="button" class="btn btn-outline-secondary mb-2">
+                                    <button type="button" class="btn btn-outline-secondary mb-2 enquiry_call_btn">
                                         <i class="fa fa-phone" aria-hidden="true"></i>
                                         Call
                                     </button>
-                                    <button type="button" class="btn btn-outline-secondary mb-2">
+                                    <button type="button" class="btn btn-outline-secondary mb-2 enquiry_email_btn">
                                         <i class="fa fa-envelope" aria-hidden="true"></i>
                                         Email
                                     </button>
-                                    <button type="button" class="btn btn-outline-secondary mb-2">
+                                    <button type="button" class="btn btn-outline-secondary mb-2 add_to_favorite_list_btn">
                                         <i class="fa fa-heart" aria-hidden="true"></i>
                                         Save
                                     </button>
