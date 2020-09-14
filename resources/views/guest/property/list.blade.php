@@ -100,7 +100,7 @@
                                             </button>
                                             <button data-unit_id="{{$item['id']}}" type="button" data-toggle="modal"
                                                     data-target="#property_enquiry_modal"
-                                                    class="btn btn-outline-secondary mb-2 enquiry_call_btn">
+                                                    class="btn btn-outline-secondary mb-2 enquiry_email_btn">
                                                 <i class="fa fa-question-circle" aria-hidden="true"></i>
                                                 Email
                                             </button>

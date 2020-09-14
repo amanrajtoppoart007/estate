@@ -3,6 +3,18 @@
         (function ($) {
             $("#country_code").countrypicker();
 
+            $(document).on("click",".enquiry_email_btn",function(){
+                $("#property_enquiry_modal").modal("show");
+            });
+
+            $(document).on("click",".enquiry_call_btn",function(){
+                $("#call_now_modal").modal("show");
+            });
+
+            $(document).on("click",".add_to_favorite_list_btn",function(){
+                $("#add_to_favorite_list_modal").modal("show");
+            });
+
             $("#property_enquiry_form").on("submit", function (e) {
                 e.preventDefault();
                 $.ajax({
