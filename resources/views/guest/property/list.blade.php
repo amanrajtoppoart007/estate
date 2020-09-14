@@ -1,11 +1,15 @@
 @extends("guest.layout.main")
+@section("link")
+    <link rel="stylesheet" href="{{asset('plugin/bootstrap-select/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugin/country-select/css/bootstrap-select-country.min.css')}}">
+@endsection
 @section("content")
 
     <!-- Hero Section -->
     <div class="jumbotron inner-page-jumbotron">
         <div class="container">
 
-             @include("guest.filter.filter")
+            @include("guest.filter.filter")
 
         </div>
     </div>
@@ -40,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <hr />
+        <hr/>
     </div>
     <!-- End Top Filters -->
 
@@ -48,63 +52,77 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-9 col-sm-9 col-12">
-             @if(!empty($listings['data']))
-                 @foreach($listings['data'] as $item)
-                 <div class="row my-2">
-                    <div class="col-lg-12 col-sm-12 col-12">
-                        <div class="borderColumn">
-                            <div class="row">
-                                <div class="col-lg-4 col-sm-4 col-12">
-                                    <a href="{{route('property.listing.detail',$item['unitcode'])}}">
-                                       <img class="img-fluid propertyList-img" src="{{$item['primary_image']}}" alt="">
-                                    </a>
-                                </div>
-                                <div class="col-lg-6 col-sm-6 col-12 pt-2">
-                                    <h6>{{$item['title']}}</h6>
-                                    <h6 class="colorOrange">{{$item['price']}}</h6>
-                                    <p class="font-14">
-                                        <i class="fa fa-map-marker" aria-hidden="true"></i> {{$item['full_address']}}
-                                    </p>
-                                    <ul class="propertyListing-ul">
-                                        <li class="special-li">
-                                            Apartment :
-                                        </li>
-                                        <li>
-                                            {{$item['bedroom']}}
-                                            <img class="img-fluid img-24" src="{{asset('theme/images/bed.svg')}}" alt="Number of bedrooms">
+                @if(!empty($listings['data']))
+                    @foreach($listings['data'] as $item)
+                        <div class="row my-2">
+                            <div class="col-lg-12 col-sm-12 col-12">
+                                <div class="borderColumn">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-sm-4 col-12">
+                                            <a href="{{route('property.listing.detail',$item['unitcode'])}}">
+                                                <img class="img-fluid propertyList-img" src="{{$item['primary_image']}}"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6 col-12 pt-2">
+                                            <h6>{{$item['title']}}</h6>
+                                            <h6 class="colorOrange">{{$item['price']}}</h6>
+                                            <p class="font-14">
+                                                <i class="fa fa-map-marker"
+                                                   aria-hidden="true"></i> {{$item['full_address']}}
+                                            </p>
+                                            <ul class="propertyListing-ul">
+                                                <li class="special-li">
+                                                    Apartment :
+                                                </li>
+                                                <li>
+                                                    {{$item['bedroom']}}
+                                                    <img class="img-fluid img-24"
+                                                         src="{{asset('theme/images/bed.svg')}}"
+                                                         alt="Number of bedrooms">
 
-                                        </li>
-                                        <li>
-                                            {{$item['bathroom']}}
-                                            <img class="img-fluid img-24" src="{{asset('theme/images/bathroom.svg')}}" alt="Number of bathrooms">
-                                        </li>
-                                        <li>
-                                            {{$item['unit_size']}} SqFt
-                                        </li>
-                                    </ul>
-                                    <button type="button" class="btn btn-outline-secondary mb-2 enquiry_call_btn">
-                                        <i class="fa fa-phone" aria-hidden="true"></i>
-                                        Call
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary mb-2 enquiry_email_btn">
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                        Email
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary mb-2 add_to_favorite_list_btn">
-                                        <i class="fa fa-heart" aria-hidden="true"></i>
-                                        Save
-                                    </button>
-                                </div>
-                                <div class="col-lg-2 col-sm-2 col-12 pr-4">
-                                    <a href="#" class="font-14 gold-font pt-3 mr-3">PREMIUM</a>
-                                    <img class="img-fluid mt-2" src="{{asset('theme/images/524-logo.webp')}}" alt="">
+                                                </li>
+                                                <li>
+                                                    {{$item['bathroom']}}
+                                                    <img class="img-fluid img-24"
+                                                         src="{{asset('theme/images/bathroom.svg')}}"
+                                                         alt="Number of bathrooms">
+                                                </li>
+                                                <li>
+                                                    {{$item['unit_size']}} SqFt
+                                                </li>
+                                            </ul>
+                                            <button data-unit_id="{{$item['id']}}" type="button" data-toggle="modal"
+                                                    data-target="#call_now_modal"
+                                                    class="btn btn-outline-secondary mb-2 enquiry_call_btn">
+                                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                                Call
+                                            </button>
+                                            <button data-unit_id="{{$item['id']}}" type="button" data-toggle="modal"
+                                                    data-target="#property_enquiry_modal"
+                                                    class="btn btn-outline-secondary mb-2 enquiry_call_btn">
+                                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                                Email
+                                            </button>
+
+                                            <button type="button" data-toggle="modal"
+                                                    data-target="#add_to_favorite_list_modal"
+                                                    class="btn btn-outline-secondary mb-2 add_to_favorite_list_btn">
+                                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                                Save
+                                            </button>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-2 col-12 pr-4">
+                                            <a href="#" class="font-14 gold-font pt-3 mr-3">PREMIUM</a>
+                                            <img class="img-fluid mt-2" src="{{asset('theme/images/524-logo.webp')}}"
+                                                 alt="">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-             @endforeach
-             @endif
+                    @endforeach
+                @endif
             </div>
             <div class="col-lg-3 col-sm-3 col-12">
                 <div class="card">
@@ -182,3 +200,9 @@
     </div>
     <!-- End Property listings -->
 @endsection
+@include("guest.property.modal")
+@section("js")
+    <script src="{{asset('plugin/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('plugin/country-select/js/bootstrap-select-country.min.js')}}"></script>
+@endsection
+@include("guest.property.script")
