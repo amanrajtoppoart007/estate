@@ -51,7 +51,7 @@
             <div class="col-lg-9 col-sm-9 col-12">
                 <div class="row">
                     @foreach($listings['data'] as $unit)
-                    <div class="col-lg-6 col-sm-6 col-12">
+                    <div class="col-lg-6 col-sm-6 col-12 my-1">
                         <div class="card">
                             <img src="{{$unit['primary_image']}}" class="img-fluid propertyList-img" alt="{{$unit['title']}}">
                             <div class="card-body">
