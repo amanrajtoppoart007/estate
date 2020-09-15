@@ -1,4 +1,4 @@
-let mapStyles  = [
+var mapStyles  = [
     {
         "featureType": "administrative",
         "elementType": "labels.text.fill",
@@ -90,29 +90,29 @@ $.ajaxSetup({
 function createHomepageGoogleMap(_latitude,_longitude){
     /* setMapHeight(); */
     if( document.getElementById('map') != null ){
-        let base_url = $('meta[name="base-url"]').attr('content');
-        let url      = base_url + '/get/property/listing/map';
-        let params   = $("#property_search_form").serialize();
+        var base_url = $('meta[name="base-url"]').attr('content');
+        var url      = base_url + '/get/property/listing/map';
+        var params   = $("#property_search_form").serialize();
         function fn_error(result)
         {
             toast('error', result.message,'top-right');
             $("#property_search_form")[0].reset();
         };
         function fn_success(result){
-            let map = new google.maps.Map(document.getElementById('map'), {
+            var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 8,
                 scrollwheel: false,
                 center: new google.maps.LatLng(_latitude, _longitude),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 styles: mapStyles
             });
-            let i;
-            let newMarkers = [];
+            var i;
+            var newMarkers = [];
             for (i = 0; i < result.locations.property_unit_types.length; i++) {
-                let locations = result.locations.property_unit_types;
-                let pictureLabel = document.createElement("img");
+                var locations = result.locations.property_unit_types;
+                var pictureLabel = document.createElement("img");
                 pictureLabel.src = base_url + '/img/home.png';
-                let boxText = document.createElement("div");
+                var boxText = document.createElement("div");
                 infoboxOptions = {
                     content: boxText,
                     disableAutoPan: false,
@@ -126,7 +126,7 @@ function createHomepageGoogleMap(_latitude,_longitude){
                     closeBoxURL: base_url + '/img/close.png',
                     infoBoxClearance: new google.maps.Size(1, 1)
                 };
-                let marker = new MarkerWithLabel({
+                var marker = new MarkerWithLabel({
                     title: locations[i]['title'],
                     position: new google.maps.LatLng(locations[i]['latitude'], locations[i]['longitude']),
                     map: map,
@@ -164,14 +164,14 @@ function createHomepageGoogleMap(_latitude,_longitude){
                 })(marker, i));
 
             }
-            let clusterStyles = [
+            var clusterStyles = [
                 {
                     url: base_url+'/img/map_marker.png',
                     height: 60,
                     width: 60
                 }
             ];
-            let markerCluster = new MarkerClusterer(map, newMarkers, {styles: clusterStyles, maxZoom: 15});
+            var markerCluster = new MarkerClusterer(map, newMarkers, {styles: clusterStyles, maxZoom: 15});
             $('body').addClass('loaded');
             setTimeout(function() {
                 $('body').removeClass('has-fullscreen-map');
@@ -202,12 +202,12 @@ function createHomepageGoogleMap(_latitude,_longitude){
             });
             // Function which set marker to the user position
             function success(position) {
-                let center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                var center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.panTo(center);
                 $('#map').removeClass('fade-map');
             }
             toast('success', result.message, 'top-right');
-        }
+        };
         $.fn_ajax(url,params,fn_success,fn_error);
         // Enable Geo Location on button click
         $('.geo-location').on("click", function() {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Guest;
 
 
 use App\PropertyUnit;
+use App\PropertyUnitType;
 use App\Search\SearchApi;
 use Illuminate\Http\Request;
 use App\Library\PropertyView;
@@ -37,14 +38,10 @@ class SearchController extends Controller
     }
     public function map_search_api(Request $request)
     {
-        $model           = new \App\PropertyUnitType();
-        $search          = new \App\Search\Api($model,$request);
-        $propUnitTypes   = $search->apply();
-        $view            = new PropertyView();
-        $propUnitTypes   = $view->execute($propUnitTypes);
-        if(!empty($propUnitTypes['property_unit_types']))
+        $listings          = (new PropertyView())->multiple((new SearchApi(new PropertyUnitType()))->getResult());
+        if(!empty($listings['data']))
         {
-           return response()->json(['status'=>'1','response' => 'success', 'locations' => $propUnitTypes, 'message' => 'Property listing found']);
+           return response()->json(['status'=>'1','response' => 'success', 'locations' => $listings, 'message' => 'Property listing found']);
         }
         else
         {

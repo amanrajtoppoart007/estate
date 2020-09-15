@@ -38,6 +38,8 @@ class PropertyView extends ObjectView
                 $result['data'][$i]['created_at'] = $unit->created_at ? $unit->created_at->diffForHumans(): 0;
                 $result['data'][$i]['unitcode'] = $unit->unitcode ? $unit->unitcode: null;
                 $result['data'][$i]['floor_no'] = $unit->floor_no ? $unit->floor_no: null;
+                $result['data'][$i]['latitude'] = $unit->property ?? $unit->property->latitude;
+                $result['data'][$i]['longitude'] = $unit->property ?? $unit->property->longitude;
 
                 if($unit->purpose==1)
                 {

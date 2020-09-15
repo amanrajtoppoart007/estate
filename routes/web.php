@@ -26,7 +26,7 @@ Route::get('/profile', 'User\UserController@profile')->name("profile");
 Route::get('/', 'Guest\GuestController@index')->name("guest.home");
 Route::get('/buy', 'Guest\GuestController@buy');
 Route::post('/bookingRequest/store', 'Guest\BookingRequestController@store')->name('bookingRequest.store');
-Route::post('get/property/listing/map', 'Guest\SearchController@map_search_api')->name('get.property.listing.map');
+Route::any('get/property/listing/map', 'Guest\SearchController@map_search_api')->name('get.property.listing.map');
 Route::post('search/property/listing', 'Guest\SearchController@web_api_search')->name('search.property.listing');
 Route::get('property/search', 'Guest\SearchController@search')->name('property.search');
 Route::post('property/search', 'Guest\SearchController@search')->name('property.search');

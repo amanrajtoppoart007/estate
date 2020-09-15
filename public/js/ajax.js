@@ -36,7 +36,7 @@
             },
             error: function (jqXHR, textStatus, errorThrown) {
                  hide_loader();
-                 $.swal(textStatus, errorThrown, 'error');
+                 $.toast("error",jqXHR.responseJSON,"top-right");
 
             }
         });

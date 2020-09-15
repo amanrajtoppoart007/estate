@@ -98,10 +98,64 @@
                 </div>
             </div>
             <div class="col-lg-6 col-sm-6 col-12 px-0">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d120638.07295390202!2d72.9153536!3d19.1102976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1599148473217!5m2!1sen!2sin" width="100%" height="100%" frameborder="0" style="border:0;"
-                    allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                <div id="map"></div>
             </div>
         </div>
     </div>
     <!-- End -->
+@endsection
+@section("js")
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPZ-Erd-14Vf2AoPW2Pzlxssf6-2R3PPs"></script>
+<script src="{{asset('theme/map/markerwithlabel_packed.js')}}"></script>
+<script src="{{asset('theme/map/infobox.js')}}"></script>
+<script src="{{asset('theme/map/markerclusterer_packed.js')}}"></script>
+<script src="{{asset('theme/map/custom-map.js')}}"></script>
+@endsection
+@section("script")
+<script>
+    (function($) {
+        let _latitude = 25.276987;
+        let _longitude = 55.296249;
+        createHomepageGoogleMap(_latitude, _longitude);
+        $("#property_search_form").on('submit',function(e){
+            e.preventDefault();
+            let _latitude  = 25.276987;
+            let _longitude = 55.296249;
+            createHomepageGoogleMap(_latitude, _longitude);
+        });
+    })(jQuery);
+    $(document).ready(function(){
+          let price_slider = document.getElementById('custom_price_slider');
+            noUiSlider.create(price_slider, {
+                connect: true,
+                start: [ {{trim_price((request()->price)?request()->price['min']:1000)}}, {{trim_price((request()->price)?request()->price['max']:999999)}} ],
+                step: 100,
+                margin:600,
+                range: {
+                    'min': [1000],
+                    'max': [999999]
+                },
+                tooltips: true,
+                format: wNumb({
+                    decimals: 0,
+                    thousand: ',',
+                    prefix: 'AED',
+                }),
+            });
+        price_slider.noUiSlider.on('update', function (values, handle) {
+            $("#min_price").val(get_int(values[0]));
+            $("#max_price").val(get_int(values[1]));
+        });
+        function get_int(input)
+        {
+         let output = input.replace(",","");
+             output = output.replace("AED","");
+          return $.trim(output);
+        }
+        $("#search_form_reset_btn").on('click',function(e){
+          $("#property_search_form")[0].reset();
+        })
+      });
+</script>
 @endsection
