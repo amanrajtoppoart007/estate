@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="col-lg-2 col-sm-2 col-6 mob-mt20">
-                <a href="mapView.html" type="button" class="btn btn-outline-secondary btn-block btn-h50">
+                <a href="{{route('property.search',['view'=>'map'])}}" type="button" class="btn btn-outline-secondary btn-block btn-h50">
                     <i class="fa fa-map-marker" aria-hidden="true"></i> Map View
                     <span class="badge badge-danger">New</span>
                 </a>

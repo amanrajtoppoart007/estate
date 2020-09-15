@@ -22,7 +22,6 @@
                                 @foreach($beds as $key=>$value)
                                     <option value="{{$key}}">{{$value}}</option>
                                 @endforeach
-
                             </select>
                         </div>
                     </div>
@@ -76,7 +75,7 @@
 
                 <div class="row mt-2">
                     @foreach($listings['data'] as $unit)
-                    <div class="col-lg-6 col-sm-6 col-12">
+                    <div class="col-lg-6 col-sm-6 col-12 my-1">
                         <div class="card">
                             <img src="{{$unit['primary_image']}}" class="img-fluid propertyList-img" alt="{{$unit['title']}}">
                             <div class="card-body">
