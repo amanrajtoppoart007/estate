@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static create(array $input)
+ */
 class ContactRequest extends Model
 {
    protected $table    = 'contact_request';

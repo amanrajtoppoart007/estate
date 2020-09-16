@@ -1,4 +1,5 @@
-let mapStyles  = [
+(function($){
+    let mapStyles  = [
     {
         "featureType": "administrative",
         "elementType": "labels.text.fill",
@@ -97,7 +98,7 @@ function createHomepageGoogleMap(_latitude,_longitude){
         {
             toast('error', result.message,'top-right');
             $("#property_search_form")[0].reset();
-        };
+        }
         function fn_success(result){
             let map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 8,
@@ -108,8 +109,8 @@ function createHomepageGoogleMap(_latitude,_longitude){
             });
             let i;
             let newMarkers = [];
-            for (i = 0; i < result.locations.property_unit_types.length; i++) {
-                let locations = result.locations.property_unit_types;
+            for (i = 0; i < result.locations.data.length; i++) {
+                let locations = result.locations.data;
                 let pictureLabel = document.createElement("img");
                 pictureLabel.src = base_url + '/img/home.png';
                 let boxText = document.createElement("div");
@@ -156,7 +157,7 @@ function createHomepageGoogleMap(_latitude,_longitude){
                 newMarkers[i].infobox = new InfoBox(infoboxOptions);
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                     return function() {
-                        for (h = 0; h < newMarkers.length; h++) {
+                        for (let h = 0; h < newMarkers.length; h++) {
                             newMarkers[h].infobox.close();
                         }
                         newMarkers[i].infobox.open(map, this);
@@ -182,7 +183,7 @@ function createHomepageGoogleMap(_latitude,_longitude){
 
             google.maps.event.addListener(map, 'idle', function() {
 
-                for (var i=0; i < result.locations.length; i++) {
+                for (let i=0; i < result.locations.length; i++) {
                     if ( map.getBounds().contains(newMarkers[i].getPosition()) ){
                         newMarkers[i].setVisible(true); // <- Uncomment this line to use dynamic displaying of markers
 
@@ -222,3 +223,5 @@ function createHomepageGoogleMap(_latitude,_longitude){
 }
 
 
+
+})(jQuery);

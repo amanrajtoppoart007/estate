@@ -25,6 +25,7 @@ class PropertyView extends ObjectView
                 $result['data'][$i]['id']     = $unit->id ? $unit->id: 0;
 
                 $result['data'][$i]['title'] = $unit->property ? $unit->property->title: null;
+                $result['data'][$i]['property_id'] = $unit->property ? $unit->property->id : null;
                 $result['data'][$i]['primary_image'] = $unit->property ? $unit->property->primary_image: 0;
                 $result['data'][$i]['description'] = $unit->property ? $unit->property->description: null;
                 $result['data'][$i]['full_address'] = $unit->property ? $unit->property->full_address: null;
@@ -38,8 +39,8 @@ class PropertyView extends ObjectView
                 $result['data'][$i]['created_at'] = $unit->created_at ? $unit->created_at->diffForHumans(): 0;
                 $result['data'][$i]['unitcode'] = $unit->unitcode ? $unit->unitcode: null;
                 $result['data'][$i]['floor_no'] = $unit->floor_no ? $unit->floor_no: null;
-                $result['data'][$i]['latitude'] = $unit->property ?? $unit->property->latitude;
-                $result['data'][$i]['longitude'] = $unit->property ?? $unit->property->longitude;
+                $result['data'][$i]['latitude'] = $unit->property ? $unit->property->latitude:null;
+                $result['data'][$i]['longitude'] = $unit->property ? $unit->property->longitude:null;
 
                 if($unit->purpose==1)
                 {
@@ -77,10 +78,11 @@ class PropertyView extends ObjectView
         {
                 $result['id']     = $unit->id ? $unit->id: 0;
 
-                $result['title'] = $unit->property ? $unit->property->title: null;
-                $result['primary_image'] = $unit->property ? $unit->property->primary_image: 0;
-                $result['description'] = $unit->property ? $unit->property->description: null;
-                $result['full_address'] = $unit->property ? $unit->property->full_address: null;
+                $result['title'] = $unit->property ? $unit->property->title : '';
+                $result['property_id'] = $unit->property ? $unit->property->id : '';
+                $result['primary_image'] = $unit->property ? $unit->property->primary_image:'';
+                $result['description'] = $unit->property ? $unit->property->description:'';
+                $result['full_address'] = $unit->property ? $unit->property->full_address:'';
 
                 $result['unit_size'] = $unit->unit_size ? $unit->unit_size: 0;
                 $result['unit_rent'] = $unit->unit_rent ? $unit->unit_rent: 0;
@@ -93,6 +95,8 @@ class PropertyView extends ObjectView
                 $result['floor_no'] = $unit->floor_no ? $unit->floor_no: null;
                 $result['floor_plan'] = $unit->floor_plan ? $unit->floor_plan: null;
                 $result['agent_name'] = $unit->agent ? $unit->agent->name : null;
+                 $result['latitude'] = $unit->property ? $unit->property->latitude:null;
+                $result['longitude'] = $unit->property ? $unit->property->longitude:null;
 
                 if($unit->purpose==1)
                 {

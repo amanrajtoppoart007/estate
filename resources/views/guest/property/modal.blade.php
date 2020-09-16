@@ -57,6 +57,8 @@
     {{Form::close()}}
 
     {{Form::open(['id'=>'add_to_favorite_list_form','method'=>'post'])}}
+    <input type="hidden" name="unit_id" id="favorite_unit_id" value="">
+    <input type="hidden" name="property_id" id="favorite_property_id" value="">
     <div class="modal" tabindex="-1" id="add_to_favorite_list_modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-gradient-lightblue">
@@ -68,10 +70,12 @@
                 </div>
                 <div class="modal-body">
                    <p>Add the listing to your favorite list </p>
+                    <p class="text-success" id="favorites_success_message"></p>
+                    <p class="text-danger" id="favorites_error_message"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-warning text-white">Add</button>
+                    <button type="submit" id="submit_favorite_form_btn" class="btn btn-warning text-white">Add</button>
                 </div>
             </div>
         </div>

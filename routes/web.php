@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,10 +19,11 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/home', 'User\HomeController@index')->name("user.home");
 Route::get('/profile', 'User\UserController@profile')->name("profile");
+Route::post('/favorite/store', 'User\UserController@store_favorite')->name("favorite.store");
 /**
  * end user after login routes
  */
-
+Route::any('/auth/check', 'Guest\AjaxController@check_auth')->name("check.user.auth.status");
 
 Route::get('/', 'Guest\GuestController@index')->name("guest.home");
 Route::get('/buy', 'Guest\GuestController@buy');

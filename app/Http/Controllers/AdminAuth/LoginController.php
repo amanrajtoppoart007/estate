@@ -42,7 +42,7 @@ class LoginController extends Controller
         }
         else
         {
-            return redirect()->back()->withErrors($validator->errors())->withInput($request->only('email', 'remember'));;
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->only('email', 'remember'));
         }
 
     }

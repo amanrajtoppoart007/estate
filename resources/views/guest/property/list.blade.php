@@ -92,22 +92,17 @@
                                                     {{$item['unit_size']}} SqFt
                                                 </li>
                                             </ul>
-                                            <button data-unit_id="{{$item['id']}}" type="button" data-toggle="modal"
-                                                    data-target="#call_now_modal"
+                                            <button data-property_id="{{$item['property_id']}}" data-unit_id="{{$item['id']}}" type="button"
                                                     class="btn btn-outline-secondary mb-2 enquiry_call_btn">
                                                 <i class="fa fa-phone" aria-hidden="true"></i>
                                                 Call
                                             </button>
-                                            <button data-unit_id="{{$item['id']}}" type="button" data-toggle="modal"
-                                                    data-target="#property_enquiry_modal"
-                                                    class="btn btn-outline-secondary mb-2 enquiry_email_btn">
+                                            <button data-unit_id="{{$item['id']}}" type="button" class="btn btn-outline-secondary mb-2 enquiry_email_btn">
                                                 <i class="fa fa-question-circle" aria-hidden="true"></i>
                                                 Email
                                             </button>
 
-                                            <button type="button" data-toggle="modal"
-                                                    data-target="#add_to_favorite_list_modal"
-                                                    class="btn btn-outline-secondary mb-2 add_to_favorite_list_btn">
+                                            <button type="button" data-property_id="{{$item['property_id']}}" data-unit_id="{{$item['id']}}"  class="btn btn-outline-secondary mb-2 add_to_favorite_list_btn">
                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                                 Save
                                             </button>

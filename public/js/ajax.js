@@ -36,7 +36,7 @@
             },
             error: function (jqXHR, textStatus, errorThrown) {
                  hide_loader();
-                 $.toast("error",jqXHR.responseJSON,"top-right");
+                 $.toast("error","Something went wrong,please try again","top-right");
 
             }
         });
