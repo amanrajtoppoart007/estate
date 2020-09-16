@@ -1,3 +1,4 @@
+{{Form::open(['route'=>'agent.search'])}}
  <div class="row mt-5">
                 <div class="col-lg-6 col-sm-6 col-12 offset-lg-3 offset-sm-3">
                     <!-- Advance Search -->
@@ -84,3 +85,5 @@
                     <!-- End -->
                 </div>
             </div>
+
+{{Form::close()}}
