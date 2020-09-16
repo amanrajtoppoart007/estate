@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(array $array)
+ */
 class City extends Model
 {
     protected $guarded    = [];

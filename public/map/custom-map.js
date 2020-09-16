@@ -1,4 +1,5 @@
-var mapStyles  = [
+(function($){
+    let mapStyles  = [
     {
         "featureType": "administrative",
         "elementType": "labels.text.fill",
@@ -90,29 +91,29 @@ $.ajaxSetup({
 function createHomepageGoogleMap(_latitude,_longitude){
     /* setMapHeight(); */
     if( document.getElementById('map') != null ){
-        var base_url = $('meta[name="base-url"]').attr('content');
-        var url      = base_url + '/get/property/listing/map';
-        var params   = $("#property_search_form").serialize();
+        let base_url = $('meta[name="base-url"]').attr('content');
+        let url      = base_url + '/get/property/listing/map';
+        let params   = $("#property_search_form").serialize();
         function fn_error(result)
         {
             toast('error', result.message,'top-right');
             $("#property_search_form")[0].reset();
-        };
+        }
         function fn_success(result){
-            var map = new google.maps.Map(document.getElementById('map'), {
+            let map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 8,
                 scrollwheel: false,
                 center: new google.maps.LatLng(_latitude, _longitude),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 styles: mapStyles
             });
-            var i;
-            var newMarkers = [];
-            for (i = 0; i < result.locations.property_unit_types.length; i++) {
-                var locations = result.locations.property_unit_types;
-                var pictureLabel = document.createElement("img");
+            let i;
+            let newMarkers = [];
+            for (i = 0; i < result.locations.data.length; i++) {
+                let locations = result.locations.data;
+                let pictureLabel = document.createElement("img");
                 pictureLabel.src = base_url + '/img/home.png';
-                var boxText = document.createElement("div");
+                let boxText = document.createElement("div");
                 infoboxOptions = {
                     content: boxText,
                     disableAutoPan: false,
@@ -126,7 +127,7 @@ function createHomepageGoogleMap(_latitude,_longitude){
                     closeBoxURL: base_url + '/img/close.png',
                     infoBoxClearance: new google.maps.Size(1, 1)
                 };
-                var marker = new MarkerWithLabel({
+                let marker = new MarkerWithLabel({
                     title: locations[i]['title'],
                     position: new google.maps.LatLng(locations[i]['latitude'], locations[i]['longitude']),
                     map: map,
@@ -156,7 +157,7 @@ function createHomepageGoogleMap(_latitude,_longitude){
                 newMarkers[i].infobox = new InfoBox(infoboxOptions);
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                     return function() {
-                        for (h = 0; h < newMarkers.length; h++) {
+                        for (let h = 0; h < newMarkers.length; h++) {
                             newMarkers[h].infobox.close();
                         }
                         newMarkers[i].infobox.open(map, this);
@@ -164,14 +165,14 @@ function createHomepageGoogleMap(_latitude,_longitude){
                 })(marker, i));
 
             }
-            var clusterStyles = [
+            let clusterStyles = [
                 {
                     url: base_url+'/img/map_marker.png',
                     height: 60,
                     width: 60
                 }
             ];
-            var markerCluster = new MarkerClusterer(map, newMarkers, {styles: clusterStyles, maxZoom: 15});
+            let markerCluster = new MarkerClusterer(map, newMarkers, {styles: clusterStyles, maxZoom: 15});
             $('body').addClass('loaded');
             setTimeout(function() {
                 $('body').removeClass('has-fullscreen-map');
@@ -182,7 +183,7 @@ function createHomepageGoogleMap(_latitude,_longitude){
 
             google.maps.event.addListener(map, 'idle', function() {
 
-                for (var i=0; i < result.locations.length; i++) {
+                for (let i=0; i < result.locations.length; i++) {
                     if ( map.getBounds().contains(newMarkers[i].getPosition()) ){
                         newMarkers[i].setVisible(true); // <- Uncomment this line to use dynamic displaying of markers
 
@@ -202,12 +203,12 @@ function createHomepageGoogleMap(_latitude,_longitude){
             });
             // Function which set marker to the user position
             function success(position) {
-                var center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                let center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.panTo(center);
                 $('#map').removeClass('fade-map');
             }
             toast('success', result.message, 'top-right');
-        };
+        }
         $.fn_ajax(url,params,fn_success,fn_error);
         // Enable Geo Location on button click
         $('.geo-location').on("click", function() {
@@ -222,3 +223,5 @@ function createHomepageGoogleMap(_latitude,_longitude){
 }
 
 
+
+})(jQuery);

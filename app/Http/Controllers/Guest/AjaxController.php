@@ -10,6 +10,18 @@ use App\City;
 use App\ContactRequest;
 class AjaxController extends Controller
 {
+    public function check_auth(Request $request)
+    {
+        if(auth()->check())
+        {
+            $result = ["status"=>1,"response"=>"success","message"=>"User logged in"];
+        }
+        else
+        {
+            $result = ["status"=>0,"response"=>"error","message"=>"User not logged in"];
+        }
+        return response()->json($result,200);
+    }
     public function get_state_list(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -49,13 +61,13 @@ class AjaxController extends Controller
             'subject' => 'required',
             'message' => 'required',
         ]);
-        if (!$validator->fails()) 
+        if (!$validator->fails())
         {
-            
+
              $contactRequest               = $request->all();
              $contactRequest['created_at'] = date('Y-m-d H:i:s');
              $contactRequest['enquiry_for']= 'property';
-            if (ContactRequest::create($contactRequest)) 
+            if (ContactRequest::create($contactRequest))
             {
                 return response()->json(['response' => 'success', 'data' => $contactRequest, 'message' => 'Contact Request Recieved Successfully,We Will Call You Back Soon,Thank You.']);
             } else {
@@ -73,12 +85,12 @@ class AjaxController extends Controller
             'subject' => 'required',
             'message' => 'required',
         ]);
-        if (!$validator->fails()) 
+        if (!$validator->fails())
         {
-            
+
              $input                = $request->only([ 'name','email','mobile','subject','message']);
              $input['enquiry_for'] = 'agent';
-            if (ContactRequest::create($input)) 
+            if (ContactRequest::create($input))
             {
                 return response()->json(['response' => 'success', 'data' => $input, 'message' => 'Enquiry request recieved successfully,we will call you back soon,Thank you.']);
             } else {

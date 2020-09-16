@@ -65,28 +65,28 @@ h4 {
     background-image: url(../images/hero_section.jpg);
     background-size: cover;
     background-position: center;
-    border-radius: 0px;
-    margin-bottom: 0px;
+    border-radius: 0;
+    margin-bottom: 0;
 }
 
 .agentSection {
     background-image: url(../images/hero_section.jpg);
     background-size: cover;
     background-position: center;
-    border-radius: 0px;
-    margin-bottom: 0px;
+    border-radius: 0;
+    margin-bottom: 0;
 }
 
 .inner-page-jumbotron {
     background-image: url(../images/hero_section.jpg);
     background-size: cover;
     background-position: center;
-    border-radius: 0px;
-    margin-bottom: 0px;
+    border-radius: 0;
+    margin-bottom: 0;
 }
 
 .advanced-tabs {
-    border: 0px !important;
+    border: 0 !important;
 }
 
 .advanced-tabs>li {
@@ -121,15 +121,15 @@ h4 {
 .custom-select,
 .form-control {
     height: 50px;
-    border-radius: 0px;
-    border: 0px !important;
+    border-radius: 0;
+    border: 0 !important;
 }
 
 .btn-form-submit {
     height: 50px;
     background-color: #ED6A0F;
-    border: 0px;
-    border-radius: 0px;
+    border: 0;
+    border-radius: 0;
 }
 
 .btn-form-submit:hover {
@@ -140,8 +140,8 @@ h4 {
 .btn-agent {
     height: 50px;
     background-color: #373C8D;
-    border: 0px;
-    border-radius: 0px;
+    border: 0;
+    border-radius: 0;
 }
 
 .btn-agent:hover {
@@ -163,8 +163,8 @@ h4 {
     bottom: 45px;
     width: 50%;
     text-align: center;
-    margin-bottom: 0px;
-    border-radius: 0px 0px 0px 10px;
+    margin-bottom: 0;
+    border-radius: 0 0 0 10px;
     display: block;
 }
 
@@ -182,8 +182,8 @@ h4 {
     bottom: 45px;
     width: 100%;
     text-align: center;
-    margin-bottom: 0px;
-    border-radius: 0px 0px 10px 10px;
+    margin-bottom: 0;
+    border-radius: 0 0 10px 10px;
     display: block;
 }
 
@@ -200,7 +200,7 @@ h4 {
 
 .btn-Orange {
     background-color: #ED6A0F;
-    border: 0px;
+    border: 0;
 }
 
 .btn-Orange:hover {
@@ -210,7 +210,7 @@ h4 {
 
 .btn-Blue {
     background-color: #373C8D;
-    border: 0px;
+    border: 0;
 }
 
 .btn-Blue:hover {
@@ -219,7 +219,7 @@ h4 {
 }
 
 .footer-ul {
-    padding-left: 0px;
+    padding-left: 0;
     margin-top: 20px;
 }
 
@@ -246,7 +246,7 @@ h4 {
 }
 
 .propertyListing-ul {
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 .propertyListing-ul>li {
@@ -309,7 +309,7 @@ h4 {
 }
 
 .propertyDetailList-ul {
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 .propertyDetailList-ul>li {
@@ -353,7 +353,7 @@ h4 {
 }
 
 .agentView-ul {
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 .agentView-ul>li {
@@ -362,30 +362,30 @@ h4 {
 }
 
 .btn-group {
-    border-radius: 0px !important;
+    border-radius: 0 !important;
 }
 
 .btnOrange {
     background-color: #ED6A0F;
-    border: 0px;
-    border-radius: 0px;
+    border: 0;
+    border-radius: 0;
 }
 
 .btnOrange:hover {
     background-color: #ED6A0F;
-    border: 0px;
+    border: 0;
     opacity: 0.8;
 }
 
 .btnBlue {
     background-color: #373C8D;
-    border: 0px;
-    border-radius: 0px;
+    border: 0;
+    border-radius: 0;
 }
 
 .btnBlue:hover {
     background-color: #373C8D;
-    border: 0px;
+    border: 0;
     opacity: 0.8;
 }
 
@@ -402,7 +402,7 @@ h4 {
 .cardBox-Shadow:hover {
     box-shadow: 2px 4px 24px rgba(0, 0, 0, 0.15);
     background-color: white;
-    border: 0px;
+    border: 0;
 }
 
 .cardAnchor {
@@ -413,6 +413,8 @@ h4 {
     color: #282828;
     text-decoration: none;
 }
+
+
 
 
 /*contact form*/
@@ -441,11 +443,33 @@ textarea {
     opacity: 0.2;
 }
 
+/* property enquiry model and input box */
+
+.property-enquiry-input  {
+    width: 100%;
+    padding: 12px;
+    border: 3px solid #373C8D !important;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+
+.property-enquiry-input :focus {
+    color: #13354c;
+    background-color: #f2faf3;
+    border-color: #49139d;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(247 247 248);
+}
+
 
 /*End contact form*/
 
 .agentUlTabs {
-    border: 0px !important;
+    border: 0 !important;
 }
 
 .agentUlTabs .nav-link {

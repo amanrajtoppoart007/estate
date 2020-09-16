@@ -1,0 +1,75 @@
+
+.bg-gradient-primary {
+  color: #ffffff;
+}
+.bg-gradient-primary {
+  background: #007bff linear-gradient(180deg, #268fff, #007bff) repeat-x !important;
+}
+.bg-gradient-secondary {
+  color: #ffffff;
+}
+
+.bg-gradient-secondary {
+  background: #6c757d linear-gradient(180deg, #828a91, #6c757d) repeat-x !important;
+}
+.bg-gradient-success {
+  color: #ffffff;
+}
+
+.bg-gradient-success {
+  background: #28a745 linear-gradient(180deg, #48b461, #28a745) repeat-x !important;
+}
+.bg-gradient-info {
+  color: #ffffff;
+}
+
+.bg-gradient-info {
+  background: #17a2b8 linear-gradient(180deg, #3ab0c3, #17a2b8) repeat-x !important;
+}
+
+
+.bg-gradient-warning {
+  color: #1F2D3D;
+}
+
+.bg-gradient-warning {
+  background: #ffc107 linear-gradient(180deg, #ffca2c, #ffc107) repeat-x !important;
+}
+
+.bg-gradient-danger {
+  color: #ffffff;
+}
+
+.bg-gradient-danger {
+  background: #dc3545 linear-gradient(180deg, #e15361, #dc3545) repeat-x !important;
+}
+.bg-gradient-light {
+  color: #1F2D3D;
+}
+
+.bg-gradient-light {
+  background: #f8f9fa linear-gradient(180deg, #f9fafb, #f8f9fa) repeat-x !important;
+}
+.bg-gradient-lightblue {
+  color: #ffffff;
+}
+
+.bg-gradient-lightblue {
+  background: #3c8dbc linear-gradient(180deg, #599ec6, #3c8dbc) repeat-x !important;
+}
+
+
+.bg-gradient-navy {
+  color: #ffffff;
+}
+
+.bg-gradient-navy {
+  background: #001f3f linear-gradient(180deg, #26415c, #001f3f) repeat-x !important;
+}
+.bg-gradient-blue {
+  color: #ffffff;
+}
+
+.bg-gradient-blue {
+  background: #007bff linear-gradient(180deg, #268fff, #007bff) repeat-x !important;
+}

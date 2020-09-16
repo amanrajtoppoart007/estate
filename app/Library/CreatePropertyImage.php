@@ -48,6 +48,8 @@ class CreatePropertyImage
                             $img->save($thumbnail);
                             $insert = array();
                             $insert['property_id'] = $this->property_id;
+                            $insert['imageable_id'] = $this->property_id;
+                            $insert['imageable_type'] = 'property';
                             $insert['image_url'] = $path . basename($image);
                             $insert['image_thumb'] = $path . basename($thumbnail);
                             $insert['physical_loc'] = 1;

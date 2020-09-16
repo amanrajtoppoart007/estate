@@ -1,360 +1,13 @@
 @extends("guest.layout.main")
+@section("link")
+    <link rel="stylesheet" href="{{asset('plugin/bootstrap-select/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugin/country-select/css/bootstrap-select-country.min.css')}}">
+@endsection
 @section("content")
     <!-- Hero Section -->
     <div class="jumbotron inner-page-jumbotron">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-sm-12 col-12">
-                    <!-- Advance Search -->
-                    <ul class="nav nav-pills advanced-tabs justify-content-center" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#BUY" role="tab">BUY</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#SELL" role="tab">SELL</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#PLOT" role="tab">PLOT</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#COMMERCIAL" role="tab">COMMERCIAL</a>
-                        </li>
-                    </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content mt-4">
-                        <div class="tab-pane active" id="BUY" role="tabpanel">
-                            <form>
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Enter location, Project or Landmark">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Flat</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Budget</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>All Furnishings</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Rent</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6 col-12">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Max. Price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Bed">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Max. Bed">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-2 col-12">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-block btn-Formsubmit">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane" id="SELL" role="tabpanel">
-                            <form>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Flat</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Budget</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Enter location, Project or Landmark">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-2 col-12">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-block btn-Formsubmit">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>All Furnishings</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Rent</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6 col-12">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Max. Price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Bed">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Max. Bed">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane" id="PLOT" role="tabpanel">
-                            <form>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Flat</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Budget</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Enter location, Project or Landmark">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-2 col-12">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-block btn-Formsubmit">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>All Furnishings</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Rent</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6 col-12">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Max. Price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Bed">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Max. Bed">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane" id="COMMERCIAL" role="tabpanel">
-                            <form>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Flat</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Budget</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Enter location, Project or Landmark">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-2 col-12">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-block btn-Formsubmit">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>All Furnishings</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-3 col-12">
-                                        <div class="form-group">
-                                            <select class="custom-select">
-                                                <option selected>Rent</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6 col-12">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Max. Price">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Min. Bed">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-3 col-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Max. Bed">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- End -->
-                </div>
-            </div>
+            @include("guest.filter.filter")
         </div>
     </div>
     <!-- End -->
@@ -382,7 +35,7 @@
                 </div>
             </div>
             <div class="col-lg-2 col-sm-2 col-6 mob-mt20">
-                <a href="mapView.html" type="button" class="btn btn-outline-secondary btn-block btn-h50">
+                <a href="{{route('property.search',['view'=>'map'])}}" type="button" class="btn btn-outline-secondary btn-block btn-h50">
                     <i class="fa fa-map-marker" aria-hidden="true"></i> Map View
                     <span class="badge badge-danger">New</span>
                 </a>
@@ -397,13 +50,14 @@
         <div class="row">
             <div class="col-lg-9 col-sm-9 col-12">
                 <div class="row">
-                    <div class="col-lg-6 col-sm-6 col-12">
+                    @foreach($listings['data'] as $unit)
+                    <div class="col-lg-6 col-sm-6 col-12 my-1">
                         <div class="card">
-                            <img src="assets/uploads/property_image.webp" class="img-fluid propertyList-img" alt="...">
+                            <img src="{{$unit['primary_image']}}" class="img-fluid propertyList-img" alt="{{$unit['title']}}">
                             <div class="card-body">
-                                <h5 class="card-title">1,200,000 <strong class="colorOrange">AED</strong></h5>
+                                <h5 class="card-title">{{$unit['price']}}</h5>
                                 <p class="font-14">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> Executive Tower F, Executive Towers, Business Bay, Dubai
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i> {{$unit['full_address']}}
                                 </p>
                                 <p class="card-text">
 
@@ -412,337 +66,38 @@
                                 <ul class="propertyListing-ul">
                                     <li>
                                         2
-                                        <img class="img-fluid img-24" src="assets/uploads/bed.svg" alt="">
+                                        <img class="img-fluid img-24" src="{{asset('theme/images/bed.svg')}}" alt="Number Of Beds">
 
                                     </li>
                                     <li>
                                         3
-                                        <img class="img-fluid img-24" src="assets/uploads/bathroom.svg" alt="">
+                                        <img class="img-fluid img-24" src="{{asset('theme/images/bathroom.svg')}}" alt="Number Of Baths">
                                     </li>
                                     <li>
-                                        1,605 sqft
+                                        {{$unit['unit_size']}} SqFt
                                     </li>
                                 </ul>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
+                                <button type="button" class="btn btn-outline-secondary mb-2 enquiry_call_btn">
                                     <i class="fa fa-phone" aria-hidden="true"></i>
                                     Call
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
+                                <button type="button" class="btn btn-outline-secondary mb-2 enquiry_email_btn">
                                     <i class="fa fa-envelope" aria-hidden="true"></i>
                                     Email
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
+                                <button type="button" class="btn btn-outline-secondary mb-2 add_to_favorite_list_btn">
                                     <i class="fa fa-heart" aria-hidden="true"></i>
                                     Save
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-sm-6 col-12">
-                        <div class="card">
-                            <img src="assets/uploads/property_image.webp" class="img-fluid propertyList-img" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">1,200,000 <strong class="colorOrange">AED</strong></h5>
-                                <p class="font-14">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> Executive Tower F, Executive Towers, Business Bay, Dubai
-                                </p>
-                                <p class="card-text">
-
-                                </p>
-                                <h5 class="colorOrange">Apartment :</h5>
-                                <ul class="propertyListing-ul">
-                                    <li>
-                                        2
-                                        <img class="img-fluid img-24" src="assets/uploads/bed.svg" alt="">
-
-                                    </li>
-                                    <li>
-                                        3
-                                        <img class="img-fluid img-24" src="assets/uploads/bathroom.svg" alt="">
-                                    </li>
-                                    <li>
-                                        1,605 sqft
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    Call
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    Email
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="row mt-2">
-                    <div class="col-lg-6 col-sm-6 col-12">
-                        <div class="card">
-                            <img src="assets/uploads/property_image.webp" class="img-fluid propertyList-img" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">1,200,000 <strong class="colorOrange">AED</strong></h5>
-                                <p class="font-14">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> Executive Tower F, Executive Towers, Business Bay, Dubai
-                                </p>
-                                <p class="card-text">
 
-                                </p>
-                                <h5 class="colorOrange">Apartment :</h5>
-                                <ul class="propertyListing-ul">
-                                    <li>
-                                        2
-                                        <img class="img-fluid img-24" src="assets/uploads/bed.svg" alt="">
-
-                                    </li>
-                                    <li>
-                                        3
-                                        <img class="img-fluid img-24" src="assets/uploads/bathroom.svg" alt="">
-                                    </li>
-                                    <li>
-                                        1,605 sqft
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    Call
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    Email
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-12">
-                        <div class="card">
-                            <img src="assets/uploads/property_image.webp" class="img-fluid propertyList-img" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">1,200,000 <strong class="colorOrange">AED</strong></h5>
-                                <p class="font-14">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> Executive Tower F, Executive Towers, Business Bay, Dubai
-                                </p>
-                                <p class="card-text">
-
-                                </p>
-                                <h5 class="colorOrange">Apartment :</h5>
-                                <ul class="propertyListing-ul">
-                                    <li>
-                                        2
-                                        <img class="img-fluid img-24" src="assets/uploads/bed.svg" alt="">
-
-                                    </li>
-                                    <li>
-                                        3
-                                        <img class="img-fluid img-24" src="assets/uploads/bathroom.svg" alt="">
-                                    </li>
-                                    <li>
-                                        1,605 sqft
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    Call
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    Email
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-lg-6 col-sm-6 col-12">
-                        <div class="card">
-                            <img src="assets/uploads/property_image.webp" class="img-fluid propertyList-img" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">1,200,000 <strong class="colorOrange">AED</strong></h5>
-                                <p class="font-14">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> Executive Tower F, Executive Towers, Business Bay, Dubai
-                                </p>
-                                <p class="card-text">
-
-                                </p>
-                                <h5 class="colorOrange">Apartment :</h5>
-                                <ul class="propertyListing-ul">
-                                    <li>
-                                        2
-                                        <img class="img-fluid img-24" src="assets/uploads/bed.svg" alt="">
-
-                                    </li>
-                                    <li>
-                                        3
-                                        <img class="img-fluid img-24" src="assets/uploads/bathroom.svg" alt="">
-                                    </li>
-                                    <li>
-                                        1,605 sqft
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    Call
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    Email
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-12">
-                        <div class="card">
-                            <img src="assets/uploads/property_image.webp" class="img-fluid propertyList-img" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">1,200,000 <strong class="colorOrange">AED</strong></h5>
-                                <p class="font-14">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> Executive Tower F, Executive Towers, Business Bay, Dubai
-                                </p>
-                                <p class="card-text">
-
-                                </p>
-                                <h5 class="colorOrange">Apartment :</h5>
-                                <ul class="propertyListing-ul">
-                                    <li>
-                                        2
-                                        <img class="img-fluid img-24" src="assets/uploads/bed.svg" alt="">
-
-                                    </li>
-                                    <li>
-                                        3
-                                        <img class="img-fluid img-24" src="assets/uploads/bathroom.svg" alt="">
-                                    </li>
-                                    <li>
-                                        1,605 sqft
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    Call
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    Email
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-lg-6 col-sm-6 col-12">
-                        <div class="card">
-                            <img src="assets/uploads/property_image.webp" class="img-fluid propertyList-img" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">1,200,000 <strong class="colorOrange">AED</strong></h5>
-                                <p class="font-14">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> Executive Tower F, Executive Towers, Business Bay, Dubai
-                                </p>
-                                <p class="card-text">
-
-                                </p>
-                                <h5 class="colorOrange">Apartment :</h5>
-                                <ul class="propertyListing-ul">
-                                    <li>
-                                        2
-                                        <img class="img-fluid img-24" src="assets/uploads/bed.svg" alt="">
-
-                                    </li>
-                                    <li>
-                                        3
-                                        <img class="img-fluid img-24" src="assets/uploads/bathroom.svg" alt="">
-                                    </li>
-                                    <li>
-                                        1,605 sqft
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    Call
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    Email
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-12">
-                        <div class="card">
-                            <img src="assets/uploads/property_image.webp" class="img-fluid propertyList-img" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">1,200,000 <strong class="colorOrange">AED</strong></h5>
-                                <p class="font-14">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i> Executive Tower F, Executive Towers, Business Bay, Dubai
-                                </p>
-                                <p class="card-text">
-
-                                </p>
-                                <h5 class="colorOrange">Apartment :</h5>
-                                <ul class="propertyListing-ul">
-                                    <li>
-                                        2
-                                        <img class="img-fluid img-24" src="assets/uploads/bed.svg" alt="">
-
-                                    </li>
-                                    <li>
-                                        3
-                                        <img class="img-fluid img-24" src="assets/uploads/bathroom.svg" alt="">
-                                    </li>
-                                    <li>
-                                        1,605 sqft
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    Call
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    Email
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary mb-2">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row mt-4">
                     <div class="col-lg-12 col-sm-12 col-12 text-center">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>
+                         <!-----------pagination section ---------->
                     </div>
                 </div>
             </div>
@@ -822,3 +177,9 @@
     </div>
     <!-- End Property listings -->
 @endsection
+@include("guest.property.modal")
+@section("js")
+    <script src="{{asset('plugin/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('plugin/country-select/js/bootstrap-select-country.min.js')}}"></script>
+@endsection
+@include("guest.property.script")

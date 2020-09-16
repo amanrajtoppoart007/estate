@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers\Guest;
 
+use App\Agent;
 use App\PropertyUnit;
-use App\State;
-use App\Feature;
-use App\Slider;
-use App\Property;
-use App\PropertyType;
-use App\PropertyUnitType;
 use Illuminate\Http\Request;
 use App\Library\PropertyView;
 use App\Http\Controllers\Controller;
@@ -23,10 +18,11 @@ class GuestController extends Controller
 
     public function propertyView($unit_code)
     {
-        $unit                   = PropertyUnit::where('unitcode',$unit_code)->first();
+        $unitObject    = PropertyUnit::where('unitcode',$unit_code)->first();
+        $unit          = (new PropertyView())->single($unitObject);
         if(!empty($unit))
         {
-            event(new \App\Events\PropertyPageFirstVisited($unit->property));
+            event(new \App\Events\PropertyPageFirstVisited($unitObject->property));
             return view('guest.property.view',compact('unit'));
         }
         else
@@ -37,25 +33,15 @@ class GuestController extends Controller
     }
     public function agentListing(Request $request)
     {
-        $agents  = \App\Agent::withCount('properties')->paginate(20);
-        $view    = new PropertyView();
-        $model   = new PropertyUnitType();
-        $recents = $model->whereHas('property',function($query){$query->whereNotNull('propcode');})->inRandomOrder()->limit($agents->total())->get();
-        $recents = $view->execute($recents);
+        $agents  = Agent::withCount('properties')->paginate(20);
 
-        return view("guest.agent.list",compact('agents','recents'));
+        return view("guest.agent.list",compact('agents'));
     }
     public function viewAgentDetail($id)
     {
-        $agent      = \App\Agent::withCount('properties')->find($id);
-        $view       = new PropertyView();
-        $model      = new PropertyUnitType();
-        $properties = $model->whereHas('property',function($query){$query->whereNotNull('propcode');})->whereHas('propertyUnits',function($query) use($id){
-            $query->where(['agent_id'=>$id,'status'=>'1'])->groupBy('property_unit_type_id');
-        })->paginate(10);
-        $prop_links = $properties->links();
-        $properties = $view->execute($properties);
-        return view('guest.agent.view',\compact('agent','properties','prop_links'));
+        $agent      = Agent::withCount('properties')->find($id);
+        $properties = (new PropertyView())->multiple($agent->property_units);
+        return view('guest.agent.view',\compact('agent','properties'));
     }
 
     public function buy()

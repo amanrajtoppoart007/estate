@@ -23,9 +23,7 @@ class DocumentController extends Controller
 
      public function fetch(Request $request)
      {
-         $model = new Document();
-         $api   = new Api($model, $request);
-         echo json_encode($api->apply());
+         echo json_encode((new Api((new Document())))->getResult());
      }
 
 }

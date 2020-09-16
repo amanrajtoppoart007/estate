@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -59,23 +60,29 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        $guards = $exception->guards();
         if ($request->expectsJson())
         {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+           return response()->json(['status'=>0,'error' => 'Unauthenticated.','message'=>'Invalid access attempt'], 200);
         }
-        if(in_array('admin',$guards))
+
+
+        $guard = Arr::get($exception->guards(), 0);
+        switch ($guard)
         {
-            return redirect()->guest(route('admin.login'));
+          case 'admin':
+            $route = 'admin.login';
+            break;
+            case 'tenant':
+            $route = 'tenant.login';
+            break;
+            case 'owner':
+            $route = 'owner.login';
+            break;
+          default:
+            $route = 'login';
+            break;
         }
-        if(in_array('tenant',$guards))
-        {
-            return redirect()->guest(route('tenant.login'));
-        }
-        if(in_array('owner',$guards))
-        {
-            return redirect()->guest(route('owner.login'));
-        }
-        return redirect()->guest('login');
+        return redirect()->guest(route($route));
+
     }
 }
