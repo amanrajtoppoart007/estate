@@ -58,7 +58,7 @@ Route::get('get/document/{filename}', 'Common\ImageController@view_doc')->name('
 Route::get('view/rent/breakdown/{encoded_string}', 'Guest\RentBreakDownController@view')->name('guest.view.rent.breakdown');
 Route::post('get/breakdown/config/items', 'Common\CommonController@get_breakdown_constants')->name('get.breakdown.constants');
 
-Route::post('/agent/enquiry/store', 'Guest\AjaxController@agent_enquiry_form')->name('agent.enquiry.store');
+Route::post('/agent/enquiry/store', 'Guest\AgentController@store_enquiry')->name('agent.enquiry.store');
 Auth::routes();
 Route::prefix('master')->group(function () {
     Route::get('/', 'AdminAuth\LoginController@showLoginForm')->name('admin.login');

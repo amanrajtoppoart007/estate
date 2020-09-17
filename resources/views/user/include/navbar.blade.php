@@ -18,7 +18,7 @@
                         <a class="nav-link" href="{{route('property.search',['mode'=>1])}}">RENT</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('property.agent.list')}}">AGENTS</a>
+                        <a class="nav-link" href="{{route('agent.search')}}">AGENTS</a>
                     </li>
                     @auth()
                         <li class="nav-item dropdown">

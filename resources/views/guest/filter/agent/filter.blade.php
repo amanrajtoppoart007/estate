@@ -22,7 +22,7 @@
                                     <div class="col-lg-8 col-sm-8 col-12">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Enter Location or Agent Name">
+                                                <input type="text" name="search" class="form-control" placeholder="Enter Location or Agent Name">
                                             </div>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                     <div class="col-lg-8 col-sm-8 col-12">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Enter Location or Agent Name">
+                                                <input type="text" name="search" class="form-control" placeholder="Enter Location or Agent Name">
                                             </div>
                                         </div>
                                     </div>
