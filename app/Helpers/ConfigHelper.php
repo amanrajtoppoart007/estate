@@ -204,7 +204,10 @@ if (!function_exists('get_country_list'))
      $countries = DB::table('countries')->where('is_disabled','0')->get();
      foreach($countries as $country)
      {
-         $output[$country->id] = $country->name;
+
+         if((!empty($country->code))&&(strlen($country->code)>=2)) {
+             $output[$country->id] = $country->name;
+         }
      }
     return $output;
   }
@@ -234,3 +237,4 @@ if (!function_exists('get_country_codes'))
     return $output;
   }
 }
+

@@ -117,16 +117,11 @@ class SearchApi extends Search
              {
                  ini_set('memory_limit', '1024M');
              }
-             /*$count   = $this->applyFilter(request()->all(),($this->model)->newQuery());*/
              $currentPageData          = $this->getFilteredData($builder);
-            /* $totalFilteredRecordCount = $this->getTotalFilteredRecordCount($count);
-             $totalRecordsCount        = $this->model::count();*/
          }
          else
          {
              $currentPageData = [];
-            /* $totalFilteredRecordCount = 0;
-             $totalRecordsCount =0;*/
          }
 
          return   $currentPageData;

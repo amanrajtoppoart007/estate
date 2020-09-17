@@ -81,7 +81,7 @@
 
         <div class="row mt-5">
             <div class="col-lg-12 col-sm-12 col-12 text-center">
-                {{$agents->links()}}
+
             </div>
         </div>
     </div>

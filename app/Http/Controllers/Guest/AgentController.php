@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Guest;
 use App\Agent;
 use App\Http\Controllers\Controller;
 use App\Library\PropertyView;
+use App\Search\SearchApi;
 use Illuminate\Http\Request;
 
 class AgentController extends Controller
 {
     public function search(Request $request)
     {
-        $agents  = Agent::withCount('properties')->paginate(20);
+        $agents = (new SearchApi(new Agent()))->getResult();
         return view("guest.agent.list",compact('agents'));
     }
 
