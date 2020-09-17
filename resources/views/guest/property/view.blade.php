@@ -186,12 +186,12 @@
                                 </p>
                                 <div class="row">
                                     <div class="col-lg-6 col-sm-6 col-12">
-                                        <button type="button" class="btn btn-success btn-lg btn-block">
+                                        <button type="button" class="btn btn-success btn-lg btn-block call_for_enquiry_btn">
                                             <i class="fa fa-phone" aria-hidden="true"></i> Call Now
                                         </button>
                                     </div>
                                     <div class="col-lg-6 col-sm-6 col-12">
-                                        <button type="button" class="btn btn-danger btn-lg btn-block">
+                                        <button type="button" class="btn btn-danger btn-lg btn-block enquiry_modal_open_btn">
                                             <i class="fa fa-envelope" aria-hidden="true"></i> Email
                                         </button>
                                     </div>
@@ -238,4 +238,122 @@
         <hr>
     </div>
     <!-- End Main Section -->
+@endsection
+@section("modal")
+    {{Form::open(['id'=>'property_enquiry_form'])}}
+    <input type="hidden" name="property_id" value="{{$unit['property_id']}}">
+    <input type="hidden" name="unit_id" value="{{$unit['id']}}">
+    <div class="modal" tabindex="-1" id="property_enquiry_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact Us</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4 col-sm-4 col-lg-4 col-xl-4">
+                            <img src="{{$unit['primary_image']}}" alt="" class="card-img-top">
+                        </div>
+                        <div class="col-8 col-sm-8 col-lg-8 col-xl-8">
+                            <table class="table table-borderless">
+                                <tbody>
+                                <tr>
+                                    <th>Summery</th>
+                                    <th>{{$unit['title']}}</th>
+                                </tr>
+                                <tr>
+                                     <th>Address</th>
+                                     <th>{{$unit['full_address']}}</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <textarea class="form-control property-enquiry-input" name="message"
+                                          placeholder="Type your message">Hey i saw , ad of property code {{$unit['unitcode']}} in your website , I am interested in this property ,please contact me. </textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="property-enquiry-input" name="name" placeholder="Name"
+                                       value="name">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control property-enquiry-input" name="email"
+                                       placeholder="Email" value="name@gmail.com">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div>
+                                            <select name="country_code" id="country_code" data-flag="true">
+                                                @php $countries = get_country_list() @endphp
+                                                @foreach($countries as $key=>$value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="text"
+                                           class="form-control property-enquiry-input property-enquiry-input"
+                                           name="contact" placeholder="Mobile" value="1234567890">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{Form::close()}}
+@endsection
+@section("script")
+    <script>
+        (function($){
+
+            $(document).on("click",".enquiry_modal_open_btn",function(){
+                $("#property_enquiry_modal").modal("show");
+            });
+
+
+            $(document).on("click",".call_for_enquiry_btn",function(){
+                $(this).text("+957432423423434");
+            });
+
+
+            $("#property_enquiry_form").on("submit",function(e){
+                e.preventDefault();
+                let url = "{{route('bookingRequest.store')}}";
+                let params = $("#property_enquiry_form").serialize();
+                function fn_success(result)
+                {
+                  alert(result.message);
+                  $("#property_enquiry_modal").modal("hide");
+
+                }
+                function fn_error(result)
+                {
+                    alert(result.message);
+                }
+                $.fn_ajax(url,params,fn_success,fn_error);
+
+            });
+
+        })(jQuery);
+    </script>
 @endsection
