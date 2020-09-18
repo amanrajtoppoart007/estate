@@ -27,7 +27,7 @@ class StoreAgent extends FormRequest
     {
         $rules = [
             'name'=>'required|unique:agents,name',
-            'country_code'=>'required|numeric',
+            'country_code'=>'required',
             'mobile'=>'required|unique:agents,mobile|',
             'email'=>'required|email|unique:agents,email',
             'password'=>'required',
