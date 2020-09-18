@@ -226,7 +226,11 @@ Route::prefix('propertyType')->group(function () {
 Route::prefix('ajax')->group(function () {
     Route::post('/states', 'Admin\AjaxController@get_state_list')->name('ajax.get.states');
     Route::post('/cities', 'Admin\AjaxController@get_cities_list')->name('ajax.get.cities');
+    Route::any('/search/cities', 'Admin\AjaxController@get_cities')->name('ajax.city.search');
     Route::post('/image/delete', 'Admin\AjaxController@deletePropertyImages')->name('ajax.delete.image');
+});
+Route::prefix("select2")->group(function () {
+    Route::any('/search/cities', 'Admin\Select2Controller@get_cities')->name('select2.city.search');
 });
 
 //Department Routes

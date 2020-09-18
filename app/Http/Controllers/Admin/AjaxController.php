@@ -52,6 +52,7 @@ class AjaxController extends Controller
         }
         return response()->json(['response'=>'error','message' => $validator->errors()->all()]);
     }
+
     public function deletePropertyImages(Request $request)
     {
         $validator = Validator::make($request->all(), [

@@ -1,21 +1,5 @@
 @extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Create Sales Inquiry</h4>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Create Sales Inquiry</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Create Sales Enquiry"])
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -147,9 +131,6 @@
                             <td>
                                 <select name="preferred_city" id="preferred_city" class="form-control">
                                     <option value="">Select City</option>
-                                    @foreach($cities as $city)
-                                        <option value="{{$city->id}}">{{$city->name}}</option>
-                                    @endforeach
                                 </select>
                             </td>
                         </tr>
@@ -165,10 +146,8 @@
                                 <select class="form-control" name="bedroom" id="bedroom">
                                     <option value="">Select no.</option>
                                     @for($i=1;$i<7;$i++)
-
                                         <option value="{{$i}}">{{$i}}</option>
-
-                                        @endfor
+                                    @endfor
                                     <option value="7+">7+</option>
                                 </select>
                             </td>
@@ -319,7 +298,7 @@
 @endsection
 @section('script')
     <script>
-        $(document).ready(function(){
+        (function($){
 
              $("#source").on("change",function(e){
                 e.preventDefault();
@@ -354,10 +333,10 @@
                 }
             }
 
-            $("#profile_image").change(function () {
+            $("#profile_image").on("change",function () {
                 render_image(this);
             });
-            $("#remove_profile_image").click(function () {
+            $("#remove_profile_image").on("click",function () {
                 $('#profile_image_grid').attr('src', '/theme/images/4.png');
                 let file = document.getElementById("profile_image");
                 file.value = file.defaultValue;
@@ -382,6 +361,24 @@
                 }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             });
-        });
+
+            $('#preferred_city').select2({
+                ajax: {
+                    url: "{{route('select2.city.search')}}",
+                    data: function (params) {
+                        // Query parameters will be ?search=[term]&type=public
+                        return {
+                            search: params.term,
+                        };
+                    },
+                    processResults: function (result) {
+                        return {
+                            results: result.data
+                        };
+                    }
+                }
+            });
+
+        })(jQuery);
     </script>
 @endsection

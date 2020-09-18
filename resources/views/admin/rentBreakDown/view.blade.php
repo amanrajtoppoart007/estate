@@ -35,7 +35,7 @@
                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-2"> <span class="font-weight-bold">Tenancy Type</span></div>
                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-2">{{$breakdown->rent_enquiry ? get_tenancy_type_title($breakdown->rent_enquiry->tenancy_type) : null}}</div>
                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-2"> <span class="font-weight-bold">Nationality</span></div>
-               <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-2">{{$breakdown->rent_enquiry ? $breakdown->rent_enquiry->country->name : null }}</div>
+               <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-2">{{ (!empty($breakdown->rent_enquiry->country->name)) ? $breakdown->rent_enquiry->country->name : null }}</div>
            </div>
             <div class="row">
                  <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-2"> <span class="font-weight-bold">No Of Tenants</span></div>
