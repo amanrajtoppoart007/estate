@@ -29,7 +29,7 @@ class EditAgent extends FormRequest
             $rules = [
             'id'=>'required|numeric',
             'name'=>'required',
-            'country_code'=>'required|numeric',
+            'country_code'=>'required',
             'mobile'=>'required|unique:owners,mobile|',
             'email'=>'required|email',
             'bank_name'=>'required',
@@ -49,9 +49,6 @@ class EditAgent extends FormRequest
             $rules['owner_name'] = 'required';
             $rules['owner_email'] = 'required|email';
             $rules['owner_mobile'] = 'required';
-            $rules['trade_license'] = 'required|mimes:jpeg,png,jpg,pdf|max:10048';
-            $rules['vat_number'] = 'required|mimes:jpeg,png,jpg,pdf|max:10048';
-
         }
         if(request()->hasFile('emirates_id_doc'))
         {

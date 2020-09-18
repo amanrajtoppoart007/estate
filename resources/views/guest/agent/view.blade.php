@@ -3,8 +3,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Library</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Data</li>
+            <li class="breadcrumb-item"><a href="{{route('agent.search')}}">Agents</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detail</li>
         </ol>
     </nav>
 
@@ -157,12 +157,12 @@
                         <h4 class="text-center">CONTACT THIS AGENT</h4>
                         <div class="row mt-4">
                             <div class="col-lg-12 col-sm-12 col-12">
-                                <button type="button" class="btn btn-outline-danger btn-block">
+                                <button type="button" class="btn btn-outline-danger btn-block call_agent_btn">
                                    Call Agent
                                 </button>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-12 mt-2">
-                                <button type="button" class="btn btn-outline-danger btn-block">
+                                <button type="button" class="btn btn-outline-danger btn-block email_agent_btn">
                                     Email Agent
                                 </button>
                             </div>
@@ -189,4 +189,128 @@
         </div>
     </div>
     <!-- End Main Section -->
+@endsection
+@section("modal")
+    {{Form::open(['id'=>'agent_enquiry_form'])}}
+    <div class="modal" tabindex="-1" id="agent_enquiry_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact our agent</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4 col-sm-4 col-lg-4 col-xl-4">
+                            <img src="{{$img}}" alt="" class="card-img-top">
+                        </div>
+                        <div class="col-8 col-sm-8 col-lg-8 col-xl-8">
+                            <table class="table table-borderless">
+                                <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>{{$agent->name}}</th>
+                                </tr>
+                                <tr>
+                                     <th>City</th>
+                                     <th>{{$agent->city ? $agent->city->name:null}}</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <textarea class="form-control property-enquiry-input" name="message"
+                                          placeholder="Type your message">Hey here is message</textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <select name="subject" id="subject">
+                                    <option value="I want to buy property">I want to buy property</option>
+                                    <option value="I want to sell property">I want to sell property</option>
+                                    <option value="I want to rent property">I want to rent property</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="property-enquiry-input" name="name" placeholder="Name"
+                                       value="name">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control property-enquiry-input" name="email"
+                                       placeholder="Email" value="name@gmail.com">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div>
+                                            <select name="country_code" id="country_code" data-flag="true">
+                                                @php $countries = get_country_list() @endphp
+                                                @foreach($countries as $key=>$value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="text"
+                                           class="form-control property-enquiry-input property-enquiry-input"
+                                           name="mobile" placeholder="Mobile" value="1234567890">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{Form::close()}}
+@endsection
+@section("script")
+    <script>
+        (function($){
+
+            $(document).on("click",".email_agent_btn",function(){
+                $("#agent_enquiry_modal").modal("show");
+            });
+
+
+            $(document).on("click",".call_agent_btn",function(){
+                $(this).text("+957432423423434");
+            });
+
+
+            $("#agent_enquiry_form").on("submit",function(e){
+                e.preventDefault();
+                let url = "{{route('agent.enquiry.store')}}";
+                let params = $("#agent_enquiry_form").serialize();
+                function fn_success(result)
+                {
+                  alert(result.message);
+                  $("#agent_enquiry_modal").modal("hide");
+
+                }
+                function fn_error(result)
+                {
+                    alert(result.message);
+                }
+                $.fn_ajax(url,params,fn_success,fn_error);
+
+            });
+
+        })(jQuery);
+    </script>
 @endsection

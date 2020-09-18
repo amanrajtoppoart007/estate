@@ -31,18 +31,8 @@ class GuestController extends Controller
         }
 
     }
-    public function agentListing(Request $request)
-    {
-        $agents  = Agent::withCount('properties')->paginate(20);
 
-        return view("guest.agent.list",compact('agents'));
-    }
-    public function viewAgentDetail($id)
-    {
-        $agent      = Agent::withCount('properties')->find($id);
-        $properties = (new PropertyView())->multiple($agent->property_units);
-        return view('guest.agent.view',\compact('agent','properties'));
-    }
+
 
     public function buy()
     {

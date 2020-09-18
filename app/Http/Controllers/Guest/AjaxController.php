@@ -76,27 +76,5 @@ class AjaxController extends Controller
         }
         return response()->json(['response' => 'error', 'message' => $validator->errors()->all()]);
     }
-    public function agent_enquiry_form(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'email|required',
-            'mobile' => 'numeric|required',
-            'subject' => 'required',
-            'message' => 'required',
-        ]);
-        if (!$validator->fails())
-        {
 
-             $input                = $request->only([ 'name','email','mobile','subject','message']);
-             $input['enquiry_for'] = 'agent';
-            if (ContactRequest::create($input))
-            {
-                return response()->json(['response' => 'success', 'data' => $input, 'message' => 'Enquiry request recieved successfully,we will call you back soon,Thank you.']);
-            } else {
-                return response()->json(['response' => 'error', 'message' => 'Something Went Wrong ,Please Try Again.']);
-            }
-        }
-        return response()->json(['response' => 'error', 'message' => $validator->errors()->all()]);
-    }
 }

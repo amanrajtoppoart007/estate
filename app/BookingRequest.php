@@ -10,6 +10,6 @@ class BookingRequest extends Model
     protected $guarded    = [];
     public function property()
     {
-        return $this->belongsTo('App\Property');
+        return $this->belongsTo(Property::class);
     }
 }

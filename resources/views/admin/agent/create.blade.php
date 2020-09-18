@@ -672,7 +672,7 @@
 @endsection
 @section('script')
   <script>
-       $(document).ready(function(){
+       (function($){
 
            $("#country_id").on("change",function(){
                $.get_state_list($("#country_id"),$("#state_id"));
@@ -777,6 +777,6 @@
             });
 
           change_agent_type();
-       });
+       })(jQuery);
   </script>
 @endsection

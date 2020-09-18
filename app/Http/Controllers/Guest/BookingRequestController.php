@@ -22,10 +22,11 @@ class BookingRequestController extends Controller
             'email' => 'required|email',
             'message' => 'required',
             'property_id' => 'numeric|required',
+            'unit_id' => 'numeric|required',
         ]);
         if(!$validator->fails())
         {
-           $bookingRequest = $request->only(['name','country_code','contact','email','message','property_id']);
+           $bookingRequest = $request->only(['name','country_code','contact','email','message','property_id','unit_id']);
            if(auth()->check())
            {
                $bookingRequest['user_id'] = auth()->user()->id;

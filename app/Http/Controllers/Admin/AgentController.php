@@ -42,18 +42,16 @@ class AgentController extends Controller
         $countries  = Country::where('is_disabled', '0')->orderBy('name','ASC')->get();
         return view('admin.agent.create',compact('countries'));
     }
-    public function create_company_type_agent()
-    {
-         $countries  = Country::where('is_disabled', '0')->get();
-        return view('admin.agent.create-company',compact('countries'));
-    }
-
 
     public function store(StoreAgent $request)
     {
         $request->validated();
-        $store   = $request->only(['agent_type','name','country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
+        $store   = $request->only(['agent_type','name','country_code','owner_country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
         $folder = Str::studly(strtolower($request->name));
+        if($request->has("license_expiry_date"))
+        {
+            $store['license_expiry_date'] = date("Y-m-d",strtotime($request->license_expiry_date));
+        }
         if($request->agent_type=='company')
         {
             $company = $request->only(['owner_name','owner_email','owner_mobile']);
@@ -84,16 +82,15 @@ class AgentController extends Controller
     public function view($id)
     {
         $agent = Agent::find($id);
-        if($agent->agent_type=="individual")
+        if(!empty($agent))
         {
-            $view = "admin.agent.view";
+          return view("admin.agent.view",compact("agent"));
         }
         else
         {
-            $view = "admin.agent.view-company";
+           $msg = "Invalid Agent Detail";
+            return view("blank",compact("msg"));
         }
-
-        return view($view,compact("agent"));
     }
 
 
@@ -117,12 +114,8 @@ class AgentController extends Controller
             $c_params['is_disabled'] = '0';
             $cities = City::where($c_params)->get();
 
-            $view = 'admin.agent.edit';
-            if ($agent->agent_type == 'company') {
-                $view = 'admin.agent.edit-company';
-            }
-            $countries = Country::where('is_disabled', '0')->get();
-            return view($view, compact('agent', 'countries','states','cities'));
+            $countries = get_countries();
+            return view("admin.agent.edit", compact('agent', 'countries','states','cities'));
         }
         else
         {
@@ -138,7 +131,7 @@ class AgentController extends Controller
     {
         $request->validated();
 
-        $update  = $request->only(['agent_type','name','country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
+        $update  = $request->only(['agent_type','name','country_code','owner_country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {
@@ -162,7 +155,13 @@ class AgentController extends Controller
             {
                  $update['vat_number']     = GlobalHelper::singleFileUpload('local','vat_number',"agents/$folder");
             }
+
         }
+
+         if($request->has("license_expiry_date"))
+         {
+            $update['license_expiry_date'] = date("Y-m-d",strtotime($request->license_expiry_date));
+         }
 
 
           $update['admin_id'] = Auth::guard('admin')->user()->id;

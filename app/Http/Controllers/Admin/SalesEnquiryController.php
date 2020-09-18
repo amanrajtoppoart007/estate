@@ -32,9 +32,8 @@ class SalesEnquiryController extends Controller
     public function create()
     {
         $agents = Agent::where(['is_disabled'=>'0'])->get();
-        $cities = City::where(['is_disabled'=>'0'])->get();
         $countries = Country::where(['is_disabled'=>0])->get();
-        return view('admin.salesEnquiry.create',compact('agents','cities','countries'));
+        return view('admin.salesEnquiry.create',compact("agents","countries"));
     }
 
         public function store(Request $request)

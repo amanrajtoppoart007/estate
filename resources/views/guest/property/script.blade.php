@@ -4,6 +4,7 @@
             $("#country_code").countrypicker();
 
             $(document).on("click",".enquiry_email_btn",function(){
+                $("#validation_error_message").html('');
                 $("#property_enquiry_modal").modal("show");
             });
 

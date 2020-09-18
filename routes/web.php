@@ -23,6 +23,14 @@ Route::post('/favorite/store', 'User\UserController@store_favorite')->name("favo
 /**
  * end user after login routes
  */
+/***
+ *front end agent routes
+ */
+Route::get('/agent/list', 'Guest\AgentController@search')->name('agent.search');
+Route::get('/view/agent/detail/{id}', 'Guest\AgentController@view')->name('view.agent.detail');
+/*
+ *frontend end agent routes
+ */
 Route::any('/auth/check', 'Guest\AjaxController@check_auth')->name("check.user.auth.status");
 
 Route::get('/', 'Guest\GuestController@index')->name("guest.home");
@@ -37,8 +45,7 @@ Route::get('property/search/state/{id}/{name}', 'Guest\SearchController@search')
 Route::get('/contact', 'Guest\GuestController@contact')->name('contact');
 Route::get('/about-us', 'Guest\GuestController@about')->name('about-us');
 Route::get('/how-it-work', 'Guest\GuestController@how_it_work')->name('how-it-work');
-Route::get('/agent/list', 'Guest\GuestController@agentListing')->name('property.agent.list');
-Route::get('/view/agent/{id}/detail', 'Guest\GuestController@viewAgentDetail')->name('view.agent.detail');
+
 Route::get('faq', 'Guest\GuestController@faq')->name('faq');
 Route::get('terms-conditions', 'Guest\GuestController@terms')->name('terms-conditions');
 Route::post('fetch/cities', 'Guest\AjaxController@get_cities_list')->name('fetch.cities');
@@ -51,7 +58,7 @@ Route::get('get/document/{filename}', 'Common\ImageController@view_doc')->name('
 Route::get('view/rent/breakdown/{encoded_string}', 'Guest\RentBreakDownController@view')->name('guest.view.rent.breakdown');
 Route::post('get/breakdown/config/items', 'Common\CommonController@get_breakdown_constants')->name('get.breakdown.constants');
 
-Route::post('/agent/enquiry/store', 'Guest\AjaxController@agent_enquiry_form')->name('agent.enquiry.store');
+Route::post('/agent/enquiry/store', 'Guest\AgentController@store_enquiry')->name('agent.enquiry.store');
 Auth::routes();
 Route::prefix('master')->group(function () {
     Route::get('/', 'AdminAuth\LoginController@showLoginForm')->name('admin.login');
