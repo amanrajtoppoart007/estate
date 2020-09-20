@@ -32,15 +32,15 @@ class Task extends Model
    }
     public function assignor()
     {
-        return $this->belongsTo('App\Admin');
+        return $this->belongsTo(Admin::class);
     }
     public function assignee()
     {
-        return $this->belongsTo('App\Admin');
+        return $this->belongsTo(Employee::class,"assignee_id","id");
     }
     public function task_assignments()
     {
-        return $this->hasMany('App\TaskAssignment','task_id','id');
+        return $this->hasMany(TaskAssignment::class,"task_id","id");
     }
     public function getAssigneeNameAttribute()
     {

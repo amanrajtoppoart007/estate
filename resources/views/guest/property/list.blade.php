@@ -109,7 +109,7 @@
                                         </div>
                                         <div class="col-lg-2 col-sm-2 col-12 pr-4">
                                             <a href="#" class="font-14 gold-font pt-3 mr-3">PREMIUM</a>
-                                            <img class="img-fluid mt-2" src="{{asset('theme/images/524-logo.webp')}}"
+                                            <img class="img-fluid mt-2" src="{{asset('theme/images/brand-logo.png')}}"
                                                  alt="">
                                         </div>
                                     </div>

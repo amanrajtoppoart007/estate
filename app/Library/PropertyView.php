@@ -26,7 +26,7 @@ class PropertyView extends ObjectView
 
                 $result['data'][$i]['title'] = $unit->property ? $unit->property->title: null;
                 $result['data'][$i]['property_id'] = $unit->property ? $unit->property->id : null;
-                $result['data'][$i]['primary_image'] = $unit->property ? $unit->property->primary_image: 0;
+                $result['data'][$i]['primary_image'] = $unit->property ? $unit->property->primary_image: asset("theme/images/no-image.png");
                 $result['data'][$i]['description'] = $unit->property ? $unit->property->description: null;
                 $result['data'][$i]['full_address'] = $unit->property ? $unit->property->full_address: null;
 

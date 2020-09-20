@@ -52,4 +52,16 @@ class TestController extends Controller
         }
         return null;
     }
+
+    public function trim_countries()
+    {
+       $countries = DB::table('countries')->get();
+       foreach($countries as $cnt)
+       {
+           $country = Country::find($cnt->id);
+
+           $code = preg_replace("/[a-zA-Z]/","",$country->code);
+       }
+
+    }
 }

@@ -18,19 +18,19 @@ class Employee extends Model
     }
     public function department()
     {
-        return $this->belongsTo('App\Department');
+        return $this->belongsTo(Department::class);
     }
     public function designation()
     {
-        return $this->belongsTo('App\Designation');
+        return $this->belongsTo(Designation::class);
     }
     public function attendances()
     {
-        return $this->hasMany('App\Attendance');
+        return $this->hasMany(Attendance::class);
     }
     public function salary_sheet_details()
     {
-        return $this->hasMany('App\SalarySheetDetail');
+        return $this->hasMany(SalarySheetDetail::class);
     }
 
     public function country()
@@ -46,5 +46,15 @@ class Employee extends Model
     public function city()
     {
         return $this->belongsTo(City::class, "city_id", "id");
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class,"assignor_id","id");
+    }
+
+    public function assigned_task()
+    {
+        return $this->hasMany(TaskAssignment::class,'assignee_id','id');
     }
 }
