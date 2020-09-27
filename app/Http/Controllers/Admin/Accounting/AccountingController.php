@@ -42,21 +42,32 @@ class AccountingController extends Controller
 
 
 
-    /**
 
-     * Show the application dashboard.
 
-     *
+    public function dashboard()
 
-     * @return \Illuminate\Contracts\Support\Renderable
+    {
 
-     */
+
+
+        return view('admin.accounting.dashboard');
+
+    }
+
+    //// *** Contracts ******///
+    public function new_lease_contracts()
+
+    {
+
+        return view('admin.accounting.contracts.new');
+
+    }
 
     public function bills()
 
     {
 
-      
+
 
         return view('admin.accounting.bills.index');
 
@@ -70,7 +81,7 @@ class AccountingController extends Controller
 
     }
 
-  
+
 
     public function bank_accounts()
 
@@ -84,7 +95,7 @@ class AccountingController extends Controller
 
     {
 
-     
+
 
         $data = array();
 
@@ -98,7 +109,7 @@ class AccountingController extends Controller
 
         $data['balance'] =  $credit-$debit;
 
-        
+
 
         return view('admin.accounting.bank.bankAccTrans')->with($data);
 
@@ -113,5 +124,39 @@ class AccountingController extends Controller
         return view('admin.accounting.chartOfAccounts')->with($data);
     }
 
+
+    ///////// Lease Contracts//////////
+    public function new_lease_contract()
+
+    {
+
+        return view('admin.accounting.invoices.newLeaseContract');
+
+    }
+
+
+//////////// Voucher  start ////////////
+    public function receipt_cash_new()
+
+    {
+
+        return view('admin.accounting.voucher.receipt.newCash');
+
+    }
+    public function receipt_cheque_new()
+
+    {
+
+        return view('admin.accounting.voucher.receipt.newCheque');
+
+    }
+    public function all_receipt()
+
+    {
+
+        return view('admin.accounting.voucher.receipt.index');
+
+    }
+//////////// Voucher  end ////////////
 }
 
