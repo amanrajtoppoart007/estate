@@ -68,5 +68,43 @@
             <a href="{{route('booking-request.list')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-        </div>      
+        </div>
+    <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title">
+                   <i class="fa fa-link" aria-hidden="true"></i> Quick Links
+                </h5>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="card-body">
+                  @php $quick_links = get_quick_links(); @endphp
+                  @foreach($quick_links as $link)
+                      <a href="{{route('rentEnquiry.list')}}" class="btn btn-app bg-gradient-{{$link['bg_color']}} text-{{$link['color']}}">
+                          <i class="{{$link['icon']}}" aria-hidden="true"></i>
+                          <span>{{$link['title']}}</span>
+                      </a>
+                  @endforeach
+
+
+              </div>
+
+
+
+            </div>
+
+          </div>
+
+        </div>
 @endsection

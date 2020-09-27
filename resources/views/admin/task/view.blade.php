@@ -32,27 +32,7 @@
                             {{$task->description}}
                         </div>
                         <div class="timeline-footer text-right">
-                            <a class="btn btn-primary btn-sm"> <small>Assined
-                                @php
-                                    
-                                    $assignee_name = null;
-                                    $assignee_id   = null;
-                                    if(!empty($task))
-                                    {
-                                        $assignees = $task->task_assignments->pluck('assignee_id');
-                                        if(!empty($assignees))
-                                        {
-                                            $assignee_id = is_array($assignees) ? $assignees[0] : null;
-                                        }
-                                        if(!empty($assignee_id))
-                                        {
-                                            $assignee_name = pluck_single_value('admins','id',$assignee_id,'name');
-                                        }
-                                    }
-                                    
-                                @endphp
-                                    to </small> {{$assignee_name}}
-                            </a>
+                            <a class="btn btn-primary btn-sm"> <small>Assined to </small> {{$task->assignee_name}}</a>
                         </div>
                     </div>
                 </div>
@@ -84,24 +64,24 @@
                                 <div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
                                     <dt>State</dt>
                                     <dd>
-                                        {{($task->property_unit)?$task->property_unit->property->state->name:''}}
+                                        {{(!empty($task->property_unit->property->state->name))?$task->property_unit->property->state->name:''}}
                                     </dd>
 
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                     <dt>Address</dt>
-                                    <dd>{{$task->property_unit ? $task->property_unit->property->full_address: null}}</dd>
+                                    <dd>{{(!empty($task->property_unit->property->full_address)) ? $task->property_unit->property->full_address: null}}</dd>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                                     <dt>Property Status</dt>
 
-                                    @php 
+                                    @php
                                     $status = [];
                                     if(!empty($task->property_unit->status))
                                     {
                                           $status = getPropertyUnitStatus($task->property_unit->status);
                                     }
-                                     
+
                                     @endphp
                                     <dd>
                                         <button
@@ -113,18 +93,18 @@
                                 <div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
                                     <dt>Owner</dt>
                                     <dd>
-                                        {{($task->property_unit)?$task->property_unit->property->owner->name:''}}
+                                        {{(!empty($task->property_unit->property->owner->name))?$task->property_unit->property->owner->name:''}}
                                     </dd>
 
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                     <dt>Mobile</dt>
-                                    <dd>{{($task->property_unit)?$task->property_unit->property->owner->mobile:''}}</dd>
+                                    <dd>{{((!empty($task->property_unit->property->owner->mobile)))?$task->property_unit->property->owner->mobile:''}}</dd>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                                     <dt>Email</dt>
                                     <dd>
-                                    <dd>{{($task->property_unit)?$task->property_unit->property->owner->email:''}}</dd>
+                                    <dd>{{((!empty($task->property_unit->property->owner->email)))?$task->property_unit->property->owner->email:''}}</dd>
                                     </dd>
                                 </div>
                             </div>

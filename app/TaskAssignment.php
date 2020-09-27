@@ -12,8 +12,8 @@ class TaskAssignment extends Model
     {
         return $this->belongsTo('App\Task');
     }
-    public function assigned_users()
+    public function assignees()
     {
-        return $this->belongsTo('App\Admin');
+        return $this->belongsTo(Employee::class,"assignee_id","id");
     }
 }

@@ -126,18 +126,7 @@ class TaskController extends Controller
         {
             if($employees = Employee::where(['department_id' => $request->department_id,'designation_id' => $request->designation_id,'status'=>'1'])->orderBy('name')->get())
             {
-                foreach($employees as $employee)
-                {
-                    $employee_id[] = $employee->id;
-                }
-                if(!empty($employee_id))
-                {
-                    if($data = Admin::whereIn('employee_id',$employee_id)->get())
-                    {
-                      return response()->json(['status'=>1,'response' => 'success', 'data' => $data, 'message' => 'Data Found.']);
-                    }
-                }
-                return response()->json(['status'=>'0','response' => 'error', 'message' => 'No User found.']);
+                 return response()->json(['status'=>1,'response' => 'success', 'data' => $employees, 'message' => 'Data Found.']);
             }
              else
             {
@@ -254,11 +243,11 @@ class TaskController extends Controller
         if(!$validator->fails())
         {
             $task                  = $request->only(['task_title','description','property_id','property_unit_id','priority']);
-            $gen_action            = new \App\Library\GenerateTaskCode($request->all());
-            $task['task_code']     = $gen_action->execute();
+
+            $task['task_code']     = (new GenerateTaskCode())->execute();
             $task['assignor_id']   = Auth::guard('admin')->user()->id;
             $task['assignor_type'] = Auth::guard('admin')->user()->role;
-            $role                  = \App\Designation::where(['id' => $request->designation_id])->pluck('name');
+            $role                  = Designation::where(['id' => $request->designation_id])->pluck('name');
             $role                  = ($role) ? Str::snake(strtolower($role[0])) : null;
             $task['assignee_id']   = $request->assignee_id;
             $task['assignee_type'] = $role;
