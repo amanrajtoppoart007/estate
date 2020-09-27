@@ -4,9 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @method static where(array $array)
- */
 class State extends Model
 {
     protected $guarded   = [];
@@ -25,13 +22,10 @@ class State extends Model
         return $this->hasMany(Tenant::class,'state_id','id');
     }
 
-    public function state()
-    {
-       return $this->belongsTo('App\State');
-    }
+
     public function city()
     {
-       return $this->hasMany('App\City');
+       return $this->hasMany(City::class,'state_id','id');
     }
    public function properties()
    {
