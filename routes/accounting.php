@@ -4,6 +4,14 @@
 
 Route::prefix('accounts')->group(function () {
 
+    Route::get('accounting-dashboard', 'Admin\Accounting\AccountingController@dashboard')->name('accounting.dashboard');
+
+    Route::get('new-lease-contract', 'Admin\Accounting\AccountingController@new_lease_contracts')->name('contracts.lease.new');
+    //// Voucher
+    Route::get('new-cash-receipt', 'Admin\Accounting\AccountingController@receipt_cash_new')->name('new.receipt.cash');
+    Route::get('new-cheque-receipt', 'Admin\Accounting\AccountingController@receipt_cheque_new')->name('new.receipt.cheque');
+    Route::get('all-receipt', 'Admin\Accounting\AccountingController@all_receipt')->name('all.receipt');
+
     Route::get('chart-of-accounts', 'Admin\Accounting\AccountingController@chart_of_acccoutns')->name('acc.chart.of.accounts');
     Route::post('fetch-chart-of-dt', 'Admin\Accounting\CoaController@datatable_coa')->name('chart.of.accounts.dt');
     Route::post('store-chart-of-acc', 'Admin\Accounting\CoaController@store_new_account')->name('chart.of.accounts.store');
