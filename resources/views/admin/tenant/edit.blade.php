@@ -25,6 +25,7 @@
                                          </div>
                                         <select name="tenant_type" id="tenant_type" class="form-control">
                                             <option value="">Select Tenancy</option>
+
                                             @php $tenancy  = get_tenancy_types();@endphp
                                             @foreach($tenancy as $key=>$value)
                                                 @php $selected = ($key==$tenant->tenant_type)?'selected':''; @endphp
@@ -76,11 +77,13 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text">
                                                  <select  name="country_code" id="country_code" class="phone_code">
+
                                                       @foreach($countries as $country)
                                                           @php $selected = ($tenant->country->code==$country->code)?'selected':''; @endphp
                                                          <option value="{{$country->id}}" {{$selected}}>+{{$country->code}}</option>
                                                      @endforeach
                                                   </select>
+
                                              </span>
                                          </div>
                                         <input type="text" name="mobile" id="mobile" class="form-control numeric" autocomplete="off" value="{{$tenant->mobile}}">
@@ -101,6 +104,7 @@
                                                          <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
                                                      @endforeach
                                              </select>
+
                                      </div>
                                     </div>
                                 </div>
@@ -111,10 +115,20 @@
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-building"></i></span>
                                          </div>
+
                                              <select class="form-control" name="state_id" id="state_id">
                                                  <option value="">Select State</option>
                                                  @foreach($states as $state)
-                                                     @php $selected = ($state->id==$tenant->state_id)?"selected":null; @endphp
+                                                 @php
+                                                   if(!empty($tenant->state_id))
+                                                    {
+                                                         $selected = ($state->id==$tenant->state_id)?"selected":null;
+                                                    }
+                                                    else
+                                                    {
+                                                       $selected = null;
+                                                    }
+                                                    @endphp
                                                      <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
                                                  @endforeach
                                              </select>
@@ -131,7 +145,16 @@
                                              <select class="form-control" name="city_id" id="city_id">
                                                  <option value="">Select City</option>
                                                  @foreach($cities as $city)
-                                                     @php $selected = ($city->id==$tenant->city_id)?"selected":null; @endphp
+                                                 @php
+                                                   if(!empty($tenant->city_id))
+                                                    {
+                                                         $selected = ($city->id==$tenant->city_id)?"selected":null;
+                                                    }
+                                                    else
+                                                    {
+                                                       $selected = null;
+                                                    }
+                                                    @endphp
                                                      <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
                                                  @endforeach
                                              </select>
@@ -208,7 +231,7 @@
             </div>
 @php
                  $passport = $no_sharing_agreement = $trade_license = $trade_license_exp_date = $marriage_certificate = $emirates_id_doc = $visa = $bank_passbook = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
-                         if(!$tenant->documents->isEmpty())
+                         if(!empty($tenant->documents))
                              {
                                  $documents =   extract_doc_keys($tenant->documents,'file_url','document_title','date_key','date_value');
 
@@ -499,7 +522,7 @@
                             </tr>
                         </thead>
                         <tbody id="family_detail_grid">
-                        @if(!($tenant->relations->isEmpty()))
+                        @if(!empty($tenant->relation))
                           @foreach($tenant->relations as $relation)
                               @php
                                 $rel_emirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
@@ -662,7 +685,7 @@
             $.get_state_list($("#country_id"),$("#state_id"));
         });
         $("#state_id").on("change",function(){
-            $.get_state_list($("#state_id"),$("#city_id"));
+            $.get_city_list($("#state_id"),$("#city_id"));
         });
 
         function applied_class_hide(elements)
