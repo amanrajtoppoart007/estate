@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTable\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Auth;
+
 use App\Designation;
 
 class DesignationController extends Controller
@@ -17,9 +19,7 @@ class DesignationController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Designation();
-        $api = new \App\DataTable\Api($model, $request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Designation())))->getResult());
     }
 
     public function index()

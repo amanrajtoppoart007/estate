@@ -6,12 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class StateResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
+
     public function toArray($request)
     {
         return [
@@ -19,7 +14,7 @@ class StateResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'image' => asset($this->image),
-             'country' => (($this->country->first())['name'])?(($this->country->first())['name']):'',
+             'country' =>$this->country_name,
             'is_disabled' => $this->is_disabled,
             'created_at' => date('Y-m-d h:i A',strtotime($this->created_at)),
             'updated_at' => date('Y-m-d h:i A',strtotime($this->updated_at)),

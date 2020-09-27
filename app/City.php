@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(array $array)
+ */
 class City extends Model
 {
     protected $guarded    = [];
@@ -14,13 +17,18 @@ class City extends Model
         return $this->hasMany(RentBreakDown::class,"city_id","id");
     }
 
+    public function tenants()
+    {
+        return $this->hasMany(Tenant::class,'city_id','id');
+    }
+
     public function state()
     {
-        return $this->belongsTo('App\State');
+        return $this->belongsTo(State::class,'state_id','id');
     }
     public function country()
     {
-        return $this->belongsTo('App\Country');
+        return $this->belongsTo(Country::class,'country_id','id');
     }
     public function owners()
    {
@@ -41,7 +49,7 @@ class City extends Model
 
     public function properties()
     {
-        return $this->hasMany('App\Property');
+        return $this->hasMany(Property::class);
     }
      protected $casts = [
         'created_at' => 'datetime:Y-m-d h:i A',
@@ -50,10 +58,10 @@ class City extends Model
 
     public function getStateNameAttribute()
     {
-         return  $this->state->name;
+         return $this->state ? $this->state->name : null;
     }
     public function getCountryNameAttribute()
     {
-        return $this->country->name;
+        return $this->country ? $this->country->name : null;
     }
 }

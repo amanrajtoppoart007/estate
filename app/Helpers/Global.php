@@ -2,6 +2,17 @@
 
 
 use App\SystemSetting;
+
+function get_first_letters($txt)
+{
+    $words = preg_split("/\s+/", "$txt");
+    $acronym = "";
+
+    foreach ($words as $w) {
+        $acronym .= strtoupper($w[0]);
+    }
+    return $acronym;
+}
 if (!function_exists('extract_doc_keys'))
 {
   function extract_doc_keys($object,...$keys)
@@ -191,26 +202,5 @@ return $s;
     return trim($output);
  }
 
-if(!function_exists('get_breakdown_items')) {
 
-    function get_breakdown_items($items)
-    {
-        $i =0;
-        $output = array();
-        foreach($items as $item)
-        {
-            $output["security_deposit"][$i] = $item->security_deposit;
-            $output["municipality_fees"][$i] = $item->municipality_fees;
-            $output["brokerage"][$i] = $item->brokerage;
-            $output["contract"][$i] = $item->contract;
-            $output["remote_deposit"][$i] = $item->remote_deposit;
-            $output["sewa_deposit"][$i] = $item->sewa_deposit;
-            $output["monthly_installment"][$i] = $item->monthly_installment;
-            $output["total_monthly_installment"][$i] = $item->total_monthly_installment;
-            $i++;
-        }
-        return $output;
-    }
-
-}
 

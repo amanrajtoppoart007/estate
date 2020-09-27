@@ -7,6 +7,16 @@ use Illuminate\Database\Eloquent\Builder;
 
 class PropertyUnitType
 {
+    public static function apply(Builder $builder,$key, $value)
+    {
+        if(method_exists(__CLASS__,$key))
+        {
+            $class = __CLASS__;
+            return $class::$key($builder,$value);
+        }
+         return $builder;
+    }
+
     public static function radius(Builder $builder, $value)
     {
         if(!empty($value))
@@ -18,8 +28,8 @@ class PropertyUnitType
             $distance  = ($request->distance)?$request->distance:10;
             $radius    = ($request->radius)?$request->radius:3956;
                        return $query->whereRaw("(1.609344 * $radius * acos( cos( radians('$latitude') ) * cos( radians(latitude) ) * cos( radians(longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(latitude) ) ) ) <= $distance");
-            }); 
-            
+            });
+
         }
         return $builder;
     }
@@ -33,7 +43,7 @@ class PropertyUnitType
         {
             $min = trim_unit_size($value['min']);
             $max = trim_unit_size($value['max']);
-            if ((!empty($min)) && (!empty($max))) 
+            if ((!empty($min)) && (!empty($max)))
             {
                 return $builder->whereBetween('unit_size',[$min,$max]);
             }
@@ -43,20 +53,20 @@ class PropertyUnitType
     }
     public static function price(Builder $builder,$value)
     {
-        if (!empty($value)) 
+        if (!empty($value))
         {
            if(is_array($value))
            {
-               
+
                 $min = trim_price($value['min']);
                 $max = trim_price($value['max']);
                 if((!empty($min))&&(!empty($max)))
                 {
                     return $builder->whereBetween('rental_amount', [$min, $max]);
                 }
-                return $builder;     
+                return $builder;
            }
-                
+
             return $builder;
          }
          return $builder;
@@ -67,7 +77,7 @@ class PropertyUnitType
         {
           return    $builder->whereHas('property',function($query) use($value){
                        $query->where('properties.prop_for', $value);
-            });   
+            });
         }
         return $builder;
     }
@@ -78,7 +88,7 @@ class PropertyUnitType
             $value = intval($value);
             return $builder->where('bathroom','<=', $value);
         }
-        return $builder; 
+        return $builder;
     }
     public static function bedroom(Builder $builder, $value)
     {
@@ -87,18 +97,18 @@ class PropertyUnitType
             $value = intval($value);
             return $builder->where('bedroom','<=', $value);
         }
-        return $builder; 
-    } 
+        return $builder;
+    }
     public static function city(Builder $builder, $value)
     {
         if(!empty($value))
         {
           return    $builder->whereHas('property',function($query) use($value){
                        $query->where('properties.city_id', $value);
-            });   
+            });
         }
         return $builder;
-        
+
     }
     public static function feature(Builder $builder, $value)
     {
@@ -112,8 +122,8 @@ class PropertyUnitType
                     {
                         $builder->whereHas('property',function($query) use($feature){
                               $query->where('feature','like',"%$feature%");
-                       });    
-                    } 
+                       });
+                    }
                 }
                 return $builder;
             }
@@ -123,7 +133,7 @@ class PropertyUnitType
                 {
                     $builder->where('feature', 'like', "%$value%");
                 }
-                
+
             }
         }
          return $builder;
@@ -150,9 +160,9 @@ class PropertyUnitType
                               $query->orderBy('view_count', 'DESC');
                     });
         }
-        else 
+        else
         {
-           return  $builder->orderBy('created_at', 'DESC'); 
+           return  $builder->orderBy('created_at', 'DESC');
         }
     }
 
@@ -169,7 +179,7 @@ class PropertyUnitType
                      $q->where("name", 'LIKE', '%' . $value . '%');
                 });
             });
-       
+
     }
     public static function propertyType(Builder $builder, $value)
     {
@@ -185,14 +195,14 @@ class PropertyUnitType
     {
         if(!empty($value))
         {
-            
+
             return $builder->whereHas('property',function($query) use($value){
                               $query->where('state_id',$value);
                     });
         }
         return $builder;
     }
-    
+
     public static function title(Builder $builder, $value)
     {
         if(!empty($value))

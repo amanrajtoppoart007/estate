@@ -1,182 +1,316 @@
-@extends('guest.layout.main')
-@include('guest.include.navbar')
-@section('content')
-<section class="subheader subheader-listing-sidebar">
-    <div class="container">
-        <h1>Agent Listing</h1>
-        <div class="breadcrumb right">Home <i class="fa fa-angle-right"></i> <a href="#" class="current">Agents</a></div>
-        <div class="clear"></div>
-    </div>
-</section>
-<div class="container-fluid pt-5 pb-5" style="background-color: #EBF1F5;">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-12">
-                <div class="agent agent-single">
-                    <a href="javascript:void(0)" class="agent-img">
-                        <div class="img-fade"></div>
-                        <img class="hex" src="images/hexagon.png" alt="" />
-                        @php
-                            if(!empty($agent->photo))
-                            {
-                                $img = route('get.doc',base64_encode($agent->photo));
-                            }
-                            else 
-                            {
-                                $img = asset('theme/default/images/team/01.jpg');
-                            } 
-                        @endphp
-                        <img src="{{$img}}" alt="" />
-                    </a>
-                    <div class="agent-content">
-                        <div class="agent-details">
-                            <h4><a href="#">Sarah Parker</a></h4>
-                            <p><i class="fa fa-tag icon"></i>Status: <span> Verified</span></p>
-                            <p><i class="fa fa-envelope icon"></i>Email: <span>{{$agent->email}}</span></p>
-                            <p><i class="fa fa-phone icon"></i>Office: <span>{{$agent->mobile}}</span></p>
-                            <p><i class="fa fa-mobile icon"></i>Mobile: <span>....</span></p>
-                            <p><i class="fa fa-skype icon"></i>Skype: <span>....</span></p>
-                        </div>
-                        <div class="button alt button-icon"><i class="fa fa-home"></i>{{count($properties['property_unit_types'])}} Assigned Properties</div>
-                    </div>
-                    <div class="agent-form">
-                        <h4 class="contact-h4 text-center">CONTACT AGENT</h4>
-                        <form id="agent_enquiry_form" method="post">
-                            <div class="form-block">
-                                <input type="text" name="name" placeholder="Name" />
-                            </div>
-                            <div class="form-block">
-                                <input type="text" name="mobile" placeholder="Phone" />
-                            </div>
-                            <div class="form-block">
-                                <input type="text" name="email" placeholder="Email" />
-                            </div>
-                            <div class="form-block">
-                                <textarea name="message" placeholder="Message..."></textarea>
-                            </div>
-                            <div class="form-block">
-                                <button type="submit" class="btn btn-primary btn-block btn-defaultmine">Send</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="row mt-5 mob-mt-0">
-            <div class="col-lg-9 col-md-9">
-                <div class="widget property-single-item agent-properties">
-                    <h4>
-                        Assigned Properties
-                    </h4>
+@extends("guest.layout.main")
+@section("content")
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{route('agent.search')}}">Agents</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detail</li>
+        </ol>
+    </nav>
 
-                    <div class="row">
-                      @foreach($properties['property_unit_types'] as $property)
-                        <div class="col-lg-4 col-md-4">
-                            <div class="property shadow-hover">
-                                <a href="#" class="property-img">
-                                    <div class="img-fade"></div>
-                                    {{-- <div class="property-tag button alt featured">Featured</div> --}}
-                                    <div class="property-tag button status">For {{$property['mode']}}</div>
-                                    <div class="property-price">{!!$property['price']!!}</div>
-                                    <div class="property-color-bar"></div>
-                                    <img src="{{$property['image']}}" alt="" />
-                                </a>
-                                <div class="property-content">
-                                    <div class="property-title">
-                                        <h4><a href="{{$property['view_url']}}">{{$property['title']}}</a></h4>
-                                        <p class="property-address"><i class="fa fa-map-marker icon"></i>{{$property['full_address']}}</p>
-                                    </div>
-                                    <table class="property-details">
-                                        <tr>
-                                            <td><i class="fa fa-bed"></i> {{$property['bedroom']}} Beds</td>
-                                            <td><i class="fa fa-tint"></i> {{$property['bathroom']}} Baths</td>
-                                            <td><i class="fa fa-expand"></i> {{$property['unit_size']}} Sq Ft</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="property-footer">
-                                    <span class="left"><i class="fa fa-calendar-o icon"></i> {{$property['created_at']}}</span>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
+    <!-- Main Section -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8 col-sm-8 col-12 bg-light py-3">
+                <div class="row">
+                    <div class="col-lg-5 col-sm-5 col-12">
+                         @php
+                         if(!empty($agent->photo))
+                         {
+                             $img = route('get.doc',base64_encode($agent->photo));
+                         }
+                         else
+                         {
+                             $img = asset('theme/images/4.png');
+                         }
+                      @endphp
+                        <img class="img-fluid" src="{{$img}}" alt="">
                     </div>
-                    {{$properties['links'] }}
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="widget widget-sidebar recent-properties">
-                    <h4>Recent Properties</h4>
-                    <div class="widget-content">
-                        <div class="recent-property">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="{{asset('new_images/property-img1.jpg')}}" alt="" /></a></div>
-                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                    <h5><a href="#">Beautiful Waterfront Condo</a></h5>
-                                    <p><strong>$1,800</strong> Per Month</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="recent-property">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="{{asset('new_images/property-img2.jpg')}}" alt="" /></a></div>
-                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                    <h5><a href="#">Family Home</a></h5>
-                                    <p><strong>$500,000</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="recent-property">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4"><a href="#"><img src="{{asset('new_images/property-img3.jpg')}}" alt="" /></a></div>
-                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                    <h5><a href="#">Ubran Apartment</a></h5>
-                                    <p><strong>$1,800</strong> Per Month</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="widget widget-sidebar recent-properties">
-                    <h4>Quick Links</h4>
-                    <div class="widget-content box">
-                        <ul class="bullet-list">
-                            <li><a href="#">Featured Properties</a></li>
-                            <li><a href="#">Featured Agents</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Frequently Asked Questions</a></li>
-                            <li><a href="#">Login</a></li>
-                            <li><a href="#">Submit a Property</a></li>
+                    <div class="col-lg-7 col-sm-7 col-12">
+                        <h2 class="mb-0">{{$agent->name}}</h2>
+
+                        <ul class="agentCard-ul pl-0">
+                            <li>
+                                Nationality : <strong>{{$agent->country->name}}</strong>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-12">
+                        <h4 class="mb-4">PERSONAL INFORMATION</h4>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <ul class="agentView-ul pl-0">
+                                    <li>
+                                        ACTIVE LISTINGS :
+                                        <a href=""> {{$agent->property_units->count()}} Property</a>
+                                    </li>
+                                    <li>
+                                        BRN# :
+                                        <strong></strong>
+                                    </li>
+                                    <li>
+                                        ACTIVE SINCE :
+                                        <strong>{{$agent->created_at->diffForHumans()}}</strong>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <ul class="agentView-ul pl-0">
+                                    <li>
+                                        Nationality : <strong>{{$agent->country->name}}</strong>
+                                    </li>
+                                    <li>
+                                        Language : <strong></strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-12">
+                        <ul class="nav nav-tabs nav-justified agentUlTabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#about" role="tab">About Me</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#properties" role="tab">My Properties</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content mt-4">
+                            <div class="tab-pane active" id="about" role="tabpanel">
+                                <p>
+
+                                </p>
+                            </div>
+                            <div class="tab-pane" id="properties" role="tabpanel">
+
+                                @if(!empty($properties['data']))
+                                    @foreach($properties['data'] as $property)
+                                    <div class="row mt-5">
+                                        <div class="col-lg-12 col-sm-12 col-12">
+                                            <div class="borderColumn">
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-sm-4 col-12">
+                                                        <img class="img-fluid propertyList-img" src="{{$property['primary_image']}}" alt="">
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-6 col-12 pt-2">
+                                                        <h4>{{$property['price']}}</h4>
+                                                        <p class="font-14">
+                                                            <i class="fa fa-map-marker" aria-hidden="true"></i> {{$property['full_address']}}
+                                                        </p>
+                                                        <ul class="propertyListing-ul">
+                                                            <li class="special-li">
+                                                                Apartment :
+                                                            </li>
+                                                            <li>
+                                                                {{$property['bedroom']}}
+                                                                <img class="img-fluid img-24" src="{{asset('theme/images/bed.svg')}}" alt="">
+
+                                                            </li>
+                                                            <li>
+                                                                {{$property['bathroom']}}
+                                                                <img class="img-fluid img-24" src="{{asset('theme/images/bathroom.svg')}}" alt="">
+                                                            </li>
+                                                            <li>
+                                                                {{$property['unit_size']}} SqFt
+                                                            </li>
+                                                        </ul>
+                                                        <button type="button" class="btn btn-outline-secondary mb-2">
+                                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                                            Call
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-secondary mb-2">
+                                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                            Email
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-secondary mb-2">
+                                                            <i class="fa fa-heart" aria-hidden="true"></i>
+                                                            Save
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-lg-2 col-sm-2 col-12 pr-4">
+                            `                                <a href="#" class="font-14 gold-font pt-3 mr-3">PREMIUM</a>
+                                                        <img class="img-fluid mt-2" src="{{asset('theme/images/524-logo.webp')}}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-4 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="text-center">CONTACT THIS AGENT</h4>
+                        <div class="row mt-4">
+                            <div class="col-lg-12 col-sm-12 col-12">
+                                <button type="button" class="btn btn-outline-danger btn-block call_agent_btn">
+                                   Call Agent
+                                </button>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-12 mt-2">
+                                <button type="button" class="btn btn-outline-danger btn-block email_agent_btn">
+                                    Email Agent
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <h4 class="text-center">COMPANY</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="col-lg-5 col-sm-5 col-5">
+                                <img class="img-fluid" src="{{asset('theme/images/3229-logo.webp')}}" alt="">
+                            </div>
+                            <div class="col-lg-7 col-sm-7 col-7">
+                                <strong class="colorOrange">Caldwell Banker</strong>
+                                <div class="clearfix"></div>
+                                <a href="">View Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <!-- End Main Section -->
 @endsection
-@section('script')
-<script>
-   $(document).ready(function(){
-    $("#agent_enquiry_form").on('submit',function(e){
-        e.preventDefault();
-        var params = $("#agent_enquiry_form").serialize();
-        var url    = '{{route('agent.enquiry.store')}}';
-        function fn_success(result)
-        {
-            $("#agent_enquiry_form")[0].reset();
-            toast('success',result.message,'bottom-right');
-            $("#booking_request_modal").modal("hide");
-        };
-        function fn_error(result)
-        {
-            toast('error',result.message,'bottom-right');
-        };
-        $.fn_ajax(url,params,fn_success,fn_error);
-    });  
-});
-</script>
+@section("modal")
+    {{Form::open(['id'=>'agent_enquiry_form'])}}
+    <div class="modal" tabindex="-1" id="agent_enquiry_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact our agent</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4 col-sm-4 col-lg-4 col-xl-4">
+                            <img src="{{$img}}" alt="" class="card-img-top">
+                        </div>
+                        <div class="col-8 col-sm-8 col-lg-8 col-xl-8">
+                            <table class="table table-borderless">
+                                <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>{{$agent->name}}</th>
+                                </tr>
+                                <tr>
+                                     <th>City</th>
+                                     <th>{{$agent->city ? $agent->city->name:null}}</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <textarea class="form-control property-enquiry-input" name="message"
+                                          placeholder="Type your message">Hey here is message</textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <select name="subject" id="subject">
+                                    <option value="I want to buy property">I want to buy property</option>
+                                    <option value="I want to sell property">I want to sell property</option>
+                                    <option value="I want to rent property">I want to rent property</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" class="property-enquiry-input" name="name" placeholder="Name"
+                                       value="name">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control property-enquiry-input" name="email"
+                                       placeholder="Email" value="name@gmail.com">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div>
+                                            <select name="country_code" id="country_code" data-flag="true">
+                                                @php $countries = get_country_list() @endphp
+                                                @foreach($countries as $key=>$value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="text"
+                                           class="form-control property-enquiry-input property-enquiry-input"
+                                           name="mobile" placeholder="Mobile" value="1234567890">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{Form::close()}}
+@endsection
+@section("script")
+    <script>
+        (function($){
+
+            $(document).on("click",".email_agent_btn",function(){
+                $("#agent_enquiry_modal").modal("show");
+            });
+
+
+            $(document).on("click",".call_agent_btn",function(){
+                $(this).text("+957432423423434");
+            });
+
+
+            $("#agent_enquiry_form").on("submit",function(e){
+                e.preventDefault();
+                let url = "{{route('agent.enquiry.store')}}";
+                let params = $("#agent_enquiry_form").serialize();
+                function fn_success(result)
+                {
+                  alert(result.message);
+                  $("#agent_enquiry_modal").modal("hide");
+
+                }
+                function fn_error(result)
+                {
+                    alert(result.message);
+                }
+                $.fn_ajax(url,params,fn_success,fn_error);
+
+            });
+
+        })(jQuery);
+    </script>
 @endsection

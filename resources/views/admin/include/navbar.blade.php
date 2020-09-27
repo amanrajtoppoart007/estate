@@ -1,5 +1,5 @@
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-primary navbar-dark">
+  <nav class="main-header navbar navbar-expand navbar-lightblue navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -20,17 +20,12 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">Admin Menu</span>
           <div class="dropdown-divider"></div>
-          {{--<a href="javascript:void(0)" class="dropdown-item text-center"> Profile</a>
-          <div class="dropdown-divider"></div>--}}
-          {{Form::open(['route'=>'logout'])}}
-            <button type="submit" class="dropdown-item dropdown-footer">Log Out</button>
+          <a href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('admin_logout_form').submit()" class="dropdown-item text-center"> Log Out</a>
+
+          {{Form::open(['id'=>'admin_logout_form','route'=>'admin.logout','method'=>'post'])}}
           {{Form::close()}}
         </div>
       </li>
-      {{--<li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="javascript:void(0)"><i
-            class="fas fa-th-large"></i></a>
-      </li>--}}
     </ul>
   </nav>
   <!-- /.navbar -->

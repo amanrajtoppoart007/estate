@@ -7,18 +7,17 @@ use App\Property;
 use App\Tenant;
 use App\UnitPrice;
 use Carbon\Carbon;
-use App\PropertySale;
 use App\PropertyUnit;
 use App\DataTable\Api;
+
 use Illuminate\Http\Request;
-use App\PropertyUnitAllotment;
 use App\Library\CreateUnitCode;
 use App\Library\SingleUnitView;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StorePropertyUnit;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class PropertyUnitController extends Controller
 {
@@ -28,26 +27,16 @@ class PropertyUnitController extends Controller
     }
     public function fetch(Request $request)
     {
-        $model  = new PropertyUnit();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new PropertyUnit())))->getResult());
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function index()
     {
         $agents = Agent::where(['is_disabled'=>'0'])->get();
         return view('admin.propertyUnit.index',compact('agents'));
     }
 
-    /**
-     * @param StorePropertyUnit $request
-     * @return JsonResponse
-     * @throws \Exception
-     */
+
     public function store(StorePropertyUnit $request)
     {
         $request->validated();
@@ -115,12 +104,7 @@ class PropertyUnitController extends Controller
         return response()->json($res,200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @return Response
-     */
+
     public function show(Request $request)
     {
       $validator = Validator::make($request->all(), [ 'unit_id' => 'required|numeric']);
@@ -144,12 +128,7 @@ class PropertyUnitController extends Controller
         }
             return response()->json(['response'=>'error','message' => $validator->errors()->all()]);
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+
     public function view($id)
     {
       $validator = Validator::make(['id'=>$id], [ 'id' => 'required|numeric']);
@@ -190,7 +169,7 @@ class PropertyUnitController extends Controller
                         })->first();
                         $data['client'] = Tenant::with(['relations', 'documents', 'profile','country'])->find($data['unit_allotment']->tenant_id);
                     }
-                    catch (\Exception $exception)
+                    catch (Exception $exception)
                     {
                         $data['unit_allotment'] =  [];
                         $data['client']         =  [];
@@ -202,7 +181,7 @@ class PropertyUnitController extends Controller
                         $data['unit_allotment'] = \App\PropertySale::with(['buyer', 'owner'])->where(['id' => $allotment_id, 'unit_id' => $request->unit_id])->first();
                         $data['client'] = Buyer::find($data['unit_allotment']->buyer_id);
                     }
-                    catch (\Exception $exception)
+                    catch (Exception $exception)
                     {
                         $data['unit_allotment'] =  [];
                         $data['client']         =  [];
@@ -229,10 +208,7 @@ class PropertyUnitController extends Controller
             return response()->json(['response'=>'error','message' => $validator->errors()->all()]);
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function get_client(Request $request)
     {
       $validator = Validator::make($request->all(),
@@ -257,10 +233,7 @@ class PropertyUnitController extends Controller
          return response()->json($result,200);
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function get_allotment_link(Request $request)
     {
       $validator = Validator::make($request->all(),
@@ -289,10 +262,7 @@ class PropertyUnitController extends Controller
     }
 
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(),
@@ -350,12 +320,7 @@ class PropertyUnitController extends Controller
             return response()->json(['response'=>'error','message' => $validator->errors()->all()]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+
     public function destroy($id)
     {
         //

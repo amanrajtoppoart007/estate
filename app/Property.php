@@ -7,17 +7,28 @@ class Property extends Model
 {
     protected $table      = 'properties';
     protected $primaryKey = 'id';
-    protected  $guarded   = [];
-    protected $appends    = ['full_address','primary_image','total_units'];
+    protected $guarded    = [];
+    protected $appends    = ['full_address','primary_image','total_units','city_name','country_name'];
 
     public function rent_breakdown()
     {
         return $this->hasMany(RentBreakDown::class,"property_id","id");
     }
 
+    public function getCountryNameAttribute()
+    {
+        return $this->country ? $this->country->name : null;
+    }
+
+    public function getCityNameAttribute()
+    {
+       return  $this->city ? $this->city->name : null;
+    }
+
+
      public function getTotalUnitsAttribute()
      {
-         return $this->property_units->count();
+         return $this->property_units ? $this->property_units->count() : 0;
      }
      public function getPrimaryImageAttribute()
      {
@@ -26,7 +37,7 @@ class Property extends Model
          {
               foreach($this->images as $image)
               {
-                  $image = $image->image_thumb;
+                  $image = asset($image->image_thumb);
               }
          }
          return $image;
@@ -62,6 +73,10 @@ class Property extends Model
     public function images()
     {
         return $this->hasMany(Image::class,'property_id','id');
+    }
+    public function imageable()
+    {
+        return $this->morphMany(Image::class,"imageable");
     }
     public function updateProperty($input, $id)
     {

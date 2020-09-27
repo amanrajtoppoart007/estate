@@ -1,13 +1,13 @@
 @extends('admin.layout.app')
 @include("admin.include.breadcrumb",["page_title"=>"Add Flat Owner"])
 @section('content')
- <div class="card" style="box-shadow: none;">
+ <div class="card card-olive card-outline">
      <div class="card-body">
          {{Form::open(['route'=>'owner.store','id'=>'add_data_form','autocomplete'=>'off'])}}
          <input type="hidden" name="owner_type" value="flat_owner">
-          <div class="card card-info">
+          <div class="card shadow-none">
               <div class="card-header">
-                <h6>Owner Details</h6>
+                <span class="card-title">Owner Details</span>
               </div>
               <div class="card-body">
                   <div class="row">
@@ -661,7 +661,7 @@
             <div class="col-md-12 text-right">
                 <button id="action_save"  class="btn btn-success  save_action_btn" type="submit">Save</button>
                 <button id="action_preview" class="btn btn-success  save_action_btn" type="submit">Preview</button>
-                {{--<button id="action_allocate_unit" class="btn btn-success  save_action_btn" type="submit">Allocate Unit</button>--}}
+                <button id="action_allocate_unit" class="btn btn-success  save_action_btn" type="submit">Allocate Unit</button>
             </div>
         </div>
         {{Form::close()}}
@@ -698,15 +698,7 @@
                $("#action").val(action);
            });
 
-           $("#add_auth_person_detail_btn").on("click",function(){
-              if($("#authorised_person_required").is(":checked")) {
-                  $("#authorised_person_required").prop({"checked": false});
-              }
-               else
-              {
-                  $("#authorised_person_required").prop({"checked": true});
-              }
-           });
+
            let pickers =
                [
                    'emirates_exp_date',

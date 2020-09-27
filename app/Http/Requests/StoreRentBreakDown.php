@@ -36,7 +36,8 @@ class StoreRentBreakDown extends FormRequest
             "lease_end"=>"required|date",
             "rent_amount"=>"required|numeric",
             "installments"=>"required|numeric",
-            //"unit_type"=>"required",
+            "tenancy_type"=>"required",
+            "unit_type"=>"required",
             "security_deposit.*"=>"numeric",
             "municipality_fees.*"=>"numeric",
             "brokerage.*"=>"numeric",
@@ -47,6 +48,10 @@ class StoreRentBreakDown extends FormRequest
             "total_monthly_installment.*"=>"numeric",
 
         ];
+        if(request()->has("rent_enquiry_id"))
+        {
+            $rules["rent_enquiry_id"] = "required|numeric|unique:rent_break_downs,rent_enquiry_id";
+        }
 
         if(request()->parking=="yes")
         {

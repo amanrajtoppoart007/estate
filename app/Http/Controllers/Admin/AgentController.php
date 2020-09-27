@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditAgent;
 use App\Http\Requests\StoreAgent;
@@ -32,40 +33,36 @@ class AgentController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Agent();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api(new Agent()))->getResult());
     }
 
 
     public function create()
     {
-        $countries  = Country::where('is_disabled', '0')->get();
+        $countries  = Country::where('is_disabled', '0')->orderBy('name','ASC')->get();
         return view('admin.agent.create',compact('countries'));
     }
-    public function create_company_type_agent()
-    {
-         $countries  = Country::where('is_disabled', '0')->get();
-        return view('admin.agent.create-company',compact('countries'));
-    }
-
 
     public function store(StoreAgent $request)
     {
         $request->validated();
-        $store   = $request->only(['agent_type','name','country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
+        $store   = $request->only(['agent_type','name','country_code','owner_country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
         $folder = Str::studly(strtolower($request->name));
+        if($request->has("license_expiry_date"))
+        {
+            $store['license_expiry_date'] = date("Y-m-d",strtotime($request->license_expiry_date));
+        }
         if($request->agent_type=='company')
         {
             $company = $request->only(['owner_name','owner_email','owner_mobile']);
             $store   = array_merge($store,$company);
-            $store['owner_photo']    = GlobalHelper::singleFileUpload($request,'local','owner_photo',"agents/$folder");
-            $store['trade_license']  = GlobalHelper::singleFileUpload($request,'local','trade_license',"agents/$folder");
-            $store['vat_number']     = GlobalHelper::singleFileUpload($request,'local','vat_number',"agents/$folder");
+            $store['owner_photo']    = GlobalHelper::singleFileUpload('local','owner_photo',"agents/$folder");
+            $store['trade_license']  = GlobalHelper::singleFileUpload('local','trade_license',"agents/$folder");
+            $store['vat_number']     = GlobalHelper::singleFileUpload('local','vat_number',"agents/$folder");
         }
         if($request->hasFile("photo"))
         {
-            $store['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
+            $store['photo']    = GlobalHelper::singleFileUpload('local','photo',"agents/$folder");
         }
         $store['admin_id'] = Auth::guard('admin')->user()->id;
         if($agent = Agent::create($store))
@@ -85,16 +82,15 @@ class AgentController extends Controller
     public function view($id)
     {
         $agent = Agent::find($id);
-        if($agent->agent_type=="individual")
+        if(!empty($agent))
         {
-            $view = "admin.agent.view";
+          return view("admin.agent.view",compact("agent"));
         }
         else
         {
-            $view = "admin.agent.view-company";
+           $msg = "Invalid Agent Detail";
+            return view("blank",compact("msg"));
         }
-
-        return view($view,compact("agent"));
     }
 
 
@@ -118,12 +114,8 @@ class AgentController extends Controller
             $c_params['is_disabled'] = '0';
             $cities = City::where($c_params)->get();
 
-            $view = 'admin.agent.edit';
-            if ($agent->agent_type == 'company') {
-                $view = 'admin.agent.edit-company';
-            }
-            $countries = Country::where('is_disabled', '0')->get();
-            return view($view, compact('agent', 'countries','states','cities'));
+            $countries = get_countries();
+            return view("admin.agent.edit", compact('agent', 'countries','states','cities'));
         }
         else
         {
@@ -139,11 +131,11 @@ class AgentController extends Controller
     {
         $request->validated();
 
-        $update  = $request->only(['agent_type','name','country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
+        $update  = $request->only(['agent_type','name','country_code','owner_country_code','mobile','email','emirates_id','bank_name','bank_swift_code','bank_account','banking_name','country_id','state_id','city_id','address']);
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {
-            $update['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"agents/$folder");
+            $update['photo']    = \App\Helpers\GlobalHelper::singleFileUpload('local','photo',"agents/$folder");
         }
          if($request->agent_type=='company')
         {
@@ -151,19 +143,25 @@ class AgentController extends Controller
             $update   = array_merge($update,$company);
             if($request->hasFile('owner_photo'))
             {
-                $update['owner_photo']    = GlobalHelper::singleFileUpload($request,'local','owner_photo',"agents/$folder");
+                $update['owner_photo']    = GlobalHelper::singleFileUpload('local','owner_photo',"agents/$folder");
             }
 
             if($request->hasFile('trade_license'))
             {
-                $update['trade_license']  = GlobalHelper::singleFileUpload($request,'local','trade_license',"agents/$folder");
+                $update['trade_license']  = GlobalHelper::singleFileUpload('local','trade_license',"agents/$folder");
             }
 
             if($request->hasFile('vat_number'))
             {
-                 $update['vat_number']     = GlobalHelper::singleFileUpload($request,'local','vat_number',"agents/$folder");
+                 $update['vat_number']     = GlobalHelper::singleFileUpload('local','vat_number',"agents/$folder");
             }
+
         }
+
+         if($request->has("license_expiry_date"))
+         {
+            $update['license_expiry_date'] = date("Y-m-d",strtotime($request->license_expiry_date));
+         }
 
 
           $update['admin_id'] = Auth::guard('admin')->user()->id;

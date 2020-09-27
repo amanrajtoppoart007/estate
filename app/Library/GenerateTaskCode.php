@@ -4,9 +4,9 @@ use App\Task;
 class GenerateTaskCode
 {
    var $params = array();
-   public function __construct($input = array())
+   public function __construct()
    {
-       $this->params = $input;
+       $this->params = request()->all();
    }
    public function execute()
    {

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Agent;
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\SalesEnquiry;
-use Illuminate\Http\FileHelpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,9 +21,7 @@ class SalesEnquiryController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new SalesEnquiry();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new SalesEnquiry())))->getResult());
     }
 
     public function index()
@@ -34,9 +32,8 @@ class SalesEnquiryController extends Controller
     public function create()
     {
         $agents = Agent::where(['is_disabled'=>'0'])->get();
-        $cities = City::where(['is_disabled'=>'0'])->get();
         $countries = Country::where(['is_disabled'=>0])->get();
-        return view('admin.salesEnquiry.create',compact('agents','cities','countries'));
+        return view('admin.salesEnquiry.create',compact("agents","countries"));
     }
 
         public function store(Request $request)
@@ -78,22 +75,22 @@ class SalesEnquiryController extends Controller
              $folder = "enquiries/sales/$mobile";
              if($request->hasFile('photo'))
              {
-                 $store['photo']  = GlobalHelper::singleFileUpload($request,'local','photo',$folder);
+                 $store['photo']  = GlobalHelper::singleFileUpload('local','photo',$folder);
              }
              if($request->hasFile('passport'))
              {
-                 $store['passport']  = GlobalHelper::singleFileUpload($request,'local','passport',$folder);
+                 $store['passport']  = GlobalHelper::singleFileUpload('local','passport',$folder);
                  $store['passport_exp_date']  = date('Y-m-d',strtotime($request->passport_exp_date));
              }
              if($request->hasFile('visa'))
              {
-                 $store['visa']  = GlobalHelper::singleFileUpload($request,'local','visa',$folder);
+                 $store['visa']  = GlobalHelper::singleFileUpload('local','visa',$folder);
                  $store['visa_exp_date']  = date('Y-m-d',strtotime($request->visa_exp_date));
              }
 
               if($request->hasFile('emirates_id'))
              {
-                 $store['emirates_id_doc']  = GlobalHelper::singleFileUpload($request,'local','emirates_id_doc',$folder);
+                 $store['emirates_id_doc']  = GlobalHelper::singleFileUpload('local','emirates_id_doc',$folder);
                  $store['emirates_exp_date']  = date('Y-m-d',strtotime($request->emirates_exp_date));
              }
 

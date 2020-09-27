@@ -33,7 +33,7 @@ class UpdatePropertyUnitTypes
             if(request()->hasFile("floor_plan.$i"))
             {
                 $folder = date('dmyHis');
-                $params['floor_plan'] = UploadPublicFiles::handle($request,$folder,"floor_plan.$i","floor_plans");
+                $params['floor_plan'] = UploadPublicFiles::handle($folder,"floor_plan.$i","floor_plans");
             }
 
             if(!empty($request['property_unit_type_id'][$i]))

@@ -29,7 +29,7 @@ class EditAgent extends FormRequest
             $rules = [
             'id'=>'required|numeric',
             'name'=>'required',
-            'country_code'=>'required|numeric',
+            'country_code'=>'required',
             'mobile'=>'required|unique:owners,mobile|',
             'email'=>'required|email',
             'bank_name'=>'required',
@@ -49,9 +49,6 @@ class EditAgent extends FormRequest
             $rules['owner_name'] = 'required';
             $rules['owner_email'] = 'required|email';
             $rules['owner_mobile'] = 'required';
-            $rules['trade_license'] = 'required|mimes:jpeg,png,jpg,pdf|max:10048';
-            $rules['vat_number'] = 'required|mimes:jpeg,png,jpg,pdf|max:10048';
-
         }
         if(request()->hasFile('emirates_id_doc'))
         {
@@ -65,8 +62,24 @@ class EditAgent extends FormRequest
         {
             $rules['visa_exp_date'] = 'required|date';
         }
+
         return $rules;
     }
+
+    public function withValidator(Validator $validator)
+    {
+        $validator->after(function ($validator) {
+            if((!empty(request()->emirates_exp_data)) && (!empty(request()->visa_exp_date)))
+            {
+                if (request()->emirates_exp_date != request()->visa_exp_date) {
+                    $validator->errors()->add('expiry date', 'Emirates id expiry date & visa expiry data should be same');
+                }
+            }
+
+        });
+        return $validator;
+    }
+
     protected function failedValidation(Validator $validator)
     {
         $res['status']   = '0';

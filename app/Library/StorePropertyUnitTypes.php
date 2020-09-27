@@ -31,7 +31,7 @@ class StorePropertyUnitTypes
             'bathroom'=>$input['bathroom'][$i],
             'balcony'=>$input['balcony'][$i],
             'parking'=>$input['parking'][$i],
-            'floor_plan'=>UploadPublicFiles::handle($request,$folder,"floor_plan.$i",'floor_plans'),
+            'floor_plan'=>UploadPublicFiles::handle($folder,"floor_plan.$i",'floor_plans'),
             ];
             PropertyUnitType::create($params);
             $i++;

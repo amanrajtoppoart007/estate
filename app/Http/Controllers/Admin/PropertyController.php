@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Library\CreatePropertyCode;
+use App\Library\StorePropertyUnitTypes;
+use App\Library\UpdatePropertyUnitTypes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProperty;
@@ -27,9 +30,7 @@ class PropertyController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Property();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+         echo json_encode((new Api((new Property())))->getResult());
     }
 
 
@@ -44,8 +45,8 @@ class PropertyController extends Controller
         $agents        = Agent::where(['is_disabled'=>'0'])->get();
         $owners        = Owner::where(['is_disabled'=>'0'])->whereIn('owner_type',['developer','both'])->get();
         $propertyTypes = PropertyType::where('is_disabled','0')->get();
-        $countries     = Country::where('is_disabled','0')->get();
-        $cities        = City::where(['is_disabled'=>0,'country_id'=>1])->get();
+        $countries     = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
+        $cities        = City::where(['is_disabled'=>0,'country_id'=>231])->get();
         $features      = Feature::where('is_disabled', '0')->get();
         return view('admin.property.create',compact('agents','owners','features', 'countries', 'propertyTypes','cities'));
     }
@@ -60,15 +61,14 @@ class PropertyController extends Controller
         $features             = array_values($request->input('feature'));
         $insert['feature']    = implode(',', $features);
         $insert['admin_id']   = $admin_id = Auth::guard('admin')->user()->id;
-        $propcode             = new \App\Library\CreatePropertyCode();
-        $insert['propcode']   = $propcode = $propcode->generate_property_code($request->all());
+        $insert['propcode']   = $propcode = (new CreatePropertyCode())->generate_property_code($request->all());
         $property             = Property::create($insert);
         if($property)
         {
             $images          =  new CreatePropertyImage($property->id,$propcode);
             $images->execute($request);
 
-            $prop_unit         = new \App\Library\StorePropertyUnitTypes($property->id,$admin_id);
+            $prop_unit         = new StorePropertyUnitTypes($property->id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $propcode;
             $prop_unit->handle($request,$input);
@@ -90,10 +90,9 @@ class PropertyController extends Controller
             $propertyTypes  = PropertyType::where('is_disabled', '0')->get();
             $countries      = Country::where('is_disabled', '0')->get();
             $features       = Feature::where('is_disabled', '0')->get();
-            $cities         = City::where('is_disabled', '0')->get();
             $owners         = Owner::where(['owner_type'=>'flat_owner','is_disabled'=> '0'])->get();
             $agents         = Agent::where('is_disabled', '0')->get();
-            return view('admin.property.view', compact('property', 'states', 'features', 'countries', 'cities', 'propertyTypes','owners','agents'));
+            return view('admin.property.view', compact('property', 'states', 'features', 'countries', 'propertyTypes','owners','agents'));
         }
         else
         {
@@ -108,9 +107,9 @@ class PropertyController extends Controller
         $owners        = Owner::where(['is_disabled'=>'0'])->get();
         $states        = State::where('is_disabled','0')->get();
         $propertyTypes = PropertyType::where('is_disabled', '0')->get();
-        $countries     = Country::where('is_disabled', '0')->get();
+        $countries     = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
         $features      = Feature::where('is_disabled', '0')->get();
-        $cities        = City::where(['is_disabled'=>0,'country_id'=>1])->get();
+        $cities        = City::where(['is_disabled'=>0,'country_id'=>231])->get();
         $property      = Property::with("images","propertyUnitTypes","city","state","country","propertyType")->find($id);
           if($property)
           {
@@ -133,23 +132,18 @@ class PropertyController extends Controller
         $update['admin_id']   = $admin_id   = Auth::guard('admin')->user()->id;
         if(Property::where(['id'=>$id])->update($update))
         {
-            $action            = new \App\Library\UpdatePropertyUnitTypes($id,$admin_id);
             $input             = $request->all();
             $input['propcode'] = $request->propcode;
-            $action->handle($request,$input);
-            $images =  new CreatePropertyImage($id,$request->propcode);
-            $images->execute($request);
-            $res['status']   = '1';
-            $res['response'] = 'success';
-            $res['message']  = 'Property updated successfully';
+            (new UpdatePropertyUnitTypes($id,$admin_id))->handle($request,$input);
+            (new CreatePropertyImage($id,$request->propcode))->execute($request);
+            $result = ["status"=>1,"response"=>"success","message"=>"Property updated successfully"];
         }
         else
         {
-            $res['status']   = '0';
-            $res['response'] = 'error';
-            $res['message']  = 'Property not updated';
+            $result = ["status"=>0,"response"=>"error","message"=>"Property not updated"];
+
         }
-        return response()->json($res,200);
+        return response()->json($result,200);
     }
 
 
@@ -181,7 +175,7 @@ class PropertyController extends Controller
         $data = array();
         return view('admin.property.setting')->with($data);
     }
-    /********** active inactive model intance    ****************/
+    /********** active inactive model instance    ****************/
      public function changeStatus(Request $request)
     {
         $validator = Validator::make($request->all(), [

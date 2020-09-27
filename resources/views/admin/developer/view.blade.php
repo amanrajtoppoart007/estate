@@ -20,34 +20,35 @@
     <div class="card">
         <div class="card-body">
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-gradient-gray">
                     <h6>Owner Detail</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                            <table class="table table-borderless">
-                                <tbody>
-                                <tr>
-                                    <th>OwnerType</th>
-                                    <td>{{ucwords($owner->firm_type)}}</td>
-                                    <th>Name</th>
-                                    <td>{{$owner->name}}</td>
-                                    <th>Email</th>
-                                    <td>{{$owner->email}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Emirates Id</th>
-                                    <td>{{$owner->emirates_id}}</td>
-                                    <th>Mobile</th>
-                                    <td>{{$owner->mobile}}</td>
-                                    <th></th>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+
+                            <div class="row">
+                                <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                                   <span class="font-weight-bold">Owner Type</span>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{ucwords($owner->firm_type)}}</div>
+                                <div class="col-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 mb-2">
+                                    <span class="font-weight-bold">Name</span>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{$owner->name}}</div>
+                                <div class="col-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 mb-2"><span class="font-weight-bold">Email</span></div>
+                                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-2">{{$owner->email}}</div>
+                            </div>
+                             <div class="row">
+                                <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2"><span class="font-weight-bold">Emirates Id</span></div>
+                                <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{$owner->emirates_id}}</div>
+                                <div class="col-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 mb-2"><span class="font-weight-bold">Mobile</span></div>
+                                <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{$owner->mobile}}</div>
+                                <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2"></div>
+                                <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2"></div>
+                            </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-right">
                             @php
                                 if(!empty($owner->photo))
                                 {
@@ -65,15 +66,15 @@
                 </div>
             </div>
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-gradient-gray">
                     <h6>Documents</h6>
                 </div>
-                <div class="card-body">
-                    <table class="table table-borderless">
+                <div class="card-body table-responsive">
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>Document</th>
-                            <th>Link/View</th>
+                            <th>Action</th>
                             <th> Date</th>
                         </tr>
                         </thead>
@@ -84,7 +85,7 @@
                             @endphp
                             @foreach($documents as $doc)
                                 <tr>
-                                    <th>{{ucwords(strtolower($doc['document_title']))}}</th>
+                                    <th>{{snake_case_string_to_word($doc['document_title'])}}</th>
                                     <th>
                                         @php
                                             if(!empty($doc['file_url']))
@@ -96,17 +97,15 @@
                                                 $url = asset('theme/images/4.png');
                                             }
                                         @endphp
-                                        <a target="_blank" class="btn btn-primary" href="{{$url}}"
-                                                alt="{{ucwords(strtolower($doc['document_title']))}}">
-                                            <i class="fa fa-eye"></i>View
+                                        <a target="_blank" class="btn btn-outline-secondary" href="{{$url}}">
+                                            <img src="{{asset('assets/img/icons/vision.png')}}" alt="View File">
                                         </a>
-                                         <a target="_blank" class="btn btn-info" href="{{$url}}"
-                                           alt="{{ucwords(strtolower($doc['document_title']))}}" download>
-                                            <i class="fa fa-file-download"></i>Download
+                                         <a target="_blank" class="btn btn-outline-success" href="{{$url}}" download>
+                                            <img src="{{asset('assets/img/icons/download.png')}}" alt="View File">
                                         </a>
                                     </th>
                                     <th>
-                                       {{ucwords(strtolower($doc['date_key']))}} : {{$doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])): null}}
+                                       {{snake_case_string_to_word($doc['date_key'])}} : {{$doc['date_value'] ? date("d-m-Y",strtotime($doc['date_value'])): null}}
                                     </th>
                                 </tr>
                             @endforeach
@@ -117,56 +116,80 @@
             </div>
 
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-gradient-gray">
                     <h6>Account Detail</h6>
                 </div>
                 <div class="card-body">
-                    <table class="table table-borderless">
-                        <tbody>
-                        <tr>
-                            <th>Bank Name</th>
-                            <td>{{ucwords($owner->bank_name)}}</td>
-                            <th>Account Holder Name</th>
-                            <td>{{$owner->banking_name	}}</td>
-                            <th>Bank Swift Code</th>
-                            <td>{{$owner->bank_swift_code}}</td>
-                            <th>IBAN Number</th>
-                            <td>{{$owner->bank_account}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2"><span class="font-weight-bold">Bank Name</span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{$owner->bank_name}}</div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2"><span class="font-weight-bold">Account Holder Name</span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{$owner->banking_name}}</div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                            <span class="font-weight-bold">
+                                Bank Swift Code
+                            </span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                             {{$owner->bank_swift_code}}
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                            <span class="font-weight-bold">
+                                IBAN Number
+                            </span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{$owner->iban_number}}</div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                            <span class="font-weight-bold">
+                                A/C Number
+                            </span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                            {{$owner->bank_account}}
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-gradient-gray">
                     <h6>Billing Address Detail</h6>
                 </div>
-                <div class="card-body">
-                    <table class="table table-borderless">
-                        <tbody>
-                        <tr>
-                            <th>Country</th>
-                            <td>{{ucwords($owner->country ? $owner->country->name : null )}}</td>
-                            <th>State</th>
-                            <td>{{$owner->state ? $owner->state->name : null}}</td>
-                            <th>City</th>
-                            <td>{{$owner->city? $owner->city->name : null}}</td>
-                            <th>Address</th>
-                            <td>{{$owner->address}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="card-body table-responsive">
+                    <div class="row">
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2"><span class="font-weight-bold">Country</span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{ucwords($owner->country ? $owner->country->name : null )}}</div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2"><span class="font-weight-bold">State</span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{$owner->state ? $owner->state->name : null}}</div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                            <span class="font-weight-bold">
+                                City
+                            </span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                             {{$owner->city? $owner->city->name : null}}
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">
+                            <span class="font-weight-bold">
+                                Address
+                            </span>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 mb-2">{{$owner->address}}</div>
+                    </div>
                 </div>
             </div>
             @if(!empty($owner->authorised_person))
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-gradient-gray">
                      <h6>Authorised Person Detail</h6>
                 </div>
                 <div class="card-body">
                    <div class="row">
-                       <div class="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                       <div class="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8 table-responsive">
                            <table class="table table-borderless">
                               <tbody>
                                  <tr>

@@ -39,7 +39,7 @@ class EditAuthorisedPerson
              }
               if(request()->hasFile("auth_person_image"))
              {
-               $update["image"]  = GlobalHelper::singleFileUpload(request(), 'local', 'auth_person_image', 'agent/auth_persons');
+               $update["image"]  = GlobalHelper::singleFileUpload( 'local', 'auth_person_image', 'agent/auth_persons');
              }
               $update['authority_id']  = $this->authority_id;
               $update['authority_type'] = $this->authority_type;

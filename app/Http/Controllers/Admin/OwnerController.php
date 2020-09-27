@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\City;
 use App\Country;
+use App\DataTable\Api;
 use App\Http\Requests\EditOwner;
+use App\Http\Requests\StoreOwner;
 use App\Library\CreateAuthorisedPerson;
-use App\Library\CreateOwnerAuthPerson;
 use App\Library\EditAuthorisedPerson;
-use App\Library\EditOwnerAuthPerson;
 use App\Library\UploadEntityDocs;
 use App\Owner;
 use App\OwnerAllotmentHistory;
@@ -25,7 +25,7 @@ use App\Helpers\GlobalHelper;
 class OwnerController extends Controller
 {
     //module specific functions
-    public function get_property_units()
+    public function get_property_units(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
@@ -54,28 +54,23 @@ class OwnerController extends Controller
 
     public function fetch(Request $request)
     {
-        $model = new Owner();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Owner())))->getResult());
     }
 
 
     public function create()
     {
-        $countries = Country::where(['is_disabled'=>0])->get();
+        $countries = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
         return view('admin.owner.create',compact("countries"));
     }
 
 
-    public function store(\App\Http\Requests\StoreOwner $request)
+    public function store(StoreOwner $request)
     {
         $request->validated();
         $params   = $request->only(['name','owner_type','firm_type','mobile','email','emirates_id','bank_name','bank_swift_code',
         'bank_account','banking_name','country_id','state_id','city_id','address','country_code']);
-        $params['emirates_exp_date'] = date('Y-m-d',strtotime($request->emirates_exp_date));
-        $params['passport_exp_date'] = date('Y-m-d',strtotime($request->passport_exp_date));
-        $params['visa_exp_date'] = date('Y-m-d',strtotime($request->visa_exp_date));
-        $params['poa_exp_date'] = date('Y-m-d',strtotime($request->poa_exp_date));
+
         if($request->firm_type==='company')
         {
             $company_detail = $request->only(['company_name', 'trade_license', 'telephone_number', 'office_address']);
@@ -86,7 +81,7 @@ class OwnerController extends Controller
         $folder = Str::studly(strtolower($request->name));
         if($request->has('photo'))
         {
-            $params['photo']    = GlobalHelper::singleFileUpload($request, 'local', 'photo', "owners/$folder");
+            $params['photo']    = GlobalHelper::singleFileUpload( 'public', 'photo', "owners/$folder");
         }
 
 
@@ -102,7 +97,7 @@ class OwnerController extends Controller
                     if ($request->has('vat_number')) {
                         $doc = array();
                         $doc['owner_id'] = $action->id;
-                        $doc['doc_url'] = GlobalHelper::singleFileUpload($request, 'local', 'vat_number', "owners/$folder");
+                        $doc['doc_url'] = GlobalHelper::singleFileUpload( 'local', 'vat_number', "owners/$folder");
                         $doc['doc_type'] = 'vat_number';
                         OwnerDoc::create($doc);
 
@@ -111,7 +106,7 @@ class OwnerController extends Controller
                     if ($request->has('trade_license')) {
                         $doc = array();
                         $doc['owner_id'] = $action->id;
-                        $doc['doc_url'] = GlobalHelper::singleFileUpload($request, 'local', 'trade_license', "owners/$folder");
+                        $doc['doc_url'] = GlobalHelper::singleFileUpload('local', 'trade_license', "owners/$folder");
                         $doc['doc_type'] = 'trade_license';
                         OwnerDoc::create($doc);
                     }
@@ -179,7 +174,7 @@ class OwnerController extends Controller
         $owner = Owner::find($id);
         if(!empty($owner))
         {
-            $countries = Country::where(['is_disabled'=>0])->get();
+            $countries = Country::where(['is_disabled'=>0])->orderBy('name','ASC')->get();
             $country_id = $owner->country_id ? $owner->country_id :null;
             if(!empty($country_id))
             {
@@ -212,7 +207,7 @@ class OwnerController extends Controller
         $folder = Str::studly(strtolower($request->name));
         if($request->hasfile('photo'))
         {
-            $data['photo']    = GlobalHelper::singleFileUpload($request,'local','photo',"owners/$folder");
+            $data['photo']    = GlobalHelper::singleFileUpload('local','photo',"owners/$folder");
         }
 
         $data['admin_id'] = Auth::guard('admin')->user()->id;
@@ -227,7 +222,7 @@ class OwnerController extends Controller
                 {
                     $doc                = array();
                     $doc['owner_id']    = $id;
-                    $doc['doc_url']     = GlobalHelper::singleFileUpload($request, 'local', 'vat_number', "owners/$folder");
+                    $doc['doc_url']     = GlobalHelper::singleFileUpload('local', 'vat_number', "owners/$folder");
                     $doc['doc_type']    = 'vat_number';
                     OwnerDoc::create($doc);
 
@@ -237,7 +232,7 @@ class OwnerController extends Controller
                 {
                     $doc                  = array();
                     $doc['owner_id']      = $id;
-                    $doc['doc_url']       = GlobalHelper::singleFileUpload($request, 'local', 'trade_license', "owners/$folder");
+                    $doc['doc_url']       = GlobalHelper::singleFileUpload( 'local', 'trade_license', "owners/$folder");
                     $doc['doc_type']      = 'trade_license';
                     OwnerDoc::create($doc);
                 }

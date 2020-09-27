@@ -13,4 +13,9 @@ class Image extends Model
     {
         return $this->belongsTo('App\Property');
     }
+
+    public function imageable()
+    {
+        return $this->morphTo();
+    }
 }

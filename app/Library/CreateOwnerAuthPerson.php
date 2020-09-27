@@ -23,10 +23,10 @@ class CreateOwnerAuthPerson
         $store['mobile'] = $this->request->auth_person_mobile ? $this->request->auth_person_mobile : null;
         $store['country_code'] = $this->request->auth_person_country_code ? $this->request->auth_person_country_code : null;
         $store['designation'] = $this->request->auth_person_designation ? $this->request->auth_person_designation : null;
-        $store['emirates_id'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_emirates_id_doc', 'owner/auth_persons');
-        $store['passport'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_passport', 'owner/auth_persons');
-        $store['visa'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_visa', 'owner/auth_persons');
-        $store['poa'] = GlobalHelper::singleFileUpload($this->request, 'local', 'auth_person_power_of_attorney', 'owner/auth_persons');
+        $store['emirates_id'] = GlobalHelper::singleFileUpload( 'local', 'auth_person_emirates_id_doc', 'owner/auth_persons');
+        $store['passport'] = GlobalHelper::singleFileUpload( 'local', 'auth_person_passport', 'owner/auth_persons');
+        $store['visa'] = GlobalHelper::singleFileUpload( 'local', 'auth_person_visa', 'owner/auth_persons');
+        $store['poa'] = GlobalHelper::singleFileUpload( 'local', 'auth_person_power_of_attorney', 'owner/auth_persons');
         $store['admin_id'] = $this->admin_id;
         $store['owner_id'] = $this->owner_id;
         $store['emirates_id_exp_date'] = $this->request->auth_person_emirates_exp_date ? date('Y-m-d', strtotime($this->request->auth_person_emirates_exp_date)) : null;

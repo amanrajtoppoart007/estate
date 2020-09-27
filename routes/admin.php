@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/home', 'Admin\DashboardController@index')->name('master.dashboard');
+
 ////Accounting routes
 Route::prefix('accounting')->group(function () {
 
@@ -9,8 +10,13 @@ Route::prefix('accounting')->group(function () {
 /**Accounting routes end -----------//------------- Accounting routes end **/
 /**rent breakdown routes **/
 Route::prefix("rent-breakdown")->group(function(){
+    Route::get('setting', 'Admin\RentBreakDownSettingController@index')->name('setting.rent.breakdown');
     Route::post('store', 'Admin\RentBreakDownController@store')->name('save.rent.breakdown');
+    Route::post('update', 'Admin\RentBreakDownController@update')->name('update.rent.breakdown');
     Route::get('view/{id}', 'Admin\RentBreakDownController@view')->name('view.rent.breakdown');
+    Route::get('print/{id}', 'Admin\RentBreakDownController@print_breakdown')->name('print.rent.breakdown');
+    Route::get('edit/{id}', 'Admin\RentBreakDownController@edit')->name('edit.rent.breakdown');
+
     Route::any('send/breakdown/mail', 'Admin\RentBreakDownController@mail')->name('send.breakdown.mail');
 });
 /*** Tenant Routes ***/
@@ -38,17 +44,17 @@ Route::prefix('allot-property')->group(function () {
     Route::get('tenant/{id}', 'Admin\PropertyAllotmentController@index')->name('tenant.allot.property');
     Route::get('tenant/{id}/property/unit/{property_unit_id}', 'Admin\PropertyAllotmentController@index')->name('tenant.allot.property.unit');
     Route::get('detail/tenant/{id}/allotment/{allotmentId}', 'Admin\PropertyAllotmentController@view')->name('allotment.detail');
-    Route::post('get/citywise/property/list', 'Admin\PropertyAllotmentController@getPropertyList')->name('allotment.city-wise.property.list');
+    Route::post('get/city-wise/property/list', 'Admin\PropertyAllotmentController@getPropertyList')->name('allotment.city-wise.property.list');
     Route::post('get/propertyUnitType/list', 'Admin\PropertyAllotmentController@getPropertyUnitTypes')->name('allotment.get.propertyUnitTypes.list');
     Route::post('get/getPropertyUnit/list', 'Admin\PropertyAllotmentController@getPropertyUnit')->name('get.getPropertyUnit.list');
     Route::post('allot/property', 'Admin\PropertyAllotmentController@allotProperty')->name('allot.property');
     Route::get('renewal-breakdown/{id}', 'Admin\PropertyAllotmentController@renewal_break_down')->name('tenancy.renew.breakdown');
     Route::post('fetch-renewal', 'Admin\TenantController@fetch_renewal')->name('tenant.renewal.fetch');
-    Route::post('breakdown-save-send', 'Admin\PropertyAllotmentController@teanancy_breakdown_save_send')->name('tenancy.breakdown.save.send');
+    Route::post('breakdown-save-send', 'Admin\PropertyAllotmentController@tenancy_breakdown_save_send')->name('tenancy.breakdown.save.send');
     Route::post('renewal-tenancy', 'Admin\PropertyAllotmentController@renewTenancy')->name('tenancy.renewal.post');
     Route::get('renewal-tenancy-breakdown-pdf/{breakdown}', 'Admin\PropertyAllotmentController@breakdown_pdf_view')->name('renewal.breakdown.pdf');
     Route::post('store-evict', 'Admin\PropertyAllotmentController@store_eviction')->name('store.eviction');
-    Route::post('store-moveout', 'Admin\PropertyAllotmentController@store_moveout')->name('store.moveout');
+    Route::post('store-move-out', 'Admin\PropertyAllotmentController@store_move_out')->name('store.moveout');
     Route::post('fetch-all-remove-req', 'Admin\PropertyAllotmentController@fetch_all_removal_req')->name('fetch.remove.req');
     Route::post('update-remove-req', 'Admin\PropertyAllotmentController@store_remove_action')->name('update.remove.actions');
 
@@ -220,7 +226,11 @@ Route::prefix('propertyType')->group(function () {
 Route::prefix('ajax')->group(function () {
     Route::post('/states', 'Admin\AjaxController@get_state_list')->name('ajax.get.states');
     Route::post('/cities', 'Admin\AjaxController@get_cities_list')->name('ajax.get.cities');
+    Route::any('/search/cities', 'Admin\AjaxController@get_cities')->name('ajax.city.search');
     Route::post('/image/delete', 'Admin\AjaxController@deletePropertyImages')->name('ajax.delete.image');
+});
+Route::prefix("select2")->group(function () {
+    Route::any('/search/cities', 'Admin\Select2Controller@get_cities')->name('select2.city.search');
 });
 
 //Department Routes
@@ -300,7 +310,7 @@ Route::prefix('state')->group(function () {
     Route::post('delete', 'Admin\StateController@destroy')->name('state.delete');
 });
 Route::prefix('city')->group(function () {
-    Route::post('fetch', 'Admin\CityController@fetch')->name('city.fetch');
+    Route::any('fetch', 'Admin\CityController@fetch')->name('city.fetch');
     Route::post('changeStatus', 'Admin\CityController@changeStatus')->name('city.changeStatus');
     Route::get('list', 'Admin\CityController@index')->name('city.list');
     Route::post('store', 'Admin\CityController@store')->name('city.store');
@@ -340,9 +350,13 @@ Route::prefix('contact-request')->group(function () {
 Route::prefix('rent-inquiry')->group(function () {
     Route::get('list', 'Admin\RentEnquiryController@index')->name('rentEnquiry.list');
     Route::get('create/breakdown/{id}', 'Admin\RentEnquiryController@create_breakdown')->name('rentEnquiry.create.breakdown');
+    Route::get('edit/breakdown/{id}', 'Admin\RentEnquiryController@edit_breakdown')->name('rentEnquiry.edit.breakdown');
     Route::get('create', 'Admin\RentEnquiryController@create')->name('rentEnquiry.create');
     Route::post('store', 'Admin\RentEnquiryController@store')->name('rentEnquiry.store');
+    Route::post('update', 'Admin\RentEnquiryController@update')->name('rentEnquiry.update');
     Route::post('fetch', 'Admin\RentEnquiryController@fetch')->name('rentEnquiry.fetch');
+     Route::get('edit/{id}', 'Admin\RentEnquiryController@edit')->name('edit.rentEnquiry');
+    Route::get('view/{id}', 'Admin\RentEnquiryController@view')->name('view.rentEnquiry');
     Route::post('archive', 'Admin\RentEnquiryController@archive')->name('rentEnquiry.archive');
 });
 

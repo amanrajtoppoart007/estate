@@ -15,7 +15,9 @@ class Admin extends Authenticatable
      *
      * @var array
      */
-    protected $guarded = [];
+   protected $fillable = [
+        'name', 'email', 'password','role','employee_id'
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -34,17 +36,10 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function task_owner()
     {
-        return $this->hasMany('App\TaskAssignment','assignor_id','id');
-    }
-    public function assigned_task()
-    {
-        return $this->hasMany('App\TaskAssignment','assignee_id','id');
-    }
-    public function tasks()
-    {
-        return $this->hasMany('App\Task','assignor_id','id');
+        return $this->hasMany(TaskAssignment::class,'assignor_id','id');
     }
 
     /**

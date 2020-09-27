@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Admin;
 use App\City;
 use App\Country;
+use App\DataTable\Api;
+use App\Department;
+use App\Designation;
 use App\Employee;
+use App\Helpers\GlobalHelper;
 use App\Http\Requests\StoreEmployee;
 use App\Http\Requests\UpdateEmployee;
 use App\State;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -17,45 +18,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Hash;
 use App\Admin;
-use Illuminate\View\View;
+
 
 class EmployeeController extends Controller
 {
     public function fetch(Request $request)
     {
-        $model = new Employee();
-        $api    = new \App\DataTable\Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new Employee())))->getResult());
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|Response|View
-     */
+
     public function index()
     {
         return view('admin.employee.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|Response|View
-     */
+
     public function create()
     {
         $countries = Country::where(['is_disabled'=>0])->get();
-        $departments  = \App\Department::where(['is_disabled'=>'0'])->get();
-        $designations = \App\Designation::where(['is_disabled'=>'0'])->get();
+        $departments  = Department::where(['is_disabled'=>'0'])->get();
+        $designations = Designation::where(['is_disabled'=>'0'])->get();
         return view('admin.employee.create',\compact('departments','designations','countries'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreEmployee $request
-     * @return JsonResponse
-     */
+
     public function store(StoreEmployee $request)
     {
         $request->validated();
@@ -66,7 +52,7 @@ class EmployeeController extends Controller
         $data['joining_date'] = date('Y-m-d',strtotime($request->joining_date));
         if($request->hasfile('photo'))
         {
-            $data['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"employees/$folder");
+            $data['photo']    = GlobalHelper::singleFileUpload('local','photo',"employees/$folder");
         }
         if($employee = Employee::create($data))
         {
@@ -85,10 +71,7 @@ class EmployeeController extends Controller
         }
     }
 
-    /**
-     * @param $id
-     * @return Application|Factory|View
-     */
+
     public function view($id)
     {
         $employee = Employee::find($id);
@@ -102,19 +85,14 @@ class EmployeeController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Application|Factory|Response|View
-     */
+
     public function edit($id)
     {
         $employee = Employee::find($id);
         if(!empty($employee))
         {
-            $departments = \App\Department::where(['is_disabled' => '0'])->get();
-            $designations = \App\Designation::where(['is_disabled' => '0'])->get();
+            $departments = Department::where(['is_disabled' => '0'])->get();
+            $designations = Designation::where(['is_disabled' => '0'])->get();
              $countries = Country::where(['is_disabled'=>0])->get();
             $country_id = $employee->country_id ? $employee->country_id :null;
             if(!empty($country_id))
@@ -139,13 +117,7 @@ class EmployeeController extends Controller
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateEmployee $request
-     * @param int $id
-     * @return JsonResponse
-     */
+
     public function update(UpdateEmployee $request, $id)
     {
         $request->validated();
@@ -156,7 +128,7 @@ class EmployeeController extends Controller
         $data['joining_date'] = date('Y-m-d',strtotime($request->joining_date));
         if($request->hasfile('photo'))
         {
-            $data['photo']    = \App\Helpers\GlobalHelper::singleFileUpload($request,'local','photo',"employees/$folder");
+            $data['photo']    = GlobalHelper::singleFileUpload('local','photo',"employees/$folder");
         }
         if(Employee::where(['id'=>$id])->update($data))
         {

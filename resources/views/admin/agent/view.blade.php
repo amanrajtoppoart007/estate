@@ -25,7 +25,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 table-responsive">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                           <table class="table table-borderless">
                               <tbody>
                                  <tr>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+             <div class="card">
                 <div class="card-header bg-primary">
                     <h6>Documents</h6>
                 </div>
@@ -160,6 +160,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if(!empty($agent->documents))
                             @php
                                 $documents =   extract_doc_keys($agent->authorised_person->documents,'file_url','document_title','date_key','date_value');
                             @endphp
@@ -189,7 +190,7 @@
                                     </th>
                                 </tr>
                             @endforeach
-
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -201,13 +202,11 @@
             </div>
      @endif
 
-
-
             <div class="card">
                 <div class="card-header bg-primary">
                     <h6>Account Detail</h6>
                 </div>
-                <div class="card-body table-responsive">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tbody>
                         <tr>
@@ -229,7 +228,7 @@
                 <div class="card-header bg-primary">
                     <h6>Billing Address Detail</h6>
                 </div>
-                <div class="card-body table-responsive">
+                <div class="card-body">
                    <table class="table table-borderless">
                         <tbody>
                         <tr>
@@ -246,6 +245,7 @@
                     </table>
                 </div>
             </div>
+
             <div class="form-group">
                 <a href="{{route('agent.edit',$agent->id)}}" class="btn btn-info">Edit Agent</a>
             </div>

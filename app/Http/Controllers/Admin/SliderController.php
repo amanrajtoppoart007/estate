@@ -15,16 +15,10 @@ class SliderController extends Controller
     {
         $this->middleware('auth:admin');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function fetch(Request $request)
     {
-        $model = new SliderContent();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api((new SliderContent())))->getResult());
     }
     public function index()
     {
@@ -32,12 +26,7 @@ class SliderController extends Controller
         return view('admin.slider.index',\compact('sliders'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -48,26 +37,26 @@ class SliderController extends Controller
             'description.*' => 'required',
             'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=1920,min_height=1080,ratio:16/9',
         ]);
-        if(!$validator->fails()) 
+        if(!$validator->fails())
         {
             $slider                = $request->only(['page', 'position']);
             $slider['admin_id']    = Auth::guard('admin')->user()->id;
             $slider['is_disabled'] = '0';
             $slider['created_at']  = date('Y-m-d H:i:s');
             $insert                = Slider::create($slider);
-            if($insert->id) 
+            if($insert->id)
             {
                 $sliderContents = $request->only(['title','short_description', 'description']);
-                if ($request->hasfile('image')) 
+                if ($request->hasfile('image'))
                 {
                     $files = $request->file("image");
                     $i     = 0;
-                    foreach ($files as $file) 
+                    foreach ($files as $file)
                     {
                         $fileNameStore = NULL;
                         $ext           = NULL;
                         $sliderContent = [];
-                        if($file->isValid()) 
+                        if($file->isValid())
                         {
                             $ext                                = $file->getClientOriginalExtension();
                             $fileNameStore                      = 'SLIDER' . time() . rand(1000, 9999) . '.' . $ext;
@@ -85,37 +74,32 @@ class SliderController extends Controller
                 }
                 $sliders = Slider::with('sliderContents')->find($insert->id);
                 return response()->json(['response' => 'success', 'base_url' => asset('/images/slider/'), 'data' => $sliders, 'message' => 'Slider added successfully.']);
-            } 
-            else 
+            }
+            else
             {
                 return response()->json(['response' => 'error', 'message' => 'Slider addition failed']);
             }
-        } 
-        else 
+        }
+        else
         {
             return response()->json(['response' => 'error', 'message' => $validator->errors()->all()]);
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required',
         ]);
-        if (!$validator->fails()) 
+        if (!$validator->fails())
         {
             $slider = Slider::with('sliderContents')->find($request->input('id'))->toArray();
-            if ($slider) 
+            if ($slider)
             {
                 return response()->json(['response' => 'success', 'base_url' => asset('/images/slider').'/', 'data' => $slider, 'message' => 'Slider found.']);
-            } 
-            else 
+            }
+            else
             {
                 return response()->json(['response' => 'error', 'message' => 'Specified Slider not found']);
             }
@@ -123,13 +107,7 @@ class SliderController extends Controller
         return response()->json(['response' => 'error', 'message' => $validator->errors()->all()]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -141,26 +119,26 @@ class SliderController extends Controller
             'description.*' => 'required',
             'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=1920,min_height=1080,ratio:16/9',
         ]);
-        if (!$validator->fails()) 
+        if (!$validator->fails())
         {
             $slider            = Slider::find($request->input('id'));
-            if($slider) 
+            if($slider)
             {
                 $slider->page     = $request->input('page');
                 $slider->position = $request->input('position');
                 $slider->admin_id = Auth::guard('admin')->user()->id;
                 $slider->save();
                 $sliderContents = $request->only(['title', 'short_description', 'description']);
-                if($request->hasfile('image')) 
+                if($request->hasfile('image'))
                 {
                     $files = $request->file("image");
                     $i     = 0;
-                    foreach ($files as $file) 
+                    foreach ($files as $file)
                     {
                         $fileNameStore = NULL;
                         $ext           = NULL;
                         $sliderContent = [];
-                        if($file->isValid()) 
+                        if($file->isValid())
                         {
                             $ext                                = $file->getClientOriginalExtension();
                             $fileNameStore                      = 'SLIDER' . time() . rand(1000, 9999) . '.' . $ext;
@@ -179,23 +157,18 @@ class SliderController extends Controller
                 $sliders = Slider::with('sliderContents')->find($request->input('id'))->toArray();
                 return response()->json(['response' => 'success', 'base_url' => asset('/images/slider/'), 'data' => $sliders, 'message' => 'Slider updated successfully.']);
             }
-            else 
+            else
             {
                 return response()->json(['response' => 'error', 'message' => 'Slider not found']);
             }
         }
-         else 
+         else
         {
             return response()->json(['response' => 'error', 'message' => $validator->errors()->all()]);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //

@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\DataTable\Api;
 use App\Country;
 use App\State;
 use App\City;
-use Auth;
 
 class CityController extends Controller
 {
@@ -20,17 +19,10 @@ class CityController extends Controller
         $this->middleware('auth:admin');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function fetch(Request $request)
+
+    public function fetch()
     {
-        $model = new City();
-        $api    = new Api($model,$request);
-        echo json_encode($api->apply());
+         echo json_encode((new Api((new City())))->getResult());
     }
     public function index()
     {
@@ -53,12 +45,7 @@ class CityController extends Controller
         }
         return view('admin.city.index', compact('countries','states'));
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -89,12 +76,7 @@ class CityController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function show(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -115,12 +97,7 @@ class CityController extends Controller
         return response()->json(['status'=>0,'response' => 'error', 'message' => $validator->errors()->all()]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -149,10 +126,7 @@ class CityController extends Controller
         return response()->json(['status'=>0,'response' => 'error', 'message' => $validator->errors()->all()]);
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function destroy(Request $request)
     {
         $validator = Validator::make($request->all(), ['id' => 'required']);
@@ -173,10 +147,7 @@ class CityController extends Controller
         }
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
+
      public function changeStatus(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -191,7 +162,7 @@ class CityController extends Controller
             }
              else
             {
-                return response()->json(['status'=>'0','response' => 'error', 'message' => 'Status updation failed.']);
+                return response()->json(['status'=>'0','response' => 'error', 'message' => 'Status update failed.']);
             }
         }
         return response()->json(['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()]);

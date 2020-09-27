@@ -99,10 +99,6 @@ return [
             'model' => App\Owner::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

@@ -77,7 +77,7 @@ class UploadEntityDocs
                 ,
                 [
                     'document_title'=>'trade_license',
-                    'date_params'=>['ISSUE_DATE','trade_license_issue_date']
+                    'date_params'=>['ISSUE_DATE','trade_license_exp_date']
                 ]
             );
         }
@@ -157,7 +157,7 @@ class UploadEntityDocs
         }
         if(request()->hasFile("$document_title"))
         {
-            $archive['file_url'] = GlobalHelper::singleFileUpload(request(), 'local', "$document_title", "developers/$folder");
+            $archive['file_url'] = GlobalHelper::singleFileUpload('local', "$document_title", "developers/$folder");
         }
         $doc_check = Document::where(['document_title'=>"$document_title",'archive_id'=>$this->primary_key,'archive_type'=>"$this->table"])->first();
         if(!empty($doc_check))

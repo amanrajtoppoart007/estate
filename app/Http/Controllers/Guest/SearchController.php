@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Guest;
 
-use App\City;
-use App\State;
-use App\Feature;
-use App\PropertyType;
+
+
+use App\PropertyUnit;
+use App\PropertyUnitType;
+use App\Search\SearchApi;
 use Illuminate\Http\Request;
 use App\Library\PropertyView;
 use App\Http\Controllers\Controller;
@@ -17,22 +18,12 @@ class SearchController extends Controller
         $propUnitTypes       = array();
         if(!($request->view=='map'))
         {
-            $model           = new \App\PropertyUnitType();
-            $search          = new \App\Search\Api($model,$request);
-            $propUnitTypes   = $search->apply(12);
-            $view            = new PropertyView();
-            $propUnitTypes   = $view->execute($propUnitTypes);
+
         }
-        //search parameters
-        $propertyTypes   = PropertyType::where('is_disabled', '0')->orderBy('created_at', 'DESC')->get();
-        $features        = Feature::where('is_disabled', '0')->orderBy('created_at', 'DESC')->get();
-        $states          = State::withCount('properties')->where('is_disabled', '0')->orderBy('created_at', 'DESC')->get();
-        $cities          = City::where('is_disabled', '0')->orderBy('created_at', 'DESC')->get();
+        $listings   = (new PropertyView())->multiple((new SearchApi(new PropertyUnit()))->getResult());
+
         switch($request->view)
         {
-            case 'list':
-                $view = 'guest.property.list';
-            break;
             case 'grid':
                 $view = 'guest.property.grid';
             break;
@@ -43,36 +34,28 @@ class SearchController extends Controller
                 $view = 'guest.property.list';
             break;
         }
-        return view($view, \compact('propUnitTypes', 'features', 'states', 'cities','propertyTypes'))->with('search',$request);
+        return view($view,compact("listings"));
     }
     public function map_search_api(Request $request)
     {
-        $model           = new \App\PropertyUnitType();
-        $search          = new \App\Search\Api($model,$request);
-        $propUnitTypes   = $search->apply();
-        $view            = new PropertyView();
-        $propUnitTypes   = $view->execute($propUnitTypes);
-        if(!empty($propUnitTypes['property_unit_types']))
+        $listings          = (new PropertyView())->multiple((new SearchApi(new PropertyUnitType()))->getResult());
+        if(!empty($listings['data']))
         {
-           return response()->json(['status'=>'1','response' => 'success', 'locations' => $propUnitTypes, 'message' => 'Property listing found']);
+           return response()->json(['status'=>'1','response' => 'success', 'locations' => $listings, 'message' => 'Property listing found']);
         }
-        else 
+        else
         {
             return response()->json(['status'=>'0','response' => 'error', 'message' => 'No property found']);
         }
     }
     public function web_api_search(Request $request)
     {
-        $model           = new \App\PropertyUnitType();
-        $search          = new \App\Search\Api($model,$request);
-        $propUnitTypes   = $search->apply();
-        $view            = new PropertyView();
-        $propUnitTypes   = $view->execute($propUnitTypes);
+        $propUnitTypes   = (new PropertyView())->execute((new \App\Search\Api((new \App\PropertyUnitType()),$request))->apply());
         if(!empty($propUnitTypes['property_unit_types']))
         {
            return response()->json(['status'=>'1','response' => 'success', 'data' =>$propUnitTypes['property_unit_types'], 'message' => 'Property listing found']);
         }
-        else 
+        else
         {
             return response()->json(['status'=>'0','response' => 'error', 'message' => 'No property found']);
         }

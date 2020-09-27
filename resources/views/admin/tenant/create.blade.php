@@ -59,12 +59,12 @@
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="tenant_name">Tenant Name <span class="text-danger">*</span></label>
+                                        <label for="name">Tenant Name <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-user"></i></span>
                                          </div>
-                                        <input class="form-control" name="tenant_name" id="tenant_name" type="text"  value="{{$user ? $user->name : null}}" autocomplete="off">
+                                        <input class="form-control" name="name" id="name" type="text"  value="{{$user ? $user->name : null}}" autocomplete="off">
                                      </div>
 
                                     </div>
@@ -112,12 +112,12 @@
                                 </div>
                                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="country">Nationality <span class="text-danger">*</span></label>
+                                        <label for="country_id">Nationality <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                          </div>
-                                             <select name="country" id="country" class="form-control">
+                                             <select name="country_id" id="country_id" class="form-control">
                                                  <option>Select Country</option>
                                                  @foreach($countries as $country)
                                                      @php  $selected = ($country->code==($user ? $user->country_code: null))?"selected":""; @endphp
@@ -127,14 +127,30 @@
                                      </div>
                                     </div>
                                 </div>
+
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
-                                        <label for="city">City <span class="text-danger">*</span></label>
+                                        <label for="state_id">State <span class="text-danger">*</span></label>
+                                         <div class="input-group">
+                                         <div class="input-group-prepend">
+                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                         </div>
+                                             <select name="state_id" id="state_id" class="form-control">
+                                             </select>
+                                     </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label for="city_id">City <span class="text-danger">*</span></label>
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="fas fa-building"></i></span>
                                          </div>
-                                         <input type="text" name="city" class="form-control" value="">
+                                         <select  id="city_id" name="city_id" class="form-control">
+                                             <option value="">Select City</option>
+                                         </select>
                                      </div>
                                     </div>
                                 </div>
@@ -219,14 +235,14 @@
                         </div>
                         <div class="col-12 col-sm-6 com-md-3 col-lg-3 col-xl-3">
                             <div class="form-group">
-                               <label for="trade_licence">Trade Certificate</label>
+                               <label for="trade_license">Trade Certificate</label>
                                <div class="input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">
                                           <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
-                               <input type="file" class="form-control" name="trade_licence" id="trade_licence" value="">
+                               <input type="file" class="form-control" name="trade_license" id="trade_license" value="">
                                </div>
                            </div>
                         </div>
@@ -421,6 +437,9 @@
                 </div>
             </div>
                 <div class="form-group text-right">
+                    {{--@if(empty($tenant->rent_breakdown))
+                     <a href="{{route('')}}" class="btn btn-primary">Prepare BreakDown</a>
+                    @endif--}}
                     <button class="btn btn-primary">Save</button>
                     <button type="button" id="save_and_allot_unit" class="btn btn-primary">Save & Allot Unit</button>
                 </div>
@@ -439,6 +458,13 @@
 @section('script')
 <script>
     $(document).ready(function(){
+
+        $("#country_id").on("change",function(){
+            $.get_state_list($("#country_id"),$("#state_id"));
+        });
+        $("#state_id").on("change",function(){
+            $.get_state_list($("#state_id"),$("#city_id"));
+        });
 
         @php
          if(!empty($user))

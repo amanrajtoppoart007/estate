@@ -4,13 +4,27 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(array $array)
+ */
 class State extends Model
 {
     protected $guarded   = [];
+    protected $appends   = ['country_name'];
+
+    public function getCountryNameAttribute()
+    {
+        return $this->country ? $this->country->name : null;
+    }
     public function country()
     {
-       return $this->belongsTo('App\Country');
+       return $this->belongsTo(Country::class,'country_id','id');
     }
+    public function tenants()
+    {
+        return $this->hasMany(Tenant::class,'state_id','id');
+    }
+
     public function state()
     {
        return $this->belongsTo('App\State');

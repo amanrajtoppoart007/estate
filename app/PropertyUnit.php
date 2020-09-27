@@ -46,35 +46,35 @@ class PropertyUnit extends Model
     }
     public function property_sales()
     {
-        return $this->hasMany('App\PropertySale','unit_id','id');
+        return $this->hasMany(PropertySale::class,'unit_id','id');
     }
 
     public function property()
     {
-        return $this->belongsTo('App\Property');
+        return $this->belongsTo(Property::class);
     }
 
     public function propertyUnitType()
     {
-       return $this->belongsTo('App\PropertyUnitType');
+       return $this->belongsTo(PropertyUnitType::class);
     }
 
     public function property_unit_allotment()
     {
-        return $this->hasMany('App\PropertyUnitAllotment','unit_id','id');
+        return $this->hasMany(PropertyUnitAllotment::class,'unit_id','id');
     }
     public function task()
     {
-        return $this->hasMany('App\Task');
+        return $this->hasMany(Task::class);
     }
     public function owner()
     {
-        return $this->belongsTo('App\Owner');
+        return $this->belongsTo(Owner::class);
     }
 
     public function agent()
     {
-        return $this->belongsTo('App\Agent');
+        return $this->belongsTo(Agent::class);
     }
 
 
