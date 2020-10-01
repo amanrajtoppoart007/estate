@@ -64,7 +64,7 @@
                         <tr>
                             <td style="width: 21%;">Tower Name</td>
                             <td>
-                                <select class="form-control">
+                                <select class="form-control" id="property" name="property" style="width: 100%">
                                     <option>Select Tower</option>
                                 </select>
                             </td>
@@ -73,7 +73,7 @@
                         <tr>
                             <td style="width: 21%;">Flat Number</td>
                             <td>
-                                <select class="form-control">
+                                <select class="form-control" id="select_units" name="unit" style="width: 100%">
                                     <option>Select Flat</option>
                                 </select>
                             </td>
@@ -97,7 +97,7 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th>Type</th>
+                            <th>Description</th>
                             <th>Amount</th>
                             <th>Remark/Note</th>
                         </tr>
@@ -179,8 +179,66 @@
         $(document).ready(function () {
 
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+    let fetchProperty  = "{{route('select2.property.post')}}";
+    let fetchUnitByProperty  = "{{route('select.units.by.prop')}}";
+            $("#property").select2({
+                placeholder: "Choose Tower...",
+                minimumInputLength: 1,
+                ajax: {
+                    url: fetchProperty,
+                    dataType: "json",
+                    type : "POST",
+                    data: function (e) {
+                        return {
+                            q: $.trim(e.term)
+                        }
+                    },
+                    processResults: function (e) {
+                        return {
+                            results: e
+                        }
+                    },
+                    cache: !0
+                }
+            });
 
 
+            $('#property').change(function(event) {
+                let property = $(this).val();
+                $.ajax({
+                    url: fetchUnitByProperty,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {propid:property},
+                    cache: false,
+                    success: function(result) {
+                        $('#select_units').empty().trigger("change");
+                        let newOpt = '';
+                        let i = '0';
+                        $.each(result,function(i,result) {
+                            if(i=='0'){
+                                let status ='selected';
+                            }else{
+                                let status= '';
+                            }
+                            let x = i+1;
+                            let flat = '';
+                            if(result.flat_house_no!=null){
+                                 flat = result.flat_house_no;
+                            }
+                            newOpt+='<option value="'+result.id+'" '+status+'>Unit '+x+' '+result.unitcode+'-'+flat+'</option>';
+                            //newOpt+= new Option(result.id, result.unit_code, false, false);
+                            i++;
+                        })
+                        // Append it to the select
+                        $("#select_units").append(newOpt).trigger('change');
+                        $("#select_units").select2();
+                    },
+                    error: function(result) {
+                        console.log(result);
+                    }
+                });
+            });
         });
     </script>
 @endsection

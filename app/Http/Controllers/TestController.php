@@ -64,4 +64,8 @@ class TestController extends Controller
        }
 
     }
+
+    public function insert_some_data(){
+        $arr = array('BOOKING_FEES','COMMISSION','CONTRACT_FEES');
+    }
 }

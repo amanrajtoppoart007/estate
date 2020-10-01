@@ -20,7 +20,7 @@
     <!-- card 1 -->
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">Contracts</h3>
+            <h3 class="card-title">Accounts</h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -33,24 +33,20 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4 text-center">
-                    <a href="{{route('contracts.lease.new')}}">
-                        <img src="{{asset('assets/img/agreement.svg')}}" width="60px" height="100px">
+                    <a href="{{route('acc.chart.of.accounts')}}">
+                        <img src="{{asset('assets/img/accounting.svg')}}" width="60px" height="100px">
                     </a>
                         <br>
-                    <h6>New Lease Contract</h6>
+                    <h6>Chart Of Accounts</h6>
                 </div>
                 <div class="col-md-4 text-center">
-                    <a href="{{route('contracts.lease.new')}}">
-                        <img src="{{asset('assets/img/agreement.svg')}}" width="60px" height="100px">
+                    <a href="{{route('acc.bank.accounts')}}">
+                        <img src="{{asset('assets/img/calculator.svg')}}" width="60px" height="100px">
                     </a>
                         <br>
-                    <h6>New Lease Contract</h6>
+                    <h6>Bank Accounts</h6>
                 </div>   <div class="col-md-4 text-center">
-                    <a href="{{route('contracts.lease.new')}}">
-                        <img src="{{asset('assets/img/agreement.svg')}}" width="60px" height="100px">
-                    </a>
-                        <br>
-                    <h6>New Lease Contract</h6>
+
                 </div>
 
 

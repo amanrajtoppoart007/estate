@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('admin.layout.accounting')
 
 @section('head')
 
@@ -38,15 +38,15 @@
 
       </div>
 
-  @endsection	
+  @endsection
 
 @section('content')
 
 
 
-       
 
-      
+
+
 
         <div class="card">
 
@@ -72,7 +72,7 @@
 
                     <th>Title</th>
                     <th>Code</th>
-                   
+
                     <th>Status</th>
 
                     <th>Action</th>
@@ -84,7 +84,7 @@
                 @foreach($category as $cat)
                 <tr>
                     <td colspan="5"><b>{{$cat->title}}</b></td>
-                    
+
                 </tr>
                  @foreach($accounts as $acc)
                  @if($acc->coa_category_id==$cat->id)
@@ -120,15 +120,15 @@
 
         </div>
 
-        
 
-     
 
-      
 
-     
 
-       
+
+
+
+
+
 
 @endsection
 
@@ -224,7 +224,7 @@
 
  <script>
 
-   
+
 
 var fetchlink   =  "{{route('chart.of.accounts.dt')}}";
 
@@ -248,7 +248,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
 
 
 
-        $(document).on('submit', '#CreateNewAccForm', function(e) {  
+        $(document).on('submit', '#CreateNewAccForm', function(e) {
 
     var formData = new FormData($(this)[0]);
 
@@ -284,7 +284,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
 
           // setTimeout(function(){ location.reload(); }, 1000);
 
-             
+
 
           }else{
 
@@ -304,19 +304,19 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
 
     });
 
-       
+
 
  e.preventDefault();
 
 });
 
-       
 
-    
 
-     
 
-        var dataTable = $('#dataTable').DataTable({            
+
+
+
+        var dataTable = $('#dataTable').DataTable({
 
             "order": [[ 0, "desc" ]],
 
@@ -399,7 +399,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
 
                 },
 
-               
+
 
                  {
 
@@ -495,15 +495,15 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
 
                     render: function( type, row, data, meta) {
 
-                       
+
 
                         return '<a href="'+viewBanktrans+$.base64.encode(data.id)+'" class="btn btn-primary text-white">View</a>';
 
                     }
 
-                } 
+                }
 
-               
+
 
 
 
@@ -621,7 +621,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
 
 
 
-       
+
 
 
 
@@ -629,7 +629,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
 
     });
 
-          
+
 
   $("#category").change(function function_name(argument) {
   var id = $(this).val();
@@ -639,7 +639,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
         type: 'POST',
         dataType: 'json',
         data: {id,id},
-        
+
         success: function(result)
         {
           //console.log(result);
@@ -651,7 +651,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
                 daySelect = document.getElementById(targetEle);
  daySelect.options[daySelect.options.length] = new Option(value.name,value.id);
               });
-         
+
           }else{
             //alert(result.msg);
           }
@@ -663,9 +663,9 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
     });
 });
 
-          
 
-   
+
+
 
  </script>
 
