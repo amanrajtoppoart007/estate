@@ -57,6 +57,7 @@
 <script src="{{asset('js/utility.js')}}"></script>
 <script src="{{asset('js/ajax.js')}}"></script>
 <script src="{{asset('js/place.js')}}"></script>
+<script src="{{asset('js/khagesh.js')}}"></script>
 
 @yield('js')
 @yield('modal')
