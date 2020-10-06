@@ -66,6 +66,13 @@ class TestController extends Controller
     }
 
     public function insert_some_data(){
-        $arr = array('BOOKING_FEES','COMMISSION','CONTRACT_FEES');
+        $arr = array('BOOKING_FEES','COMMISSION','CONTRACT_FEES','FIRST_PAYMENT','MAINTENANCE_FEES','MAINTENANCE_QUOTATION_WORK',
+            'MUNICIPALITY_FEES','OFFICE_CHARGES','PEST_CONTROL_SERVICE','REGISTRATION_FEES','REMOTE_DEPOSIT','RENT_PAYMENT','SECURITY_DEPOSIT','SEWA_DEPOSIT','OTHER');
+        $ar = array('name'=>'transaction_description','value'=>json_encode($arr));
+       try {
+           DB::table('accounting_settings')->insert($ar);
+       }catch (\Exception $e){
+           print_r($e->getMessage());
+       }
     }
 }

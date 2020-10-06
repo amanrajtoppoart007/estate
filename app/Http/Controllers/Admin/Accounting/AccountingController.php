@@ -6,10 +6,12 @@ namespace App\Http\Controllers\Admin\Accounting;
 
 
 
+use App\AccountingSetting;
 use App\BankAccount;
 
 use App\Http\Controllers\Controller;
 
+use App\ReceiptVoucher;
 use Illuminate\Http\Request;
 
 use App\AccountTimeline;
@@ -139,8 +141,13 @@ class AccountingController extends Controller
     public function receipt_cash_new()
 
     {
-
-        return view('admin.accounting.voucher.receipt.newCash');
+        $data = array();
+        $td = AccountingSetting::where('name','transaction_description')->pluck('value')->first();
+        $data['trans_des']  =  json_decode($td);
+        $lastdata         = ReceiptVoucher::orderBy('id','DESC')->first();
+        $lastid         = !empty($lastid) ? $lastid->voucher_no : 0;
+        $data['new_no'] = $lastid+1;
+        return view('admin.accounting.voucher.receipt.newCash')->with($data);
 
     }
     public function receipt_cheque_new()

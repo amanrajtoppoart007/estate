@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\TenantProfile;
 use App\RentInstallment;
 use App\Tenant;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -38,19 +39,22 @@ class VoucherController extends Controller
         return view('admin.accounting.invoices.create')->with($data);
     }
 
-    public function store_new_invoice(Request $request)
+    public function store_new_cash_voucher(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'invoice' => 'required',
+            'voucher_number' => 'required',
+            'total_amount' => 'required',
 
 
         ]);
 
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            $result = array('status' => '0', 'error_type'=>'validation', 'msg' => $validator->errors());
+            return json_encode($result);
         }
-        $invoice = $this->check_invoice_number($request->invoice);
+        return json_encode($request->all());
+        $invoice = $this->check_receipt_number($request->invoice);
         $reference = trim($request->reference);
         $duedate = date('Y-m-d',strtotime($request->expected));
         $arr = array('id' => $invoice,
@@ -80,7 +84,7 @@ class VoucherController extends Controller
             // $rent->save();
             $result = array('status' => '1', 'msg' => 'Invoice created successfully', 'invoice' => base64_encode($qry->id));
         } else {
-            $result = array('status' => '0', 'msg' => 'Something went wrong!!');
+            $result = array('status' => '0', 'error_type'=>'other', 'msg' => 'Something went wrong!!');
         }
         return json_encode($result);
     }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Tenant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\State;
@@ -82,7 +83,22 @@ class AjaxController extends Controller
         return response()->json(['response'=>'error','message' => $validator->errors()->all()]);
     }
 
+    public function select2_get_tenant(Request $request)
+    {
 
+        $result = Tenant::where('name', 'LIKE', '%' . $request->q . '%')
+            ->orWhere('tenant_code', 'LIKE', '%' . $request->q . '%')
+            ->orWhere('email', 'LIKE', '%' . $request->q . '%')
+            ->orWhere('mobile', 'LIKE', '%' . $request->q . '%')
+            ->get();
+        $data   = array();
+        foreach ($result as $value) {
+            $data[] = ['id' => $value->id, 'text' => $value->tenant_code . ' ' . $value->name];
+        }
+
+
+        return json_encode($data);
+    }
     //////Property ajax/
     public function select2_get_property(Request $request)
     {
