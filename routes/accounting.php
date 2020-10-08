@@ -14,7 +14,9 @@ Route::prefix('accounts')->group(function () {
 
 
     Route::get('new-cheque-receipt', 'Admin\Accounting\AccountingController@receipt_cheque_new')->name('new.receipt.cheque');
+
     Route::get('all-receipt', 'Admin\Accounting\AccountingController@all_receipt')->name('all.receipt');
+    Route::post('all-receipt-dt', 'Admin\Accounting\VoucherController@fetch_all_receipt_voucher')->name('all.receipt.dt');
 
     Route::get('chart-of-accounts', 'Admin\Accounting\AccountingController@chart_of_acccoutns')->name('acc.chart.of.accounts');
     Route::post('fetch-chart-of-dt', 'Admin\Accounting\CoaController@datatable_coa')->name('chart.of.accounts.dt');

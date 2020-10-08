@@ -51,7 +51,7 @@
                         <tr>
                             <td style="width: 21%;">Received From Mr./M/s</td>
                             <td>
-                                <select id="select_tenant" class="form-control" style="width:100%;">
+                                <select id="select_tenant" name="payer" class="form-control" style="width:100%;">
                                     <option>Select Payer</option>
                                 </select></td>
                             <td></td>
@@ -73,7 +73,7 @@
                         <tr>
                             <td style="width: 21%;">Tower Name</td>
                             <td>
-                                <select class="form-control" id="property" name="property" style="width: 100%">
+                                <select class="form-control" id="property" name="tower" style="width: 100%">
                                     <option>Select Tower</option>
                                 </select>
                             </td>
