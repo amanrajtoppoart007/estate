@@ -155,8 +155,15 @@ class AccountingController extends Controller
     public function receipt_cheque_new()
 
     {
+        $data = array();
+        $td = AccountingSetting::where('name','transaction_description')->pluck('value')->first();
+        $data['trans_des']  =  json_decode($td);
+        $lastdata         = ReceiptVoucher::orderBy('id','DESC')->first();
 
-        return view('admin.accounting.voucher.receipt.newCheque');
+        $lastid         = !empty($lastdata) ? $lastdata->voucher_no : 0;
+
+        $data['new_no'] = $lastid+1;
+        return view('admin.accounting.voucher.receipt.newCheque')->with($data);
 
     }
     public function all_receipt()

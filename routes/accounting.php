@@ -14,6 +14,7 @@ Route::prefix('accounts')->group(function () {
 
 
     Route::get('new-cheque-receipt', 'Admin\Accounting\AccountingController@receipt_cheque_new')->name('new.receipt.cheque');
+    Route::post('new-cheque-voucher-create', 'Admin\Accounting\VoucherController@store_new_cheque_voucher')->name('new.cheque.voucher.store');
 
     Route::get('all-receipt', 'Admin\Accounting\AccountingController@all_receipt')->name('all.receipt');
     Route::post('all-receipt-dt', 'Admin\Accounting\VoucherController@fetch_all_receipt_voucher')->name('all.receipt.dt');

@@ -59,7 +59,7 @@ class VoucherController extends Controller
             $vou->user_type     = 'tenant';
             $vou->property_id   = $request->tower;
             $vou->unit_id       = $request->unit;
-            $vou->payment_mode  = 'CASH';
+            $vou->voucher_type  = 'CASH';
             $vou->total_amount  = $request->total_amount;
             $vou->admin_id = auth()->user()->id;
         if ($vou->save()) {
@@ -109,7 +109,7 @@ class VoucherController extends Controller
 //                    })
                 ->offset($request['start'])
                 ->limit($request['length'])
-                //->with('party')
+                ->with('property','unit','tenant')
                 ->get();
         }
         $json_data = array(
@@ -120,6 +120,50 @@ class VoucherController extends Controller
         );
         echo json_encode($json_data);
     }
+    public function store_new_cheque_voucher(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'voucher_number' => 'required',
+            'total_amount' => 'required',
+        ]);
 
+
+        if ($validator->fails()) {
+            $result = array('status' => '0', 'error_type'=>'validation', 'msg' => $validator->errors());
+            return json_encode($result);
+        }
+
+        $invoice = $this->check_receipt_number($request->voucher_number);
+        // $reference = trim($request->reference);
+        //$duedate = date('Y-m-d',strtotime($request->expected));
+
+        $vou = new ReceiptVoucher();
+        $vou->voucher_no = $invoice;
+        $vou->for_date      = date('Y-m-d');
+        $vou->user_id       = $request->payer;
+        $vou->user_type     = 'tenant';
+        $vou->property_id   = $request->tower;
+        $vou->unit_id       = $request->unit;
+        $vou->voucher_type  = 'CASH';
+        $vou->total_amount  = $request->total_amount;
+        $vou->admin_id = auth()->user()->id;
+        if ($vou->save()) {
+            $i = 0;
+            foreach ($request->type as $des){
+                $data               = new ReceiptData();
+                $data->receipt_id   = $vou->id;
+                $data->description  = $request->type[$i];
+                $data->amount       = $request->amount[$i];
+                $data->remark      = $request->remark[$i];
+                $data->save();
+                $i++;
+            }
+
+            $result = array('status' => '1', 'msg' => 'Cash voucher receipt created successfully', 'voucher_no' => $vou->id);
+        } else {
+            $result = array('status' => '0', 'error_type'=>'other', 'msg' => 'Something went wrong!!');
+        }
+        return json_encode($result);
+    }
 
 }
