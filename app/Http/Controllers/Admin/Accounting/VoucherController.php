@@ -61,6 +61,7 @@ class VoucherController extends Controller
             $vou->unit_id       = $request->unit;
             $vou->voucher_type  = 'CASH';
             $vou->total_amount  = $request->total_amount;
+            $vou->sum_dhs       = $request->dhs;
             $vou->admin_id = auth()->user()->id;
         if ($vou->save()) {
             $i = 0;
@@ -144,17 +145,20 @@ class VoucherController extends Controller
         $vou->user_type     = 'tenant';
         $vou->property_id   = $request->tower;
         $vou->unit_id       = $request->unit;
-        $vou->voucher_type  = 'CASH';
+        $vou->voucher_type  = 'CHEQUE';
         $vou->total_amount  = $request->total_amount;
+        $vou->sum_dhs       = $request->dhs;
         $vou->admin_id = auth()->user()->id;
         if ($vou->save()) {
             $i = 0;
             foreach ($request->type as $des){
                 $data               = new ReceiptData();
                 $data->receipt_id   = $vou->id;
+                $data->bank         = $request->bank[$i];
                 $data->description  = $request->type[$i];
+                $data->cheque_no    = $request->cheque_no[$i];
                 $data->amount       = $request->amount[$i];
-                $data->remark      = $request->remark[$i];
+                $data->remark       = $request->remark[$i];
                 $data->save();
                 $i++;
             }

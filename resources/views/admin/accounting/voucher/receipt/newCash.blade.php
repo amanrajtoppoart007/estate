@@ -67,7 +67,7 @@
                         </tr>
                         <tr>
                             <td style="width: 21%;">The Sum of Dhs</td>
-                            <td></td>
+                            <td><input type="text" autocomplete="off" name="dhs" class="form-control"></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -174,23 +174,26 @@
                 $("#itembody").append('<tr id="' + uuid + '"><td><select class="form-control vDescription" name="type[]">' + td + '</select></td><td><input type="number" class="form-control amount decimal" name="amount[]"></td><td><textarea rows="1" name="remark[]" class="form-control"></textarea></td><td><button type="button" data-target="' + uuid + '" class="btn btn-sm removeRow bg-gradient-danger"><i class="fa fa-times"></i></button></td></tr>');
             });
 
-
+            function amount_calculate(){
+                let totalAmt = 0;
+                let thisval = 0 ;
+                $('.amount').each(function () {
+                    thisval  = $(this).val().length>0 ? $(this).val() : 0;
+                    totalAmt = totalAmt + parseFloat(thisval);
+                });
+                totalAmt =  parseFloat(totalAmt).toFixed(2);
+                $("#total_amount").val(totalAmt);
+                $("#totalAmtTd").html(totalAmt);
+            }
             $(document).on("click", "button.removeRow", function () {
 
                 let target = $(this).data('target');
 
                 $("#" + target).remove();
+                amount_calculate();
             });
             $(document).on("change", ".amount", function () {
-                let totalAmt = 0;
-                let thisval = 0 ;
-               $('.amount').each(function () {
-                   thisval  = $(this).val().length>0 ? $(this).val() : 0;
-                   totalAmt = totalAmt + parseFloat(thisval);
-               });
-                totalAmt =  parseFloat(totalAmt).toFixed(2);
-                $("#total_amount").val(totalAmt);
-                $("#totalAmtTd").html(totalAmt);
+                amount_calculate();
             });
 
             let fetchProperty = "{{route('select2.property.post')}}";

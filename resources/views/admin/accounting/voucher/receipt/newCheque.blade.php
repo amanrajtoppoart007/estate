@@ -67,7 +67,7 @@
                             </tr>
                             <tr>
                                 <td style="width: 21%;">The Sum of Dhs</td>
-                                <td><input type="text" name="dhs" class="form-control"></td>
+                                <td><input type="text" autocomplete="off" name="dhs" class="form-control"></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -115,14 +115,14 @@
                             <tbody id="itembody">
                             <tr id="firstrow">
                                 <td>
-                                    <select class="form-control">
+                                    <select name="bank[]" class="form-control">
                                         <option>ADCB</option>
                                         <option>XYZ</option>
                                     </select>
                                 </td>
-                                <td><input type="text" name="cheque_no[]" class="form-control"></td>
-                                <td><input type="text" name="cheque_date[]" class="form-control"></td>
-                                <td><input type="number" class="form-control amount decimal" name="amount[]"></td>
+                                <td><input type="text" autocomplete="off" name="cheque_no[]" class="form-control"></td>
+                                <td><input type="text" autocomplete="off" name="cheque_date[]" class="form-control datepicker"></td>
+                                <td><input type="number" autocomplete="off" class="form-control amount decimal" name="amount[]"></td>
                                 <td>
                                     <select class="form-control vDescription" name="type[]">
 
@@ -135,6 +135,7 @@
                                     </button>
                                 </td>
                             </tr>
+                            </tbody>
                             <tfoot>
                             <tr>
                                 <td colspan="7">
@@ -144,7 +145,7 @@
 
                             </tr>
                             </tfoot>
-                            </tbody></table>
+                        </table>
 
 
                     </div>
@@ -175,21 +176,17 @@
         $(document).ready(function () {
 
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+            initDatepicker();
             let td = "@foreach($trans_des as $td)<option value='{{$td}}'>{{str_replace('_', ' ', $td)}}</option>@endforeach";
             $(".vDescription").append(td);
             $("#addmore").click(function () {
                 let uuid = uuidv4();
-                $("#itembody").append('<tr id="' + uuid + '"><td> <select class="form-control"><option>ADCB</option><option>XYZ</option> </select></td><td><input type="text" name="cheque_no[]" class="form-control"></td><td><input type="text" name="cheque_date[]" class="form-control"></td><td><input type="number" class="form-control amount decimal" name="amount[]"></td><td> <select class="form-control vDescription" name="type[]">' + td + '</select></td><td><textarea rows="1" name="remark[]" class="form-control"></textarea></td><td> <button type="button" data-target="' + uuid + '" class="btn btn-sm removeRow bg-gradient-danger"><i class="fa fa-times"></i> </button></td></tr>');
+                $("#itembody").append('<tr id="' + uuid + '"><td> <select name="bank[]" class="form-control"><option>ADCB</option><option>XYZ</option> </select></td><td><input type="text" name="cheque_no[]" class="form-control" autocomplete="off"></td><td><input type="text" name="cheque_date[]" autocomplete="off" class="form-control datepicker"></td><td><input autocomplete="off" type="number" class="form-control amount decimal" name="amount[]"></td><td> <select class="form-control vDescription" name="type[]">' + td + '</select></td><td><textarea rows="1" name="remark[]" class="form-control"></textarea></td><td> <button type="button" data-target="' + uuid + '" class="btn btn-sm removeRow bg-gradient-danger"><i class="fa fa-times"></i> </button></td></tr>');
+                //$(".datepicker").datepicker({ footer: true, modal: false,format: 'dd-mm-yyyy'});
+
+             initDatepicker();
             });
-
-
-            $(document).on("click", "button.removeRow", function () {
-
-                let target = $(this).data('target');
-
-                $("#" + target).remove();
-            });
-            $(document).on("change", ".amount", function () {
+            function amount_calculate(){
                 let totalAmt = 0;
                 let thisval = 0 ;
                 $('.amount').each(function () {
@@ -199,6 +196,15 @@
                 totalAmt =  parseFloat(totalAmt).toFixed(2);
                 $("#total_amount").val(totalAmt);
                 $("#totalAmtTd").html(totalAmt);
+            }
+            $(document).on("click", "button.removeRow", function () {
+                let target = $(this).data('target');
+                $("#" + target).remove();
+                amount_calculate();
+            });
+
+            $(document).on("change", ".amount", function () {
+                amount_calculate();
             });
 
             let fetchProperty = "{{route('select2.property.post')}}";
@@ -348,7 +354,7 @@
 
 
         jQuery(document).ready(function () {
-            Khagesh.setPage("newCashVoucher"); //Set current page
+            Khagesh.setPage("newChequeVoucher"); //Set current page
             Khagesh.init(); //Initialise plugins and elements
         });
     </script>

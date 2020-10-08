@@ -30,7 +30,11 @@ var Khagesh = function() {
         onlynumber = function(e) {
             var t = e.keyCode ? e.keyCode : e.which; - 1 !== [8, 9, 13, 27, 46, 110, 190].indexOf(t) || 65 == t && (e.ctrlKey || e.metaKey) || t >= 35 && t <= 40 || t >= 48 && t <= 57 && !e.shiftKey && !e.altKey || t >= 96 && t <= 105 || e.preventDefault()
         },
-
+initDatepicker = function(){
+    $(".datepicker").each(function(item){
+        $(this).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy'});
+    });
+        },
         imgupload1 = function() {
             function readURL(input) {
                 if (input.files && input.files[0]) {
@@ -59,7 +63,8 @@ var Khagesh = function() {
         }, {
         init: function() {
 
-            Khagesh.isPage("newCashVoucher") && uuidv4() && todecimal(),
+            Khagesh.isPage("newCashVoucher") && uuidv4() && todecimal() && initDatepicker(),
+            Khagesh.isPage("newChequeVoucher") && uuidv4() && todecimal() && initDatepicker(),
             Khagesh.isPage("sem_yr_view") && uuidv4()
 
 
