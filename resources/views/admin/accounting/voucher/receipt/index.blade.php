@@ -1,8 +1,11 @@
 @extends('admin.layout.accounting')
 @section('css')
 <style>
-    table#dataTable thead, table#dataTable thead tr {
+    table#dataTable thead, table#dataTable thead tr th{
         background-color: #ffffff !important;
+    }
+    table#dataTable thead tr th {
+        color: #4c4545!important;
     }
 </style>
 
@@ -53,7 +56,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-bordered" id="dataTable">
+                    <table class="table w-100 display table-striped table-hover" id="dataTable">
                         <thead >
                         <tr>
                             <th>Date</th>
@@ -67,147 +70,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                               01/07/2020
-                            </td>
-                            <td>4545</td>
-                            <td>XYZ USER</td>
-                            <td>AED 3000.00</td>
-                            <td>
-                                Moon tower 2
-                            </td>
-                            <td>
-                                1305
-                            </td>
-                            <td>
-                                XYXZ USER
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success">Details</button>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                            </td>
-                        </tr> <tr>
-                            <td>
-                               01/07/2020
-                            </td>
-                            <td>4545</td>
-                            <td>XYZ USER</td>
-                            <td>AED 3000.00</td>
-                            <td>
-                                Moon tower 2
-                            </td>
-                            <td>
-                                1305
-                            </td>
-                            <td>
-                                XYXZ USER
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success">Details</button>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                            </td>
-                        </tr> <tr>
-                            <td>
-                               01/07/2020
-                            </td>
-                            <td>4545</td>
-                            <td>XYZ USER</td>
-                            <td>AED 3000.00</td>
-                            <td>
-                                Moon tower 2
-                            </td>
-                            <td>
-                                1305
-                            </td>
-                            <td>
-                                XYXZ USER
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success">Details</button>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                            </td>
-                        </tr> <tr>
-                            <td>
-                               01/07/2020
-                            </td>
-                            <td>4545</td>
-                            <td>XYZ USER</td>
-                            <td>AED 3000.00</td>
-                            <td>
-                                Moon tower 2
-                            </td>
-                            <td>
-                                1305
-                            </td>
-                            <td>
-                                XYXZ USER
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success">Details</button>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                            </td>
-                        </tr> <tr>
-                            <td>
-                               01/07/2020
-                            </td>
-                            <td>4545</td>
-                            <td>XYZ USER</td>
-                            <td>AED 3000.00</td>
-                            <td>
-                                Moon tower 2
-                            </td>
-                            <td>
-                                1305
-                            </td>
-                            <td>
-                                XYXZ USER
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success">Details</button>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                            </td>
-                        </tr> <tr>
-                            <td>
-                               01/07/2020
-                            </td>
-                            <td>4545</td>
-                            <td>XYZ USER</td>
-                            <td>AED 3000.00</td>
-                            <td>
-                                Moon tower 2
-                            </td>
-                            <td>
-                                1305
-                            </td>
-                            <td>
-                                XYXZ USER
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success">Details</button>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                            </td>
-                        </tr> <tr>
-                            <td>
-                               01/07/2020
-                            </td>
-                            <td>4545</td>
-                            <td>XYZ USER</td>
-                            <td>AED 3000.00</td>
-                            <td>
-                                Moon tower 2
-                            </td>
-                            <td>
-                                1305
-                            </td>
-                            <td>
-                                XYXZ USER
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-success">Details</button>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                            </td>
-                        </tr>
+                   
 
 
                         </tbody>
@@ -243,65 +106,13 @@
         $(document).ready(function () {
 
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    let fetchlink = '';
-            let dataTable = $('#dataTables').DataTable({
-                "dom": 'lBfrtip',
-                buttons: [
-
-                    'colvis',
-                    {
-                        extend: 'collection',
-                        text: 'Export',
-
-
-                        buttons: [{
-                            extend: 'print',
-                            messageTop: 'All Invoices',
-                            exportOptions: {
-                                columns: ':visible'
-                            },
-                            action: function(e, dt, button, config) {
-                                //responsiveToggle(dt);
-                                $.fn.DataTable.ext.buttons.print.action(e, dt, button, config);
-                                //responsiveToggle(dt);
-                            }
-                        },
-                            {
-                                extend: 'pdf',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-
-                            }, {
-                                extend: 'excelHtml5',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'csv',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-
-                            }, {
-                                extend: 'copy',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-
-                            },
-
-
-                        ]
-                    }
-                ]
-
-            });
-            let dataTable3 = $('#dataTables').DataTable({
+    let fetchlink = "{{route('all.receipt.dt')}}";
+let viewBanktrans = '';
+            let dataTable = $('#dataTable').DataTable({
                 "order": [[ 0, "desc" ]],
                 responsive: true,
                 "processing": true,
-                "serverSide": false,
+                "serverSide": true,
                 "ajax": {
                     url:fetchlink,
                     type: "post",
@@ -318,7 +129,7 @@
 
                 "aoColumns": [
                     {
-                        data: null
+                        data: 'id'
                     },
                     {
                         data: null,
@@ -337,11 +148,9 @@
 
                     {
                         data: null
-                    },
-                    {
+                    },{
                         data: null
-                    },
-                    {
+                    },{
                         data: null
                     },
 
@@ -379,7 +188,7 @@
                         orderable: false,
                         render: function( type, row, data, meta) {
 
-                            return '<a href="'+viewBanktrans+$.base64.encode(data.id)+'" class="btn btn-primary text-white">View</a>';
+                            return '<a href="'+viewBanktrans+data.id+'" class="btn btn-primary text-white">View</a>';
                         }
                     }
 
@@ -397,7 +206,7 @@
 
                         buttons: [{
                             extend: 'print',
-                            messageTop: 'All Invoices',
+                            messageTop: 'All Receipt',
                             exportOptions: {
                                 columns: ':visible'
                             },

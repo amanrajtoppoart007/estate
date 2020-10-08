@@ -130,7 +130,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
         }
     });
         console.log(formData);
- event.preventDefault();
+ e.preventDefault();
 });
 
 
