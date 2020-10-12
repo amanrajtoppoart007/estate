@@ -3,9 +3,7 @@
     $.render_breakdown_heading = function()
     {
         $("#rent_breakdown_grid").empty();
-        $("#rent_breakdown_grid").html(`<tr id="row_installment">
-                                <th>Installment</th>
-                            </tr>
+        $("#rent_breakdown_grid").html(`
                             <tr id="row_security_deposit">
                                 <th>Security Deposit</th>
                             </tr>
@@ -13,7 +11,7 @@
                                 <th>Municipality Fees</th>
                             </tr>
                             <tr id="row_brokerage">
-                                <th>Management Fees + Vat</th>
+                                <th>Commission + Vat</th>
                             </tr>
                             <tr id="row_contract">
                                 <th>Tenancy Contract</th>
@@ -25,7 +23,7 @@
                                 <th>S.E.W.A. Deposit</th>
                             </tr>
                             <tr id="row_monthly_installment">
-                                <th>Monthly Installment</th>
+                                <th>First Installment</th>
                             </tr>
                             <tr id="row_total_monthly_installment">
                                 <th>Total Monthly Installment</th>
@@ -45,10 +43,7 @@
       let sewa_deposit_constant = $("#sewa_deposit_constant").val();
       let municipality_fees = (monthly_amount * municipality_fees_constant) / 100;
 
-      console.log(installments);
-
-
-      for(let i=1;i<=installments;i++)
+      for(let i=1;i<=1;i++)
       {
           let total_rent_amount =0;
           if(i==1)
@@ -70,7 +65,6 @@
           {
                readonly = 'readonly';
           }
-          $("#row_installment").append(`<td>${$.render_installment_title(i)}</td>`);
           $("#row_security_deposit").append(`<td><input name="security_deposit[]" class="form-control numeric" value="${security_deposit_constant}" ${readonly}></td>`);
           $("#row_municipality_fees").append(`<td><input name="municipality_fees[]" class="form-control numeric" value="${municipality_fees}" ${readonly}></td>`);
           $("#row_brokerage").append(`<td><input name="brokerage[]" class="form-control numeric" value="${brokerage_constant}" ${readonly}></td>`);
