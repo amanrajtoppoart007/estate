@@ -1,13 +1,13 @@
 @extends('admin.layout.accounting')
 @section('css')
-<style>
-    table#dataTable thead, table#dataTable thead tr th{
-        background-color: #ffffff !important;
-    }
-    table#dataTable thead tr th {
-        color: #4c4545!important;
-    }
-</style>
+    <style>
+        table#dataTable thead, table#dataTable thead tr th{
+            background-color: #ffffff !important;
+        }
+        table#dataTable thead tr th {
+            color: #4c4545!important;
+        }
+    </style>
 
 @endsection
 @section('breadcrumb')
@@ -15,15 +15,15 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Receipt Voucher</h1>
+                    <h1 class="m-0 text-dark">Payment Voucher</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
                         <li class="breadcrumb-item active">Accounting</li>
                         <li class="breadcrumb-item active">Voucher</li>
-                        <li class="breadcrumb-item active">Receipt</li>
-                        <li class="breadcrumb-item active">All Receipt</li>
+                        <li class="breadcrumb-item active">Payment</li>
+                        <li class="breadcrumb-item active">All Payments</li>
                     </ol>
                 </div>
             </div>
@@ -34,7 +34,7 @@
     <!-- card 1 -->
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">All Receipt</h3>
+            <h3 class="card-title">All Payments</h3>
 
             <div class="card-tools">
 
@@ -49,19 +49,19 @@
                 </div>
                 <div class="col-md-6 ">
                     <div class="form-inline float-right">
-                    From <input type="text" class="form-control" value="20/02/2020">
-                    To <input type="text" class="form-control" value="20/07/2020">
+                        From <input type="text" class="form-control" value="20/02/2020">
+                        To <input type="text" class="form-control" value="20/07/2020">
                     </div>
                 </div>
             </div>
-                    <div class="row">
+            <div class="row">
                 <div class="col-md-12">
                     <table class="table w-100 display table-striped table-hover" id="dataTable">
                         <thead >
                         <tr>
                             <th>Date</th>
                             <th>Voucher #</th>
-                            <th>Received From</th>
+                            <th>Paid To</th>
                             <th>Amount</th>
                             <th>Tower</th>
                             <th>Flat</th>
@@ -101,17 +101,14 @@
     <!-- /.card 1-->
 
 @endsection
-
 @section('script')
-
     <script>
         $(document).ready(function () {
 
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    let fetchlink = "{{route('all.receipt.dt')}}";
-let viewVoucherRoute = "{{route('view.receipt.voucher',['id'=>'123'])}}";
-let viewVoucherlink = viewVoucherRoute.slice(0,-3);
-
+            let fetchlink = "{{route('all.payment.voucher.dt')}}";
+            let viewVoucherRoute = "{{route('view.receipt.voucher',['id'=>'123'])}}";
+            let viewVoucherlink = viewVoucherRoute.slice(0,-3);
             let dataTable = $('#dataTable').DataTable({
                 "order": [[ 0, "desc" ]],
                 responsive: true,
@@ -166,7 +163,7 @@ let viewVoucherlink = viewVoucherRoute.slice(0,-3);
                         orderable: true,
                         visible:true,
                         render: function( type, row, data, meta) {
-                             return data.for_date;;
+                            return data.for_date;
                         }
                     },
                     {
@@ -253,7 +250,7 @@ let viewVoucherlink = viewVoucherRoute.slice(0,-3);
 
                         buttons: [{
                             extend: 'print',
-                            messageTop: 'All Receipt',
+                            messageTop: 'All Payment Voucher',
                             exportOptions: {
                                 columns: ':visible'
                             },
@@ -296,7 +293,6 @@ let viewVoucherlink = viewVoucherRoute.slice(0,-3);
 
 
             });
-
 
         });
     </script>

@@ -4,14 +4,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Receipt Voucher</h1>
+                    <h1 class="m-0 text-dark">Payment Voucher</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
                         <li class="breadcrumb-item active">Accounting</li>
                         <li class="breadcrumb-item active">Voucher</li>
-                        <li class="breadcrumb-item active">Receipt</li>
+                        <li class="breadcrumb-item active">Payment</li>
                         <li class="breadcrumb-item active">New Cash</li>
                     </ol>
                 </div>
@@ -23,7 +23,7 @@
     <!-- card 1 -->
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">New Receipt Voucher Cash</h3>
+            <h3 class="card-title">New Payment Voucher Cash</h3>
 
             <div class="card-tools">
 
@@ -49,10 +49,10 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td style="width: 21%;">Received From Mr./M/s</td>
+                            <td style="width: 21%;">Pay to Mr./M/s</td>
                             <td>
                                 <select id="select_tenant" name="payer" class="form-control" style="width:100%;">
-                                    <option>Select Payer</option>
+                                    <option>Select Receiver</option>
                                 </select></td>
                             <td></td>
                         </tr>
@@ -67,7 +67,7 @@
                         </tr>
                         <tr>
                             <td style="width: 21%;">The Sum of Dhs</td>
-                            <td><input type="text" autocomplete="off" name="dhs" class="form-control"></td>
+                            <td></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -174,32 +174,29 @@
                 $("#itembody").append('<tr id="' + uuid + '"><td><select class="form-control vDescription" name="type[]">' + td + '</select></td><td><input type="number" class="form-control amount decimal" name="amount[]"></td><td><textarea rows="1" name="remark[]" class="form-control"></textarea></td><td><button type="button" data-target="' + uuid + '" class="btn btn-sm removeRow bg-gradient-danger"><i class="fa fa-times"></i></button></td></tr>');
             });
 
-            function amount_calculate(){
-                let totalAmt = 0;
-                let thisval = 0 ;
-                $('.amount').each(function () {
-                    thisval  = $(this).val().length>0 ? $(this).val() : 0;
-                    totalAmt = totalAmt + parseFloat(thisval);
-                });
-                totalAmt =  parseFloat(totalAmt).toFixed(2);
-                $("#total_amount").val(totalAmt);
-                $("#totalAmtTd").html(totalAmt);
-            }
+
             $(document).on("click", "button.removeRow", function () {
 
                 let target = $(this).data('target');
 
                 $("#" + target).remove();
-                amount_calculate();
             });
             $(document).on("change", ".amount", function () {
-                amount_calculate();
+                let totalAmt = 0;
+                let thisval = 0 ;
+               $('.amount').each(function () {
+                   thisval  = $(this).val().length>0 ? $(this).val() : 0;
+                   totalAmt = totalAmt + parseFloat(thisval);
+               });
+                totalAmt =  parseFloat(totalAmt).toFixed(2);
+                $("#total_amount").val(totalAmt);
+                $("#totalAmtTd").html(totalAmt);
             });
 
             let fetchProperty = "{{route('select2.property.post')}}";
             let fetchUnitByProperty = "{{route('select.units.by.prop')}}";
             let fetchtenant = "{{route('select2.tenant.post')}}";
-            let createVoucher = "{{route('new.cash.voucher.store')}}";
+            let createVoucher = "{{route('cash.payment.voucher.store')}}";
 
             $("#select_tenant").select2({
                 placeholder: "Choose Payer...",

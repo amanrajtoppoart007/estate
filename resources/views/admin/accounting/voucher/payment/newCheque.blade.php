@@ -4,14 +4,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Receipt Voucher</h1>
+                    <h1 class="m-0 text-dark">Payment Voucher</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
                         <li class="breadcrumb-item active">Accounting</li>
                         <li class="breadcrumb-item active">Voucher</li>
-                        <li class="breadcrumb-item active">Receipt</li>
+                        <li class="breadcrumb-item active">Payment</li>
                         <li class="breadcrumb-item active">New Cheque Voucher</li>
                     </ol>
                 </div>
@@ -23,7 +23,7 @@
     <!-- card 1 -->
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">New Receipt Voucher Cheque</h3>
+            <h3 class="card-title">New Payment Voucher Cheque</h3>
 
             <div class="card-tools">
 
@@ -49,10 +49,10 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="width: 21%;">Received From Mr./M/s</td>
+                                <td style="width: 21%;">Pay to Mr./M/s</td>
                                 <td>
                                     <select id="select_tenant" name="payer" class="form-control" style="width:100%;">
-                                        <option>Select Payer</option>
+                                        <option>Select Receiver</option>
                                     </select></td>
                                 <td></td>
                             </tr>
@@ -184,7 +184,7 @@
                 $("#itembody").append('<tr id="' + uuid + '"><td> <select name="bank[]" class="form-control"><option>ADCB</option><option>XYZ</option> </select></td><td><input type="text" name="cheque_no[]" class="form-control" autocomplete="off"></td><td><input type="text" name="cheque_date[]" autocomplete="off" class="form-control datepicker"></td><td><input autocomplete="off" type="number" class="form-control amount decimal" name="amount[]"></td><td> <select class="form-control vDescription" name="type[]">' + td + '</select></td><td><textarea rows="1" name="remark[]" class="form-control"></textarea></td><td> <button type="button" data-target="' + uuid + '" class="btn btn-sm removeRow bg-gradient-danger"><i class="fa fa-times"></i> </button></td></tr>');
                 //$(".datepicker").datepicker({ footer: true, modal: false,format: 'dd-mm-yyyy'});
 
-             initDatepicker();
+                initDatepicker();
             });
             function amount_calculate(){
                 let totalAmt = 0;
