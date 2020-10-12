@@ -4,14 +4,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Receipt Voucher</h1>
+                    <h1 class="m-0 text-dark">Payment Voucher</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
                         <li class="breadcrumb-item active">Accounting</li>
                         <li class="breadcrumb-item active">Voucher</li>
-                        <li class="breadcrumb-item active">Receipt</li>
+                        <li class="breadcrumb-item active">Payment</li>
                         <li class="breadcrumb-item active">New Cash</li>
                     </ol>
                 </div>
@@ -23,7 +23,7 @@
     <!-- card 1 -->
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">New Receipt Voucher Cash</h3>
+            <h3 class="card-title">New Payment Voucher Cash</h3>
 
             <div class="card-tools">
 
@@ -49,10 +49,10 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td style="width: 21%;">Received From Mr./M/s</td>
+                            <td style="width: 21%;">Pay to Mr./M/s</td>
                             <td>
                                 <select id="select_tenant" name="payer" class="form-control" style="width:100%;">
-                                    <option>Select Payer</option>
+                                    <option>Select Receiver</option>
                                 </select></td>
                             <td></td>
                         </tr>
@@ -196,7 +196,7 @@
             let fetchProperty = "{{route('select2.property.post')}}";
             let fetchUnitByProperty = "{{route('select.units.by.prop')}}";
             let fetchtenant = "{{route('select2.tenant.post')}}";
-            let createVoucher = "{{route('new.cash.voucher.store')}}";
+            let createVoucher = "{{route('cash.payment.voucher.store')}}";
 
             $("#select_tenant").select2({
                 placeholder: "Choose Payer...",

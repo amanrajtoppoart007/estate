@@ -9,15 +9,19 @@ Route::prefix('accounts')->group(function () {
     Route::get('new-lease-contract', 'Admin\Accounting\AccountingController@new_lease_contracts')->name('contracts.lease.new');
     //// Voucher
     Route::get('new-cash-receipt', 'Admin\Accounting\AccountingController@receipt_cash_new')->name('new.receipt.cash');
-
     Route::post('new-cash-voucher-create', 'Admin\Accounting\VoucherController@store_new_cash_voucher')->name('new.cash.voucher.store');
-
-
     Route::get('new-cheque-receipt', 'Admin\Accounting\AccountingController@receipt_cheque_new')->name('new.receipt.cheque');
     Route::post('new-cheque-voucher-create', 'Admin\Accounting\VoucherController@store_new_cheque_voucher')->name('new.cheque.voucher.store');
-
-    Route::get('all-receipt', 'Admin\Accounting\AccountingController@all_receipt')->name('all.receipt');
+    Route::get('view-receipt-voucher/{id}', 'Admin\Accounting\AccountingController@view_receipt_voucher')->name('view.receipt.voucher');
+    Route::get('all-receipt', 'Admin\Accounting\AccountingController@all_receipt_voucher')->name('all.receipt');
     Route::post('all-receipt-dt', 'Admin\Accounting\VoucherController@fetch_all_receipt_voucher')->name('all.receipt.dt');
+
+    Route::get('new-cash-payment', 'Admin\Accounting\AccountingController@payment_cash_new')->name('new.payment.cash');
+    Route::get('new-cheque-payment', 'Admin\Accounting\AccountingController@payment_cheque_new')->name('new.payment.cheque');
+    Route::get('all-payment-voucher', 'Admin\Accounting\AccountingController@all_payment_voucher')->name('all.payment.voucher');
+    Route::post('cash-payment-voucher-insert', 'Admin\Accounting\VoucherController@store_new_cash_payment_voucher')->name('cash.payment.voucher.store');
+    Route::post('all-payment-vouchers-dt', 'Admin\Accounting\VoucherController@fetch_all_payment_vouchers')->name('all.payment.voucher.dt');
+
 
     Route::get('chart-of-accounts', 'Admin\Accounting\AccountingController@chart_of_acccoutns')->name('acc.chart.of.accounts');
     Route::post('fetch-chart-of-dt', 'Admin\Accounting\CoaController@datatable_coa')->name('chart.of.accounts.dt');

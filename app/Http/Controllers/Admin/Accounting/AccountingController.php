@@ -11,6 +11,7 @@ use App\BankAccount;
 
 use App\Http\Controllers\Controller;
 
+use App\PaymentVoucher;
 use App\ReceiptVoucher;
 use Illuminate\Http\Request;
 
@@ -166,11 +167,55 @@ class AccountingController extends Controller
         return view('admin.accounting.voucher.receipt.newCheque')->with($data);
 
     }
-    public function all_receipt()
+    public function view_receipt_voucher($id='')
+
+    {
+        $data = array();
+        $td = AccountingSetting::where('name','transaction_description')->pluck('value')->first();
+
+        return view('admin.accounting.voucher.receipt.view')->with($data);
+
+    }
+    public function all_receipt_voucher()
 
     {
 
         return view('admin.accounting.voucher.receipt.index');
+
+    }
+    public function payment_cash_new()
+
+    {
+        $data = array();
+        $td = AccountingSetting::where('name','transaction_description')->pluck('value')->first();
+        $data['trans_des']  =  json_decode($td);
+        $lastdata         = PaymentVoucher::orderBy('id','DESC')->first();
+
+        $lastid         = !empty($lastdata) ? $lastdata->voucher_no : 0;
+
+        $data['new_no'] = $lastid+1;
+        return view('admin.accounting.voucher.payment.newCash')->with($data);
+
+    }
+    public function payment_cheque_new()
+
+    {
+        $data = array();
+        $td = AccountingSetting::where('name','transaction_description')->pluck('value')->first();
+        $data['trans_des']  =  json_decode($td);
+        $lastdata         = PaymentVoucher::orderBy('id','DESC')->first();
+
+        $lastid         = !empty($lastdata) ? $lastdata->voucher_no : 0;
+
+        $data['new_no'] = $lastid+1;
+        return view('admin.accounting.voucher.payment.newCheque')->with($data);
+
+    }
+    public function all_payment_voucher()
+
+    {
+
+        return view('admin.accounting.voucher.payment.index');
 
     }
 //////////// Voucher  end ////////////

@@ -61,7 +61,7 @@
                         <tr>
                             <th>Date</th>
                             <th>Voucher #</th>
-                            <th>Received From</th>
+                            <th>Paid To</th>
                             <th>Amount</th>
                             <th>Tower</th>
                             <th>Flat</th>
@@ -106,8 +106,9 @@
         $(document).ready(function () {
 
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-            let fetchlink = "{{route('all.receipt.dt')}}";
-            let viewBanktrans = '';
+            let fetchlink = "{{route('all.payment.voucher.dt')}}";
+            let viewVoucherRoute = "{{route('view.receipt.voucher',['id'=>'123'])}}";
+            let viewVoucherlink = viewVoucherRoute.slice(0,-3);
             let dataTable = $('#dataTable').DataTable({
                 "order": [[ 0, "desc" ]],
                 responsive: true,
@@ -160,9 +161,9 @@
                     {
                         "targets": 0,
                         orderable: true,
-                        visible:false,
+                        visible:true,
                         render: function( type, row, data, meta) {
-                            return data.id;
+                            return data.for_date;
                         }
                     },
                     {
@@ -231,7 +232,7 @@
                         orderable: false,
                         render: function( type, row, data, meta) {
 
-                            return '<a href="'+viewBanktrans+data.id+'" class="btn btn-primary text-white">View</a>';
+                            return '<a href="'+viewVoucherlink+data.id+'" class="btn btn-primary text-white">View</a>';
                         }
                     }
 
@@ -249,7 +250,7 @@
 
                         buttons: [{
                             extend: 'print',
-                            messageTop: 'All Receipt',
+                            messageTop: 'All Payment Voucher',
                             exportOptions: {
                                 columns: ':visible'
                             },

@@ -103,12 +103,15 @@
 @endsection
 
 @section('script')
+
     <script>
         $(document).ready(function () {
 
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     let fetchlink = "{{route('all.receipt.dt')}}";
-let viewBanktrans = '';
+let viewVoucherRoute = "{{route('view.receipt.voucher',['id'=>'123'])}}";
+let viewVoucherlink = viewVoucherRoute.slice(0,-3);
+
             let dataTable = $('#dataTable').DataTable({
                 "order": [[ 0, "desc" ]],
                 responsive: true,
@@ -161,9 +164,9 @@ let viewBanktrans = '';
                     {
                         "targets": 0,
                         orderable: true,
-                        visible:false,
+                        visible:true,
                         render: function( type, row, data, meta) {
-                            return data.id;
+                             return data.for_date;;
                         }
                     },
                     {
@@ -232,7 +235,7 @@ let viewBanktrans = '';
                         orderable: false,
                         render: function( type, row, data, meta) {
 
-                            return '<a href="'+viewBanktrans+data.id+'" class="btn btn-primary text-white">View</a>';
+                            return '<a href="'+viewVoucherlink+data.id+'" class="btn btn-primary text-white">View</a>';
                         }
                     }
 
@@ -293,6 +296,7 @@ let viewBanktrans = '';
 
 
             });
+
 
         });
     </script>

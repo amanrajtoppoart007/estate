@@ -83,15 +83,15 @@
                                 <li class="dropdown-submenu">
                                     <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Cash</a>
                                     <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
-                                        <li><a href="#" class="dropdown-item">Create New</a></li>
-                                        <li><a href="#" class="dropdown-item">View/Edit</a></li>
+                                        <li><a href="{{route('new.payment.cash')}}" class="dropdown-item">Create New</a></li>
+                                        <li><a href="{{route('all.payment.voucher')}}" class="dropdown-item">View/Edit</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown-submenu">
                                     <a id="paymentCashSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Check</a>
                                     <ul aria-labelledby="paymentCashSubMenu3" class="dropdown-menu border-0 shadow">
-                                        <li><a href="#" class="dropdown-item">Create New</a></li>
-                                        <li><a href="#" class="dropdown-item">View/Edit</a></li>
+                                        <li><a href="{{route('new.payment.cheque')}}" class="dropdown-item">Create New</a></li>
+                                        <li><a href="{{route('all.payment.voucher')}}" class="dropdown-item">View/Edit</a></li>
                                     </ul>
                                 </li>
 
