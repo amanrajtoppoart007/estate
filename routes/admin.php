@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/home', 'Admin\DashboardController@index')->name('master.dashboard');
+Route::get('insert-some-data', 'TestController@insert_some_data');
 
 ////Accounting routes
 Route::prefix('accounting')->group(function () {
@@ -39,6 +40,7 @@ Route::prefix('tenant')->group(function () {
     Route::post('allot/property', 'Admin\TenantController@allotPropertyToTenant')->name('allot.property');
     Route::post('changeStatus', 'Admin\TenantController@changeStatus')->name('tenant.changeStatus');
     Route::get('tenant-remove-request', 'Admin\PropertyAllotmentController@tenant_remove_request')->name('tenant.remove.req');
+    Route::post('fetch-tenant-for-select2', 'Admin\AjaxController@select2_get_tenant')->name('select2.tenant.post');
 });
 Route::prefix('allot-property')->group(function () {
     Route::get('tenant/{id}', 'Admin\PropertyAllotmentController@index')->name('tenant.allot.property');

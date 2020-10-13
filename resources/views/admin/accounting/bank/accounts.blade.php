@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('admin.layout.accounting')
 @section('head')
 <link rel="stylesheet" href="{{asset('DataTable/datatables.min.css')}}">
 @endsection
@@ -18,11 +18,11 @@
           </div>
         </div>
       </div>
-  @endsection	
+  @endsection
 @section('content')
 
-       
-      
+
+
         <div class="card">
             <div class="card-header"> <h6> <strong>All Bank Accounts</strong> </h6> </div>
             <div class="row">
@@ -38,18 +38,18 @@
                     <th>Bank</th>
                     <th>Remark</th>
                     <th>Status</th>
-                   
+
                     <th>Action</th>
                 </tr>
             </thead>
         </table>
             </div>
         </div>
-        
-     
-      
-     
-       
+
+
+
+
+
 @endsection
 @section('script')
 @section('modal')
@@ -90,7 +90,7 @@
 @endsection
 <script type="text/javascript" src="{{asset('plugin/jquery/jquery.base64.js')}}"></script>
  <script>
-   
+
 var fetchlink   =  "{{route('acc.bank.datatable')}}";
 var viewBanktransroute    = "{{route('acc.bank.tans',['account'=>'123'])}}";
 var createnewAcc    = "{{route('acc.bank.store')}}";
@@ -102,7 +102,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
             }
         });
 
-        $(document).on('submit', '#CreateNewAccForm', function(e) {  
+        $(document).on('submit', '#CreateNewAccForm', function(e) {
     var formData = new FormData($(this)[0]);
     $.ajax({
         url: createnewAcc,
@@ -117,9 +117,9 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
           //console.log(result);
           if(result.status=='1'){
             alert(result.msg);
-            
+
            setTimeout(function(){ location.reload(); }, 1000);
-             
+
           }else{
             toast('error',result.msg,'top-center');
           }
@@ -130,12 +130,12 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
         }
     });
         console.log(formData);
- event.preventDefault();
+ e.preventDefault();
 });
-       
-    
-     
-        var dataTable = $('#dataTable').DataTable({            
+
+
+
+        let dataTable = $('#dataTable').DataTable({
             "order": [[ 0, "desc" ]],
             responsive: true,
             "processing": true,
@@ -172,7 +172,7 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
                 {
                     data: null
                 },
-               
+
                  {
                     data: null
                 },
@@ -210,11 +210,11 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
                     "targets": 5,
                     orderable: false,
                     render: function( type, row, data, meta) {
-                       
+
                         return '<a href="'+viewBanktrans+$.base64.encode(data.id)+'" class="btn btn-primary text-white">View</a>';
                     }
-                } 
-               
+                }
+
 
 
             ],
@@ -273,13 +273,13 @@ var viewBanktrans = viewBanktransroute.slice(0,-3);
 
         });
 
-       
+
 
 
     });
-          
-  
-          
-   
+
+
+
+
  </script>
 @endsection

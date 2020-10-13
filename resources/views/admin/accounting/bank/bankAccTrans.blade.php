@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('admin.layout.accounting')
 @section('head')
 <link rel="stylesheet" href="{{asset('DataTable/datatables.min.css')}}">
 <style>
