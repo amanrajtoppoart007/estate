@@ -4,6 +4,7 @@
 namespace App\DataTable;
 
 use App\DataTable\Filters\Filter;
+use App\DataTable\Shorting\Shorting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -46,11 +47,11 @@ class Api extends DataTable
        $builder = $builder->get();
        return $builder->count();
     }
-   public function applyOrderFilter(array $request, Builder $builder)
+   public function applyOrderFilter(Builder $builder)
    {
-        if(!isset($request['order']))
+        if(isset(request()->order))
         {
-            $builder = Filter::apply($builder,'order',['created_at','DESC']);
+            $builder = Shorting::apply($builder,class_basename($this->model));
         }
         return $builder;
    }
@@ -74,7 +75,7 @@ class Api extends DataTable
                     }
                 }
             }
-            $builder = $this->applyOrderFilter($request,$builder);
+            $builder = $this->applyOrderFilter($builder);
             return $builder;
         }
         else
@@ -112,7 +113,7 @@ class Api extends DataTable
 
          if($builder)
          {
-             if($this->model::count()>5000);
+             if($this->model::count()>5000)
              {
                  ini_set('memory_limit', '1024M');
              }

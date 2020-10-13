@@ -137,8 +137,7 @@ class PropertyUnitController extends Controller
             $property_unit = PropertyUnit::find($id);
             if(!empty($property_unit))
             {
-                $view          = new SingleUnitView($property_unit);
-                $property_unit = $view->execute();
+                $property_unit =  (new SingleUnitView($property_unit))->execute();
                 return view('admin.propertyUnit.view',compact('property_unit'));
             }
             else

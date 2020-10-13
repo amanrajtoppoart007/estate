@@ -14,21 +14,15 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                        <div class="form-group">
-                            <label for="state_id">Emirates/State</label>
-                            <select class="form-control" name="state_id" id="state_id">
-                                <option value="">Select State</option>
-                                @foreach($states as $state)
-                                    <option value="{{$state->id}}">{{$state->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+
                     <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <div class="form-group">
                             <label for="city_id">City</label>
                             <select class="form-control" name="city_id" id="city_id">
+                                 <option value="">Select City</option>
+                                @foreach($cities as $city)
+                                    <option value="{{$city->id}}">{{$city->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -273,26 +267,22 @@
             $("#tenancy_type,#unit_type,#rent_amount,#installments").on("change", function () {
                if(!$.trim($("#tenancy_type").val()))
                 {
-                    toast('error','Please select tenancy type','bottom-right');
-                    $("#tenancy_type").css({'border-color':'aqua'}).focus();
+                    $("#tenancy_type").css({'border-color':'red'}).trigger("focus");
                     return false;
                 }
                if(!$.trim($("#unit_type").val()))
                 {
-                    toast('error','Please select unit type','bottom-right');
-                    $("#unit_type").css({'border-color':'aqua'}).focus();
+                    $("#unit_type").css({'border-color':'red'}).trigger("focus");
                     return false;
                 }
                if(!$.trim($("#rent_amount").val()))
                 {
-                    toast('error','Please enter total rent amount','bottom-right');
-                    $("#rent_amount").css({'border-color':'aqua'}).focus();
+                    $("#rent_amount").css({'border-color':'red'}).trigger("focus");
                     return false;
                 }
                if(!$.trim($("#installments").val()))
                 {
-                    toast('error','Please enter no. of installments','bottom-right');
-                    $("#installments").css({'border-color':'aqua'}).focus();
+                    $("#installments").css({'border-color':'red'}).trigger("focus");
                     return false;
                 }
                  get_breakdown_config();
@@ -338,20 +328,17 @@
          {
            if(!$.trim($('#rent_period_type').val()))
                 {
-                    toast('error','Please select rent period type','bottom-right');
-                    $('#rent_period_type').css({'border-color':'aqua'}).focus();
+                    $('#rent_period_type').css({'border-color':'aqua'}).trigger("focus");
                     return false;
                 }
                 if(!$.trim($('#rent_period').val()))
                 {
-                    toast('error','Please select Enter rent period','bottom-right');
-                    $('#rent_period').css({'border-color':'aqua'}).focus();
+                    $('#rent_period').css({'border-color':'aqua'}).trigger("focus");
                     return false;
                 }
                 if(!$.trim($('#lease_start').val()))
                 {
-                    toast('error','Please select Enter rent start date','bottom-right');
-                    $('#lease_start').css({'border-color':'aqua'}).focus();
+                    $('#lease_start').css({'border-color':'aqua'}).trigger("focus");
                     return false;
                 }
                 let url    = "{{route('calculate.endDate')}}";
@@ -447,10 +434,10 @@
             let params = {'property_id' : $(this).val()};
             function fn_success(result)
             {
-                    let options = `<option value="">Select Unit</option>`;
+                    let options = `<option value="">Select Flat</option>`;
                      $.each(result.data,function(i,item)
                      {
-                        options += `<option value="${item.id}">${item.unitcode}</option>`;
+                        options += `<option value="${item.id}">${item.flat_house_no}</option>`;
 
                      });
                      $("#unit_id").html(options);

@@ -46,14 +46,4 @@ class Filter implements FilterInterface
       }
        return $builder;
    }
-
-    /**
-     * @param $builder
-     * @param $value
-     * @return mixed
-     */
-   public static function order($builder,$value)
-   {
-      return $builder->orderBy('created_at','DESC');
-   }
 }

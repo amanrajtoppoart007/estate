@@ -10,7 +10,7 @@ class SingleUnitView extends ObjectView
     }
     public function execute()
     {
-        if(!empty($this->unit)) 
+        if(!empty($this->unit))
         {
             $result                   = array();
             $result['property_title'] = $this->return_object_key($this->unit->property,'title');
@@ -33,9 +33,9 @@ class SingleUnitView extends ObjectView
             $result['owner_passport'] = route('get.doc',base64_encode($this->return_object_key($this->unit->owner,'passport')));
             $result['owner_emirates_id'] = $this->return_object_key($this->unit->owner,'emirates_id');
             $result['owner_visa']     = route('get.doc', base64_encode($this->return_object_key($this->unit->owner,'visa')));
-            $result['owner_country']  = $this->return_object_key($this->unit->owner,'country');
-            $result['owner_state']    = $this->return_object_key($this->unit->owner,'state');
-            $result['owner_city']     = $this->return_object_key($this->unit->owner,'city');
+            $result['owner_country']  = $this->unit->country ? $this->unit->country->name : '';
+            $result['owner_state']    = $this->unit->state ? $this->unit->state->name : '';
+            $result['owner_city']     = $this->unit->city ? $this->unit->state->city : '';
             $result['owner_address']  = $this->return_object_key($this->unit->owner,'address');
             if($this->unit->allotment_type == 'rent')
             {
@@ -73,5 +73,5 @@ class SingleUnitView extends ObjectView
         }
         return [];
     }
-    
+
 }
