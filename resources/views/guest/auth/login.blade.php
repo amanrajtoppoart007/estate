@@ -1,4 +1,4 @@
-@extends("guest.layout.main")
+@extends("guest.layout.auth")
 @section("content")
     <!-- Login Section -->
     <div class="container-fluid mb-5 py-5">
