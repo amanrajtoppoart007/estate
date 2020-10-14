@@ -31,9 +31,6 @@ class EditTenant extends FormRequest
         $validate = [
             'tenant_type'=>'required',
             'country_id'=>'required|numeric',
-            'state_id'=>'required|numeric',
-            'city_id'=>'required|numeric',
-            'address'=>'required',
             'name'=>'required',
             'email'=>'required|email',
             'mobile'=>'required|numeric|digits:10',
@@ -69,7 +66,7 @@ class EditTenant extends FormRequest
                 $validate['tenant_count'] = 'required|numeric';
                 $validate['rel_name.*'] = 'required';
                 $validate['rel_relationship.*'] = 'required';
-                $validate['rel_amirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
+                $validate['rel_emirates_id.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
                 $validate['rel_passport.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
                 $validate['rel_visa.*'] = 'required|mimes:jpeg,jpg,png,gif,pdf|max:10000';
             }

@@ -19,13 +19,13 @@ class CreateInstallments
         $count   = count($request['monthly_installment']);
         for($i=0;$i<$count;$i++)
         {
-            $security_deposit   = isset($request['security_deposit'][$i])?$request['security_deposit'][$i]:0;
-            $municipality_fees  = isset($request['municipality_fees'][$i])?(($request['monthly_installment'][$i]*4)/100):0;
-            $brokerage          = isset($request['brokerage'][$i])?$request['brokerage'][$i]:0;
-            $contract           = isset($request['contract'][$i])?$request['contract'][$i]:0;
-            $remote_deposit     = isset($request['remote_deposit'][$i])?$request['remote_deposit'][$i]:0;
-            $sewa_deposit       = isset($request['sewa_deposit'][$i])?$request['sewa_deposit'][$i]:0;
-            $amount             = isset($request['monthly_installment'][$i])?$request['monthly_installment'][$i]:0;
+            $security_deposit   = isset($request['security_deposit'][0])?$request['security_deposit'][0]:0;
+            $municipality_fees  = isset($request['municipality_fees'][0])?(($request['monthly_installment'][0]*4)/100):0;
+            $brokerage          = isset($request['brokerage'][0])?$request['brokerage'][0]:0;
+            $contract           = isset($request['contract'][0])?$request['contract'][0]:0;
+            $remote_deposit     = isset($request['remote_deposit'][0])?$request['remote_deposit'][0]:0;
+            $sewa_deposit       = isset($request['sewa_deposit'][0])?$request['sewa_deposit'][0]:0;
+            $amount             = isset($request['monthly_installment'][0])?$request['monthly_installment'][0]:0;
             $total_amount       = GlobalHelper::get_sum($security_deposit,$municipality_fees,$brokerage,$contract,$remote_deposit,$sewa_deposit,$amount);
 
             $installment['property_unit_allotment_id'] = $this->unit_allotment_id;

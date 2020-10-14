@@ -1,4 +1,4 @@
-(function($) {
+
 
     $.render_breakdown_heading = function()
     {
@@ -46,7 +46,7 @@
       for(let i=1;i<=1;i++)
       {
           let total_rent_amount =0;
-          if(i==1)
+          if(i===1)
           {
               total_rent_amount = parseFloat(monthly_amount) + parseFloat(brokerage_constant) + parseFloat(security_deposit_constant) + parseFloat(municipality_fees) + parseFloat(contract_constant)
               + parseFloat(remote_deposit_constant) + parseFloat(sewa_deposit_constant);
@@ -118,4 +118,4 @@
         $('input[name="total_monthly_installment[]"]').eq(index).val(total_rent_amount);
 
   }
-})(jQuery);
+

@@ -108,74 +108,7 @@
                                      </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="state_id">State <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
-                                         </div>
 
-                                             <select class="form-control" name="state_id" id="state_id">
-                                                 <option value="">Select State</option>
-                                                 @foreach($states as $state)
-                                                 @php
-                                                   if(!empty($tenant->state_id))
-                                                    {
-                                                         $selected = ($state->id==$tenant->state_id)?"selected":null;
-                                                    }
-                                                    else
-                                                    {
-                                                       $selected = null;
-                                                    }
-                                                    @endphp
-                                                     <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
-                                                 @endforeach
-                                             </select>
-                                     </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="city_id">City <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
-                                         </div>
-                                             <select class="form-control" name="city_id" id="city_id">
-                                                 <option value="">Select City</option>
-                                                 @foreach($cities as $city)
-                                                 @php
-                                                   if(!empty($tenant->city_id))
-                                                    {
-                                                         $selected = ($city->id==$tenant->city_id)?"selected":null;
-                                                    }
-                                                    else
-                                                    {
-                                                       $selected = null;
-                                                    }
-                                                    @endphp
-                                                     <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
-                                                 @endforeach
-                                             </select>
-                                     </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="address">Address <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text">
-                                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                             </span>
-                                         </div>
-                                         <textarea name="address" id="address" class="form-control">
-                                             {{$tenant->address}}
-                                         </textarea>
-                                     </div>
-                                    </div>
-                                </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
                                         <label for="dob">Date Of Birth</label>
@@ -681,12 +614,6 @@
 <script>
     $(document).ready(function(){
 
-        $("#country_id").on("change",function(){
-            $.get_state_list($("#country_id"),$("#state_id"));
-        });
-        $("#state_id").on("change",function(){
-            $.get_city_list($("#state_id"),$("#city_id"));
-        });
 
         function applied_class_hide(elements)
         {

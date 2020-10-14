@@ -17,20 +17,15 @@ class CreateTenantCode
     private function generate($counter=0)
     {
         $country_name = pluck_single_value("countries","id",request()->country_id,"name");
-        $state_name = pluck_single_value("states","id",request()->state_id,"name");
-        $city_name = pluck_single_value("cities","id",request()->city_id,"name");
-
         $country_name = substr($country_name,0,2);
-        $state_name = substr($state_name,0,2);
-        $city_name = substr($city_name,0,2);
 
         if(empty($counter))
         {
             $counter  = $this->counter();
         }
-        $sequence = str_pad($counter,4,"0",STR_PAD_LEFT);
+        $sequence = str_pad($counter,6,"0",STR_PAD_LEFT);
 
-         $code = $country_name.$state_name.$city_name.$sequence;
+         $code = $country_name.$sequence;
          if($this->check($code))
          {
              return $this->generate($counter+1);

@@ -299,6 +299,9 @@
                 }
                 $.fn_ajax_multipart(url,params,fn_success,fn_error);
             });
+
+
+
         });
     </script>
 @endsection
