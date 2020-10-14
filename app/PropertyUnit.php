@@ -51,7 +51,7 @@ class PropertyUnit extends Model
 
     public function property()
     {
-        return $this->belongsTo(Property::class);
+        return $this->belongsTo(Property::class,"property_id","id");
     }
 
     public function propertyUnitType()
@@ -135,12 +135,9 @@ class PropertyUnit extends Model
             {
                 return pluck_single_value('tenants', 'id', $this->allotment->tenant_id, 'name');
             }
-            else
-            {
-                return '';
-            }
+
         }
-        return '';
+        return false;
 
     }
     public function getLeaseStartAttribute()

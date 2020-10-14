@@ -33,7 +33,6 @@ class AllotProperty extends FormRequest
                 'state_id' => 'numeric',
                 'city_id' => 'required|numeric',
                 'property_id' => 'required|numeric',
-                'property_unit_type_id' => 'required|numeric',
                 'unit_id' => 'required|numeric',
                 'security_deposit.*' => 'required|numeric',
                 'rent_amount' => 'required|numeric',

@@ -11,7 +11,7 @@ class TenantAction
 
    public function data()
    {
-        $store = request()->only(["name","email","mobile","tenant_type","country_id","state_id","city_id"]);
+        $store = request()->only(["name","email","mobile","tenant_type","country_id"]);
         if(request()->has("password"))
         {
             $store['password'] = Hash::make(request()->password);

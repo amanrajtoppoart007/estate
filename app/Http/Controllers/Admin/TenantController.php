@@ -44,7 +44,6 @@ class TenantController extends Controller
     public function create(Request $request)
     {
         $data               = array();
-        $data['state']      = State::where('is_disabled', '0')->get();
         $data['countries']  = Country::where('is_disabled', '0')->get();
         if(!empty($request->request_id))
         {
@@ -126,28 +125,11 @@ class TenantController extends Controller
 
     public function edit($id)
     {
-        $tenant            = Tenant::find($id);
+           $tenant     = Tenant::find($id);
         if(!empty($tenant))
         {
-
-            $s_params['is_disabled'] = "0";
-
-            if(!empty($tenant->country_id))
-            {
-                $s_params['country_id'] = $tenant->country_id;
-            }
-
-            $c_params['is_disabled'] = "0";
-            if(!empty($tenant->state_id))
-            {
-                $c_params['state_id']    = $tenant->state_id;
-            }
-
-            $states = State::where($s_params)->get();
-            $cities = City::where($c_params)->get();
-            $countries    = Country::where('is_disabled', '0')->get();
-
-            return view('admin.tenant.edit',compact('states','cities','countries','tenant'));
+            $countries  = Country::where('is_disabled', '0')->get();
+            return view('admin.tenant.edit',compact('countries','tenant'));
         }
         else
         {

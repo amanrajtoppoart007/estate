@@ -1,21 +1,5 @@
 @extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Add New Tenant</h4>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Add New Tenant</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Create Tenant"])
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -128,47 +112,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="state_id">State <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
-                                         </div>
-                                             <select name="state_id" id="state_id" class="form-control">
-                                             </select>
-                                     </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="city_id">City <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
-                                         </div>
-                                         <select  id="city_id" name="city_id" class="form-control">
-                                             <option value="">Select City</option>
-                                         </select>
-                                     </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="address">Address <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text">
-                                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                             </span>
-                                         </div>
-                                         <textarea type="text" name="address" id="address" class="form-control">
-                                             {{$user ? $user->address:null}}
-                                         </textarea>
-                                     </div>
-                                    </div>
-                                </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
                                         <label for="dob">Date Of Birth</label>
@@ -458,13 +401,6 @@
 @section('script')
 <script>
     $(document).ready(function(){
-
-        $("#country_id").on("change",function(){
-            $.get_state_list($("#country_id"),$("#state_id"));
-        });
-        $("#state_id").on("change",function(){
-            $.get_state_list($("#state_id"),$("#city_id"));
-        });
 
         @php
          if(!empty($user))

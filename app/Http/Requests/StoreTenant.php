@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Foundation\Http\Request;
+
 
 class StoreTenant extends FormRequest
 {
@@ -31,9 +31,7 @@ class StoreTenant extends FormRequest
         $validate = [
             'tenant_type'=>'required',
             'country_id'=>'required|numeric',
-            'state_id'=>'required|numeric',
-            'city_id'=>'required|numeric',
-            'address'=>'required',
+
             'name'=>'required|unique:tenants,name',
             'email'=>'required|email|unique:tenants,email',
             'mobile'=>'required|numeric|digits:10|unique:tenants,email',
