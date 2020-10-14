@@ -220,6 +220,41 @@
 
         (function ($) {
 
+     $(document).on("change","#unit_id",function(){
+          let url    = "{{route('property.unit.detail')}}";
+		  let params = {"unit_id" : $(this).val() };
+		  function fn_success(result)
+		  {
+		      let $value;
+		      switch (result.data.bedroom)
+              {
+                  case "1":
+                      $value = `<option value="one_br">1 Br</option>`;
+                      break;
+                  case "2":
+                      $value = `<option value="two_br">2 Br</option>`;
+                      break;
+                  case "3":
+                       $value = `<option value="three_br">3 Br</option>`;
+                       break;
+                  case "studio":
+                      $value = `<option value="studio">Studio</option>`;
+                      break;
+                  default:
+                      $value = "";
+                      break;
+              }
+                $("#unit_type").html('');
+		        $("#unit_type").html($value);
+		        $("#unit_type").prop({readOnly:true});
+		  }
+		  function fn_error(result)
+		  {
+             toast('error',result.message,'top-right');
+		  }
+		  $.fn_ajax(url,params,fn_success,fn_error);
+		});
+
             $(document).on("change","#rent_breakdown_grid tr td input",function(){
 
               let index =  $(this).index();
