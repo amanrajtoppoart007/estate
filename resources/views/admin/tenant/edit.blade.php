@@ -163,16 +163,16 @@
                 </div>
             </div>
 @php
-                 $passport = $no_sharing_agreement = $trade_license = $trade_license_exp_date = $marriage_certificate = $emirates_id_doc = $visa = $bank_passbook = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
+                 $passport = $no_sharing_agreement = $trade_license = $trade_license_exp_date = $marriage_certificate = $emirates_id = $visa = $bank_passbook = $poa = $emirates_id_exp_date = $passport_exp_date = $visa_exp_date= $poa_exp_date =  null;
                          if(!empty($tenant->documents))
                              {
                                  $documents =   extract_doc_keys($tenant->documents,'file_url','document_title','date_key','date_value');
 
                          foreach($documents as $doc)
                           {
-                              if($doc['document_title']=='emirates_id_doc')
+                              if($doc['document_title']=='emirates_id')
                                   {
-                                      $emirates_id_doc         = $doc['file_url'];
+                                      $emirates_id              = $doc['file_url'];
                                       $emirates_id_exp_date    = $doc['date_value'];
                                   }
                                if($doc['document_title']=='passport')
@@ -201,6 +201,13 @@
                                       $no_sharing_agreement         = $doc['file_url'];
 
                                   }
+
+                                if($doc['document_title']=='bank_passbook')
+                                  {
+                                      $bank_passbook         = $doc['file_url'];
+
+                                  }
+
                                 if($doc['document_title']=='trade_license')
                                   {
                                       $trade_license         = $doc['file_url'];
@@ -209,9 +216,9 @@
                                   }
                           }
                              }
-                         if(!empty($emirates_id_doc))
+                         if(!empty($emirates_id))
                         {
-                            $emirates_id_doc = route('get.doc',base64_encode($emirates_id_doc));
+                            $emirates_id = route('get.doc',base64_encode($emirates_id));
                         }
                          if(!empty($passport))
                        {
@@ -319,7 +326,7 @@
 
                          <div class="input-group-append">
                                <span class="input-group-text">
-                                   <a data-toggle="tooltip" title="Click to view the file" href="{{$emirates_id_doc ? $emirates_id_doc : 'javascript:void(0)'}}" {{($emirates_id_doc)?'target=_blank':''}}>
+                                   <a data-toggle="tooltip" title="Click to view the file" href="{{$emirates_id ? $emirates_id : 'javascript:void(0)'}}" {{($emirates_id)?'target=_blank':''}}>
                                        <i class="fa fa-file"></i>
                                    </a>
                                </span>

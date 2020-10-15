@@ -11,11 +11,21 @@ class TenantAction
 
    public function data()
    {
-        $store = request()->only(["name","email","mobile","tenant_type","country_id"]);
+        $store = request()->only(["name","email","mobile","tenant_type","country_id","tenant_count","company_name","country_code"]);
         if(request()->has("password"))
         {
             $store['password'] = Hash::make(request()->password);
         }
+        if(request()->has("dob"))
+        {
+            $store['dob'] =  date("Y-m-d",strtotime(request()->dob));
+        }
+
+        if(auth("admin")->user()->id)
+        {
+            $store['admin_id'] =  auth("admin")->user()->id;
+        }
+
         if(request()->has("profile_image"))
         {
             $folder = Str::studly(request()->name);
