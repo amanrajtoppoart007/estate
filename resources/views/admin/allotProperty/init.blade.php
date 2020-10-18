@@ -320,6 +320,11 @@
             (function ($) {
 
 
+                $("#unit_id").on("change",function(){
+
+                });
+
+
                 $(document).on("change", "#rent_breakdown_grid tr td input", function () {
 
                     let index = $(this).index();

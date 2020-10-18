@@ -462,10 +462,10 @@
                             </tr>
                         </thead>
                         <tbody id="family_detail_grid">
-                        @if(!empty($tenant->relation))
+                        @if(!empty($tenant->relations))
                           @foreach($tenant->relations as $relation)
                               @php
-                                $rel_emirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
+                                $rel_emirates_id =  $rel_passport = $rel_visa = null;
                                    if(!empty($relation->emirates_id))
                                    {
                                        $rel_emirates_id = route('get.doc',base64_encode($relation->emirates_id));

@@ -217,8 +217,8 @@
                               <td>{{$rel->name}}</td>
                               <td>{{$rel->relationship}}</td>
                               <td>
-                                  @if(!empty($rel->amirates_id))
-                                  <a target="_blank" class="btn btn-outline-primary" href="{{route('get.doc',base64_encode($rel->amirates_id))}}">View</a>
+                                  @if(!empty($rel->emirates_id))
+                                  <a target="_blank" class="btn btn-outline-primary" href="{{route('get.doc',base64_encode($rel->emirates_id))}}">View</a>
                                   @else
                                       <span class="text-warning">Document not uploaded</span>
                                    @endif
