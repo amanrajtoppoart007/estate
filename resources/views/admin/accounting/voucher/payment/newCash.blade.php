@@ -260,8 +260,8 @@
                             }
                             let x = i + 1;
                             let flat = '';
-                            if (result.flat_house_no != null) {
-                                flat = result.flat_house_no;
+                            if (result.flat_number != null) {
+                                flat = result.flat_number;
                             }
                             newOpt += '<option value="' + result.id + '" ' + status + '>Unit ' + x + ' ' + result.unitcode + '-' + flat + '</option>';
                             //newOpt+= new Option(result.id, result.unit_code, false, false);

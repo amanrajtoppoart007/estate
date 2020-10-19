@@ -22,7 +22,7 @@
 								 <option value="">Select Unit Type</option>
 								@foreach($property_units as $prop_unit)
                                     @if($prop_unit->unit_status=='1')
-							        <option value="{{$prop_unit->id}}">{{$prop_unit->unitcode}}/{{$prop_unit->flat_house_no}}/</option>
+							        <option value="{{$prop_unit->id}}">{{$prop_unit->unitcode}}/{{$prop_unit->flat_number}}/</option>
                                     @endif
 								@endforeach
 							</select>

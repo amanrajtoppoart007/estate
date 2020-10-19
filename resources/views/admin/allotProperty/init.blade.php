@@ -58,11 +58,11 @@
                                 @if(!empty($property_unit))
                                     @foreach($unit_list as $flat)
                                         @php $selected = ($property_unit->id==$flat->id)?"selected":""; @endphp
-                                        <option value="{{$flat->id}}" {{$selected}}> {{$flat->house_flat_no ?? $flat->unitcode }}</option>
+                                        <option value="{{$flat->id}}" {{$selected}}> {{$flat->flat_number ?? $flat->unitcode }}</option>
                                     @endforeach
                                 @else
                                     @foreach($unit_list as $flat)
-                                        <option value="{{$flat->id}}"> {{$flat->house_flat_no ?? $flat->unitcode }}</option>
+                                        <option value="{{$flat->id}}"> {{$flat->flat_number ?? $flat->unitcode }}</option>
                                     @endforeach
                                 @endif
                             </select>

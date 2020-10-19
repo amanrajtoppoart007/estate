@@ -16,7 +16,7 @@ class PropertyUnit
      */
     public static function apply(Builder $builder, $key, $value)
     {
-        if(method_exists(__CLASS__, $key)) 
+        if(method_exists(__CLASS__, $key))
         {
             $class = __CLASS__;
             return $class::$key($builder, $value);
@@ -26,26 +26,26 @@ class PropertyUnit
     public static  function search(Builder $builder, $value)
     {
         $filter = new Filter();
-        if(is_array($value)) 
+        if(is_array($value))
         {
-            if(!empty($value['value'])) 
+            if(!empty($value['value']))
             {
                 return $builder->where("title", 'LIKE', '%' . $filter->keyword . '%');
             }
             return $builder;
-        } 
-        else 
+        }
+        else
         {
             return $builder->where("title", 'LIKE', '%' . $value . '%');
         }
     }
     public static  function property(Builder $builder, $value)
     {
-        if(!empty($value)) 
+        if(!empty($value))
         {
             return $builder->where("property_id",$value);
         }
-        return $builder;  
+        return $builder;
     }
     public static  function custom_search(Builder $builder, $value)
     {
@@ -56,14 +56,14 @@ class PropertyUnit
         $builder->where('title', 'like',"%$value%");
         $builder->orWhere('unitcode', 'like',"%$value%");
         $builder->orWhere('floor_no', 'like',"%$value%");
-        $builder->orWhere('flat_house_no', 'like',"%$value%");
+        $builder->orWhere('flat_number', 'like',"%$value%");
         return $builder;
     }
-    
+
     public static function order(Builder $builder, $value)
     {
         $filter = new Filter();
-        if(is_array($value)) 
+        if(is_array($value))
         {
             $column      = $dir = null;
             $attributes  = ['id', 'title', 'created_at'];
@@ -71,7 +71,7 @@ class PropertyUnit
                 $column      = $filter->column;
                 $dir         = $filter->dir;
             }
-            if((!empty($column)) && (!empty($dir))) 
+            if((!empty($column)) && (!empty($dir)))
             {
                 return $builder->orderBy($column, $dir);
             }
@@ -81,7 +81,7 @@ class PropertyUnit
     }
     public static function month(Builder $builder, $value)
     {
-        if(is_array($value)) 
+        if(is_array($value))
         {
             foreach($value as $int)
             {
@@ -98,15 +98,15 @@ class PropertyUnit
             }
             return $builder->whereHas('property_unit_allotment',function($q) use($params){
                 $q->whereIn(DB::raw('MONTH(lease_end)'), $params);
-                
+
             });
-            
+
         }
         return $builder;
     }
     public static function agent(Builder $builder, $value)
     {
-        if(is_array($value)) 
+        if(is_array($value))
         {
             foreach($value as $int)
             {
@@ -126,7 +126,7 @@ class PropertyUnit
     }
     public static function floor(Builder $builder, $value)
     {
-        if(is_array($value)) 
+        if(is_array($value))
         {
             foreach($value as $int)
             {

@@ -472,7 +472,7 @@
                     let options = `<option value="">Select Flat</option>`;
                      $.each(result.data,function(i,item)
                      {
-                        options += `<option value="${item.id}">${item.flat_house_no}</option>`;
+                        options += `<option value="${item.id}">${item.flat_number}</option>`;
 
                      });
                      $("#unit_id").html(options);

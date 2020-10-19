@@ -258,7 +258,7 @@
                    toast('success',result.message,'bottom-right');
 
                    $.each(result.data,function(index,item){
-                         $("#property_unit_id").append(`<option value="${item.id}">${item.unitcode} {${item.flat_house_no}}</option>`);
+                         $("#property_unit_id").append(`<option value="${item.id}">${item.unitcode} {${item.flat_number}}</option>`);
                    });
                    $("#property_unit_id").select2({
                        theme: 'bootstrap4'
