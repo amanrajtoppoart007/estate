@@ -27,6 +27,7 @@ Route::prefix('accounts')->group(function () {
     Route::post('fetch-chart-of-dt', 'Admin\Accounting\CoaController@datatable_coa')->name('chart.of.accounts.dt');
     Route::post('store-chart-of-acc', 'Admin\Accounting\CoaController@store_new_account')->name('chart.of.accounts.store');
     Route::post('get-coa-by-cat', 'Admin\Accounting\CoaController@get_account_by_category')->name('get.coa.by.category');
+    Route::get('view-chart-of-account/{id}', 'Admin\Accounting\AccountingController@view_chart_of_acccoutn')->name('chart.of.account.view');
 
     Route::get('bank-accounts', 'Admin\Accounting\AccountingController@bank_accounts')->name('acc.bank.accounts');
 
