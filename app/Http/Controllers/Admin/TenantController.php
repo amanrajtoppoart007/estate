@@ -44,7 +44,8 @@ class TenantController extends Controller
     public function create(Request $request)
     {
         $data               = array();
-        $data['countries']  = Country::where('is_disabled', '0')->get();
+        $data['countries']  = Country::where(['is_disabled'=>'0'])->orderBy('name','ASC')->get();
+        $data['codes']      = Country::where(['is_disabled'=>'0'])->where('name','like','%United Arab Emirates%')->get();
         if(!empty($request->request_id))
         {
             $data['user'] = RentEnquiry::find(base64_decode($request->request_id));

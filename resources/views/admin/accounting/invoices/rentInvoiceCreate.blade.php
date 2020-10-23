@@ -2,26 +2,8 @@
 @section('js')
 <script src="{{asset('plugin/print/printThis.js')}}"></script>
 @endsection
-@section('breadcrumb')
-  <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Rent Invoice</h1>
-            </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Rent Invoice</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
-  @endsection
+@include("admin.include.breadcrumb",["page_title"=>"Rent Invoi"])
 @section('content')
-
-
 
         <div class="card">
             <div class="card-header"> <h6> <strong>Create Rent Invoice</strong> </h6> </div>
@@ -34,7 +16,7 @@
                     <input type="hidden" name="installment_id" value="{{$installment->id}}">
                     </div>
                     <div class="col-md-4"><b>Party: {{$tenant? $tenant->name: null}}</b>
-                    <input type="hidden" name="party" value="{{$tenant->tenant_id}}">
+                    <input type="hidden" name="party" value="{{$tenant->id}}">
                     <input type="hidden" name="party_type" value="tenant">
                     </div>
                     <div class="col-md-4">

@@ -46,8 +46,8 @@
                 @foreach($invoice_data as $item)
                 <tr>
                     <td>{{$i}}</td>
-                    <td>{{$item->item->name}}</td>
-                    <td>{{$item->unit->unitcode}}</td>
+                    <td>{{$item->item ? $item->item->name : null}}</td>
+                    <td>{{ $item->unit ? $item->unit->flat_number : null }}</td>
                     <td>{{number_format($item->unit_price,2)}}</td>
                     <td>{{$item->qty}}</td>
                     <td>{{number_format($item->amount,2)}}</td>

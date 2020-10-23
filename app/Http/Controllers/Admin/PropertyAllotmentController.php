@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AllotProperty;
 use App\Http\Requests\RenewPropertyAllotment;
 use App\Library\CreateInstallments;
+use App\Library\CreateRentBreakDown;
+use App\Library\UpdateRentBreakDown;
 use App\RentBreakDown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +44,9 @@ class PropertyAllotmentController extends Controller
             $breakdown = [];
             $tenant = Tenant::with('relations')->where(['id' => $id])->first();
             $properties = Property::where(['is_disabled' => '0'])->get();
-            $cities = $tenant->country->cities;
+            $cities = City::whereHas('country',function($q){
+                $q->where('name','like','%United Arab Emirates%');
+            })->get();
             $agents = Agent::where(['is_disabled' => 0])->get();
             if (!empty($property_unit_id)) {
                 $property_unit = PropertyUnit::with(['property'])->find($property_unit_id);
@@ -69,6 +73,16 @@ class PropertyAllotmentController extends Controller
         $request->validated();
         $admin_id = Auth::guard('admin')->user()->id;
         $checkExist = PropertyUnitAllotment::where(['unit_id' => $request->unit_id, 'status' => '1'])->first();
+
+        $checkBreakDown = RentBreakDown::where(['unit_id' => $request->input('unit_id'), 'tenant_id' => $request->input('tenant_id')])->get();
+        if($checkBreakDown->isEmpty())
+        {
+            (new CreateRentBreakDown())->handle();
+        }
+        else
+        {
+            (new UpdateRentBreakDown($request->rent_breakdown_id))->handle();
+        }
         if (empty($checkExist)) {
             $params = $request->only(['tenant_id','agent_id','property_id', 'unit_id', 'rent_amount', 'installments']);
              if(!empty($request->unit_id))
@@ -81,9 +95,10 @@ class PropertyAllotmentController extends Controller
             $params['admin_id'] = $admin_id;
             $params['status'] = 1;
 
-            if ($unitAllotment = PropertyUnitAllotment::create($params)) {
+            if ($unitAllotment = PropertyUnitAllotment::create($params))
+            {
                 PropertyUnit::where(['id' => $request->unit_id])->update(['allotment_id' => $unitAllotment->id, 'allotment_type' => 'rent', 'unit_status' => 2]);
-                $action = new CreateInstallments($unitAllotment->id, $admin_id, $request->all());
+                $action = new CreateInstallments($unitAllotment->id, $admin_id);
                 $action->execute();
                 $res['status'] = 1;
                 $res['next_url'] = route('allotment.detail', [$request->tenant_id, $unitAllotment->id]);

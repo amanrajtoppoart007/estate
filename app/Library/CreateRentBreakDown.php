@@ -23,6 +23,10 @@ class CreateRentBreakDown
          {
              $store["rent_enquiry_id"] = request()->rent_enquiry_id ? request()->rent_enquiry_id : null;
          }
+         if(auth('admin')->user()->id)
+         {
+             $store['admin_id'] = auth('admin')->user()->id;
+         }
          if($action = RentBreakDown::create($store))
          {
              (new RentBreakDownItemAction($action->id))->handle();

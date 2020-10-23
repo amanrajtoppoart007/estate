@@ -220,7 +220,7 @@
 
         (function ($) {
 
-     $(document).on("change","#unit_id",function(){
+  $(document).on("change","#unit_id",function(){
           let url    = "{{route('property.unit.detail')}}";
 		  let params = {"unit_id" : $(this).val() };
 		  function fn_success(result)
@@ -244,7 +244,7 @@
                       $value = "";
                       break;
               }
-                $("#unit_type").html('');
+               $("#unit_type").html('');
 		        $("#unit_type").html($value);
 		        $("#unit_type").prop({readOnly:true});
 		  }

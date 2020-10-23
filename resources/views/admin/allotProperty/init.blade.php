@@ -1,8 +1,7 @@
-@extends('admin.layout.app')
+@extends("admin.layout.app")
 @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
 @endsection
-
 @section('js')
     <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 @endsection
@@ -10,9 +9,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-
         {{Form::open(['route'=>'allot.property','id'=>'add_data_form'])}}
         <input type="hidden" name="tenant_id" value="{{$tenant->id}}">
+        <input type="hidden" name="rent_breakdown_id" value="{{$breakdown ? $breakdown->id:null}}">
 
         <div class="card">
             <div class="card-header bg-gradient-navy">
@@ -86,7 +85,7 @@
             </div>
         </div>
 
-        <div class="card">
+       {{-- <div class="card">
             <div class="card-header bg-gradient-navy"><h6><strong>Owner Detail</strong></h6></div>
             <div class="card-body table-responsive">
                 <table class="table border-0 border-th-td-none">
@@ -110,7 +109,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>--}}
 
         <div class="card">
             <div class="card-header bg-gradient-navy"><h6><strong>Tenant Detail</strong></h6></div>
@@ -271,7 +270,7 @@
 
         <div class="card card-body">
             <div class="row">
-                <div class="col-md-12" style="overflow-x: scroll;">
+                <div class="col-md-12">
                     @if(!empty($breakdown))
                         <table id="installment_table" class="table table-borderless">
                             <tbody id="rent_installment_grid">
@@ -315,21 +314,76 @@
     </div>
 @endsection
 @section('script')
-    @if(!empty($breakdown))
-        <script>
-            (function ($) {
-
-
-                $("#unit_id").on("change",function(){
-
+     <script src="{{asset('js/breakdown.js')}}"></script>
+    <script>
+          (function ($) {
+              $("#city_id").select2();
+              $("#agent_id").select2();
+            $("#rent_period_type").on('change', function () {
+                    let rent_period_type = $(this).val();
+                    let rent_period_text = null;
+                    switch (rent_period_type) {
+                        case 'monthly':
+                            rent_period_text = 'Month';
+                            break;
+                        case 'half_yearly':
+                            rent_period_text = 'Half Years';
+                            break;
+                        case 'yearly':
+                            rent_period_text = 'Years';
+                            break;
+                    }
+                    $("#rent_period_text").text(rent_period_text);
+                });
+            $('#lease_start').datepicker({
+                    footer: true, modal: true, format: 'dd-mm-yyyy',
+                    minDate: '{{now()->format('d-m-Y')}}',
+                    change: function () {
+                        calculateEndDate();
+                    }
                 });
 
-
-                $(document).on("change", "#rent_breakdown_grid tr td input", function () {
-
-                    let index = $(this).index();
-                    $.calculate_column_breakdown(index);
+             $("#rent_period,#rent_period_type").on('change', function () {
+                    calculateEndDate();
                 });
+
+                function calculateEndDate() {
+                    if (!$.trim($('#rent_period_type').val())) {
+                        $('#rent_period_type').css({'border-color': 'aqua'}).trigger("focus");
+                        return false;
+                    }
+                    if (!$.trim($('#rent_period').val())) {
+                        $('#rent_period').css({'border-color': 'aqua'}).trigger("focus");
+                        return false;
+                    }
+                    if (!$.trim($('#lease_start').val())) {
+                        $('#lease_start').css({'border-color': 'aqua'}).trigger("focus");
+                        return false;
+                    }
+                    let url = '{{route('calculate.endDate')}}';
+                    let params = {
+                        'rent_period_type': $("#rent_period_type").val(),
+                        'rent_period': $("#rent_period").val(),
+                        'lease_start': $("#lease_start").val(),
+                    }
+
+                    function fn_success(result) {
+                        let minDate = $("#lease_start").val();
+                        $('#lease_end').datepicker().destroy();
+                        $('#lease_end').datepicker({
+                            footer: true,
+                            modal: true,
+                            format: 'dd-mm-yyyy',
+                            value: `${result.endDate}`,
+                            minDate: `${minDate}`
+                        });
+                    }
+
+                    function fn_error(result) {
+                        toast('error', result.message, 'bottom-right');
+                    }
+                    $.fn_ajax(url, params, fn_success, fn_error);
+                }
 
                 let get_breakdown_config = function () {
 
@@ -371,99 +425,23 @@
 
                 $("#tenancy_type,#unit_type,#rent_amount,#installments").on("change", function () {
                     if (!$.trim($("#tenancy_type").val())) {
-                        toast('error', 'Please select tenancy type', 'bottom-right');
-                        $("#tenancy_type").css({'border-color': 'aqua'}).focus();
+                        $("#tenancy_type").css({'border-color': 'aqua'}).trigger("focus");
                         return false;
                     }
                     if (!$.trim($("#unit_type").val())) {
-                        toast('error', 'Please select unit type', 'bottom-right');
-                        $("#unit_type").css({'border-color': 'aqua'}).focus();
+                        $("#unit_type").css({'border-color': 'aqua'}).trigger("focus");
                         return false;
                     }
                     if (!$.trim($("#rent_amount").val())) {
-                        toast('error', 'Please enter total rent amount', 'bottom-right');
-                        $("#rent_amount").css({'border-color': 'aqua'}).focus();
+                        $("#rent_amount").css({'border-color': 'aqua'}).trigger("focus");
                         return false;
                     }
                     if (!$.trim($("#installments").val())) {
-                        toast('error', 'Please enter no. of installments', 'bottom-right');
-                        $("#installments").css({'border-color': 'aqua'}).focus();
+                        $("#installments").css({'border-color': 'aqua'}).trigger("focus");
                         return false;
                     }
                     get_breakdown_config();
-
-
                 });
-
-
-                $("#rent_period_type").on('change', function () {
-                    let rent_period_type = $(this).val();
-                    let rent_period_text = null;
-                    switch (rent_period_type) {
-                        case 'monthly':
-                            rent_period_text = 'Month';
-                            break;
-                        case 'half_yearly':
-                            rent_period_text = 'Half Years';
-                            break;
-                        case 'yearly':
-                            rent_period_text = 'Years';
-                            break;
-                    }
-                    $("#rent_period_text").text(rent_period_text);
-                });
-                let start_date = $('#lease_start').datepicker({
-                    footer: true, modal: true, format: 'dd-mm-yyyy',
-                    minDate: '{{now()->format('d-m-Y')}}',
-                    change: function (e) {
-                        calculateEndDate();
-                    }
-                });
-                $("#rent_period,#rent_period_type").on('change', function () {
-                    calculateEndDate();
-                });
-
-
-                function calculateEndDate() {
-                    if (!$.trim($('#rent_period_type').val())) {
-                        toast('error', 'Please select rent period type', 'bottom-right');
-                        $('#rent_period_type').css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    if (!$.trim($('#rent_period').val())) {
-                        toast('error', 'Please select Enter rent period', 'bottom-right');
-                        $('#rent_period').css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    if (!$.trim($('#lease_start').val())) {
-                        toast('error', 'Please select Enter rent start date', 'bottom-right');
-                        $('#lease_start').css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    let url = '{{route('calculate.endDate')}}';
-                    let params = {
-                        'rent_period_type': $("#rent_period_type").val(),
-                        'rent_period': $("#rent_period").val(),
-                        'lease_start': $("#lease_start").val(),
-                    }
-
-                    function fn_success(result) {
-                        let minDate = $("#lease_start").val();
-                        $('#lease_end').datepicker().destroy();
-                        $('#lease_end').datepicker({
-                            footer: true,
-                            modal: true,
-                            format: 'dd-mm-yyyy',
-                            value: `${result.endDate}`,
-                            minDate: `${minDate}`
-                        });
-                    };
-
-                    function fn_error(result) {
-                        toast('error', result.message, 'bottom-right');
-                    };
-                    $.fn_ajax(url, params, fn_success, fn_error);
-                }
 
                 $("#add_data_form").on("submit", function (e) {
                     e.preventDefault();
@@ -486,13 +464,7 @@
 
                     $.fn_ajax(url, params, fn_success, fn_error);
                 });
-                /************get list of cities via state id  */
-                $('#state_id').on('change', function (e) {
-                    $("#property_id").empty();
-                    $.get_city_list($("#state_id"), $("#city_id"));
-                });
 
-                /************ get list of property   ***************/
 
                 $('#city_id').on('change', function (e) {
                     let params = {
@@ -507,6 +479,8 @@
                                 let option = `<option value="${item.id}">${item.title}</option>`;
                                 $("#property_id").append(option);
                             });
+
+                            $("#property_id").select2();
                         }
                     }
 
@@ -517,273 +491,6 @@
                     $.fn_ajax('{{route('allotment.city-wise.property.list')}}', params, fn_success, fn_error);
                 });
 
-                /************ get list of property unit types  ***************/
-                $('#property_id').on('change', function (e) {
-                    $("#property_unit_type_id").empty();
-                    let params = {
-                        'property_id': $(this).val(),
-                    };
-
-                    function fn_success(result) {
-                        if (result.response === "success") {
-                            $("#property_unit_type_id").append('<option value="">Select Unit Type</option>');
-                            $.each(result.data, function (i, item) {
-
-                                let option = `<option value="${item.id}">Series ${item.unit_series}</option>`;
-                                $("#property_unit_type_id").append(option);
-                            });
-                        }
-                    }
-
-                    function fn_error(result) {
-                        toast('error', result.message, 'bottom-right');
-                    }
-
-                    $.fn_ajax('{{route('allotment.get.propertyUnitTypes.list')}}', params, fn_success, fn_error);
-                });
-                /************ get list of property unit***************/
-                $('#property_unit_type_id').on('change', function (e) {
-                    $("#unit_id").empty();
-                    let params = {
-                        'property_unit_type_id': $(this).val(),
-                    }
-
-                    function fn_success(result) {
-                        if (result.response === "success") {
-                            $("#unit_id").append('<option value="">Select Unit</option>');
-                            $.each(result.data, function (i, item) {
-                                let option = `<option value="${item.id}">${item.unitcode}</option>`;
-                                $("#unit_id").append(option);
-                            });
-                        }
-                    }
-
-                    function fn_error(result) {
-                        toast('error', result.message, 'bottom-right');
-                    }
-
-                    $.fn_ajax('{{route('get.getPropertyUnit.list')}}', params, fn_success, fn_error);
-                });
-            })(jQuery);
-        </script>
-    @else
-        <script src="{{asset('js/breakdown.js')}}"></script>
-        <script>
-
-            (function ($) {
-
-                 @php
-                     if(empty($breakdown))
-                        {
-                           echo "$.render_breakdown_heading();";
-                        }
-                @endphp
-                $(document).on("change", "#rent_breakdown_grid tr td input", function () {
-
-                    let index = $(this).index();
-                    $.calculate_column_breakdown(index);
-                });
-
-                let get_breakdown_config = function () {
-
-                    $("#security_deposit_constant").val('');
-                    $("#municipality_fees_constant").val('');
-                    $("#brokerage_constant").val('');
-                    $("#contract_constant").val('');
-                    $("#remote_deposit_constant").val('');
-                    $("#sewa_deposit_constant").val('');
-
-                    let params = {
-                        tenancy_type: $("#tenancy_type").val(),
-                        unit_type: $("#unit_type").val(),
-                    };
-
-                    let url = "{{route('get.breakdown.constants')}}";
-
-                    function fn_success(result) {
-                        if (result.data) {
-                            let config = result.data;
-                            $("#security_deposit_constant").val(config.security_deposit);
-                            $("#municipality_fees_constant").val(config.municipality_fees);
-                            $("#brokerage_constant").val(config.brokerage);
-                            $("#contract_constant").val(config.contract);
-                            $("#remote_deposit_constant").val(config.remote_deposit);
-                            $("#sewa_deposit_constant").val(config.sewa_deposit);
-                            $.render_break_down_items();
-
-                        }
-                    }
-
-                    function fn_error(result) {
-                        toast("error", result.message, "top-right");
-
-                    }
-
-                    $.fn_ajax(url, params, fn_success, fn_error);
-                };
-
-                $("#tenancy_type,#unit_type,#rent_amount,#installments").on("change", function () {
-                    if (!$.trim($("#tenancy_type").val())) {
-                        toast('error', 'Please select tenancy type', 'bottom-right');
-                        $("#tenancy_type").css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    if (!$.trim($("#unit_type").val())) {
-                        toast('error', 'Please select unit type', 'bottom-right');
-                        $("#unit_type").css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    if (!$.trim($("#rent_amount").val())) {
-                        toast('error', 'Please enter total rent amount', 'bottom-right');
-                        $("#rent_amount").css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    if (!$.trim($("#installments").val())) {
-                        toast('error', 'Please enter no. of installments', 'bottom-right');
-                        $("#installments").css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    get_breakdown_config();
-
-
-                });
-                $.render_breakdown_heading();
-                $(document).on("click", ".submit_breakdown_button", function () {
-                    $("#next_action_input").val($(this).attr("id"));
-                });
-
-                $("#rent_period_type").on('change', function () {
-                    let rent_period_type = $(this).val();
-                    let rent_period_text = null;
-                    switch (rent_period_type) {
-                        case 'monthly':
-                            rent_period_text = 'Month';
-                            break;
-                        case 'half_yearly':
-                            rent_period_text = 'Half Years';
-                            break;
-                        case 'yearly':
-                            rent_period_text = 'Years';
-                            break;
-                    }
-                    $("#rent_period_text").text(rent_period_text);
-                });
-
-
-                let start_date = $('#lease_start').datepicker({
-                    footer: true, modal: true, format: 'dd-mm-yyyy',
-                    minDate: '{{now()->format('d-m-Y')}}',
-                    change: function (e) {
-                        calculateEndDate();
-                    }
-                });
-                $("#rent_period,#rent_period_type").on('change', function () {
-                    calculateEndDate();
-                });
-
-
-                function calculateEndDate() {
-                    if (!$.trim($('#rent_period_type').val())) {
-                        toast('error', 'Please select rent period type', 'bottom-right');
-                        $('#rent_period_type').css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    if (!$.trim($('#rent_period').val())) {
-                        toast('error', 'Please select Enter rent period', 'bottom-right');
-                        $('#rent_period').css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    if (!$.trim($('#lease_start').val())) {
-                        toast('error', 'Please select Enter rent start date', 'bottom-right');
-                        $('#lease_start').css({'border-color': 'aqua'}).focus();
-                        return false;
-                    }
-                    let url = "{{route('calculate.endDate')}}";
-                    let params = {
-                        'rent_period_type': $("#rent_period_type").val(),
-                        'rent_period': $("#rent_period").val(),
-                        'lease_start': $("#lease_start").val(),
-                    }
-
-                    function fn_success(result) {
-                        let minDate = $("#lease_start").val();
-                        $('#lease_end').datepicker().destroy();
-                        $('#lease_end').datepicker({
-                            footer: true,
-                            modal: true,
-                            format: 'dd-mm-yyyy',
-                            value: `${result.endDate}`,
-                            minDate: `${minDate}`
-                        });
-                    };
-
-                    function fn_error(result) {
-                        toast('error', result.message, 'bottom-right');
-                    };
-                    $.fn_ajax(url, params, fn_success, fn_error);
-                }
-
-                $('#add_data_form').on("submit", function (e) {
-                    e.preventDefault();
-                    let params = $("#add_data_form").serialize();
-                    let url = "{{route('save.rent.breakdown')}}";
-
-                    function fn_success(result) {
-                        toast('success', result.message, 'bottom-right');
-                        if (result.next_url) {
-                            if ($("#next_action_input").val() === "send_breakdown_via_email") {
-                                $.ajax({
-                                    url: result.next_url,
-                                    type: "GET",
-                                    success: function (result) {
-                                        toast('success', result.message, 'bottom-right');
-                                    },
-                                    error: function (result) {
-                                        toast('error', result.message, 'bottom-right');
-                                    }
-                                })
-                            } else {
-                                window.location.href = result.next_url;
-                            }
-                        }
-
-                    }
-
-                    function fn_error(result) {
-                        toast('error', result.message, 'bottom-right');
-                    }
-
-                    $.fn_ajax(url, params, fn_success, fn_error);
-                });
-
-                /************get list of cities via state id  */
-                $('#state_id').on('change', function (e) {
-                    $("#property_id").empty();
-                    $.get_city_list($("#state_id"), $("#city_id"));
-                });
-
-                /************ get list of property   ***************/
-
-                $('#city_id').on('change', function (e) {
-                    let params = {'city_id': $(this).val()};
-
-                    function fn_success(result) {
-                        if (result.response === "success") {
-                            $("#property_id").empty();
-                            $("#property_id").append(`<option value="">Select Property</option>`);
-                            $.each(result.data, function (i, item) {
-                                let option = `<option value="${item.id}">${item.title}</option>`;
-                                $("#property_id").append(option);
-                            });
-                        }
-                    }
-
-                    function fn_error(result) {
-                        toast('error', result.message, 'bottom-right');
-                    }
-
-                    $.fn_ajax('{{route('allotment.city-wise.property.list')}}', params, fn_success, fn_error);
-                });
 
                 /************ get list of property unit types  ***************/
                 $("#property_id").on('change', function (e) {
@@ -793,10 +500,11 @@
                     function fn_success(result) {
                         let options = `<option value="">Select Unit</option>`;
                         $.each(result.data, function (i, item) {
-                            options += `<option value="${item.id}">${item.unitcode}</option>`;
+                            options += `<option value="${item.id}">${item.flat_number}</option>`;
 
                         });
                         $("#unit_id").html(options);
+                        $("#unit_id").select2();
 
                     }
 
@@ -807,7 +515,54 @@
                     $.fn_ajax('{{route('get.vacant.unit.list')}}', params, fn_success, fn_error);
                 });
 
-            })(jQuery);
-        </script>
-    @endif
+
+                $(document).on("change", "#rent_breakdown_grid tr td input", function () {
+
+                    let index = $(this).index();
+                    $.calculate_column_breakdown(index);
+                });
+                $(document).on("click", ".submit_breakdown_button", function () {
+                    $("#next_action_input").val($(this).attr("id"));
+                });
+     $(document).on("change","#unit_id",function(){
+          let url    = "{{route('property.unit.detail')}}";
+		  let params = {"unit_id" : $(this).val() };
+		  function fn_success(result)
+		  {
+		      let $value;
+		      switch (result.data.bedroom)
+              {
+                  case "1":
+                      $value = `<option value="one_br">1 Br</option>`;
+                      break;
+                  case "2":
+                      $value = `<option value="two_br">2 Br</option>`;
+                      break;
+                  case "3":
+                       $value = `<option value="three_br">3 Br</option>`;
+                       break;
+                  case "studio":
+                      $value = `<option value="studio">Studio</option>`;
+                      break;
+                  default:
+                      $value = "";
+                      break;
+              }
+               $("#unit_type").html('');
+		        $("#unit_type").html($value);
+		        $("#unit_type").prop({readOnly:true});
+		  }
+		  function fn_error(result)
+		  {
+             toast('error',result.message,'top-right');
+		  }
+		  $.fn_ajax(url,params,fn_success,fn_error);
+		});
+                 @if(empty($breakdown))
+                 $.render_breakdown_heading();
+                @endif
+
+     })(jQuery);
+    </script>
 @endsection
+
