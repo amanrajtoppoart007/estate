@@ -7,36 +7,28 @@
             </div>
             <div class="row mt-5">
                 <div class="col-lg-3 col-sm-3 col-12">
-                    <h5>Real Estate Markets</h5>
+                    <h5>Al Hoor Real Estate</h5>
                     <ul class="footer-ul">
                         <li>
-                            <a href="">Alabama Real Estate</a>
+                            <a href="javascript:void(0)">Al Hoor Real Estate, established in 2005, is one of the fastest leading property investment and asset managers in Sharjah UAE.</a>
                         </li>
-                        <li>
-                            <a href="">Alaska Real Estate</a>
-                        </li>
-                        <li>
-                            <a href="">Arizona Real Estate</a>
-                        </li>
-                        <li>
-                            <a href="">Arkansas Real Estate</a>
-                        </li>
+
                     </ul>
                 </div>
                 <div class="col-lg-3 col-sm-3 col-12">
-                    <h5>Rental Markets</h5>
+                    <h5>Quick Links</h5>
                     <ul class="footer-ul">
                         <li>
-                            <a href="">Alabama Rentals</a>
+                            <a href="">Rental Properties</a>
                         </li>
                         <li>
-                            <a href="">Alaska Rentals</a>
+                            <a href="">Property for sale</a>
                         </li>
                         <li>
-                            <a href="">Arizona Rentals</a>
+                            <a href="">Terms & Conditions</a>
                         </li>
                         <li>
-                            <a href="">Arkansas Rentals</a>
+                            <a href="">Contact Us</a>
                         </li>
                     </ul>
                 </div>
@@ -58,19 +50,19 @@
                     </ul>
                 </div>
                 <div class="col-lg-3 col-sm-3 col-12">
-                    <h5>For Professionals</h5>
+                    <h5>About Us</h5>
                     <ul class="footer-ul">
                         <li>
-                            <a href="">Alabama Real Estate</a>
+                            <a href="javascript:void(0)">Toll Free: 800-254-667</a>
+                        </li>
+                         <li>
+                            <a href="javascript:void(0)">Telephone: 06-526-8988</a>
                         </li>
                         <li>
-                            <a href="">Alaska Real Estate</a>
+                            <a href="javascript:void(0)">Email: alhoor@alhoorre.ae</a>
                         </li>
                         <li>
-                            <a href="">Arizona Real Estate</a>
-                        </li>
-                        <li>
-                            <a href="">Arkansas Real Estate</a>
+                            <a href="javascript:void(0)">Address : Moon Tower 2 Ground Floor Office, Al Nahada Sharjah - UAE</a>
                         </li>
                     </ul>
                 </div>
