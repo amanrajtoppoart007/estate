@@ -245,7 +245,7 @@
           </div>
       </div>
   @endif
-
+ @if($tenant->allotment->isEmpty())
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -253,6 +253,23 @@
             </div>
         </div>
     </div>
+ @else
+     <div class="card">
+         <div class="card-header bg-gradient-teal">
+             <h6>Allotted Apartment</h6>
+         </div>
+         <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                    Building
+                </div>
+                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                    {{$tenant->allotment}}
+                </div>
+            </div>
+         </div>
+     </div>
+ @endif
 @endsection
 @section("script")
        <script>

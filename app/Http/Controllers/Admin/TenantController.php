@@ -112,7 +112,7 @@ class TenantController extends Controller
 
     public function show($id)
     {
-        $tenant = Tenant::find($id);
+        $tenant = Tenant::with(['allotment'])->find($id);
         if(!empty($tenant))
         {
             return view('admin.tenant.view',compact('tenant'));
@@ -210,7 +210,7 @@ class TenantController extends Controller
         }
 
 
-        $day60 = date('Y-m-d', strtotime("+60 days"));
+        $day60 = date('Y-m-d', strtotime("+1000 days"));
         $totalData      =   PropertyUnitAllotment::where('lease_end', '<=', $day60)
             ->count();
         $totalFiltered  =   $totalData;

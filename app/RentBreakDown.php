@@ -16,6 +16,10 @@ class RentBreakDown extends Model
     {
         return $this->belongsTo(PropertyUnit::class,"unit_id","id");
     }
+    public function unit_allotment()
+    {
+        return $this->belongsTo(PropertyUnitAllotment::class,"unit_allotment_id","id");
+    }
     public function city()
     {
         return $this->belongsTo(City::class,"city_id","id");

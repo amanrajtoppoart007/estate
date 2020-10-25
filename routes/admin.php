@@ -187,7 +187,7 @@ Route::prefix('property')->group(function () {
     Route::get('fetch-property-select2', 'Admin\AjaxController@select2_get_property')->name('select2.property');
     Route::post('fetch-property-for-select2', 'Admin\AjaxController@select2_get_property')->name('select2.property.post');
     Route::post('fetch-unit-by-prop', 'Admin\AjaxController@get_units_by_porperty')->name('select.units.by.prop');
-    Route::post('fetch/alloted/property', 'Admin\PropertyAllotmentController@fetch_alloted_properties')->name('fetch.allocated.properties');
+    Route::post('fetch/alloted/property', 'Admin\PropertyAllotmentController@fetch_allotted_properties')->name('fetch.allocated.properties');
 });
 /*------------property unit routes------*/
 Route::prefix('propertyUnit')->group(function(){
