@@ -204,7 +204,7 @@ class PropertyAllotmentController extends Controller
         if(!$validator->fails())
         {
             $params['property_id'] = $request->property_id;
-            $propertyUnitTypes = PropertyUnitType::where($params)->get();
+            $propertyUnitTypes = PropertyUnitType::where($params)->orderBy('flat_number','ASC')->get();
             if (!$propertyUnitTypes->isEmpty())
             {
                 $result = ["status"=>1,"response"=>"success","data"=>$propertyUnitTypes,"message"=>"data found"];

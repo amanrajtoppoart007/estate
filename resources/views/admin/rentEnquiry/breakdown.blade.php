@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <div class="form-group">
-                            <label for="unit_id">Property Unit</label>
+                            <label for="unit_id">Flat No.</label>
                             <select class="form-control" name="unit_id" id="unit_id">
                             </select>
                         </div>
@@ -219,6 +219,8 @@
     <script>
 
         (function ($) {
+
+            $("#city_id").select2();
 
   $(document).on("change","#unit_id",function(){
           let url    = "{{route('property.unit.detail')}}";
@@ -433,11 +435,7 @@
         $.fn_ajax(url,params,fn_success,fn_error);
   });
 
-                 /************get list of cities via state id  */
-           $('#state_id').on('change',function(e){
-             $("#property_id").empty();
-            $.get_city_list($("#state_id"),$("#city_id"));
-           });
+
 
            /************ get list of property   ***************/
 
@@ -453,6 +451,7 @@
                      {
                        let option = `<option value="${item.id}">${item.title}</option>`;
                        $("#property_id").append(option);
+                       $("#property_id").select2();
                      });
                  }
             }
@@ -476,6 +475,7 @@
 
                      });
                      $("#unit_id").html(options);
+                     $("#unit_id").select2();
 
             }
             function fn_error(result)
