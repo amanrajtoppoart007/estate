@@ -461,7 +461,7 @@
 
 				}
         }
-     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
+     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYears(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
      let pickers =
                [
                    'emirates_id_exp_date',
@@ -471,7 +471,7 @@
                    'trade_license_exp_date'
                ];
            pickers.forEach(function(item){
-               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',/* minDate : '{{now()->format('d-m-Y')}}'*/});
            });
 		$("#tenant_type").on('change',function(e){
 		    $("#family_detail_grid").html('');

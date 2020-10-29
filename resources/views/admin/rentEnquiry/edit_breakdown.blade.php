@@ -282,7 +282,7 @@ function rent_period_type_text(rent_period_type)
               $("#rent_period_text").text(rent_period_type_text(rent_period_type));
         });
           let start_date =  $('#lease_start').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',
-            minDate : '{{now()->format('d-m-Y')}}',
+            /*minDate : '{{now()->format('d-m-Y')}}',*/
             change : function(e)
             {
                 calculateEndDate();

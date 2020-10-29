@@ -15,11 +15,46 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
+            <li class="nav-item">
+            <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
+              <i class="nav-icon fa fa-question"></i>
+              <p>
+               Home
+              </p>
+            </a>
+          </li>
+            <li class="nav-item">
+            <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
+              <i class="nav-icon fa fa-question"></i>
+              <p>
+               Rent
+              </p>
+            </a>
+          </li>
+
+            <li class="nav-item">
+            <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
+              <i class="nav-icon fa fa-question"></i>
+              <p>
+               Documents
+              </p>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
               <i class="nav-icon fa fa-question"></i>
               <p>
                 Maintenance Requests
+              </p>
+            </a>
+          </li>
+
+            <li class="nav-item">
+            <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
+              <i class="nav-icon fa fa-question"></i>
+              <p>
+                Support
               </p>
             </a>
           </li>

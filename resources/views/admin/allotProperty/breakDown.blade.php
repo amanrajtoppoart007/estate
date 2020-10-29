@@ -359,7 +359,7 @@
 
 
           let start_date =  $('#lease_start').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',
-            minDate : '{{now()->format('d-m-Y')}}',
+           /* minDate : '{{now()->format('d-m-Y')}}',*/
             change : function(e)
             {
                 calculateEndDate();
