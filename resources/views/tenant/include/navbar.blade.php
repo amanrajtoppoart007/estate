@@ -1,6 +1,11 @@
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-primary navbar-dark">
-    <!-- Left navbar links -->
+  <nav class="main-header navbar navbar-expand-md navbar-primary navbar-dark">
+    <div class="container">
+        <!-- Left navbar links -->
+        <a href="{{URL::to('/tenant/home')}}" class="navbar-brand">
+        <img src="{{asset('assets/img/alhoor-logo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">{{config('app.name')}}</span>
+      </a>
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="javascript:void(0)"><i class="fas fa-bars"></i></a>
@@ -35,5 +40,6 @@
             class="fas fa-th-large"></i></a>
       </li>
     </ul>
+    </div>
   </nav>
   <!-- /.navbar -->

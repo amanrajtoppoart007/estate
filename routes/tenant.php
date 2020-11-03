@@ -10,3 +10,7 @@ Route::post('/fetch', 'Tenant\MaintenanceController@fetch')->name('tenant.mainte
 Route::get('/view/{id}', 'Tenant\MaintenanceController@view')->name('tenant.maintenance.view');
 
 });
+Route::prefix('Rent')->group(function () {
+Route::get('/index', 'Tenant\RentController@index')->name('tenant.rent.index');
+
+});

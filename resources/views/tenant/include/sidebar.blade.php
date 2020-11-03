@@ -16,7 +16,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
-            <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
+            <a href="{{URL::to('tenant/home')}}" class="nav-link">
               <i class="nav-icon fa fa-question"></i>
               <p>
                Home
@@ -24,7 +24,7 @@
             </a>
           </li>
             <li class="nav-item">
-            <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
+            <a href="{{route('tenant.rent.index')}}" class="nav-link">
               <i class="nav-icon fa fa-question"></i>
               <p>
                Rent

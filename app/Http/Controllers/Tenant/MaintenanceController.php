@@ -10,6 +10,7 @@ use App\Library\GenerateWorkOrderNo;
 use App\MaintenanceWork;
 use App\MaintenanceWorkCategory;
 use App\Property;
+use App\PropertyUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,8 +24,7 @@ class MaintenanceController extends Controller
     public function fetch(Request $request)
     {
         $model = new MaintenanceWork();
-        $api   = new Api($model,$request);
-        echo json_encode($api->apply());
+        echo json_encode((new Api($model))->getResult());
     }
     public function index()
     {
@@ -32,11 +32,17 @@ class MaintenanceController extends Controller
     }
     public function create()
     {
-        $buildings = Property::whereHas('allotment',function($query){
-            $query->whereIn('status',auth('tenant')->user()->id);
-        })->get();
+        $building = Property::whereHas('allotment',function($query){
+            $query->where(['tenant_id'=>auth('tenant')->user()->id]);
+        })->first();
+
+        $unit = PropertyUnit::whereHasMorph('allotment',function($query){
+            $query->where(['tenant_id'=>auth('tenant')->user()->id]);
+        })->first();
+
+        $tenant = auth('tenant')->user();
         $categories = MaintenanceWorkCategory::all();
-       return view('tenant.maintenance.create',compact('buildings','categories'));
+       return view('tenant.maintenance.create',compact('building','categories','unit'));
     }
 
 

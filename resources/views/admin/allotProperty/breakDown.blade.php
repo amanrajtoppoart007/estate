@@ -8,6 +8,7 @@
         <div class="card-body">
    {{Form::open(['id'=>'add_data_form','autocomplete'=>'off'])}}
         <input type="hidden" name="rent_enquiry_id" value="">
+            <input type="hidden" name="tenant_id" value="{{$allotment->tenant_id}}">
             <input type="hidden" name="property_id" value="{{$allotment->property_id}}">
             <input type="hidden" name="unit_id" value="{{$allotment->unit_id}}">
             <input type="hidden" name="unit_type" value="{{$allotment->breakdown->unit_type}}">
@@ -26,7 +27,7 @@
                     </div>
                     <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <div class="form-group">
-                            <label for="unit_id">Property Unit</label>
+                            <label for="unit_id">Flat Number</label>
                             {{$allotment->unit->flat_number}}
                         </div>
                     </div>
@@ -212,10 +213,9 @@
             <input type="hidden" id="remote_deposit_constant" name="remote_deposit_constant" value="">
             <input type="hidden" id="sewa_deposit_constant" name="sewa_deposit_constant" value="">
             <input type="hidden" id="next_action_input" name="next_action" value="">
-            <button type="submit" id="create_tenant" class="btn btn-success submit_breakdown_button">Create Tenant</button>
-            <button type="submit" id="preview" class="btn btn-primary submit_breakdown_button">Preview</button>
-            <button type="submit" id="print_breakdown" class="btn btn-info submit_breakdown_button">Print BreakDown</button>
-            <button type="submit" id="send_breakdown_via_email" class="btn btn-warning text-white submit_breakdown_button">Send BreakDown By E-mail</button>
+            <button type="submit" id="renew_breakdown" class="btn btn-primary submit_breakdown_button">Renew BreakDown</button>
+            <button type="submit" id="preview" class="btn btn-primary submit_breakdown_button">Renew & View</button>
+            <button type="submit" id="print_breakdown" class="btn btn-primary submit_breakdown_button">Renew & Print</button>
         </div>
         {{Form::close()}}
         </div>
@@ -409,28 +409,14 @@
    $('#add_data_form').on("submit",function(e){
          e.preventDefault();
           let params   = $("#add_data_form").serialize();
-          let url      = "{{route('save.rent.breakdown')}}";
+          let url      = "{{route('store.renewal.breakdown')}}";
           function fn_success(result)
           {
               toast('success', result.message, 'bottom-right');
               if(result.next_url)
               {
-                  if($("#next_action_input").val()==="send_breakdown_via_email")
-                  {
-                        $.ajax({
-                            url : result.next_url,
-                            type : "GET",
-                            success :function(result)
-                            {
-                                toast('success', result.message, 'bottom-right');
-                            },
-                            error :function(result)
-                            {
-                                 toast('error', result.message, 'bottom-right');
-                            }
-                        })
-                  }
-                  else
+                  const inputElementVal = $("#next_action_input").val();
+                  if(inputElementVal==="preview"||inputElementVal==="print_breakdown")
                   {
                          window.location.href = result.next_url;
                   }

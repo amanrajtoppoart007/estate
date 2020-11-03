@@ -4,6 +4,11 @@ use App\RentBreakDown;
 
 class CreateRentBreakDown
 {
+    var $breakDownType;
+    public function __construct($type=null)
+    {
+        $this->breakDownType = $type;
+    }
     public function handle()
     {
          $store = request()->only(['city_id','tenancy_type','unit_type','property_id','unit_id','rent_period_type','rent_period','parking','parking_number','rent_amount','installments']);
@@ -26,6 +31,10 @@ class CreateRentBreakDown
          if(auth('admin')->user()->id)
          {
              $store['admin_id'] = auth('admin')->user()->id;
+         }
+         if(!empty($this->breakDownType))
+         {
+             $store['breakdown_type'] = $this->breakDownType;
          }
          if($action = RentBreakDown::create($store))
          {

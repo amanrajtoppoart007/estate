@@ -267,23 +267,70 @@ class PropertyAllotmentController extends Controller
         $data = array();
         $data['break_down'] = DB::table('break_down_history')->where('id', $breakdown)->first();
         $data['tenant'] = Tenant::where('id', $data['break_down']->tenant_id)->first();
-
-
         return view('pdf.property.renewalBreakDown')->with($data);
     }
 
-    public function tenancy_breakdown_save_send(Request $request)
+    public function store_renewal_breakdown(Request $request)
     {
-        $data = array();
-        $arr = $request->all();
-        $formdata = json_encode($arr);
-        $array = array('tenant_id' => $request->tenant_id, 'allotment_id' => $request->allotment, 'form_data' => $formdata, 'admin_id' => auth()->user()->id); //
-        $insertId = DB::table('break_down_history')->insertGetId($array);
-        $data['req'] = $request;
+          $validator = Validator::make($request->all(),
+          [
+            "tenant_id"=>"required|numeric",
+            "property_id"=>"required|numeric",
+            "unit_id"=>"required|numeric",
+            "rent_period_type"=>"required",
+            "rent_period"=>"required",
+            "parking"=>"required",
+            "lease_start"=>"required|date",
+            "lease_end"=>"required|date",
+            "rent_amount"=>"required|numeric",
+            "installments"=>"required|numeric",
+            "tenancy_type"=>"required",
+            "unit_type"=>"required",
+            "security_deposit.*"=>"numeric",
+            "municipality_fees.*"=>"numeric",
+            "brokerage.*"=>"numeric",
+            "contract.*"=>"numeric",
+            "remote_deposit.*"=>"numeric",
+            "sewa_deposit.*"=>"numeric",
+            "monthly_installment.*"=>"numeric",
+            "total_monthly_installment.*"=>"numeric",
 
-        $result = array('status' => '1', 'message' => 'Successfully saved', 'breakdown' => $insertId);
+        ]);
+          if(!$validator->fails())
+          {
 
-        return json_encode($result);
+         if($id = (new CreateRentBreakDown('renewal'))->handle())
+        {
+            $next_url = null;
+            if($request->has("next_action"))
+            {
+                $action = $request->input('next_action');
+                switch ($action)
+                {
+                    case "print_breakdown":
+                        $next_url = route('print.rent.breakdown',$id);
+                        break;
+                    case "preview":
+                    default:
+                         $next_url = route('view.rent.breakdown',$id);
+                         break;
+                }
+            }
+
+            $result = ['status'=>1,'response' => 'success','next_url'=>$next_url, 'message' => 'Rent breakdown renewed successfully'];
+        }
+         else
+        {
+            $result = ['status'=>0,'response' => 'error', 'message' => 'Rent breakdown not created.'];
+        }
+
+          }
+          else
+          {
+              $result = ["status"=>0,"response"=>"validation_error","message"=>$validator->errors()->all()];
+          }
+
+           return response()->json($result,200);
 
     }
 

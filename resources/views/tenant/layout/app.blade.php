@@ -20,14 +20,14 @@
   @yield('head')
   @yield('css')
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="layout-top-nav sidebar-collapse">
 <div class="wrapper">
   @include('tenant.include.navbar')
   @include('tenant.include.sidebar')
   <div class="content-wrapper">
     @yield('breadcrumb')
     <div class="content" id="content_wrapper">
-      <div class="container-fluid">
+      <div class="container">
         @yield('content')
       </div>
     </div>

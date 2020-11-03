@@ -122,7 +122,7 @@
                         <ul>
                         <li>Original Emirates ID of the Lessee</li>
                         <li>Husband and wife passport and visa page copy.</li>
-                        <li>If the spouse doesn’t have a valid visa,  sign the pledge to bring wife/husband visa.</li>
+                        <li>If the spouse doesn't have a valid visa,  sign the pledge to bring wife/husband visa.</li>
                         <li>Copy of Marriage certificate.</li>
                         <li>If the spouse is sponsored by company.</li>
                         <li>Bank salary transfer statement for the last 3 months. (hard copy not required)</li>
@@ -163,7 +163,7 @@
                     <div class="d-print-none">
                         <h6>Terms and condition (for new tenant)</h6>
                         <ol>
-                            <li>Booking amount is nonrefundable</li>
+                            <li>Booking amount is non-refundable</li>
                             <li>Security Deposit, commission & first payment must be paid in cash or by current dated
                                 cheque.
                             </li>
@@ -201,9 +201,15 @@
     <script src="{{asset('plugin/print/printThis.js')}}"></script>
 @endsection
 @section("script")
+
     <script>
         $(document).ready(function(){
-            $("#{{$breakdown->rent_enquiry->tenancy_type}}").show();
+            @if(!empty($breakdown->rent_enquiry->tenancy_type))
+             $("#{{$breakdown->rent_enquiry->tenancy_type}}").show();
+           @endif
+           @if(!empty($breakdown->tenant->tenancy_type))
+             $("#{{$breakdown->tenant->tenancy_type}}").show();
+           @endif
             window.addEventListener("load", window.print());
             $("#print_btn").on("click",function(){
                  window.print();
@@ -211,4 +217,5 @@
 
         });
     </script>
+
 @endsection
