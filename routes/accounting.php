@@ -9,7 +9,7 @@ Route::prefix('accounts')->group(function () {
     Route::get('new-lease-contract', 'Admin\Accounting\AccountingController@new_lease_contracts')->name('contracts.lease.new');
     //// Voucher
     Route::get('new-cash-receipt', 'Admin\Accounting\AccountingController@receipt_cash_new')->name('new.receipt.cash');
-    Route::post('new-cash-voucher-create', 'Admin\Accounting\VoucherController@store_new_cash_voucher')->name('new.cash.voucher.store');
+    Route::post('new-cash-receipt-voucher-create', 'Admin\Accounting\VoucherController@store_new_receipt_cash_voucher')->name('new.cash.voucher.store');
     Route::get('new-cheque-receipt', 'Admin\Accounting\AccountingController@receipt_cheque_new')->name('new.receipt.cheque');
     Route::post('new-cheque-voucher-create', 'Admin\Accounting\VoucherController@store_new_cheque_voucher')->name('new.cheque.voucher.store');
     Route::get('view-receipt-voucher/{id}', 'Admin\Accounting\AccountingController@view_receipt_voucher')->name('view.receipt.voucher');

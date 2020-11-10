@@ -1,4 +1,4 @@
-@extends('admin.layout.accounting')
+@extends('admin.layout.accounting.base')
 @section('head')
     <link rel="stylesheet" href="{{asset('DataTable/datatables.min.css')}}">
     <style>
@@ -27,38 +27,50 @@
 @endsection
 @section('content')
 
+    <div class="content container-fluid">
+        <div class="row justify-content-lg-center pt-lg-5 pt-xl-10">
+            <div class="col-lg-12">
+                <!-- Title -->
+
+                    <div class="card">
+                        <div class="card-header headshadow">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    Account: <strong> {{$account->name}}</strong> <br>
+                                    Category :<strong> </strong>
+                                </div>
+                                <div class="col-md-4">
+                                    Balance :<strong> {{number_format($balance,2)}}</strong>
+                                </div>
+                            </div>
 
 
-    <div class="card">
-        <div class="card-header headshadow">
-            <div class="row">
-                <div class="col-md-8">
-                     Account: <strong> {{$account->name}}</strong> <br>
-                    Category :<strong> </strong>
-                </div>
-                <div class="col-md-4">
-                    Balance :<strong> {{number_format($balance,2)}}</strong>
-                </div>
+                        </div>
+                        <br>
+                        <div class="card-body table-responsive">
+
+                            <table id="dataTable"  class="w-100 display table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>S No.</th>
+                                    <th>Remark</th>
+                                    <th>Credit</th>
+                                    <th>Debit</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                <!-- End Title -->
             </div>
-
-
         </div>
-        <br>
-        <div class="card-body table-responsive">
-
-            <table id="dataTable"  class="w-100 display table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th>S No.</th>
-                    <th>Remark</th>
-                    <th>Credit</th>
-                    <th>Debit</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-            </table>
-        </div>
+        <!-- End Row -->
     </div>
+
+
+
 
 
 

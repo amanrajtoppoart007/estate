@@ -115,7 +115,7 @@ class AjaxController extends Controller
     public function get_units_by_porperty(Request $request)
     {
         $id = $request->propid;
-        $data = PropertyUnit::select('id', 'unitcode', 'title','flat_house_no')->where('property_id', '=', $id)->get();
+        $data = PropertyUnit::select('id', 'unitcode', 'title','flat_number')->where('property_id', '=', $id)->get();
         return json_encode($data);
     }
     public function select2_get_items(Request $request)
