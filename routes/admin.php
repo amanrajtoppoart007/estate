@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/home', 'Admin\DashboardController@index')->name('master.dashboard');
+Route::get('/home2', 'Admin\DashboardController@index2')->name('master.dashboard.new');
 
 Route::get('insert-some-data', 'TestController@insert_some_data');
 
@@ -61,7 +62,7 @@ Route::prefix('tenant')->group(function () {
     Route::post('update/{id}', 'Admin\TenantController@update')->name('tenant.update');
 
     Route::post('delete', 'Admin\TenantController@destroy')->name('tenant.delete');
-    
+
     Route::post('tenant-relation-remove', 'Admin\TenantController@tenant_relation_remove')->name('tenant.relation.delete');
 
     Route::post('all-tenant-fetch', 'Admin\TenantController@fetch_all_tenants_table')->name('tenant.table.all');
