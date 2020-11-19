@@ -420,7 +420,7 @@
 
                     <!-- Body -->
                     <div class="card-body">
-                        <span class="h1 d-block mb-4"> &#8377; 92,913 INR</span>
+                        <span class="h1 d-block mb-4">  92,913 AED</span>
 
                         <!-- Progress -->
                         <div class="progress rounded-pill mb-2">

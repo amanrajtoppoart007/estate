@@ -36,10 +36,10 @@
 @yield('content')
 
 <!-- Footer -->
-    <div class="footer">
+    <div class="footer mt-5 pt-8">
         <div class="row justify-content-between align-items-center">
             <div class="col">
-                <p class="font-size-sm mb-0">&copy;  <span class="d-none d-sm-inline-block">2020 BAZAAR36 ONLINE SERVICES PVT LTD.</span></p>
+                <p class="font-size-sm mb-0">&copy;  <span class="d-none d-sm-inline-block">2020 Softwarefuels Consultency Services PVT LTD.</span></p>
             </div>
             <div class="col-auto">
                 <div class="d-flex justify-content-end">
