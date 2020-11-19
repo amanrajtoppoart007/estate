@@ -442,7 +442,7 @@
                                     <th scope="row">
                                         <span class="legend-indicator bg-primary"></span>Gross value
                                     </th>
-                                    <td>$3,500.71</td>
+                                    <td>3,500.71 AED</td>
                                     <td>
                                         <span class="badge badge-soft-success">+12.1%</span>
                                     </td>
@@ -452,7 +452,7 @@
                                     <th scope="row">
                                         <span class="legend-indicator bg-primary opacity"></span>Net volume from sales
                                     </th>
-                                    <td>$2,980.45</td>
+                                    <td>2,980.45 AED</td>
                                     <td>
                                         <span class="badge badge-soft-warning">+6.9%</span>
                                     </td>
@@ -462,7 +462,7 @@
                                     <th scope="row">
                                         <span class="legend-indicator bg-primary opacity-xs"></span>New volume from sales
                                     </th>
-                                    <td>$950.00</td>
+                                    <td>950.00 AED</td>
                                     <td>
                                         <span class="badge badge-soft-danger">-1.5%</span>
                                     </td>

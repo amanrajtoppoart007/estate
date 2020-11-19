@@ -33,7 +33,7 @@
     <div class="navbar-nav-wrap">
         <div class="navbar-brand-wrapper">
             <!-- Logo -->
-            <a class="navbar-brand" href="../index.html" aria-label="Front">
+            <a class="navbar-brand" href="{{route('admin.dashboard')}}" aria-label="Front">
                 <img class="navbar-brand-logo" src="{{asset('vendor_assets/svg/logos/logo.svg')}}" alt="Logo">
                 <img class="navbar-brand-logo-mini" src="{{asset('vendor_assets/svg/logos/logo-short.svg')}}" alt="Logo">
             </a>
@@ -89,55 +89,10 @@
                             <div class="card-header">
                                 <span class="card-title h4">Notifications</span>
 
-                                <!-- Unfold -->
-                                <div class="hs-unfold">
-                                    <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary rounded-circle" href="javascript:;"
-                                       data-hs-unfold-options='{
-                         "target": "#notificationSettingsOneDropdown",
-                         "type": "css-animation"
-                       }'>
-                                        <i class="tio-more-vertical"></i>
-                                    </a>
-                                    <div id="notificationSettingsOneDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right">
-                                        <span class="dropdown-header">Settings</span>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="tio-archive dropdown-item-icon"></i>
-                                            Archive all
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="tio-all-done dropdown-item-icon"></i>
-                                            Mark all as read
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="tio-toggle-off dropdown-item-icon"></i>
-                                            Disable notifications
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="tio-gift dropdown-item-icon"></i>
-                                            What's new?
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <span class="dropdown-header">Feedback</span>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="tio-chat-outlined dropdown-item-icon"></i>
-                                            Report
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- End Unfold -->
+
                             </div>
                             <!-- End Header -->
 
-                            <!-- Nav -->
-                            <ul class="nav nav-tabs nav-justified" id="notificationTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="notificationNavOne-tab" data-toggle="tab" href="#notificationNavOne" role="tab" aria-controls="notificationNavOne" aria-selected="true">Messages (3)</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="notificationNavTwo-tab" data-toggle="tab" href="#notificationNavTwo" role="tab" aria-controls="notificationNavTwo" aria-selected="false">Archived</a>
-                                </li>
-                            </ul>
-                            <!-- End Nav -->
 
                             <!-- Body -->
                             <div class="card-body-height">
@@ -155,9 +110,7 @@
                                                                 <label class="custom-control-label" for="notificationCheck1"></label>
                                                                 <span class="custom-checkbox-list-stretched-bg"></span>
                                                             </div>
-                                                            <div class="avatar avatar-sm avatar-circle">
-                                                                <img class="avatar-img" src="{{asset('vendor_assets/img/160x160/img3.jpg')}}" alt="Image Description">
-                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     <div class="col ml-n3">
@@ -208,9 +161,7 @@
                                                                 <label class="custom-control-label" for="notificationCheck4"></label>
                                                                 <span class="custom-checkbox-list-stretched-bg"></span>
                                                             </div>
-                                                            <div class="avatar avatar-sm avatar-circle">
-                                                                <img class="avatar-img" src="{{asset('vendor_assets/img/160x160/img10.jpg')}}" alt="Image Description">
-                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     <div class="col ml-n3">
@@ -233,9 +184,7 @@
                                                                 <label class="custom-control-label" for="notificationCheck3"></label>
                                                                 <span class="custom-checkbox-list-stretched-bg"></span>
                                                             </div>
-                                                            <div class="avatar avatar-sm avatar-circle">
-                                                                <img class="avatar-img" src="{{asset('vendor_assets/svg/brands/google.svg')}}" alt="Image Description">
-                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     <div class="col ml-n3">
@@ -258,9 +207,7 @@
                                                                 <label class="custom-control-label" for="notificationCheck5"></label>
                                                                 <span class="custom-checkbox-list-stretched-bg"></span>
                                                             </div>
-                                                            <div class="avatar avatar-sm avatar-circle">
-                                                                <img class="avatar-img" src="{{asset('vendor_assets/img/160x160/img7.jpg')}}" alt="Image Description">
-                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     <div class="col ml-n3">
@@ -275,134 +222,6 @@
                                         </ul>
                                     </div>
 
-                                    <div class="tab-pane fade" id="notificationNavTwo" role="tabpanel" aria-labelledby="notificationNavTwo-tab">
-                                        <ul class="list-group list-group-flush navbar-card-list-group">
-                                            <!-- Item -->
-                                            <li class="list-group-item custom-checkbox-list-wrapper">
-                                                <div class="row">
-                                                    <div class="col-auto position-static">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="custom-control custom-checkbox custom-checkbox-list">
-                                                                <input type="checkbox" class="custom-control-input" id="notificationCheck7">
-                                                                <label class="custom-control-label" for="notificationCheck7"></label>
-                                                                <span class="custom-checkbox-list-stretched-bg"></span>
-                                                            </div>
-                                                            <div class="avatar avatar-sm avatar-soft-dark avatar-circle">
-                                                                <span class="avatar-initials">A</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col ml-n3">
-                                                        <span class="card-title h5">Anne Richard</span>
-                                                        <p class="card-text font-size-sm">accepted your invitation to join Notion</p>
-                                                    </div>
-                                                    <small class="col-auto text-muted text-cap">1dy</small>
-                                                </div>
-                                                <a class="stretched-link" href="#"></a>
-                                            </li>
-                                            <!-- End Item -->
-
-                                            <!-- Item -->
-                                            <li class="list-group-item custom-checkbox-list-wrapper">
-                                                <div class="row">
-                                                    <div class="col-auto position-static">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="custom-control custom-checkbox custom-checkbox-list">
-                                                                <input type="checkbox" class="custom-control-input" id="notificationCheck6">
-                                                                <label class="custom-control-label" for="notificationCheck6"></label>
-                                                                <span class="custom-checkbox-list-stretched-bg"></span>
-                                                            </div>
-                                                            <div class="avatar avatar-sm avatar-circle">
-                                                                <img class="avatar-img" src="{{asset('vendor_assets/img/160x160/img5.jpg')}}" alt="Image Description">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col ml-n3">
-                                                        <span class="card-title h5">Finch Hoot</span>
-                                                        <p class="card-text font-size-sm">left Slack group HS projects</p>
-                                                    </div>
-                                                    <small class="col-auto text-muted text-cap">3dy</small>
-                                                </div>
-                                                <a class="stretched-link" href="#"></a>
-                                            </li>
-                                            <!-- End Item -->
-
-                                            <!-- Item -->
-                                            <li class="list-group-item custom-checkbox-list-wrapper">
-                                                <div class="row">
-                                                    <div class="col-auto position-static">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="custom-control custom-checkbox custom-checkbox-list">
-                                                                <input type="checkbox" class="custom-control-input" id="notificationCheck8">
-                                                                <label class="custom-control-label" for="notificationCheck8"></label>
-                                                                <span class="custom-checkbox-list-stretched-bg"></span>
-                                                            </div>
-                                                            <div class="avatar avatar-sm avatar-dark avatar-circle">
-                                                                <span class="avatar-initials">HS</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col ml-n3">
-                                                        <span class="card-title h5">Htmlstream</span>
-                                                        <p class="card-text font-size-sm">you earned a "Top endorsed" <i class="tio-verified text-primary"></i> badge</p>
-                                                    </div>
-                                                    <small class="col-auto text-muted text-cap">6dy</small>
-                                                </div>
-                                                <a class="stretched-link" href="#"></a>
-                                            </li>
-                                            <!-- End Item -->
-
-                                            <!-- Item -->
-                                            <li class="list-group-item custom-checkbox-list-wrapper">
-                                                <div class="row">
-                                                    <div class="col-auto position-static">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="custom-control custom-checkbox custom-checkbox-list">
-                                                                <input type="checkbox" class="custom-control-input" id="notificationCheck9">
-                                                                <label class="custom-control-label" for="notificationCheck9"></label>
-                                                                <span class="custom-checkbox-list-stretched-bg"></span>
-                                                            </div>
-                                                            <div class="avatar avatar-sm avatar-circle">
-                                                                <img class="avatar-img" src="{{asset('vendor_assets/img/160x160/img8.jpg')}}" alt="Image Description">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col ml-n3">
-                                                        <span class="card-title h5">Linda Bates</span>
-                                                        <p class="card-text font-size-sm">Accepted your connection</p>
-                                                    </div>
-                                                    <small class="col-auto text-muted text-cap">17dy</small>
-                                                </div>
-                                                <a class="stretched-link" href="#"></a>
-                                            </li>
-                                            <!-- End Item -->
-
-                                            <!-- Item -->
-                                            <li class="list-group-item custom-checkbox-list-wrapper">
-                                                <div class="row">
-                                                    <div class="col-auto position-static">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="custom-control custom-checkbox custom-checkbox-list">
-                                                                <input type="checkbox" class="custom-control-input" id="notificationCheck10">
-                                                                <label class="custom-control-label" for="notificationCheck10"></label>
-                                                                <span class="custom-checkbox-list-stretched-bg"></span>
-                                                            </div>
-                                                            <div class="avatar avatar-sm avatar-soft-dark avatar-circle">
-                                                                <span class="avatar-initials">L</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col ml-n3">
-                                                        <span class="card-title h5">Lewis Clarke</span>
-                                                        <p class="card-text font-size-sm">completed <i class="tio-folder-bookmarked text-primary"></i> FD-134 task</p>
-                                                    </div>
-                                                    <small class="col-auto text-muted text-cap">2mn</small>
-                                                </div>
-                                                <a class="stretched-link" href="#"></a>
-                                            </li>
-                                            <!-- End Item -->
-                                        </ul>
-                                    </div>
                                 </div>
                                 <!-- End Tab Content -->
                             </div>
@@ -419,114 +238,7 @@
                     <!-- End Notification -->
                 </li>
 
-                <li class="nav-item d-none d-sm-inline-block">
-                    <!-- Apps -->
-                    <div class="hs-unfold">
-                        <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
-                           data-hs-unfold-options='{
-                   "target": "#appsDropdown",
-                   "type": "css-animation"
-                 }'>
-                            <i class="tio-menu-vs-outlined"></i>
-                        </a>
 
-                        <div id="appsDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu" style="width: 25rem;">
-                            <!-- Header -->
-                            <div class="card-header">
-                                <span class="card-title h4">Web apps &amp; services</span>
-                            </div>
-                            <!-- End Header -->
-
-                            <!-- Body -->
-                            <div class="card-body card-body-height">
-                                <!-- Nav -->
-                                <div class="nav nav-pills flex-column">
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                        <span class="mr-3">
-                          <img class="avatar avatar-xs avatar-4by3" src="{{asset('vendor_assets/svg/brands/atlassian.svg')}}" alt="Image Description">
-                        </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">Atlassian</span>
-                                                <span class="d-block font-size-sm text-body">Security and control across Cloud</span>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                        <span class="mr-3">
-                          <img class="avatar avatar-xs avatar-4by3" src="{{asset('vendor_assets/svg/brands/slack.svg')}}" alt="Image Description">
-                        </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">Slack <span class="badge badge-primary badge-pill text-uppercase ml-1">Try</span></span>
-                                                <span class="d-block font-size-sm text-body">Email collaboration software</span>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                        <span class="mr-3">
-                          <img class="avatar avatar-xs avatar-4by3" src="{{asset('vendor_assets/svg/brands/google-webdev.svg')}}" alt="Image Description">
-                        </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">Google webdev</span>
-                                                <span class="d-block font-size-sm text-body">Work involved in developing a website</span>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                        <span class="mr-3">
-                          <img class="avatar avatar-xs avatar-4by3" src="{{asset('vendor_assets/svg/brands/frontapp.svg')}}" alt="Image Description">
-                        </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">Frontapp</span>
-                                                <span class="d-block font-size-sm text-body">The inbox for teams</span>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                        <span class="mr-3">
-                          <img class="avatar avatar-xs avatar-4by3" src="{{asset('vendor_assets/svg/illustrations/review-rating-shield.svg')}}" alt="Image Description">
-                        </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">HS Support</span>
-                                                <span class="d-block font-size-sm text-body">Customer service and support</span>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                        <span class="avatar avatar-xs avatar-soft-dark mr-3">
-                          <span class="avatar-initials"><i class="tio-apps"></i></span>
-                        </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">More Front products</span>
-                                                <span class="d-block font-size-sm text-body">Check out more HS products</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <!-- End Nav -->
-                            </div>
-                            <!-- End Body -->
-
-                            <!-- Footer -->
-                            <a class="card-footer text-center" href="#">
-                                View all apps
-                                <i class="tio-chevron-right"></i>
-                            </a>
-                            <!-- End Footer -->
-                        </div>
-                    </div>
-                    <!-- End Apps -->
-                </li>
 
                 <li class="nav-item d-none d-sm-inline-block">
                     <!-- Activity -->
@@ -555,7 +267,7 @@
                    "type": "css-animation"
                  }'>
                             <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="{{asset('vendor_assets/img/160x160/img6.jpg')}}" alt="Image Description">
+                                <img class="avatar-img" src="{{asset('assets/img/avatar5.png')}}" alt="Profile Pic">
                                 <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                             </div>
                         </a>
@@ -564,48 +276,18 @@
                             <div class="dropdown-item">
                                 <div class="media align-items-center">
                                     <div class="avatar avatar-sm avatar-circle mr-2">
-                                        <img class="avatar-img" src="{{asset('vendor_assets/img/160x160/img6.jpg')}}')}}" alt="Image Description">
+                                        <img class="avatar-img" src="{{asset('assets/img/avatar5.png')}}" alt="Profile Pic">
                                     </div>
                                     <div class="media-body">
-                                        <span class="card-title h5">Mark Williams</span>
-                                        <span class="card-text">mark@example.com</span>
+                                        <span class="card-title h5">{{auth()->user()->name}}</span>
+                                        <span class="card-text">{{auth()->user()->email}}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="dropdown-divider"></div>
 
-                            <!-- Unfold -->
-                            <div class="hs-unfold w-100">
-                                <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center" href="javascript:;"
-                                   data-hs-unfold-options='{
-                       "target": "#navSubmenuPagesAccountDropdown1",
-                       "event": "hover"
-                     }'>
-                                    <span class="text-truncate pr-2" title="Set status">Set status</span>
-                                    <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker ml-auto"></i>
-                                </a>
 
-                                <div id="navSubmenuPagesAccountDropdown1" class="hs-unfold-content hs-unfold-has-submenu dropdown-unfold dropdown-menu navbar-dropdown-sub-menu">
-                                    <a class="dropdown-item" href="#">
-                                        <span class="legend-indicator bg-success mr-1"></span>
-                                        <span class="text-truncate pr-2" title="Available">Available</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <span class="legend-indicator bg-danger mr-1"></span>
-                                        <span class="text-truncate pr-2" title="Busy">Busy</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <span class="legend-indicator bg-warning mr-1"></span>
-                                        <span class="text-truncate pr-2" title="Away">Away</span>
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">
-                                        <span class="text-truncate pr-2" title="Reset status">Reset status</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Unfold -->
 
                             <a class="dropdown-item" href="#">
                                 <span class="text-truncate pr-2" title="Profile &amp; account">Profile &amp; account</span>
@@ -615,58 +297,20 @@
                                 <span class="text-truncate pr-2" title="Settings">Settings</span>
                             </a>
 
-                            <div class="dropdown-divider"></div>
 
-                            <a class="dropdown-item" href="#">
-                                <div class="media align-items-center">
-                                    <div class="avatar avatar-sm avatar-dark avatar-circle mr-2">
-                                        <span class="avatar-initials">HS</span>
-                                    </div>
-                                    <div class="media-body">
-                                        <span class="card-title h5">Htmlstream <span class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
-                                        <span class="card-text">hs.example.com</span>
-                                    </div>
-                                </div>
-                            </a>
+
+
+
 
                             <div class="dropdown-divider"></div>
 
-                            <!-- Unfold -->
-                            <div class="hs-unfold w-100">
-                                <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center" href="javascript:;"
-                                   data-hs-unfold-options='{
-                       "target": "#navSubmenuPagesAccountDropdown2",
-                       "event": "hover"
-                     }'>
-                                    <span class="text-truncate pr-2" title="Customization">Customization</span>
-                                    <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker  ml-auto"></i>
-                                </a>
 
-                                <div id="navSubmenuPagesAccountDropdown2" class="hs-unfold-content hs-unfold-has-submenu dropdown-unfold dropdown-menu navbar-dropdown-sub-menu">
-                                    <a class="dropdown-item" href="#">
-                                        <span class="text-truncate pr-2" title="Invite people">Invite people</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <span class="text-truncate pr-2" title="Analytics">Analytics</span>
-                                        <i class="tio-open-in-new"></i>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <span class="text-truncate pr-2" title="Customize Front">Customize Front</span>
-                                        <i class="tio-open-in-new"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Unfold -->
-
-                            <a class="dropdown-item" href="#">
-                                <span class="text-truncate pr-2" title="Manage team">Manage team</span>
-                            </a>
-
-                            <div class="dropdown-divider"></div>
-
-                            <a class="dropdown-item" href="#">
+                            <a href="javascript:void(0)" onclick="event.preventDefault();document.getElementById('admin_logout_form').submit()" class="dropdown-item">
                                 <span class="text-truncate pr-2" title="Sign out">Sign out</span>
                             </a>
+
+                            {{Form::open(['id'=>'admin_logout_form','route'=>'admin.logout','method'=>'post'])}}
+                            {{Form::close()}}
                         </div>
                     </div>
                     <!-- End Account -->
@@ -676,5 +320,8 @@
         </div>
         <!-- End Secondary Content -->
     </div>
+
 </header>
 <!-- ========== END HEADER ========== -->
+
+

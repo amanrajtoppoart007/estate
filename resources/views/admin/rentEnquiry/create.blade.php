@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('admin.layout.base')
 @include("admin.include.breadcrumb",["page_title"=>"Create Rent Inquiry"])
 @section('content')
 <div class="card">
@@ -9,7 +9,35 @@
                 <h6>Client Detail</h6>
             </div>
             <div class="card-body">
-                <div class="row">
+
+                <div class="form-group">
+                    <label class="input-label">Photo</label>
+
+                    <div class="d-flex align-items-center">
+                        <!-- Avatar -->
+                        <label class="avatar avatar-xl avatar-circle avatar-uploader mr-5" for="avatarUploader">
+                            <img id="avatarProjectSettingsImg" class="avatar-img" src="{{asset('theme/images/4.png')}}" alt="Image Description">
+
+                            <input type="file" class="js-file-attach avatar-uploader-input" name="photo" id="avatarUploader"
+                                   data-hs-file-attach-options='{
+                                "textTarget": "#avatarProjectSettingsImg",
+                                "mode": "image",
+                                "targetAttr": "src",
+                                "resetTarget": ".js-file-attach-reset-img",
+                                "resetImg": "{{asset('theme/images/4.png')}}"
+                             }'>
+
+                            <span class="avatar-uploader-trigger">
+                        <i class="tio-edit avatar-uploader-icon shadow-soft"></i>
+                      </span>
+                        </label>
+                        <!-- End Avatar -->
+
+                        <button type="button" class="js-file-attach-reset-img btn btn-white">Delete</button>
+                    </div>
+                </div>
+                <!-- End Form Group -->
+                <div class="row hideme">
                     <div class="col-lg-6 col-sm-6 col-12 offset-lg-3 offset-sm-3">
                         <div class="text-center">
                             <div class="user_photo">
@@ -18,7 +46,7 @@
                                     <label class="btn btn-primary mb-0" for="profile_image">
                                         <i class="fa fa-upload" aria-hidden="true"></i>
                                     </label>
-                                    <input id="profile_image" class="hide" type="file" name="photo">
+                                    <input id="profile_image" class="hide" type="file" name="photo_old">
                                     <a type="button" id="remove_profile_image" class="btn btn-danger text-white">
                                         <i class="fa fa-trash"></i>
                                     </a>
@@ -196,12 +224,13 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group text-right">
+                <input type="hidden" id="next_action_input" name="next_action" value="save">
+                <button id="create_rent_breakdown" class="btn btn-primary submit_form_btn">Prepare BreakDown</button>
+                <button id="create_rent_enquiry" class="btn btn-primary submit_form_btn">Save Detail</button>
+            </div>
         </div>
-        <div class="form-group text-right">
-            <input type="hidden" id="next_action_input" name="next_action" value="save">
-            <button id="create_rent_breakdown" class="btn btn-primary submit_form_btn">Prepare BreakDown</button>
-            <button id="create_rent_enquiry" class="btn btn-primary submit_form_btn">Save Detail</button>
-        </div>
+
         {{Form::close()}}
     </div>
 </div>
@@ -209,7 +238,9 @@
 @section('script')
 <script>
     $(document).ready(function() {
-
+        $('.js-file-attach').each(function () {
+            var customFile = new HSFileAttach($(this)).init();
+        });
         function get_property_types() {
             $("#property_type").empty();
             let html = '<option value="">Select Type</option>';

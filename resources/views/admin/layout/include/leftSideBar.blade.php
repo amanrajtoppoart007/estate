@@ -6,7 +6,7 @@
                 <!-- Logo -->
 
 
-                <a class="navbar-brand" href="../index.html" aria-label="Front">
+                <a class="navbar-brand" href="{{route('admin.dashboard')}}" aria-label="Front">
 
                     <img class="navbar-brand-logo" style="
     width: 100%;
@@ -34,7 +34,7 @@
                     </li>
 
                     <li class="nav-item active">
-                        <a class="js-nav-tooltip-link nav-link active" href="layouts.html" title="Dashboard" data-placement="left">
+                        <a class="js-nav-tooltip-link nav-link active" href="{{route('admin.dashboard')}}" title="Dashboard" data-placement="left">
                             <span class="icon icon-soft-warning"> <i class="tio-dashboard-vs-outlined nav-icon"></i></span>
                             <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Homepage</span>
                         </a>
