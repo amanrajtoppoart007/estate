@@ -1,8 +1,7 @@
 @extends('admin.layout.app')
   @section('content')
      <h4 class="color-primary mb-4">@lang('property.allocate_property')</h4>
-
-							<div class="submit_form color-secondery icon_primary p-5 bg-white">
+     <div class="submit_form color-secondary icon_primary p-5 bg-white">
                 {{Form::open(['route'=>'allot.property','id'=>'add_data_form'])}}
                  <input type="hidden" name="tenant_id" value="{{$tenant->id}}">
                   <h6>Tenant Detail</h6>

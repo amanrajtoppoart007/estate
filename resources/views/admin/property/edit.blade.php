@@ -1,12 +1,25 @@
-@extends('admin.layout.app')
-@section('head')
-  <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-  <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
-@endsection
+@extends('admin.layout.base')
 @include("admin.include.breadcrumb",["page_title"=>"Edit Property"])
 @section('content')
-<div class="submit_form color-secondery icon_primary p-5 bg-white">
-  <form action="{{route('property.update',['id'=>$property->id])}}" enctype="multipart/form-data" method="POST" id="edit_data_form" autocomplete="off">
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Edit Building</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Building</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+                <div class="card">
+                    
+                    <div class="card-body">
+                    	<form action="{{route('property.update',['id'=>$property->id])}}" enctype="multipart/form-data" method="POST" id="edit_data_form" autocomplete="off">
   @csrf
 <div class="property-location mt-4">
 		<h5 class="color-primary">Property Location</h5>
@@ -21,7 +34,7 @@
 		<div class="col-md-4">
 		<div class="form-group">
 			<label for="owner_id">Developer <span class="text-danger">*</span></label>
-			<select class="form-control" name="owner_id" id="owner_id">
+			<select class="js-select2-custom" name="owner_id" id="owner_id">
 				<option value="">Select Developer</option>
 				@foreach($owners as $owner)
 						@if($owner->id==$property->owner_id))
@@ -35,7 +48,7 @@
 
 			<div class="form-group">
 			<label for="type">Property Type <span class="text-danger">*</span></label>
-				<select class="form-control" name="type" id="type">
+				<select class="js-select2-custom" name="type" id="type">
 					<option value="">Select Property Type</option>
 					@foreach($propertyTypes as $type)
 						@if($type->id==$property->type))
@@ -49,7 +62,7 @@
 
 			<div class="form-group">
 			<label for="prop_for">Purpose <span class="text-danger">*</span></label>
-				<select class="form-control" name="prop_for" id="prop_for">
+				<select class="js-select2-custom" name="prop_for" id="prop_for">
 					<option value="">Select Purpose</option>
 					@php
 						$purpose = array('1'=>'For Rent','2'=>'For Sale','3'=>'Rent & Sale')
@@ -66,7 +79,7 @@
 
 			<div class="form-group">
 			<label for="country_id">Country <span class="text-danger">*</span></label>
-				<select class="form-control" name="country_id" id="country_id">
+				<select class="js-select2-custom" name="country_id" id="country_id">
 					@foreach($countries as $country)
                         @if($country->code==971)
 						@php $selected =  ($country->id==$property->country_id)?'selected':null; @endphp
@@ -78,7 +91,7 @@
 
 			<div class="form-group">
 			<label for="city_id">City <span class="text-danger">*</span></label>
-			<select class="form-control" name="city_id" id="city_id">
+			<select class="js-select2-custom" name="city_id" id="city_id">
 				<option value="">Select City</option>
 				@foreach($cities as $city)
 				@php $selected = ($city->id==$property->city_id)?'selected':null; @endphp
@@ -136,7 +149,7 @@
 		<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
 					<label for="completion_date">Completion Date <span class="text-danger">*</span></label>
-						<input type="text" name="completion_date" id="completion_date" class="form-control" value="{{ $property->completion_date}}" autocomplete="off">
+						<input type="text" name="completion_date" id="completion_date" class="form-control js-flatpickr flatpickr-custom" value="{{ $property->completion_date}}" autocomplete="off">
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
@@ -207,8 +220,8 @@
 		<tbody id="propertyUnitTypeGrid">
 			@foreach($property->propertyUnitTypes as $prop_unit_type)
 			<tr>
-			<td><input type="hidden" name="property_unit_type_id[]" value="{{$prop_unit_type->id}}" readonly>
-				<select class="form-control width_105px" name="unit_series[]">
+			<td style="width:150px"><input type="hidden" name="property_unit_type_id[]" value="{{$prop_unit_type->id}}" readonly>
+				<select class="js-select2-custom width_105px" name="unit_series[]">
                     @for($i=1;$i<9;$i++)
                         @php $selected = ($i==$prop_unit_type->unit_series)?"selected":null; @endphp
                         <option value="{{$i}}" {{$selected}}>Series {{$i}}</option>
@@ -216,13 +229,13 @@
                 </select>
             </td>
 			<td class="width_200px">
-                <select class="form-control width_80px d-inline" name="floor_from[]">
+                <select class="js-select2-custom width_80px d-inline" name="floor_from[]">
                     @for($i=1;$i<300;$i++)
                         @php $selected = ($i==$prop_unit_type->floor_from)?"selected":null; @endphp
                         <option value="{{$i}}" {{$selected}}> {{$i}}</option>
                     @endfor
                 </select>
-                <select class="form-control width_80px d-inline" name="floor_to[]">
+                <select class="js-select2-custom width_80px d-inline" name="floor_to[]">
                     @for($i=1;$i<300;$i++)
                         @php $selected = ($i==$prop_unit_type->floor_to)?"selected":null; @endphp
                         <option value="{{$i}}" {{$selected}}> {{$i}}</option>
@@ -230,7 +243,7 @@
                 </select>
             </td>
 			<td>
-				<select class="form-control width_100px" name="bedroom[]">
+				<select class="js-select2-custom width_100px" name="bedroom[]">
                     @php $bedrooms = ["studio"=>"Studio","1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","7+"=>"7+","NA"=>"NA"]; @endphp
 						   @foreach($bedrooms as $bKey=>$bValue)
                                @php $selected = ($bKey==$prop_unit_type->bedroom)?"selected":null; @endphp
@@ -240,7 +253,7 @@
 			</td>
 			<td><input class="form-control width_100px" name="unit_size[]" value="{{$prop_unit_type->unit_size}}"></td>
 			<td>
-				<select class="form-control width_80px" name="bathroom[]">
+				<select class="js-select2-custom width_80px" name="bathroom[]">
 					 @php $bathrooms = ["1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","7+"=>"7+","NA"=>"NA"]; @endphp
                     @foreach($bathrooms as $bKey=>$bValue)
                         @php $selected = ($bKey==$prop_unit_type->bathroom)?"selected":null; @endphp
@@ -249,7 +262,7 @@
 				</select>
 			</td>
 			<td>
-				<select class="form-control width_80px" name="parking[]">
+				<select class="js-select2-custom width_80px" name="parking[]">
 					@php $parkings = ["1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","7+"=>"7+","NA"=>"NA"]; @endphp
                     @foreach($parkings as $pKey=>$pValue)
                         @php $selected = ($pKey==$prop_unit_type->parking)?"selected":null; @endphp
@@ -258,7 +271,7 @@
 				</select>
 			</td>
 			<td>
-				<select class="form-control width_80px" name="balcony[]">
+				<select class="js-select2-custom width_80px" name="balcony[]">
 					@php $list = ["1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","7+"=>"7+","NA"=>"NA"]; @endphp
                     @foreach($list as $lKey=>$lValue)
                         @php $selected = ($lKey==$prop_unit_type->bolcony)?"selected":null; @endphp
@@ -269,7 +282,14 @@
                 <td>
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="file" class="form-control width_100px" name="floor_plan[]" value="">
+                            <div class="custom-file">
+
+                                <input type="file" name="floor_plan[]" class="js-file-attach custom-file-input"
+                                       data-hs-file-attach-options='{
+              "textTarget": "[for=\"floor_plan\"]"
+           }'>
+                                <label class="custom-file-label" for="floor_plan">Choose file</label>
+                            </div>
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <a target="_blank" href="{{asset($prop_unit_type->floor_plan)}}">
@@ -301,10 +321,18 @@
 	<hr>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="browse_submit">
-				<input type="file" name="images[]" id="images" class="hide" value="" multiple>
-				<label class="fileupload_label text-center w-100" for="images">Click Here To Add Photo (770x390)</label>
-			</div>
+			
+			<!-- File Attachment Input -->
+  <label class="custom-file-boxed" for="customFileInputBoxedEg">
+    <span id="customFileBoxedEg">Click Here To Add Photo (770x390)</span>
+    <small class="d-block text-muted">Maximum file size 10MB</small>
+
+    <input id="customFileInputBoxedEg" name="images[]" type="file" multiple class="js-file-attach custom-file-boxed-input"
+           data-hs-file-attach-options='{
+             "textTarget": "#customFileBoxedEg"
+           }'>
+  </label>
+  <!-- End File Attachment Input -->
 
 		</div>
 
@@ -341,13 +369,37 @@
 						<input type="submit" name="name" class="btn btn-primary" value="Save Data">
 					</div>
 				</form>
-			</div>
+
+                    </div>
+
+                    
+                </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
+
     @endsection
 	@section('script')
     <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key={{get_systemSetting('map_api_key')}}&libraries=places"></script>
     <script src="{{asset('map/map.scripts.js')}}"></script>
     <script>
+    	$('.js-select2-custom').each(function () {
+	      var select2 = $.HSCore.components.HSSelect2.init($(this));
+	    });
+
+	    $('.js-file-attach').each(function () {
+	      var customFile = new HSFileAttach($(this)).init();
+	    });
+
+	    $('.js-flatpickr').each(function () {
+          $.HSCore.components.HSFlatpickr.init($(this));
+        });
            let autocomplete;
     function initAutocomplete() {
 
@@ -384,12 +436,6 @@ initAutocomplete();
     <script type="text/javascript">
 	(function($){
 
-	    let pickers = ["completion_date"];
-           pickers.forEach(function(item){
-               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
-           });
-
-
 		function addRow()
 		{
             let option = '';
@@ -399,7 +445,7 @@ initAutocomplete();
              option +=`<option value="${i}">${i}</option>`;
          }
           let html = `<tr>
-					<td> <select class="form-control width_105px" name="unit_series[]">
+					<td style="width:150px"> <select class="js-select2-custom width_105px" name="unit_series[]">
                               <option value="1">Series 1</option>
                               <option value="2">Series 2</option>
                               <option value="3">Series 3</option>
@@ -411,15 +457,15 @@ initAutocomplete();
                          </select>
                            </td>
 					<td class="width_200px">
-                      <select class="form-control width_80px d-inline" name="floor_from[]">
+                      <select class="js-select2-custom width_80px d-inline" name="floor_from[]">
                         ${option}
                      </select>
-                    <select class="form-control width_80px d-inline" name="floor_to[]">
+                    <select class="js-select2-custom width_80px d-inline" name="floor_to[]">
                       ${option}
                     </select>
                          </td>
 					<td>
-						<select class="form-control width_100px" name="bedroom[]">
+						<select class="js-select2-custom width_100px" name="bedroom[]">
 						   <option value="1">1</option>
 						   <option value="2">2</option>
 						   <option value="3">3</option>
@@ -433,7 +479,7 @@ initAutocomplete();
 					</td>
 					<td><input class="form-control width_100px" name="unit_size[]" value=""></td>
 					<td>
-					<select class="form-control width_80px" name="bathroom[]">
+					<select class="js-select2-custom width_80px" name="bathroom[]">
 					      <option value="1">1</option>
 					      <option value="2">2</option>
 					      <option value="3">3</option>
@@ -447,7 +493,7 @@ initAutocomplete();
 					   </select>
 					</td>
 					<td>
-					   <select class="form-control width_80px" name="parking[]">
+					   <select class="js-select2-custom width_80px" name="parking[]">
 					      <option value="1">1</option>
 					      <option value="2">2</option>
 					      <option value="3">3</option>
@@ -460,7 +506,7 @@ initAutocomplete();
 					   </select>
 					</td>
 					<td>
-					   <select class="form-control width_80px" name="balcony[]">
+					   <select class="js-select2-custom width_80px" name="balcony[]">
 					      <option value="1">1</option>
 					      <option value="2">2</option>
 					      <option value="3">3</option>
@@ -472,7 +518,15 @@ initAutocomplete();
 					      <option value="NA">NA</option>
 					   </select>
 					</td>
-					<td><input type="file" class="form-control width_150px" name="floor_plan[]" value=""></td>
+					<td>
+					<div class="custom-file">
+
+                                <input type="file" name="floor_plan[]" class="js-file-attach custom-file-input"
+                                       data-hs-file-attach-options='{
+              "textTarget": "[for=\"floor_plan\"]"
+           }'>
+                                <label class="custom-file-label" for="floor_plan">Choose file</label>
+                            </div></td>
 						<td>
 							<button  class="btn btn-danger removeRowBtn" type="button"><i class="fa fa-times text-white"></i></button>
 						</td>
@@ -647,7 +701,6 @@ $(document).on('click','.deleteImage',function(e){
 				  $(this).remove();
 			  }
 		  });
-		   $("#images").val('');
 		   e.preventDefault();
 		}
 	});

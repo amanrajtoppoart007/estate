@@ -1,24 +1,52 @@
-@extends('admin.layout.app')
+@extends('admin.layout.base')
 @section('content')
-    <h4 class="color-primary mb-4">Property Types</h4>
-		<div class="submit_form color-secondery icon_primary p-5 bg-white">
-			{{ Form::open(['action' => 'Admin\PropertyTypeController@store','id'=>'add_data_form','method'=>'POST','autocomplete'=>'off']) }}
-				<div class="description">
-					<h5 class="color-primary">Add New Property Type</h5>
-					<hr>
-					<div class="row">
-						<div class="col-lg-4 col-md-6">
-							<div class="form-group">
-								{{Form::label('title','Title')}}
+
+
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Property Types</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Property Types</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+                <div class="card">
+                  <div class="card-header">
+                   <h6>Add New Property Type</h6> 
+             </div>
+                    
+                    <div class="card-body">
+                      
+    <div class="submit_form color-secondery icon_primary bg-white">
+      {{ Form::open(['action' => 'Admin\PropertyTypeController@store','id'=>'add_data_form','method'=>'POST','autocomplete'=>'off']) }}
+        <div class="description">
+          <div class="row">
+            <div class="col-lg-4 col-md-6">
+              <div class="form-group">
+                {{Form::label('title','Title')}}
                                 {{ Form::text('title','',['id'=>'title','class'=>'form-control']) }}
-							</div>
-						</div>
-					</div>
-				</div>
-				{{ Form::submit('Save Change',['class'=>'btn btn-primary mt-4']) }}
-			</form>
-		</div>
-                    <h4 class="color-primary mb-4">Property Type Listing</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{ Form::submit('Save Change',['class'=>'btn btn-primary']) }}
+      </form>
+    </div>
+  </div>
+</div>
+<div class="card mt-3">
+                  <div class="card-header">
+                   <h6>Property Type Listing</h6> 
+             </div>
+                    
+                    <div class="card-body">
                     <div class="items_list bg_transparent color-secondery icon_default">
                         <table class="table table-bordered" id="dataTable">
                             <thead>
@@ -43,14 +71,14 @@
       </div>
       <div class="modal-body">
             {{ Form::hidden('id','',['id'=>'edit_id','class'=>'form-control','required']) }}
-					<div class="row">
-						<div class="col-lg-12 col-md-12">
-							<div class="form-group">
-								{{Form::label('title','Title')}}
+          <div class="row">
+            <div class="col-lg-12 col-md-12">
+              <div class="form-group">
+                {{Form::label('title','Title')}}
                                 {{ Form::text('title','',['id'=>'edit_title','class'=>'form-control','required']) }}
-							</div>
-						</div>
-					</div>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -60,6 +88,25 @@
   </div>
 </div>
 </form>
+                    </div>
+
+                    
+                </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
+
+
+
+
+
+
+
 @endsection
 @section('script')
 <script>
@@ -69,11 +116,11 @@
         {
             let status   =  (parseInt(data.is_disabled))?'In Active':'Active';
             let btnColor = (parseInt(data.is_disabled))?'danger':'success';
-            return `<a href="javascript:void(0)" data-status="${data.is_disabled}" data-id="${data.id}" class="btn btn-${btnColor} mr-3 changeStatusBtn">${status}</a>`;
+            return `<a href="javascript:void(0)" data-status="${data.is_disabled}" data-id="${data.id}" class="btn btn-outline-${btnColor} mr-3 changeStatusBtn">${status}</a>`;
         }
         function renderActionBtn(data)
         {
-            return `<a  href="javascript:void(0)" data-id="${data.id}" class="btn btn-primary editModalOpenBtn"><i class="fa fa-edit text-white"></i></a>`;
+            return `<a  href="javascript:void(0)" data-id="${data.id}" class="btn btn-soft-primary editModalOpenBtn"><i class="fa fa-edit text-white"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         var dataTable = $("#dataTable").dataTable({

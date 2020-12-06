@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         Relation::morphMap([
             'authorised_person' => \App\AuthorisedPerson::class,
             'agent' => \App\Agent::class,

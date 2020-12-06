@@ -1,25 +1,34 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Add Buyer</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Add Buyer</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
-    <div class="card card-primary">
-        <div class="card-header">Buyer Detail</div>
-        <div class="card-body">
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Buyers</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Buyer</li>
+            </ol>
+
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+                <div class="card">
+                    <!-- Header -->
+                    <div class="card-header">
+                        <div class="row justify-content-between align-items-center flex-grow-1">
+                            <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+                                Buyer Detail
+                            </div>
+                        </div>
+                        <!-- End Row -->
+                    </div>
+                    <!-- End Header -->
+
+                    <div class="card-body">
             {{Form::open(['id'=>'edit_data_form','url'=>route('buyer.update',$buyer->id),'enctype'=>'multipart/form-data'])}}
             <div class="row">
                 <div class="col-md-6">
@@ -71,30 +80,46 @@
 
                 </div>
                 <div class="col-md-6">
-                    <div class="card" style="width: 18rem;">
-                        @php
-                            if(!empty($buyer->buyer_image))
-                            {
-                                $img = route('get.doc',base64_encode($buyer->buyer_image));
-                            }
-                            else
-                            {
-                                $img = asset('theme/images/4.png');
-                            }
-                        @endphp
-                        <img id="image_grid" class="card-img-top" src="{{$img}}" alt="Card image cap">
-                        <div class="card-footer text-right">
-                            <div class="d-inline">
-                                <label for="image" class="btn btn-success">
-                                    <i class="fa fa-upload"></i>
-                                </label>
-                                <label class="btn btn-danger" id="remove_image">
-                                    <i class="fa fa-trash"></i>
-                                </label>
+
+                    <div class="form-group">
+                                <label class="input-label">Photo</label>
+
+                                <div class="d-flex align-items-center">
+                                    <!-- Avatar -->
+                                    <label class="avatar avatar-xxl avatar-circle avatar-uploader mr-5" for="buyer_image">
+                                        @php
+                                            if(!empty($buyer->buyer_image))
+                                            {
+                                                $img = route('get.doc',base64_encode($buyer->buyer_image));
+                                            }
+                                            else
+                                            {
+                                                $img = asset('theme/images/4.png');
+                                            }
+                                        @endphp
+                                        <img id="avatarProjectSettingsImg" class="avatar-img" src="{{$img}}" alt="Image Description">
+
+                                        <input type="file" class="js-file-attach avatar-uploader-input" name="buyer_image" id="buyer_image"
+                                               data-hs-file-attach-options='{
+                                "textTarget": "#avatarProjectSettingsImg",
+                                "mode": "image",
+                                "targetAttr": "src",
+                                "resetTarget": ".js-file-attach-reset-img",
+                                "resetImg": "{{asset('theme/images/4.png')}}"
+                             }'>
+
+                                        <span class="avatar-uploader-trigger">
+                        <i class="tio-edit avatar-uploader-icon shadow-soft"></i>
+                      </span>
+                                    </label>
+                                    <!-- End Avatar -->
+
+                                    <button type="button" class="js-file-attach-reset-img btn btn-white">Delete</button>
+                                </div>
                             </div>
-                            <input type="file" class="d-none" name="buyer_image" id="image">
-                        </div>
-                    </div>
+
+
+                    
                 </div>
             </div>
             <div class="row">
@@ -102,11 +127,7 @@
                     <div class="form-group">
                         <label for="passport">PassPort</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-passport"></i>
-                                      </span>
-                            </div>
+                            
                             @php
                                 $passport = $visa =  'javascript:void(0)';
                               if(!empty($buyer->passport))
@@ -119,7 +140,14 @@
                               }
 
                             @endphp
-                            <input type="file" class="form-control" name="passport" id="passport" value="">
+                            <div class="custom-file">
+
+                                    <input type="file" name="passport" class="js-file-attach custom-file-input" id="passport"
+                                           data-hs-file-attach-options='{
+                  "textTarget": "[for=\"passport\"]"
+               }'>
+                                    <label class="custom-file-label" for="passport">Choose file</label>
+                                </div>
                             <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                 <div class="input-group-text">
                                     <a href="{{$passport}}" target="_blank"><i class="fa fa-file"></i></a>
@@ -132,12 +160,15 @@
                     <div class="form-group">
                         <label for="visa">Visa</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
-                                      </span>
+                            <div class="custom-file">
+
+                                    <input type="file" name="visa" class="js-file-attach custom-file-input" id="visa"
+                                           data-hs-file-attach-options='{
+                  "textTarget": "[for=\"visa\"]"
+               }'>
+                                    <label class="custom-file-label" for="visa">Choose file</label>
                             </div>
-                            <input type="file" class="form-control" name="visa" id="visa" value="">
+                            
                             <div class="input-group-append" data-toggle="tooltip" title="click to view file">
                                 <div class="input-group-text">
                                     <a href="{{$visa}}" target="_blank"><i class="fa fa-file"></i></a>
@@ -149,15 +180,9 @@
                 <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="emirates_id">Emirates Id</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-sort-numeric-up-alt"></i>
-                                      </span>
-                            </div>
-                            <input type="text" class="form-control" name="emirates_id" id="emirates_id"
+                        <input type="text" class="form-control" name="emirates_id" id="emirates_id"
                                    value="{{$buyer->emirates_id}}">
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -166,56 +191,37 @@
                 <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="country_id">Country</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-flag"></i>
-                                      </span>
-                            </div>
-                            <select class="form-control" name="country_id" id="country_id">
-                                <option value="">Select Country</option>
-                                @foreach($countries as $country)
-                                    @php $selected = ($country->id==$buyer->country_id)?"selected":null; @endphp
-                                    <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        
+                        <select class="js-select2-custom" name="country_id" id="country_id">
+                            <option value="">Select Country</option>
+                            @foreach($countries as $country)
+                                @php $selected = ($country->id==$buyer->country_id)?"selected":null; @endphp
+                                <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
+                            @endforeach
+                        </select>
+                        
                     </div>
                 </div>
                 <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="state_id">State</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-signal"></i>
-                                      </span>
-                            </div>
-                            <select class="form-control" name="state_id" id="state_id">
-                                @foreach($states as $state)
-                                    @php $selected = ($state->id==$buyer->state_id)?"selected":null; @endphp
-                                    <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <select class="js-select2-custom" name="state_id" id="state_id">
+                            @foreach($states as $state)
+                                @php $selected = ($state->id==$buyer->state_id)?"selected":null; @endphp
+                                <option value="{{$state->id}}" {{$selected}}>{{$state->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="city_id">City</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-city"></i>
-                                      </span>
-                            </div>
-                            <select class="form-control" name="city_id" id="city_id">
-                                @foreach($cities as $city)
-                                    @php $selected = ($city->id==$buyer->city_id)?"selected":null; @endphp
-                                    <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <select class="js-select2-custom" name="city_id" id="city_id">
+                            @foreach($cities as $city)
+                                @php $selected = ($city->id==$buyer->city_id)?"selected":null; @endphp
+                                <option value="{{$city->id}}" {{$selected}}>{{$city->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-2 col-md-2 col-lg-3 col-xl-3">
@@ -245,31 +251,32 @@
             </div>
             {{Form::close()}}
         </div>
+
+                    
+                </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
     </div>
+    <!-- End Content -->
+
 @endsection
 @section('script')
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
-
-            function render_image(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#image_grid').attr('src', e.target.result);
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-
-            $("#image").change(function () {
-                render_image(this);
+            $('.js-select2-custom').each(function () {
+                var select2 = $.HSCore.components.HSSelect2.init($(this));
             });
-            $("#remove_image").click(function () {
-                $('#image_grid').attr("src", "{{asset('theme/images/4.png')}}");
-                var file = document.getElementById("image");
-                file.value = file.defaultValue;
+
+            $('.js-file-attach').each(function () {
+                let customFile = new HSFileAttach($(this)).init();
             });
+
+            
             $("#edit_data_form").on('submit', function (e) {
                 e.preventDefault();
                 var url = "{{route('buyer.update',$buyer->id)}}";

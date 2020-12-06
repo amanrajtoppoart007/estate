@@ -1,22 +1,21 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Unit Listing</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Unit Listing</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Unit Listing</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Unit Listing</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+                
  <div class="card">
       <div class="card-body">
           <div class="card card-primary">
@@ -107,41 +106,41 @@
                    </tbody>
                  </table>
              </div>
-		  </div> 
-		   <div class="card">
+      </div> 
+       <div class="card">
                 <div class="card-header bg-primary">
                         <h6>Client/Tenant Detail</h6>
                </div>
-			  <div class="card-body">
-				<table class="table border-th-td-none">
-						<tbody>
-							<tr>
+        <div class="card-body">
+        <table class="table border-th-td-none">
+            <tbody>
+              <tr>
                                 <th>Name</th>
                                 <td id="txt_buyer_name">{{$property_unit['client_name']}}</td>
                                 <th>Email</th>
                                 <td id="txt_buyer_email" >{{$property_unit['client_email']}}</td>
                                 <th>Mobile</th>
                                 <td id="txt_buyer_mobile">{{$property_unit['client_mobile']}}</td>
-							</tr>
-							
-							<tr>
+              </tr>
+              
+              <tr>
                                 <th>Country</th>
                                 <td id="txt_buyer_country"></td>
                                 <th>State</th>
                                 <td id="txt_buyer_state"></td>
                                 <th>City</th>
                                 <td id="txt_buyer_city"></td>
-							</tr>
-							<tr>
+              </tr>
+              <tr>
                                 <th>Address</th>
                                 <td id="txt_buyer_address"></td>
                                 <th></th>
                                 <td></td>
                                 <th></th>
                                 <td></td>
-							</tr>
-						</tbody>
-					</table>
+              </tr>
+            </tbody>
+          </table>
              </div>
           </div>
           <div class="card card-primary">
@@ -167,4 +166,21 @@
           </div> 
       </div>
  </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
+
+
+
+
+
+
+
+
+
 @endsection

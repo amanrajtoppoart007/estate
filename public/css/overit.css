@@ -1,6 +1,10 @@
             .hideme {
                 display: none;
             }
+            .icon-soft-warning {
+                color: #FF8C00 !important;
+
+            }
             /*
 Loader 1
 */
@@ -25,6 +29,25 @@ Loader 1
             .form-control {
                 border-color: #c7c5c5;
             }
+
+            .btn-outline-alhoor {
+                color: #fc781a;
+                border-color: #fc781a;
+            }
+            .btn-outline-alhoor:hover {
+                color: #fff;
+                background-color: #fc781a;
+                border-color: #fc781a;
+            }
+
+
+
+
+
+
+
+
+
             /* --- Loader entre les pages (transition) --- */
 
             #loader-wrapper {
@@ -138,3 +161,30 @@ Loader 1
     .fa-11{
         font-size: 11px;
     }
+
+    /* loader 2 */
+            .custom-animated-loader{
+                background-color:white!important;
+                opacity:0.9!important;
+                position:fixed!important;
+                width:100% !important;
+                height:100% !important;
+                z-index: 99999999999!important;
+                justify-content: center!important;
+            }
+
+            .custom-animated-loader-content
+            {
+                margin-top: 20% !important;
+                width:120px!important;
+                height: 120px!important;
+            }
+
+            /* loader 2 end*/
+
+
+            /*  new front theme override */
+            .input-group-text {
+                border-color: #c7c5c5;
+            }
+            /*  new front theme override end*/

@@ -1,22 +1,23 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-    <div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Maintenance Request</h1>
-        </div>
-        <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-            <li class="breadcrumb-item active">Maintenance Request</li>
-        </ol>
-        </div>
-    </div>
-    </div>
-</div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
+
+
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Maintenance Request</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Maintenance Request</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+               
    <div class="card">
        <div class="card-body">
            {{Form::open(['route'=>'maintenance.store','id'=>'add_data_form'])}}
@@ -31,30 +32,22 @@
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="name">Building Name</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                  </div>
-                                  <select class="form-control select2" name="property_id" id="property_id">
+                              
+                                  <select class="js-select2-custom" name="property_id" id="property_id">
                                       <option value="">Select Property</option>
                                       @foreach($buildings as $building)
                                           <option value="{{$building->id}}">{{$building->title}} ({{$building->city->name}})</option>
                                       @endforeach
                                   </select>
-                              </div>
                           </div>
                       </div>
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="email">Unit/Flat No</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                  </div>
-                                  <select class="form-control" name="property_unit_id" id="property_unit_id">
+                              
+                                  <select class="js-select2-custom" name="property_unit_id" id="property_unit_id">
                                       <option value="">Select Unit</option>
                                   </select>
-                              </div>
                           </div>
                       </div>
                   </div>
@@ -62,17 +55,12 @@
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="category">Category</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                  </div>
-                                  <select  class="form-control select2" name="category" id="category">
+                              <select  class="js-select2-custom" name="category" id="category">
                                       <option value="">Select Category</option>
                                       @foreach($categories as $category)
                                           <option value="{{Illuminate\Support\Str::slug($category->title)}}">{{$category->title}}</option>
                                       @endforeach
                                   </select>
-                              </div>
                           </div>
                       </div>
                   </div>
@@ -100,13 +88,9 @@
                               <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                                   <div class="form-group">
                                       <label for="appointment_date">Date</label>
-                                      <div class="input-group">
-                                          <div class="input-group-prepend">
-                                              <span class="input-group-text"><i class="fa fa-calendar-day"></i></span>
-                                          </div>
-                                          <input type="text" class="form-control" name="appointment_date" id="appointment_date" value="{{now()->format('d-m-Y')}}"/>
-
-                                      </div>
+                                      <input type="text" class="form-control js-flatpickr flatpickr-custom" name="appointment_date" id="appointment_date" data-hs-flatpickr-options='{
+                                             "dateFormat": "d-m-Y"
+                                           }' value="{{now()->format('d-m-Y')}}">
                                   </div>
                               </div>
                               <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
@@ -185,11 +169,20 @@
                       <div class="card-body">
                           <div class="row">
                               <div class="col-md-12">
-                                  <div class="browse_submit">
-                                      <input type="file" name="images[]" id="images" class="hide" value="" multiple>
-                                      <label class="fileupload_label text-center w-100" for="images">Drag and Drop to
-                                          Add Photo (770x390)</label>
-                                  </div>
+
+                                  <!-- File Attachment Input -->
+  <label class="custom-file-boxed" for="customFileInputBoxedEg">
+    <span id="customFileBoxedEg">Browse your device and upload photos(770x390)</span>
+    <small class="d-block text-muted">Maximum file size 10MB</small>
+
+    <input id="customFileInputBoxedEg" name="images[]" id="images"  type="file" multiple class="js-file-attach custom-file-boxed-input"
+           data-hs-file-attach-options='{
+             "textTarget": "#customFileBoxedEg"
+           }'>
+  </label>
+  <!-- End File Attachment Input -->
+
+
                               </div>
 
                               <div class="col-lg-12">
@@ -215,11 +208,17 @@
            {{Form::close()}}
        </div>
    </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
  @endsection
 @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 @endsection
 @section('js')
     <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
@@ -227,8 +226,19 @@
 @section('script')
     <script>
         $(document).ready(function(){
-            $('.select2').select2({theme: 'bootstrap4'});
-            $('#appointment_date').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+          $('.js-select2-custom').each(function () {
+          var select2 = $.HSCore.components.HSSelect2.init($(this));
+        });
+
+        $('.js-file-attach').each(function () {
+          var customFile = new HSFileAttach($(this)).init();
+        });
+
+        $('.js-flatpickr').each(function () {
+          $.HSCore.components.HSFlatpickr.init($(this));
+        });
+
+            
             $('#appointment_time_from').timepicker({format: 'HH.MM'});
             $('#appointment_time_to').timepicker({format: 'HH.MM'});
 
@@ -258,11 +268,9 @@
                    toast('success',result.message,'bottom-right');
 
                    $.each(result.data,function(index,item){
-                         $("#property_unit_id").append(`<option value="${item.id}">${item.unitcode} {${item.flat_house_no}}</option>`);
+                         $("#property_unit_id").append(`<option value="${item.id}">${item.unitcode} {${item.flat_number}}</option>`);
                    });
-                   $("#property_unit_id").select2({
-                       theme: 'bootstrap4'
-                   });
+                   
                 };
                 function fn_error(result)
                 {

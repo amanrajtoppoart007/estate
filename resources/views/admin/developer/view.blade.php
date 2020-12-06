@@ -1,26 +1,26 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h4 class="m-0 text-dark">View Property Developer</h4>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                        <li class="breadcrumb-item active">View property developer</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
-    <div class="card">
+
+
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">View Property Developer</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">View Property Developer</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+               <div class="card">
         <div class="card-body">
             <div class="card">
-                <div class="card-header bg-gradient-gray">
+                <div class="card-header">
                     <h6>Owner Detail</h6>
                 </div>
                 <div class="card-body">
@@ -247,10 +247,10 @@
                                                 $url = asset('theme/images/4.png');
                                             }
                                         @endphp
-                                        <a target="_blank" class="btn btn-primary" href="{{$url}}">
+                                        <a target="_blank" class="btn btn-soft-primary" href="{{$url}}">
                                             <i class="fa fa-eye"></i>View
                                         </a>
-                                        <a target="_blank" class="btn btn-info" href="{{$url}}" download>
+                                        <a target="_blank" class="btn btn-soft-info" href="{{$url}}" download>
                                             <i class="fa fa-file-download"></i>Download
                                         </a>
                                     </th>
@@ -272,4 +272,15 @@
      @endif
         </div>
     </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
+
+
+    
 @endsection

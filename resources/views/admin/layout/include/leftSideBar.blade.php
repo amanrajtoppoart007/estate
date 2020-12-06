@@ -73,12 +73,6 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="{{route('rentEnquiry.list')}}" title="Rent Inquiries">
-                                    <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate">Rent Inquiries</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link " href="{{route('tenant.list')}}" title="Tenants">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Tenants</span>
@@ -137,15 +131,15 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="{{route('propertyType.list')}}" title="Buyers">
+                                <a class="nav-link " href="{{route('propertyType.list')}}" title="Property Types">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Property Types</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="{{route('feature.list')}}" title="Sales Inquiries">
+                                <a class="nav-link " href="{{route('feature.list')}}" title="Features">
                                     <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate">Sales Inquiries</span>
+                                    <span class="text-truncate">Features</span>
                                 </a>
                             </li>
                             <li class="nav-item">

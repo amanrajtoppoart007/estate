@@ -1,26 +1,26 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h4 class="m-0 text-dark">View Property Agent</h4>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">View property agent</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
+
+
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">View Property Agent</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">View Property Agent</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
     <div class="card">
         <div class="card-body">
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header">
                     <h6>Agent Detail</h6>
                 </div>
                 <div class="card-body">
@@ -29,19 +29,19 @@
                           <table class="table table-borderless">
                               <tbody>
                                  <tr>
-                                     <th>Name</th>
+                                     <th class="font-weight-bold">Name</th>
                                      <td>{{$agent->name}}</td>
-                                     <th>Email</th>
+                                     <th class="font-weight-bold">Email</th>
                                      <td>{{$agent->email}}</td>
                                      <th></th>
                                      <td></td>
                                  </tr>
                                  <tr>
-                                     <th>Mobile</th>
+                                     <th class="font-weight-bold">Mobile</th>
                                      <td>{{$agent->mobile}}</td>
-                                     <th>Account Created</th>
+                                     <th class="font-weight-bold">Account Created</th>
                                      <td>{{date("d-m-Y",strtotime($agent->created_at))}}</td>
-                                     <th>Created By</th>
+                                     <th class="font-weight-bold">Created By</th>
                                      <td>{{$agent->admin ? $agent->admin->name : null}}</td>
                                  </tr>
                               </tbody>
@@ -63,8 +63,8 @@
                     </div>
                 </div>
             </div>
-             <div class="card">
-                <div class="card-header bg-primary">
+             <div class="card mt-3">
+                <div class="card-header">
                     <h6>Documents</h6>
                 </div>
                 <div class="card-body table-responsive">
@@ -95,11 +95,11 @@
                                                 $url = asset('theme/images/4.png');
                                             }
                                         @endphp
-                                        <a target="_blank" class="btn btn-primary" href="{{$url}}">
-                                            <i class="fa fa-eye"></i>View
+                                        <a target="_blank" class="btn btn-soft-primary" href="{{$url}}">
+                                            <i class="fa fa-eye"></i> View
                                         </a>
-                                        <a target="_blank" class="btn btn-info" href="{{$url}}" download>
-                                            <i class="fa fa-file-download"></i>Download
+                                        <a target="_blank" class="btn btn-soft-info" href="{{$url}}" download>
+                                            <i class="fa fa-file-download"></i> Download
                                         </a>
                                     </th>
                                     <th>
@@ -113,7 +113,7 @@
                 </div>
             </div>
      @if(!empty($agent->authorised_person))
-            <div class="card">
+            <div class="card mt-3">
                 <div class="card-header bg-primary">
                      <h6>Authorised Person Detail</h6>
                 </div>
@@ -123,17 +123,17 @@
                            <table class="table table-borderless">
                               <tbody>
                                  <tr>
-                                     <th>Name</th>
+                                     <th class="font-weight-bold">Name</th>
                                      <td>{{$agent->authorised_person->name}}</td>
-                                     <th>Email</th>
+                                     <th class="font-weight-bold">Email</th>
                                      <td>{{$agent->authorised_person->email}}</td>
                                      <th></th>
                                      <td></td>
                                  </tr>
                                  <tr>
-                                     <th>Mobile</th>
+                                     <th class="font-weight-bold">Mobile</th>
                                      <td>{{$agent->authorised_person->mobile}}</td>
-                                     <th>Account Created</th>
+                                     <th class="font-weight-bold">Account Created</th>
                                      <td>{{date("d-m-Y",strtotime($agent->authorised_person->created_at))}}</td>
                                      <th></th>
                                      <td></td>
@@ -146,8 +146,8 @@
                     @if(!empty($agent->authorised_person->documents))
                     <div class="row">
                         <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
-               <div class="card">
-                <div class="card-header bg-warning">
+               <div class="card mt-3">
+                <div class="card-header">
                     <h6 class="text-white">Documents</h6>
                 </div>
                 <div class="card-body table-responsive">
@@ -166,7 +166,7 @@
                             @endphp
                             @foreach($documents as $doc)
                                 <tr>
-                                    <th>{{str_replace("Auth_person_","",ucwords(strtolower($doc['document_title'])))}}</th>
+                                    <th class="font-weight-bold">{{str_replace("Auth_person_","",ucwords(strtolower($doc['document_title'])))}}</th>
                                     <th>
                                         @php
                                             if(!empty($doc['file_url']))
@@ -178,11 +178,11 @@
                                                 $url = asset('theme/images/4.png');
                                             }
                                         @endphp
-                                        <a target="_blank" class="btn btn-primary" href="{{$url}}">
-                                            <i class="fa fa-eye"></i>View
+                                        <a target="_blank" class="btn btn-soft-primary" href="{{$url}}">
+                                            <i class="fa fa-eye"></i> View
                                         </a>
-                                        <a target="_blank" class="btn btn-info" href="{{$url}}" download>
-                                            <i class="fa fa-file-download"></i>Download
+                                        <a target="_blank" class="btn btn-soft-info" href="{{$url}}" download>
+                                            <i class="fa fa-file-download"></i> Download
                                         </a>
                                     </th>
                                     <th>
@@ -202,21 +202,21 @@
             </div>
      @endif
 
-            <div class="card">
-                <div class="card-header bg-primary">
+            <div class="card mt-3">
+                <div class="card-header">
                     <h6>Account Detail</h6>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">
                         <tbody>
                         <tr>
-                            <th>Bank Name</th>
+                            <th class="font-weight-bold">Bank Name</th>
                             <td>{{ucwords($agent->bank_name)}}</td>
-                            <th>Account Holder Name</th>
-                            <td>{{$agent->banking_name	}}</td>
-                            <th>Bank Swift Code</th>
+                            <th class="font-weight-bold">Account Holder Name</th>
+                            <td>{{$agent->banking_name  }}</td>
+                            <th class="font-weight-bold">Bank Swift Code</th>
                             <td>{{$agent->bank_swift_code}}</td>
-                            <th>IBAN Number</th>
+                            <th class="font-weight-bold">IBAN Number</th>
                             <td>{{$agent->bank_account}}</td>
                         </tr>
                         </tbody>
@@ -224,21 +224,21 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header bg-primary">
+            <div class="card mt-3">
+                <div class="card-header">
                     <h6>Billing Address Detail</h6>
                 </div>
                 <div class="card-body">
                    <table class="table table-borderless">
                         <tbody>
                         <tr>
-                            <th>Country</th>
+                            <th class="font-weight-bold">Country</th>
                             <td>{{ucwords($agent->country ?$agent->country->name : null )}}</td>
-                            <th>State</th>
+                            <th class="font-weight-bold">State</th>
                             <td>{{$agent->state ? $agent->state->name :null }}</td>
-                            <th>City</th>
+                            <th class="font-weight-bold">City</th>
                             <td>{{$agent->city ?$agent->city->name : null}}</td>
-                            <th>Address</th>
+                            <th class="font-weight-bold">Address</th>
                             <td>{{$agent->address}}</td>
                         </tr>
                         </tbody>
@@ -251,4 +251,14 @@
             </div>
         </div>
     </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
+
+
 @endsection

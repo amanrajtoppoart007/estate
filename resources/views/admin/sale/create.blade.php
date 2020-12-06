@@ -1,31 +1,33 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Sale Property</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Sale Property</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
-    <div class="card">
-       <div class="card-body">
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Sale Property</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Sale Property</li>
+            </ol>
+
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
         {{Form::open(['id'=>'add_data_form'])}}
           <input type="hidden" name="buyer_id" id="buyer_id" value="{{$buyer->id}}">
           <input type="hidden" name="owner_id" id="owner_id" value="">
-          <div class="card card-primary">
-             <div class="card-header">
-               <h6>Buyer Detail</h6>
-             </div>
+          <div class="card">
+             <!-- Header -->
+              <div class="card-header">
+                  <div class="row justify-content-between align-items-center flex-grow-1">
+                      <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+                          Buyer Detail
+                      </div>
+                  </div>
+                  <!-- End Row -->
+              </div>
+              <!-- End Header -->
              <div class="card-body">
                  <table class="table border-th-td-none">
                    <tbody>
@@ -47,11 +49,11 @@
                      </tr>
                      <tr>
                        <th>Country</th>
-                       <td>{{$buyer->country}}</td>
+                       <td>{{$buyer->country->name}}</td>
                        <th>State</th>
-                       <td>{{$buyer->state}}</td>
+                       <td>{{$buyer->state->name}}</td>
                        <th>City</th>
-                       <td>{{$buyer->city}}</td>
+                       <td>{{$buyer->city->name}}</td>
                      </tr>
                      <tr>
                        <th>Address</th>
@@ -65,7 +67,7 @@
                  </table>
              </div>
           </div> 
-          <div class="card card-primary">
+          <div class="card mt-3">
              <div class="card-header">
                    <h6>Property Detail</h6> 
              </div>
@@ -74,45 +76,26 @@
               <div class="col-md-4 col-lg-4 col-xl-4">
                 <div class="form-group">
                   <label for="state_id">State</label>
-                   <div class="input-group">
-                     <div class="input-group-prepend">
-                        <div class="input-group-text">
-                           <i class="fa fa-flag"></i>
-                        </div>
-                     </div>
-                     <select name="state_id" id="state_id" class="form-control">
+                     <select name="state_id" id="state_id" class="js-select2-custom">
                        <option value="">Select State</option>
                        @foreach($states as $state)
                          <option value="{{$state->id}}">{{$state->name}}</option>
                        @endforeach
                      </select>
-                   </div>
                 </div>
               </div>
               <div class="col-md-4 col-lg-4 col-xl-4">
                 <div class="form-group">
                   <label for="city_id">City</label>
-                   <div class="input-group">
-                     <div class="input-group-prepend">
-                        <div class="input-group-text">
-                           <i class="fa fa-flag"></i>
-                        </div>
-                     </div>
-                     <select name="city_id" id="city_id" class="form-control"></select>
-                   </div>
+                     
+                     <select name="city_id" id="city_id" class="js-select2-custom"></select>
                 </div>
               </div>
               <div class="col-md-4 col-lg-4 col-xl-4">
                 <div class="form-group">
                   <label for="property_id">Property</label>
-                   <div class="input-group">
-                     <div class="input-group-prepend">
-                        <div class="input-group-text">
-                           <i class="fa fa-flag"></i>
-                        </div>
-                     </div>
-                     <select name="property_id" id="property_id" class="form-control"></select>
-                   </div>
+                  <select name="property_id" id="property_id" class="js-select2-custom"></select>
+                   
                 </div>
               </div>
             </div>
@@ -120,27 +103,14 @@
               <div class="col-md-4 col-lg-4 col-xl-4">
                 <div class="form-group">
                   <label for="property_unit_type_id">Property Unit Type</label>
-                   <div class="input-group">
-                     <div class="input-group-prepend">
-                        <div class="input-group-text">
-                           <i class="fa fa-flag"></i>
-                        </div>
-                     </div>
-                     <select name="property_unit_type_id" id="property_unit_type_id" class="form-control"></select>
-                   </div>
+                  <select name="property_unit_type_id" id="property_unit_type_id" class="js-select2-custom"></select>
                 </div>
               </div>
               <div class="col-md-4 col-lg-4 col-xl-4">
                 <div class="form-group">
                   <label for="unit_id">Property Unit</label>
-                   <div class="input-group">
-                     <div class="input-group-prepend">
-                        <div class="input-group-text">
-                           <i class="fa fa-flag"></i>
-                        </div>
-                     </div>
-                     <select name="unit_id" id="unit_id" class="form-control"></select>
-                   </div>
+                  <select name="unit_id" id="unit_id" class="js-select2-custom"></select>
+                   
                 </div>
               </div>
             </div>
@@ -185,10 +155,17 @@
             </div>
              </div>
           </div> 
-          <div class="card card-primary">
-             <div class="card-header">
-                <h6>Owner Detail</h6>
-             </div>
+          <div class="card mt-3">
+             <!-- Header -->
+              <div class="card-header">
+                  <div class="row justify-content-between align-items-center flex-grow-1">
+                      <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+                          Owner Detail
+                      </div>
+                  </div>
+                  <!-- End Row -->
+              </div>
+              <!-- End Header -->
              <div class="card-body">
                <table class="table border-th-td-none" id="display_owner_detail_grid">
                    <tbody>
@@ -228,10 +205,17 @@
                  </table>
              </div>
           </div> 
-          <div class="card card-primary">
-             <div class="card-header">
-                <h6>Payment Detail</h6>
-             </div>
+          <div class="card mt-3">
+             <!-- Header -->
+              <div class="card-header">
+                  <div class="row justify-content-between align-items-center flex-grow-1">
+                      <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+                          Payment Detail
+                      </div>
+                  </div>
+                  <!-- End Row -->
+              </div>
+              <!-- End Header -->
              <div class="card-body">
                <div class="row">
                   <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
@@ -268,13 +252,23 @@
               <button class="btn btn-success float-right" type="submit">Save</button>
             </div>
           </div>
-          {{Form::close()}} 
-       </div>
+          {{Form::close()}}
+
+
+
+    
+        </div>
+
+
     </div>
+    <!-- End Content -->
 @endsection
 @section('script')
  <script>
     $(document).ready(function(){
+            $('.js-select2-custom').each(function () {
+                var select2 = $.HSCore.components.HSSelect2.init($(this));
+            });
        /************get list of cities via state id  */
            $('#state_id').on('change',function(e){
              $("#city_id").empty();

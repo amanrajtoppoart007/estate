@@ -1,25 +1,29 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Property Listing</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Property Listing</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
-    <div class="items_list bg_transparent color-secondery icon_default">
-        <a href={{route('property.create')}} class="btn btn-primary color-primary mb-4 float-right">Add Property</a>
-        <div class="table-responsive">
+
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Property Listing</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Property Listing</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+                <div class="card">
+                  <div class="card-header">
+                    <div class="col"></div>
+                   <div class="col text-right"><a href="{{route('property.create')}}" class="btn btn-soft-primary color-primaryfloat-right">Add Property</a></div>
+             </div>
+                    
+                    <div class="card-body">
+                      <div class="table-responsive">
             <table class="w-100 display table table-striped table-hover" id="dataTable">
                 <thead>
                     <tr class="bg-white">
@@ -36,7 +40,17 @@
                 </thead>
             </table>
         </div>
+    
+  </div>
+</div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
     </div>
+    <!-- End Content -->
 @endsection
 @section('script')
   <script>

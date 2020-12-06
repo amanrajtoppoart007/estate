@@ -1,81 +1,85 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Property Detail</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Property Detail</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
     @section('content')
-		<div class="card">
-			<div class="card-body">
+
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Property Detail</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Property Detail</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+                
+    <div class="card">
+      <div class="card-body">
 
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-info">
-                                <i class="fa fa-building"></i>
-                            </span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-info mr-3">
+                              <i class="p-3 fa fa-building text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                                <h6 class="font-weight-bold">{{$property->title}}</h6>
-                                <span class="info-box-text">Tower</span>
-
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{$property->title}}</h6>
+                            <span class="info-box-text text-gray">Tower</span>
+                          </div>
+                      </div>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-success">
-                                <i class="fa fa-code"></i>
-                            </span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-success mr-3">
+                              <i class="p-3 fa fa-code text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                                <h6 class="font-weight-bold">{{$property->propcode}}</h6>
-                                <span class="info-box-text">Property Code</span>
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{$property->propcode}}</h6>
+                            <span class="info-box-text text-gray">Property Code</span>
+                          </div>
+                      </div>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="fa fa-city text-white"></i></span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-warning mr-3">
+                              <i class="p-3 fa fa-city text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                                <h6 class="font-weight-bold">{{$property->city ? $property->city->name : null}}</h6>
-                                <span class="info-box-text">City</span>
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{$property->city ? $property->city->name : null}}</h6>
+                            <span class="info-box-text text-gray">City</span>
+                          </div>
+                      </div>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-gradient-lightblue">
-                                <i class="fa fa-map-pin"></i>
-                            </span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-primary mr-3">
+                              <i class="p-3 fa fa-map-pin text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                               <small class="font-weight-bold">{{$property->address}}</small>
-                                <span class="info-box-text">Area</span>
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{$property->address}}</h6>
+                            <span class="info-box-text text-gray">Area</span>
+                          </div>
+                      </div>
                     </div>
+                  </div>
+                  <div class="row mt-3">
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-danger">
-                                <i class="fa fa-industry" aria-hidden="true"></i>
-                            </span>
-                            <div class="info-box-content">
-                                <h6 class="font-weight-bold">
-                                    @php
+                      <div class="media align-items-center">
+                          <span class="avatar bg-primary mr-3">
+                              <i class="p-3 fa fa-industry text-white"></i>
+                          </span>
+
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">
+                              @php
                                         $purpose = array('1'=>'Rent','2'=>'Sale',3=>'Rent & Sale')
                                     @endphp
                                     @foreach($purpose as $pKey=>$pVal)
@@ -83,164 +87,165 @@
                                             {{$pVal}}
                                         @endif
                                     @endforeach
-                                </h6>
-                                <span class="info-box-text">Property For</span>
-                            </div>
-                        </div>
+                            </h6>
+                            <span class="info-box-text text-gray">Property For</span>
+                          </div>
+                      </div>
+                        
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-info">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                            </span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-primary mr-3">
+                              <i class="p-3 fa fa-user text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                               <h6 class="font-weight-bold">{{$property->owner ? $property->owner->name: null}}</h6>
-                                <span class="info-box-text">Developer</span>
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{$property->owner ? $property->owner->name: null}}</h6>
+                            <span class="info-box-text text-gray">Developer</span>
+                          </div>
+                      </div>
                     </div>
 
                      <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-success">
-                                <i class="fa fa-mobile" aria-hidden="true"></i>
-                            </span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-primary mr-3">
+                              <i class="p-3 fa fa-mobile text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                               <h6 class="font-weight-bold">{{$property->owner ? $property->owner->mobile: null}}</h6>
-                                <span class="info-box-text">Developer Contact No.</span>
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{$property->owner ? $property->owner->mobile: null}}</h6>
+                            <span class="info-box-text text-gray">Developer Contact No.</span>
+                          </div>
+                      </div>
+                  
                     </div>
 
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-gradient-warning">
-                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                            </span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-warning mr-3">
+                              <i class="p-3 fa fa-calendar text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                               <h6 class="font-weight-bold">{{$property->completion_date ? date("d-m-Y",strtotime($property->completion_date)): null}}</h6>
-                                <span class="info-box-text">Completion Date</span>
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{$property->completion_date ? date("d-m-Y",strtotime($property->completion_date)): null}}</h6>
+                            <span class="info-box-text text-gray">Completion Date</span>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div  class="row mt-3">
+                    <div class="col-md-3 col-sm-6 col-12">
+                      <div class="media align-items-center">
+                          <span class="avatar bg-primary mr-3">
+                              <i class="p-3 fa fa-home text-white"></i>
+                          </span>
+
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{$property->total_units}}</h6>
+                            <span class="info-box-text text-gray">Total Units</span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                      <div class="media align-items-center">
+                          <span class="avatar bg-dark mr-3">
+                              <i class="p-3 fa fa-angle-double-up text-white"></i>
+                          </span>
+
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{ $property->total_floors}}</h6>
+                            <span class="info-box-text text-gray">Total Floors</span>
+                          </div>
+                      </div>
                     </div>
 
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-gradient-blue">
-                                <i class="fa fa-home" aria-hidden="true"></i>
-                            </span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-info mr-3">
+                              <i class="p-3 fa fa-unity text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                               <h6 class="font-weight-bold">{{$property->total_units}}</h6>
-                                <span class="info-box-text">Total Units</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-gradient-dark">
-                                <i class="fa fa-angle-double-up" aria-hidden="true"></i>
-                            </span>
-
-                            <div class="info-box-content">
-                               <h6 class="font-weight-bold">{{ $property->total_floors}}</h6>
-                                <span class="info-box-text">Total Floors</span>
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{ $property->total_flats}}</h6>
+                            <span class="info-box-text text-gray">Total Flats</span>
+                          </div>
+                      </div>
                     </div>
 
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-gradient-cyan">
-                                <i class="fa fa-unity" aria-hidden="true"></i>
-                            </span>
+                      <div class="media align-items-center">
+                          <span class="avatar bg-info mr-3">
+                              <i class="p-3 fa fa-cart-plus text-white"></i>
+                          </span>
 
-                            <div class="info-box-content">
-                               <h6 class="font-weight-bold">{{ $property->total_flats}}</h6>
-                                <span class="info-box-text">Total Flats</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-gradient-indigo">
-                                <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                            </span>
-
-                            <div class="info-box-content">
-                               <h6 class="font-weight-bold">{{ $property->total_shops}}</h6>
-                                <span class="info-box-text">Total Shops</span>
-                            </div>
-                        </div>
+                          <div class="media-body">
+                            <h6 class="font-weight-bold">{{ $property->total_shops}}</h6>
+                            <span class="info-box-text text-gray">Total Shops</span>
+                          </div>
+                      </div>
                     </div>
                 </div>
 
-				<div class="row">
-					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-						<div class="card">
-							<div class="card-header">
-								<div class="row">
-									<div class="col">
-                                      <button class="btn btn-primary" id="addUnitModalOpenBtn"> <i class="fa fa-plus"></i> Add New Unit</button>
-                                      <button class="btn btn-primary"  data-toggle="modal" data-target="#allotUnitModal"> <i class="fa fa-plus"></i> AllotUnit</button>
-									</div>
-									<div class="col">
-                                      <button class="btn btn-primary advanced_filter_btn float-right"> <i class="fa fa-search"></i> Advanced Filter</button>
-									</div>
-								</div>
-							</div>
-							<div class="card-body">
-								<div class="d-none" id="advanced_filter_grid">
-									{{Form::open(['id'=>'property_filter_search'])}}
-									<input type="hidden" name="property" value="{{$property->id}}">
-									<h5>Floor</h5>
-									<ul class="unstyled">
-									@for($i=0;$i<=19;$i++)
-										<li class="d-inline">
-											<label class="btn btn-secondary">
-												<input class="" type="checkbox" name="floor[]" value="{{$i}}">
-												<small class="form-check-label">{{$i}} Floor</small>
-											</label>
-										</li>
-									@endfor
-								</ul>
-									<h5>Select Tenancy contract ending month</h5>
-									<ul class="unstyled">
-									@for($i=1;$i<=12;$i++)
-										<li class="d-inline">
-											<label class="btn btn-secondary">
-												<input class="" type="checkbox" name="month[]" value="{{$i}}">
-												<small class="form-check-label">{{date('F',mktime( 0, 0, 0, $i, 01, date('Y')))}}</small>
-											</label>
-										</li>
-									@endfor
-									</ul>
-									<h5>Select Broker</h5>
-									<ul class="unstyled">
-									@foreach($agents as $agent)
-										<li class="d-inline">
-											<label class="btn btn-secondary">
-												<input class="" type="checkbox" name="agent[]" value="{{$agent->id}}">
-												<small class="form-check-label">{{$agent->name}}</small>
-											</label>
-										</li>
-									@endforeach
-									</ul>
-									<h5>Search Keyword</h5>
-									<div class="form-group col-md-4">
-										<label class="label" for="custom_search"></label>
-										<input type="text" class="form-control" name="custom_search" id="custom_search" value="">
-									</div>
-									{{Form::close()}}
-								</div>
-								<div class="table-responsive">
-									<table class="table table-bordered" id="dataTable">
-										<thead>
-											<tr>
+        <div class="row mt-5">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="card">
+              <div class="card-header">
+                  <div class="col">
+                    <button class="btn btn-primary" id="addUnitModalOpenBtn"> <i class="fa fa-plus"></i> Add New Unit</button>
+                    <button class="btn d-inline btn-primary"  data-toggle="modal" data-target="#allotUnitModal"> <i class="fa fa-plus"></i> AllotUnit</button>
+                  </div>
+                  <div class="col text-right">
+                      <button class="btn btn-primary advanced_filter_btn pull-right"> <i class="fa fa-search"></i> Advanced Filter</button>
+                  </div>
+              </div>
+              <div class="card-body">
+                <div class="d-none" id="advanced_filter_grid">
+                  {{Form::open(['id'=>'property_filter_search'])}}
+                  <input type="hidden" name="property" value="{{$property->id}}">
+                  <h5>Floor</h5>
+                  <ul class="unstyled">
+                  @for($i=0;$i<=19;$i++)
+                    <li class="d-inline">
+                      <label class="btn btn-secondary">
+                        <input class="" type="checkbox" name="floor[]" value="{{$i}}">
+                        <small class="form-check-label">{{$i}} Floor</small>
+                      </label>
+                    </li>
+                  @endfor
+                </ul>
+                  <h5>Select Tenancy contract ending month</h5>
+                  <ul class="unstyled">
+                  @for($i=1;$i<=12;$i++)
+                    <li class="d-inline">
+                      <label class="btn btn-secondary">
+                        <input class="" type="checkbox" name="month[]" value="{{$i}}">
+                        <small class="form-check-label">{{date('F',mktime( 0, 0, 0, $i, 01, date('Y')))}}</small>
+                      </label>
+                    </li>
+                  @endfor
+                  </ul>
+                  <h5>Select Broker</h5>
+                  <ul class="unstyled">
+                  @foreach($agents as $agent)
+                    <li class="d-inline">
+                      <label class="btn btn-secondary">
+                        <input class="" type="checkbox" name="agent[]" value="{{$agent->id}}">
+                        <small class="form-check-label">{{$agent->name}}</small>
+                      </label>
+                    </li>
+                  @endforeach
+                  </ul>
+                  <h5>Search Keyword</h5>
+                  <div class="form-group col-md-4">
+                    <label class="label" for="custom_search"></label>
+                    <input type="text" class="form-control" name="custom_search" id="custom_search" value="">
+                  </div>
+                  {{Form::close()}}
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable">
+                    <thead>
+                      <tr>
                                                 <th>Flat/Unit</th>
                                                 <th>No. Of BR.</th>
                                                 <th>Owner</th>
@@ -253,60 +258,75 @@
                                                 <th>Flat Status</th>
                                                 <th>Action</th>
                                             </tr>
-										</thead>
+                    </thead>
                                         <tbody></tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<dt>Description</dt>
-						<dd>
-							{{$property->description}}
-						</dd>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<dt>Amenities</dt>
-						<dd>
-							<ul class="row">
-								@php
-									$selectedFeatures = explode(',',$property->feature);
-								@endphp
-								@if(count($features)>0)
-									@foreach($features as $feature)
-										@if(in_array($feature->id,$selectedFeatures))
-											<li class="col">{{$feature->title}}</li>
-										@endif
-									@endforeach
-								@endif
-							</ul>
-						</dd>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<dt>Images</dt>
-						<dd>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <dt>Description</dt>
+            <dd>
+              {{$property->description}}
+            </dd>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <dt>Amenities</dt>
+            <dd>
+              <ul class="row">
+                @php
+                  $selectedFeatures = explode(',',$property->feature);
+                @endphp
+                @if(count($features)>0)
+                  @foreach($features as $feature)
+                    @if(in_array($feature->id,$selectedFeatures))
+                      <li class="col">{{$feature->title}}</li>
+                    @endif
+                  @endforeach
+                @endif
+              </ul>
+            </dd>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <dt>Images</dt>
+            <dd>
                           <div class="row" id="gallery">
-							 @if(count($property->images)>0)
-								@php $images = $property->images;@endphp
-									@foreach($images as $image)
-										<div id="property_image_{{$image->id}}" class="thumbnails_box mb_30 col-lg-2 col-md-4 col-6 db-images">
-										<img class="img250x150" src="{{asset($image->image_url)}}">
-									</div>
-									@endforeach
-							 @endif
-						  </div>
-						</dd>
-					</div>
-				</div>
-			</div>
-		</div>
+               @if(count($property->images)>0)
+                @php $images = $property->images;@endphp
+                  @foreach($images as $image)
+                    <div id="property_image_{{$image->id}}" class="thumbnails_box mb_30 col-lg-2 col-md-4 col-6 db-images">
+                    <img class="img250x150" src="{{asset($image->image_url)}}">
+                  </div>
+                  @endforeach
+               @endif
+              </div>
+            </dd>
+          </div>
+        </div>
+      </div>
+    </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
+
+
+
+
+
+
+
 	@endsection
 @section('modal')
 @include('admin.property.modal.addUnit')
@@ -326,6 +346,10 @@
 @section('script')
  <script>
 	 $(document).ready(function(){
+
+    $('.js-select2-custom').each(function () {
+        var select2 = $.HSCore.components.HSSelect2.init($(this));
+      });
 
 	     let pickers =
                [
@@ -619,7 +643,7 @@ $(document).on('click','.changeStatusBtn',function(e){
 		  function fn_success(result)
 		  {
 			  $("#edit_property_unit_id").val(result.data.id);
-			  $("#edit_flat_house_no").val(result.data.flat_house_no);
+			  $("#edit_flat_number").val(result.data.flat_number);
 			  $("#edit_floor_no").val(result.data.floor_no);
 			  $("#edit_unit_size").val(result.data.unit_size);
 			  $("#edit_bedroom").val(result.data.bedroom);

@@ -1,26 +1,28 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Agent List</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{route('agent.index')}}">Agents</a></li>
-              <li class="breadcrumb-item active">Agent List</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
-<div class="card card-olive card-outline">
-    <div class="card-body">
-        <div class="table-responsive">
+
+
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Agent List</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('agent.index')}}">Agents</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Agent List</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+                <div class="card">
+                    
+                    <div class="card-body">
+                      
+    <div class="table-responsive">
             <table class="table table-bordered" id="dataTable">
                 <thead>
                     <tr>
@@ -35,8 +37,17 @@
                 </thead>
             </table>
         </div>
-    </div>
+  </div>
 </div>
+
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
 @endsection
 @section('script')
 <script>
@@ -46,11 +57,11 @@
         {
             let status   =  (parseInt(data.is_disabled))?'In Active':'Active';
             let btnColor = (parseInt(data.is_disabled))?'danger':'success';
-            return `<a href="javascript:void(0)" data-status="${data.is_disabled}" data-id="${data.id}" class="btn btn-${btnColor} mr-3 changeStatusBtn">${status}</a>`;
+            return `<a href="javascript:void(0)" data-status="${data.is_disabled}" data-id="${data.id}" class="btn btn-outline-${btnColor} mr-3 changeStatusBtn">${status}</a>`;
         }
         function renderActionBtn(data)
         {
-            return `<a href="${data.edit_url}"  class="text-primary"><i class="fa fa-edit"></i></a><a href="${data.view_url}"  class="text-primary"><i class="fa fa-eye"></i></a>`;
+            return `<a href="${data.edit_url}"  class="btn btn-soft-primary"><i class="fa fa-edit"></i></a> <a href="${data.view_url}"  class="btn btn-soft-primary"><i class="fa fa-eye"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         var dataTable = $("#dataTable").dataTable({

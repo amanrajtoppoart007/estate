@@ -1,41 +1,39 @@
 {{Form::open(['id'=>'edit_unit_data_form','autocomplete'=>'off'])}}
 <input type="hidden" name="unit_id" id="edit_property_unit_id" value="">
-<div class="modal" tabindex="-1" role="dialog" id="editModal">
-	<div class="modal-dialog modal-xl" role="document">
-		<div class="modal-content">
-		<div class="modal-header bg-primary">
-			<h5 class="modal-title">Edit Property Unit</h5>
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<div class="modal-body">
+
+
+
+<div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Property Unit</h5>
+        <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+          <i class="tio-clear tio-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
 			<div class="row">
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label for="flat_house_no">Flat/House No.</label>
+						<label for="flat_number">Flat/House No.</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-building text-primary"></i></span>
 							</div>
-							<input type="text" class="form-control" name="flat_house_no" id="edit_flat_house_no" value="">
+							<input type="text" class="form-control" name="flat_number" id="edit_flat_number" value="">
 						</div>
 					</div>
 				</div>
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
 						<label for="floor_no">Floor No.</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-sort-numeric-up-alt text-warning"></i></span>
-							</div>
-							<select type="text" class="form-control" name="floor_no" id="edit_floor_no">
+							<select type="text" class="js-select2-custom" name="floor_no" id="edit_floor_no">
                                 <option value="">Select Floor</option>
                                 @for($i=1;$i<=$property->total_floors;$i++)
                                     <option value="{{$i}}">{{$i}}th Floor</option>
                                 @endfor
                             </select>
-						</div>
 					</div>
 				</div>
 				<div class="col col-md-3 col-lg-3 col-xl-3">
@@ -76,28 +74,19 @@
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
 						<label for="furnishing">Furnishing</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-chair text-indigo"></i></span>
-							</div>
 
-							<select  class="form-control" name="furnishing" id="edit_furnishing">
+							<select  class="js-select2-custom" name="furnishing" id="edit_furnishing">
 								<option value="">Select</option>
 								<option value="furnished">Yes</option>
 								<option value="semifurnished">Partial</option>
 								<option value="unfurnished">No</option>
 							</select>
-						</div>
 					</div>
 				</div>
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
 						<label for="balcony">Balcony</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="far fa-window-maximize text-warning"></i></span>
-							</div>
-							<select  class="form-control" name="balcony" id="edit_balcony">
+							<select  class="js-select2-custom" name="balcony" id="edit_balcony">
 								<option value="">Select</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -108,17 +97,12 @@
 								<option value="7">7</option>
 								<option value="7+">7+</option>
 							</select>
-						</div>
 					</div>
 				</div>
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
 						<label for="parking">Parking</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
-							</div>
-							<select  class="form-control" name="parking" id="edit_parking">
+							<select  class="js-select2-custom" name="parking" id="edit_parking">
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
@@ -128,7 +112,6 @@
 								<option value="7">7</option>
 								<option value="7+">7+</option>
 							</select>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -158,11 +141,8 @@
                 <div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
 						<label for="edit_purpose">Purpose</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
-							</div>
-							<select class="form-control" name="purpose" id="edit_purpose">
+						
+							<select class="js-select2-custom" name="purpose" id="edit_purpose">
                                 <option value="">Select</option>
                                 @if($property->prop_for==1)
                                     <option value="1">Rent</option>
@@ -174,17 +154,13 @@
                                     <option value="3">Rent & Sale</option>
                                 @endif
 							</select>
-						</div>
 					</div>
 				</div>
                 <div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
 						<label for="edit_unit_status">Status</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
-							</div>
-							<select class="form-control" name="unit_status" id="edit_unit_status">
+						
+							<select class="js-select2-custom" name="unit_status" id="edit_unit_status">
                                 <option value="">Select</option>
                                 <option value="2">Rented</option>
                                 <option value="9">Owner Stay</option>
@@ -193,23 +169,17 @@
                                 <option value="12">For Sale</option>
                                 <option value="13">For Rent & Sale</option>
 							</select>
-						</div>
 					</div>
 				</div>
                 <div class="col col-md-3 col-lg-3 col-xl-3 edit_grid_rent_type" style="display:none;">
 					<div class="form-group">
 						<label for="edit_rent_type">Rent Type</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-parking text-danger"></i></span>
-							</div>
-							<select class="form-control" name="rent_type" id="edit_rent_type">
+							<select class="js-select2-custom" name="rent_type" id="edit_rent_type">
                                 <option value="">Select</option>
                                 <option value="monthly">Monthly</option>
 								<option value="yearly">Yearly</option>
 								<option value="half_yearly">Half Yearly</option>
 							</select>
-						</div>
 					</div>
 				</div>
                 <div class="col col-md-3 col-lg-3 col-xl-3">
@@ -225,11 +195,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-primary">Save changes</button>
-		</div>
-		</div>
-	</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
+<!-- End Modal -->
 {{Form::close()}}

@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('admin.layout.base')
 @include("admin.include.breadcrumb",["page_title"=>"Edit Tenant"])
 
 @section('content')
@@ -17,23 +17,14 @@
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
                                         <label  for="tenant_type">Tenant Type <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text">
-                                                  <i class="fa fa-window-maximize" aria-hidden="true"></i>
-                                             </span>
-                                         </div>
-                                        <select name="tenant_type" id="tenant_type" class="form-control">
+                                        <select name="tenant_type" id="tenant_type" class="js-select2-custom">
                                             <option value="">Select Tenancy</option>
-
                                             @php $tenancy  = get_tenancy_types();@endphp
                                             @foreach($tenancy as $key=>$value)
                                                 @php $selected = ($key==$tenant->tenant_type)?'selected':''; @endphp
                                                 <option value="{{$key}}" {{$selected}}>{{$value}}</option>
                                             @endforeach
                                         </select>
-                                     </div>
-
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -73,53 +64,44 @@
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
                                         <label for="mobile">Mobile <span class="text-danger">*</span></label>
-                                         <div class="input-group">
+                                        <div class="input-group">
                                          <div class="input-group-prepend">
-                                             <span class="input-group-text">
-                                                 <select  name="country_code" id="country_code" class="phone_code">
+                                             
+                                                 <select  name="country_code" id="country_code" class="phone_code js-select2-custom">
 
-                                                      @foreach($countries as $country)
-                                                          @php $selected = ($tenant->country->code==$country->code)?'selected':''; @endphp
-                                                         <option value="{{$country->id}}" {{$selected}}>+{{$country->code}}</option>
-                                                     @endforeach
-                                                  </select>
-
-                                             </span>
+	                                              @foreach($countries as $country)
+	                                                  @php $selected = ($tenant->country->code==$country->code)?'selected':''; @endphp
+	                                                 <option value="{{$country->id}}" {{$selected}}>+{{$country->code}}</option>
+	                                             @endforeach
+	                                          </select>
                                          </div>
                                         <input type="text" name="mobile" id="mobile" class="form-control numeric" autocomplete="off" value="{{$tenant->mobile}}">
                                      </div>
+                                      
                                     </div>
                                 </div>
                                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
                                         <label for="country_id">Nationality <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
-                                         </div>
-                                             <select name="country_id" id="country_id" class="form-control">
+                                         	<select name="country_id" id="country_id" class="js-select2-custom">
                                                  <option>Select Country</option>
                                                  @foreach($countries as $country)
                                                           @php $selected = ($tenant->country->code==$country->code)?'selected':''; @endphp
                                                          <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
                                                      @endforeach
                                              </select>
-
-                                     </div>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                     <div class="form-group">
                                         <label for="dob">Date Of Birth</label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text">
-                                                 <i class="fa fa-birthday-cake" aria-hidden="true"></i>
-                                             </span>
-                                         </div>
-                                         <input type="text" name="dob" id="dob" class="form-control" value="{{$tenant->dob ? date('d-m-Y',strtotime($tenant->dob)) : null}}" placeholder="DD-MM-YY (Optional)">
-                                     </div>
+                                         
+                                 
+                                         <input type="text" name="dob" id="dob" value="{{$tenant->dob ? date('d-m-Y',strtotime($tenant->dob)) : null}}" class="js-flatpickr form-control flatpickr-custom" placeholder="DD-MM-YY (Optional)"
+                                           data-hs-flatpickr-options='{
+                                             "dateFormat": "d-m-Y"
+                                           }'>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -137,8 +119,9 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
-                            @php
+                        	@php
                                 if(!empty($tenant->profile_image))
                                 {
                                     $img = route('get.doc',base64_encode($tenant->profile_image));
@@ -148,16 +131,34 @@
                                     $img = asset('theme/images/4.png');
                                 }
                             @endphp
-                            <img id="profile_image_grid" src="{{$img}}" style="width: 250px;margin-bottom: 10px;" alt="">
-                             <div style="position: absolute;top:211px;right:10px;">
-                                <label class="btn btn-primary mb-0" for="profile_image">
-                                    <i class="fa fa-upload" aria-hidden="true"></i>
-                                </label>
-                                <input id="profile_image" class="hide" type="file" name="profile_image">
-                                <button type="button" id="remove_profile_image" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                </button>
+                            <div class="form-group">
+                                <label class="input-label">Photo</label>
+
+                                <div class="d-flex align-items-center">
+                                    <!-- Avatar -->
+                                    <label class="avatar avatar-xxl avatar-circle avatar-uploader mr-5" for="profile_image">
+                                        <img id="avatarProjectSettingsImg" class="avatar-img" src="{{$img}}" alt="Image Description">
+
+                                        <input type="file" class="js-file-attach avatar-uploader-input" name="profile_image" id="profile_image"
+                                               data-hs-file-attach-options='{
+                                "textTarget": "#avatarProjectSettingsImg",
+                                "mode": "image",
+                                "targetAttr": "src",
+                                "resetTarget": ".js-file-attach-reset-img",
+                                "resetImg": "{{asset('theme/images/4.png')}}"
+                             }'>
+
+                                        <span class="avatar-uploader-trigger">
+                        <i class="tio-edit avatar-uploader-icon shadow-soft"></i>
+                      </span>
+                                    </label>
+                                    <!-- End Avatar -->
+
+                                    <button type="button" class="js-file-attach-reset-img btn btn-white">Delete</button>
+                                </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -268,12 +269,15 @@
                             <div class="form-group">
                                <label for="trade_licence">Trade Certificate</label>
                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-file" aria-hidden="true"></i>
-                                      </span>
-                                  </div>
-                               <input type="file" class="form-control" name="trade_licence" id="trade_licence" value="">
+                                  
+                               <div class="custom-file">
+
+						                    <input type="file" name="trade_licence" id="trade_licence" class="js-file-attach custom-file-input"
+						                           data-hs-file-attach-options='{
+						              "textTarget": "[for=\"trade_licence\"]"
+						           }'>
+						                    <label class="custom-file-label" for="trade_licence">Choose file</label>
+						                </div>
                                    @php
                                        $trade_licence = 'javascript:void(0)';
                                         if(!empty($tenant->trade_lincense))
@@ -300,7 +304,10 @@
                                           <i class="fa fa-file" aria-hidden="true"></i>
                                       </span>
                                   </div>
-                               <input type="text" class="form-control" name="trade_license_exp_date" id="trade_license_exp_date" value="{{$trade_license_exp_date}}">
+                               <input type="text" name="trade_license_exp_date" id="trade_license_exp_date" value="{{$trade_license_exp_date}}" class="js-flatpickr form-control flatpickr-custom"
+                                           data-hs-flatpickr-options='{
+                                             "dateFormat": "d-m-Y"
+                                           }'>
                                </div>
                            </div>
                         </div>
@@ -317,12 +324,15 @@
                  <div class="form-group">
                      <label for="emirates_id">Emirates Id </label>
                      <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fa fa-file" aria-hidden="true"></i>
-                            </span>
-                        </div>
-                     <input type="file" class="form-control" name="emirates_id" id="emirates_id" value="">
+                        
+                     <div class="custom-file">
+
+                    <input type="file" name="emirates_id" class="js-file-attach custom-file-input" id="emirates_id"
+                           data-hs-file-attach-options='{
+              "textTarget": "[for=\"emirates_id\"]"
+           }'>
+                    <label class="custom-file-label" for="emirates_id">Choose file</label>
+                </div>
 
                          <div class="input-group-append">
                                <span class="input-group-text">
@@ -334,16 +344,20 @@
                      </div>
                  </div>
               </div>
+
                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
                                <label for="passport">Passport</label>
                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-passport"></i>
-                                      </span>
-                                  </div>
-                               <input type="file" class="form-control" name="passport" id="passport" value="">
+                                  
+                               <div class="custom-file">
+
+                    <input type="file" name="passport" class="js-file-attach custom-file-input" id="passport"
+                           data-hs-file-attach-options='{
+              "textTarget": "[for=\"passport\"]"
+           }'>
+                    <label class="custom-file-label" for="passport">Choose file</label>
+                </div>
 
                                    <div class="input-group-append">
                                        <span class="input-group-text">
@@ -359,12 +373,15 @@
                            <div class="form-group">
                                <label for="visa">Visa</label>
                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
-                                      </span>
-                                  </div>
-                               <input type="file" class="form-control" name="visa" id="visa" value="">
+                                  
+                               <div class="custom-file">
+
+                    <input type="file" name="visa" class="js-file-attach custom-file-input" id="visa"
+                           data-hs-file-attach-options='{
+              "textTarget": "[for=\"visa\"]"
+           }'>
+                    <label class="custom-file-label" for="visa">Choose file</label>
+                </div>
 
                                    <div class="input-group-append">
                                        <span class="input-group-text">
@@ -380,12 +397,15 @@
                            <div class="form-group">
                                <label for="bank_passbook">Bank Statement</label>
                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-file" aria-hidden="true"></i>
-                                      </span>
-                                  </div>
-                               <input type="file" class="form-control" name="bank_passbook" id="bank_passbook" value="">
+                                  
+                               <div class="custom-file">
+
+                    <input type="file" name="bank_passbook" class="js-file-attach custom-file-input" id="bank_passbook"
+                           data-hs-file-attach-options='{
+              "textTarget": "[for=\"bank_passbook\"]"
+           }'>
+                    <label class="custom-file-label" for="bank_passbook">Choose file</label>
+                </div>
 
                                    <div class="input-group-append">
                                        <span class="input-group-text">
@@ -402,40 +422,32 @@
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                  <div class="form-group">
                      <label for="emirates_id_exp_date">Emirates Id(Expiry Date) </label>
-                     <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fa fa-file" aria-hidden="true"></i>
-                            </span>
-                        </div>
-                     <input type="text" class="form-control" name="emirates_id_exp_date" id="emirates_id_exp_date" value="{{$emirates_id_exp_date ? date('d-m-Y',strtotime($emirates_id_exp_date)):null}}">
-                     </div>
+                            
+                     <input type="text" name="emirates_id_exp_date" id="emirates_id_exp_date" value="{{$emirates_id_exp_date ? date('d-m-Y',strtotime($emirates_id_exp_date)):null}}" class="js-flatpickr form-control flatpickr-custom"
+                                           data-hs-flatpickr-options='{
+                                             "dateFormat": "d-m-Y"
+                                           }'>
                  </div>
               </div>
                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
                                <label for="passport_exp_date">Passport (Expiry Date)</label>
-                               <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-passport"></i>
-                                      </span>
-                                  </div>
-                               <input type="text" class="form-control" name="passport_exp_date" id="passport_exp_date" value="{{$passport_exp_date ? date('d-m-Y',strtotime($passport_exp_date)):null}}">
-                               </div>
+                                  
+                               <input type="text" name="passport_exp_date" id="passport_exp_date" value="{{$passport_exp_date ? date('d-m-Y',strtotime($passport_exp_date)):null}}" class="js-flatpickr form-control flatpickr-custom"
+                                           data-hs-flatpickr-options='{
+                                             "dateFormat": "d-m-Y"
+                                           }'>
+                               
                            </div>
                        </div>
                        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                            <div class="form-group">
                                <label for="visa_exp_date">Visa (Expiry Date)</label>
-                               <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fab fa-cc-visa"></i>
-                                      </span>
-                                  </div>
-                               <input type="text" class="form-control" name="visa_exp_date" id="visa_exp_date" value="{{$visa_exp_date ? date('d-m-Y',strtotime($visa_exp_date)):null}}">
-                               </div>
+                                  
+                               <input type="text" name="visa_exp_date" id="visa_exp_date" value="{{$visa_exp_date ? date('d-m-Y',strtotime($visa_exp_date)):null}}" class="js-flatpickr form-control flatpickr-custom"
+                                           data-hs-flatpickr-options='{
+                                             "dateFormat": "d-m-Y"
+                                           }'>
                            </div>
                        </div>
 
@@ -462,10 +474,10 @@
                             </tr>
                         </thead>
                         <tbody id="family_detail_grid">
-                        @if(!empty($tenant->relation))
+                        @if(!empty($tenant->relations))
                           @foreach($tenant->relations as $relation)
                               @php
-                                $rel_emirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
+                                $rel_emirates_id =  $rel_passport = $rel_visa = null;
                                    if(!empty($relation->emirates_id))
                                    {
                                        $rel_emirates_id = route('get.doc',base64_encode($relation->emirates_id));
@@ -484,8 +496,15 @@
                                 <td> <input type="text" class="form-control"  name="rel_name[]" value="{{$relation->name}}"> </td>
                                 <td><input type="text" class="form-control"  name="rel_relationship[]" value="{{$relation->relationship}}"></td>
                                 <td>
-                                    <div class="input group">
-                                        <input type="file" class="form-control"  name="rel_emirates_id[]">
+                                    <div class="input-group">
+                                        <div class="custom-file">
+
+						                    <input type="file" name="rel_emirates_id[]" class="js-file-attach custom-file-input"
+						                           data-hs-file-attach-options='{
+						              "textTarget": "[for=\"rel_emirates_id\"]"
+						           }'>
+						                    <label class="custom-file-label" for="rel_emirates_id">Choose file</label>
+						                </div>
                                         <div class="input-group-append">
                                            <span class="input-group-text">
                                                <a data-toggle="tooltip" title="Click to view the file"
@@ -497,9 +516,18 @@
                                     </div>
 
                                 </td>
+
+
                                 <td>
-                                    <div class="input group">
-                                        <input type="file" class="form-control"  name="rel_passport[]">
+                                    <div class="input-group">
+                                        <div class="custom-file">
+
+						                    <input type="file" name="rel_passport[]" class="js-file-attach custom-file-input"
+						                           data-hs-file-attach-options='{
+						              "textTarget": "[for=\"rel_passport\"]"
+						           }'>
+						                    <label class="custom-file-label" for="rel_passport">Choose file</label>
+						                </div>
                                         <div class="input-group-append">
                                            <span class="input-group-text">
                                                <a data-toggle="tooltip" title="Click to view the file"
@@ -512,8 +540,15 @@
 
                                 </td>
                                 <td>
-                                    <div class="input group">
-                                        <input type="file" class="form-control"  name="rel_visa[]">
+                                    <div class="input-group">
+                                        <div class="custom-file">
+
+						                    <input type="file" name="rel_visa[]" class="js-file-attach custom-file-input"
+						                           data-hs-file-attach-options='{
+						              "textTarget": "[for=\"rel_visa\"]"
+						           }'>
+						                    <label class="custom-file-label" for="rel_visa">Choose file</label>
+						                </div>
                                         <div class="input-group-append">
                                            <span class="input-group-text">
                                                <a data-toggle="tooltip" title="Click to view the file"
@@ -561,12 +596,15 @@
                            <div class="form-group">
                                <label for="no_sharing_agreement">No sharing agreement</label>
                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-file" aria-hidden="true"></i>
-                                      </span>
-                                  </div>
-                               <input type="file" class="form-control" name="no_sharing_agreement" id="no_sharing_agreement" value="">
+                                  
+                               <div class="custom-file">
+
+						                    <input type="file" name="no_sharing_agreement" id="no_sharing_agreement" class="js-file-attach custom-file-input"
+						                           data-hs-file-attach-options='{
+						              "textTarget": "[for=\"no_sharing_agreement\"]"
+						           }'>
+						                    <label class="custom-file-label" for="no_sharing_agreement">Choose file</label>
+						                </div>
 
                                    <div class="input-group-append">
                                        <span class="input-group-text">
@@ -583,12 +621,15 @@
                            <div class="form-group">
                                <label for="marriage_certificate">Marriage Certificate</label>
                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text">
-                                          <i class="fa fa-file" aria-hidden="true"></i>
-                                      </span>
-                                  </div>
-                               <input type="file" class="form-control" name="marriage_certificate" id="marriage_certificate" value="">
+                
+                               <div class="custom-file">
+
+						                    <input type="file" name="marriage_certificate" id="marriage_certificate" class="js-file-attach custom-file-input"
+						                           data-hs-file-attach-options='{
+						              "textTarget": "[for=\"marriage_certificate\"]"
+						           }'>
+						                    <label class="custom-file-label" for="marriage_certificate">Choose file</label>
+						                </div>
                                    <div class="input-group-append">
                                        <span class="input-group-text">
                                            <a data-toggle="tooltip" title="Click to view the file"
@@ -635,17 +676,19 @@
                 $(`.${item}`).show();
             });
         }
-     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
-     let pickers =
-               [
-                   'emirates_id_exp_date',
-                   'visa_exp_date',
-                   'passport_exp_date',
-                   'bank_passbook_exp_date',
-               ];
-           pickers.forEach(function(item){
-               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
-           });
+	     $('.js-select2-custom').each(function () {
+	          var select2 = $.HSCore.components.HSSelect2.init($(this));
+	        });
+
+	    $('.js-flatpickr').each(function () {
+	      $.HSCore.components.HSFlatpickr.init($(this));
+	    });
+
+	    $('.js-file-attach').each(function () {
+            let customFile = new HSFileAttach($(this)).init();
+        });
+
+
 		$("#tenant_type").on('change',function(e){
 		    $("#family_detail_grid").html('');
 			if(!$.trim($("#tenant_type").val()).length)
@@ -776,7 +819,7 @@ function render_image(input)
    $("#profile_image_grid").on('click',function(){
       $("#profile_image").click();
   });
-
+  
    display('{{$tenant->tenant_type}}');
     });
 </script>

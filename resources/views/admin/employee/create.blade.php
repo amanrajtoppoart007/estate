@@ -1,22 +1,22 @@
-@extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-    <div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Add Employee</h1>
-        </div>
-        <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-            <li class="breadcrumb-item active">Add Employee</li>
-        </ol>
-        </div>
-    </div>
-    </div>
-</div>
-@endsection
+@extends('admin.layout.base')
  @section('content')
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Add Employee</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add Employee</li>
+            </ol>
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+               
+
    <div class="card">
        <div class="card-body">
            {{Form::open(['route'=>'employee.store','id'=>'add_data_form','autocomplete'=>'off'])}}
@@ -80,20 +80,33 @@
                </div>
                <div class="col-md-12 col-lg-6">
                   <div class="card">
-                      <div class="card-img-top">
-                      <img id="profile_image_grid" class="img-thumbnail profile_photo" src="{{asset('theme/images/4.png')}}" alt="">
-                      <input type="file" name="photo" id="profile_image" style="display:none;">
-                      </div>
-                      <div class="card-footer">
-                        <div class="d-inline">
-                            <label for="profile_image" class="btn btn-primary">
-                                <i class="fa fa-upload"></i>
-                            </label>
-                            <label id="remove_profile_image" class="btn btn-danger">
-                                <i class="fa fa-trash"></i>
-                            </label>
-                        </div>
-                      </div>
+
+                    <div class="form-group">
+                                <label class="input-label">Photo</label>
+
+                                <div class="d-flex align-items-center">
+                                    <!-- Avatar -->
+                                    <label class="avatar avatar-xxl avatar-circle avatar-uploader mr-5" for="profile_image">
+                                        <img id="avatarProjectSettingsImg" class="avatar-img" src="{{asset('theme/images/4.png')}}" alt="Image Description">
+
+                                        <input type="file" class="js-file-attach avatar-uploader-input" name="photo" id="profile_image"
+                                               data-hs-file-attach-options='{
+                                "textTarget": "#avatarProjectSettingsImg",
+                                "mode": "image",
+                                "targetAttr": "src",
+                                "resetTarget": ".js-file-attach-reset-img",
+                                "resetImg": "{{asset('theme/images/4.png')}}"
+                             }'>
+
+                                        <span class="avatar-uploader-trigger">
+                        <i class="tio-edit avatar-uploader-icon shadow-soft"></i>
+                      </span>
+                                    </label>
+                                    <!-- End Avatar -->
+
+                                    <button type="button" class="js-file-attach-reset-img btn btn-white">Delete</button>
+                                </div>
+                            </div>
                   </div>
 
                </div>
@@ -176,33 +189,25 @@
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="gender">Gender</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-genderless"></i></span>
-                                  </div>
-                                  <select class="form-control" name="gender" id="gender">
-                                      <option value="">Select Gender</option>
-                                      <option value="male">Male</option>
-                                      <option value="female">Female</option>
-                                      <option value="other">Other</option>
-                                  </select>
-                              </div>
+                              
+                              <select class="js-select2-custom" name="gender" id="gender">
+                                  <option value="">Select Gender</option>
+                                  <option value="male">Male</option>
+                                  <option value="female">Female</option>
+                                  <option value="other">Other</option>
+                              </select>
                           </div>
                       </div>
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="civil_status">Civil Status</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-genderless"></i></span>
-                                  </div>
-                                  <select class="form-control" name="civil_status" id="civil_status">
+                                  
+                                  <select class="js-select2-custom" name="civil_status" id="civil_status">
                                       <option value="">Select</option>
                                       <option value="married">Married</option>
                                       <option value="single">Single</option>
                                       <option value="unulled">unulled</option>
                                   </select>
-                              </div>
                           </div>
                       </div>
                   </div>
@@ -221,12 +226,9 @@
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="dob">Date Of Birth</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                  </div>
-                                  <input type="text" class="form-control" name="dob" id="dob" value="{{now()->addYear(-18)->format('d-m-Y')}}">
-                              </div>
+                              <input type="text" class="form-control js-flatpickr flatpickr-custom" name="dob" id="dob" data-hs-flatpickr-options='{
+                                             "dateFormat": "d-m-Y"
+                                           }' value="{{now()->addYear(-18)->format('d-m-Y')}}">
                           </div>
                       </div>
                   </div>
@@ -243,29 +245,20 @@
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="country_id">Country</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-flag"></i></span>
-                                  </div>
-                                  <select type="text" class="form-control" name="country_id" id="country_id">
+                              
+                                  <select type="text" class="js-select2-custom" name="country_id" id="country_id">
                                        <option value="">Select Country</option>
                                        @foreach($countries as $country)
                                            <option value="{{$country->id}}">{{$country->name}}</option>
                                        @endforeach
                                    </select>
-                              </div>
                           </div>
                       </div>
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="state_id">State</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-street-view"></i></span>
-                                  </div>
-                                  <select class="form-control" name="state_id" id="state_id">
+                              <select class="js-select2-custom" name="state_id" id="state_id">
                                   </select>
-                              </div>
                           </div>
                       </div>
                   </div>
@@ -273,13 +266,8 @@
                       <div class="col-md-6">
                           <div class="form-group">
                               <label for="city_id">City</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-city"></i></span>
-                                  </div>
-                                  <select class="form-control" name="city_id" id="city_id">
+                              <select class="js-select2-custom" name="city_id" id="city_id">
                                   </select>
-                              </div>
                           </div>
                       </div>
                       <div class="col-md-6">
@@ -307,33 +295,25 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="department_id">Department</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-building"></i></span>
-                                    </div>
-                                    <select class="form-control" name="department_id" id="department_id">
+                                
+                                    <select class="js-select2-custom" name="department_id" id="department_id">
                                         <option value="">Select Department</option>
                                         @foreach ($departments as $department)
                                           <option value="{{$department->id}}">{{$department->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="civil_status">Designation</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <select class="form-control" name="designation_id" id="designation_id">
+                                
+                                    <select class="js-select2-custom" name="designation_id" id="designation_id">
                                         <option value="">Select Designation</option>
                                         @foreach ($designations as $designation)
                                           <option value="{{$designation->id}}">{{$designation->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -368,27 +348,20 @@
                        <div class="col-md-4">
                           <div class="form-group">
                               <label for="joining_date">Office Joining Date </label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                  </div>
-                                <input type="text" class="form-control" name="joining_date" id="joining_date" value="{{now()->format('d-m-Y')}}">
-                              </div>
+                              <input type="text" class="form-control js-flatpickr flatpickr-custom" name="joining_date" id="joining_date" data-hs-flatpickr-options='{
+                                             "dateFormat": "d-m-Y"
+                                           }' value="{{now()->format('d-m-Y')}}">
                           </div>
                       </div>
                        <div class="col-md-4">
                           <div class="form-group">
                               <label for="status">Employee Status </label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                  </div>
-                                  <select type="text" class="form-control" name="status" id="status">
+                              
+                                  <select type="text" class="js-select2-custom" name="status" id="status">
                                       <option value="">Select Status</option>
                                       <option value="1">Active</option>
                                       <option value="0">InActive</option>
                                   </select>
-                              </div>
                           </div>
                       </div>
                        <div class="col-md-4">
@@ -417,16 +390,12 @@
                        <div class="col-md-3">
                           <div class="form-group">
                               <label for="is_admin">Is Admin</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                  </div>
-                                  <select type="text" name="is_admin" id="is_admin" class="form-control">
+                              
+                                  <select type="text" name="is_admin" id="is_admin" class="js-select2-custom">
                                      <option value="">Select IsAdmin</option>
                                      <option value="1">Yes</option>
                                      <option value="0">No</option>
                                   </select>
-                              </div>
                           </div>
                       </div>
                        <div class="col-md-6 text-right">
@@ -443,6 +412,15 @@
            {{Form::close()}}
        </div>
    </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
+
  @endsection
  @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
@@ -453,6 +431,17 @@
  @section('script')
   <script>
        $(document).ready(function(){
+        $('.js-select2-custom').each(function () {
+          var select2 = $.HSCore.components.HSSelect2.init($(this));
+        });
+
+        $('.js-file-attach').each(function () {
+          var customFile = new HSFileAttach($(this)).init();
+        });
+
+        $('.js-flatpickr').each(function () {
+          $.HSCore.components.HSFlatpickr.init($(this));
+        });
 
            $("#country_id").on("change",function(){
                $.get_state_list($("#country_id"),$("#state_id"));
@@ -461,27 +450,7 @@
                $.get_city_list($("#state_id"),$("#city_id"));
            });
 
-           $('#dob').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(-18)->format('d-m-Y')}}'});
-           $('#joining_date').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addDays(1)->format('d-m-Y')}}'});
-           function render_image(input)
-            {
-                if(input.files && input.files[0])
-                {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#profile_image_grid').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-                }
-            }
-            $("#profile_image").change(function(){
-                render_image(this);
-            });
-            $("#remove_profile_image").click(function(){
-                $('#profile_image_grid').attr('src', '/theme/images/4.png');
-                var file = document.getElementById("profile_image");
-                file.value = file.defaultValue;
-            });
+          f
             $("#add_data_form").on('submit',function(e){
                 e.preventDefault();
                 var url = "{{route('employee.store')}}";

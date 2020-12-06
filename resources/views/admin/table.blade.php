@@ -1,5 +1,6 @@
 @extends('admin.layout.base')
 @section('head')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugin/chart.js/Chart.min.css')}}">
 @endsection
 @section('content')
     <!-- Content -->
@@ -91,7 +92,130 @@
                                     </div>
                                     <!-- End Unfold -->
 
+                                    <!-- Unfold -->
+                                    <div class="hs-unfold">
+                                        <a class="js-hs-unfold-invoker btn btn-sm btn-white" href="javascript:;"
+                                           data-hs-unfold-options='{
+                         "target": "#usersFilterDropdown",
+                         "type": "css-animation",
+                         "smartPositionOff": true
+                       }'>
+                                            <i class="tio-filter-list mr-1"></i> Filter <span class="badge badge-soft-dark rounded-circle ml-1">2</span>
+                                        </a>
 
+                                        <div id="usersFilterDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right dropdown-card card-dropdown-filter-centered" style="min-width: 22rem;">
+                                            <!-- Card -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-header-title">Filter users</h5>
+
+                                                    <!-- Toggle Button -->
+                                                    <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-secondary ml-2" href="javascript:;"
+                                                       data-hs-unfold-options='{
+                              "target": "#usersFilterDropdown",
+                              "type": "css-animation",
+                              "smartPositionOff": true
+                             }'>
+                                                        <i class="tio-clear tio-lg"></i>
+                                                    </a>
+                                                    <!-- End Toggle Button -->
+                                                </div>
+
+                                                <div class="card-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <small class="text-cap mb-2">Role</small>
+
+                                                            <div class="form-row">
+                                                                <div class="col">
+                                                                    <!-- Checkbox -->
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="usersFilerCheck1" checked>
+                                                                        <label class="custom-control-label" for="usersFilerCheck1">All</label>
+                                                                    </div>
+                                                                    <!-- End Checkbox -->
+                                                                </div>
+
+                                                                <div class="col">
+                                                                    <!-- Checkbox -->
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="usersFilerCheck2">
+                                                                        <label class="custom-control-label" for="usersFilerCheck2">Employee</label>
+                                                                    </div>
+                                                                    <!-- End Checkbox -->
+                                                                </div>
+                                                            </div>
+                                                            <!-- End Row -->
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col-sm form-group">
+                                                                <small class="text-cap mb-2">Position</small>
+
+                                                                <!-- Select -->
+                                                                <select class="js-select2-custom js-datatable-filter"
+                                                                        data-target-column-index="2"
+                                                                        data-hs-select2-options='{
+                                          "minimumResultsForSearch": "Infinity"
+                                        }'>
+                                                                    <option value="">Any</option>
+                                                                    <option value="Accountant">Accountant</option>
+                                                                    <option value="Co-founder">Co-founder</option>
+                                                                    <option value="Designer">Designer</option>
+                                                                    <option value="Developer">Developer</option>
+                                                                    <option value="Director">Director</option>
+                                                                </select>
+                                                                <!-- End Select -->
+                                                            </div>
+
+                                                            <div class="col-sm form-group">
+                                                                <small class="text-cap mb-2">Status</small>
+
+                                                                <!-- Select -->
+                                                                <select class="js-select2-custom js-datatable-filter"
+                                                                        data-target-column-index="4"
+                                                                        data-hs-select2-options='{
+                                          "minimumResultsForSearch": "Infinity"
+                                        }'>
+                                                                    <option value="">Any status</option>
+                                                                    <option value="Active" data-option-template='<span class="legend-indicator bg-success"></span>Active'>Active</option>
+                                                                    <option value="Pending" data-option-template='<span class="legend-indicator bg-warning"></span>Pending'>Pending</option>
+                                                                    <option value="Suspended" data-option-template='<span class="legend-indicator bg-danger"></span>Suspended'>Suspended</option>
+                                                                </select>
+                                                                <!-- End Select -->
+                                                            </div>
+
+                                                            <div class="col-12 form-group">
+                                                                <small class="text-cap mb-2">Location</small>
+
+                                                                <!-- Select -->
+                                                                <select class="js-select2-custom js-datatable-filter"
+                                                                        data-target-column-index="3"
+                                                                        data-hs-select2-options='{
+                                          "searchInputPlaceholder": "Search a country"
+                                        }'>
+                                                                    <option label="empty"></option>
+                                                                    <option value="AF" data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{{asset('theme/front/assets/vendor/flag-icon-css/flags/1x1/af.svg')}}" alt="Afghanistan Flag" /><span class="text-truncate">Afghanistan</span></span>'>Afghanistan</option>
+                                                                    <option value="AX" data-option-template='<span class="d-flex align-items-center"><img class="avatar avatar-xss avatar-circle mr-2" src="{{asset('theme/front/assets/vendor/flag-icon-css/flags/1x1/ax.svg')}}" alt="Aland Islands Flag" /><span class="text-truncate">Aland Islands</span></span>'>Aland Islands</option>
+                                                                 </select>
+                                                                <!-- End Select -->
+                                                            </div>
+                                                        </div>
+                                                        <!-- End Row -->
+
+                                                        <a class="js-hs-unfold-invoker btn btn-block btn-primary" href="javascript:;"
+                                                           data-hs-unfold-options='{
+                                "target": "#usersFilterDropdown",
+                                "type": "css-animation",
+                                "smartPositionOff": true
+                               }'>Apply</a>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <!-- End Card -->
+                                        </div>
+                                    </div>
+                                    <!-- End Unfold -->
                                 </div>
                             </div>
                         </div>
@@ -129,7 +253,7 @@
                             </tr>
                             </thead>
 
-                            <tbody></tbody>
+                          <tbody></tbody>
                         </table>
                     </div>
                     <!-- End Table -->
@@ -200,8 +324,8 @@
         });
         function ProfileImageName(data)
         {
-            let img = "{{asset('assets/img/avatar5.png')}}";
-            return `<a class="media align-items-center" href="../user-profile.html"><div class="avatar avatar-circle mr-3"><img class="avatar-img" src="${img}" alt="Image Description"></div><div class="media-body"><span class="d-block h5 text-hover-primary mb-0">${data.name}</span><span class="d-block font-size-sm text-body">${data.email}</span></div></a>`;
+            let img = "{{asset('theme/front/assets/img/160x160/img10.jpg')}}";
+         return `<a class="media align-items-center" href="../user-profile.html"><div class="avatar avatar-circle mr-3"><img class="avatar-img" src="${img}" alt="Image Description"></div><div class="media-body"><span class="d-block h5 text-hover-primary mb-0">${data.name}</span><span class="d-block font-size-sm text-body">${data.email}</span></div></a>`;
         }
         function renderStatusBtn(data)
         {
@@ -232,9 +356,9 @@
 
                 { data : "name", name : 'name',
                     render: function(data, type, row, meta)
-                    {
-                        return ProfileImageName(row);
-                    }
+                        {
+                            return ProfileImageName(row);
+                        }
 
                 },
                 { data : "email", name : 'email'},

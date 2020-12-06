@@ -272,14 +272,10 @@
                 <div class="card h-100">
                     <!-- Header -->
                     <div class="card-header">
-                        <h5 class="card-header-title">Transactions</h5>
+                        <h5 class="card-header-title">Rentable Properties</h5>
 
-                        <!-- Daterangepicker -->
-                        <button id="js-daterangepicker-predefined" class="btn btn-sm btn-ghost-secondary dropdown-toggle">
-                            <i class="tio-date-range"></i>
-                            <span class="js-daterangepicker-predefined-preview ml-1"></span>
-                        </button>
-                        <!-- End Daterangepicker -->
+
+
                     </div>
                     <!-- End Header -->
 
@@ -287,84 +283,13 @@
                     <div class="card-body">
                         <!-- Chart -->
                         <div class="chartjs-custom mx-auto" style="height: 20rem;">
-                            <canvas class="js-chart-datalabels"
-                                    data-hs-chartjs-options='{
-                            "type": "bubble",
-                            "data": {
-                              "datasets": [
-                                {
-                                  "label": "Label 1",
-                                  "data": [
-                                    {"x": 55, "y": 65, "r": 99}
-                                  ],
-                                  "color": "#fff",
-                                  "backgroundColor": "rgba(55, 125, 255, 0.9)",
-                                  "borderColor": "transparent"
-                                },
-                                {
-                                  "label": "Label 2",
-                                  "data": [
-                                    {"x": 33, "y": 42, "r": 65}
-                                  ],
-                                  "color": "#fff",
-                                  "backgroundColor": "rgba(100, 0, 214, 0.8)",
-                                  "borderColor": "transparent"
-                                },
-                                {
-                                  "label": "Label 3",
-                                  "data": [
-                                    {"x": 46, "y": 26, "r": 38}
-                                  ],
-                                  "color": "#fff",
-                                  "backgroundColor": "#00c9db",
-                                  "borderColor": "transparent"
-                                }
-                              ]
-                            },
-                            "options": {
-                              "scales": {
-                                "yAxes": [{
-                                  "gridLines": {
-                                    "display": false
-                                  },
-                                  "ticks": {
-                                    "display": false,
-                                    "max": 100,
-                                    "beginAtZero": true
-                                  }
-                                }],
-                                "xAxes": [{
-                                "gridLines": {
-                                    "display": false
-                                  },
-                                  "ticks": {
-                                    "display": false,
-                                    "max": 100,
-                                    "beginAtZero": true
-                                  }
-                                }]
-                              },
-                              "tooltips": false
-                            }
-                          }'></canvas>
+
+                                <canvas id="pie-chart"></canvas>
+
                         </div>
                         <!-- End Chart -->
 
-                        <!-- Legend Indicators -->
-                        <div class="row justify-content-center">
-                            <div class="col-auto">
-                                <span class="legend-indicator bg-primary"></span> New
-                            </div>
 
-                            <div class="col-auto">
-                                <span class="legend-indicator" style="background-color: #7000f2;"></span> Pending
-                            </div>
-
-                            <div class="col-auto">
-                                <span class="legend-indicator bg-info"></span> Failed
-                            </div>
-                        </div>
-                        <!-- End Legend Indicators -->
                     </div>
                     <!-- End Body -->
                 </div>
@@ -487,7 +412,36 @@
             </div>
         </div>
         <!-- end 2 cards -->
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+                <!-- Card -->
+                <div class="card h-100">
+                    <!-- Header -->
+                    <div class="card-header">
+                        <h5 class="card-header-title">Properties</h5>
 
+
+
+                    </div>
+                    <!-- End Header -->
+
+                    <!-- Body -->
+                    <div class="card-body">
+                        <!-- Chart -->
+                        <div class="chartjs-custom mx-auto" >
+
+                            <canvas id="all-property-status-chart"></canvas>
+
+                        </div>
+                        <!-- End Chart -->
+
+
+                    </div>
+                    <!-- End Body -->
+                </div>
+                <!-- End Card -->
+            </div>
+        </div>
 
 
     </div>
@@ -498,77 +452,105 @@
     <script src="{{asset('plugin/chart.js/chart.js')}}"></script>
 
 
+
     <script>
-        var ticksStyle = {
-            fontColor: '#495057',
-            fontStyle: 'bold'
-        }
-        var mode      = 'index';
-        var intersect = true;
-        var $visitorsChart = $('#sells-chart')
-        var visitorsChart  = new Chart($visitorsChart, {
-            data   : {
-                labels  : ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
+
+        let randomScalingFactor = function() {
+            return Math.round(Math.random() * 100);
+        };
+
+        let config = {
+            type: 'pie',
+
+            data: {
                 datasets: [{
-                    type                : 'line',
-                    data                : [100, 120, 170, 167, 180, 177, 160],
-                    backgroundColor     : 'transparent',
-                    borderColor         : '#007bff',
-                    pointBorderColor    : '#007bff',
-                    pointBackgroundColor: '#007bff',
-                    fill                : false
-                    // pointHoverBackgroundColor: '#007bff',
-                    // pointHoverBorderColor    : '#007bff'
-                },
-                    {
-                        type                : 'line',
-                        data                : [60, 80, 70, 67, 80, 77, 100],
-                        backgroundColor     : 'tansparent',
-                        borderColor         : '#ced4da',
-                        pointBorderColor    : '#ced4da',
-                        pointBackgroundColor: '#ced4da',
-                        fill                : false
-                        // pointHoverBackgroundColor: '#ced4da',
-                        // pointHoverBorderColor    : '#ced4da'
-                    }]
+                    data: [
+                        60,
+                        40,
+
+                    ],
+                    backgroundColor: [
+                       '#FF8C00',
+
+                        '#fefaf5',
+                    ],
+                    label: 'Property Rent'
+                }],
+                labels: [
+                    'Rented',
+                    'Vacant',
+
+                ]
             },
             options: {
-                maintainAspectRatio: false,
-                tooltips           : {
-                    mode     : mode,
-                    intersect: intersect
-                },
-                hover              : {
-                    mode     : mode,
-                    intersect: intersect
-                },
-                legend             : {
-                    display: false
-                },
-                scales             : {
-                    yAxes: [{
-                        // display: false,
-                        gridLines: {
-                            display      : true,
-                            lineWidth    : '4px',
-                            color        : 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
-                        },
-                        ticks    : $.extend({
-                            beginAtZero : true,
-                            suggestedMax: 200
-                        }, ticksStyle)
-                    }],
-                    xAxes: [{
-                        display  : true,
-                        gridLines: {
-                            display: false
-                        },
-                        ticks    : ticksStyle
-                    }]
+                responsive: true,
+                legend: {
+                    position: 'bottom',
                 }
             }
-        })
+        };
+
+
+
+
+
+
+
+        let MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        let barChartData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'Property Sale',
+                backgroundColor: '#FF8C00',
+                borderColor: '#FF8C00',
+                borderWidth: 1,
+                data: [
+                  15,20,80,25,50,30,70
+                ]
+            }, {
+                label: 'Property Rented',
+                backgroundColor: '#7e81b5',
+                borderColor: '#7e81b5',
+                borderWidth: 1,
+                data: [
+                    10,70,30,25,50,30,70
+                ]
+            }]
+
+        };
+
+        let propertyChartConfig = {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Property Status'
+                }
+            }
+        };
+
+
+
+
+
+
+
+
+/*  chart loader */
+        window.onload = function() {
+            let ctx = document.getElementById('pie-chart').getContext('2d');
+            window.myPie = new Chart(ctx, config);
+
+            let ctx2 = document.getElementById('all-property-status-chart').getContext('2d');
+            window.myBar = new Chart(ctx2,propertyChartConfig);
+        };
+
     </script>
 
 @endsection

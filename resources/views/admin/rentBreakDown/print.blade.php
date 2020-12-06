@@ -31,7 +31,7 @@
            </div>
             <div class="row">
                  <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-1"> <span class="font-weight-bold">Flat No.</span></div>
-                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-1">{{$breakdown->unit ? $breakdown->unit->flat_house_no : null }}</div>
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 mb-1">{{$breakdown->unit ? $breakdown->unit->flat_number : null }}</div>
             </div>
         </div>
     </div>

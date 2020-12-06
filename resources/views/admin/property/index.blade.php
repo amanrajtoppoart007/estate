@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('admin.layout.base')
 @section('breadcrumb')
 <div class="content-header">
       <div class="container-fluid">
@@ -17,8 +17,103 @@
     </div>
 @endsection
 @section('content')
-    <div class="items_list bg_transparent color-secondery icon_default">
-        <a href="{{route('property.create')}}" class="btn btn-primary color-primary mb-4 float-right">Add Property</a>
+    <div class="content container-fluid">
+        <span class="float-right">Property Listing</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Property Management</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Property Listing</li>
+            </ol>
+
+        </nav>
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <!-- Card -->
+                <div class="card">
+                    <!-- Header -->
+                    <div class="card-header">
+                        <div class="row justify-content-between align-items-center flex-grow-1">
+                            <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+                                <form>
+                                    <!-- Search -->
+                                    <div class="input-group input-group-merge input-group-flush">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="tio-search"></i>
+                                            </div>
+                                        </div>
+                                        <input id="datatableSearch" type="search" class="form-control" placeholder="Search users" aria-label="Search users">
+                                    </div>
+                                    <!-- End Search -->
+                                </form>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="d-sm-flex justify-content-sm-end align-items-sm-center">
+                                    <!-- Datatable Info -->
+                                    <div id="datatableCounterInfo" class="mr-2 mb-2 mb-sm-0" style="display: none;">
+                                        <div class="d-flex align-items-center">
+                      <span class="font-size-sm mr-3">
+                        <span id="datatableCounter">0</span>
+                        Selected
+                      </span>
+                                            <a class="btn btn-sm btn-outline-danger" href="javascript:;">
+                                                <i class="tio-delete-outlined"></i> Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- End Datatable Info -->
+                                    <a href="{{route('property.create')}}" class="btn btn-outline-alhoor mr-2"> <i class="tio-add mr-1"></i>Add Property</a>
+                                    <!-- Unfold -->
+                                    <div class="hs-unfold mr-2">
+                                        <a class="js-hs-unfold-invoker btn btn-sm btn-white dropdown-toggle" href="javascript:;"
+                                           data-hs-unfold-options='{
+                         "target": "#usersExportDropdown",
+                         "type": "css-animation"
+                       }'>
+                                            <i class="tio-download-to mr-1"></i> Export
+                                        </a>
+
+                                        <div id="usersExportDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right">
+                                            <span class="dropdown-header">Options</span>
+                                            <a id="export-copy" class="dropdown-item" href="javascript:;">
+                                                <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{asset('theme/front/assets/svg/illustrations/copy.svg')}}" alt="Image Description">
+                                                Copy
+                                            </a>
+                                            <a id="export-print" class="dropdown-item" href="javascript:;">
+                                                <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{asset('theme/front/assets/svg/illustrations/print.svg')}}" alt="Image Description">
+                                                Print
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <span class="dropdown-header">Download options</span>
+                                            <a id="export-excel" class="dropdown-item" href="javascript:;">
+                                                <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{asset('theme/front/assets/svg/brands/excel.svg')}}" alt="Image Description">
+                                                Excel
+                                            </a>
+                                            <a id="export-csv" class="dropdown-item" href="javascript:;">
+                                                <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{asset('theme/front/assets/svg/components/placeholder-csv-format.svg')}}" alt="Image Description">
+                                                .CSV
+                                            </a>
+                                            <a id="export-pdf" class="dropdown-item" href="javascript:;">
+                                                <img class="avatar avatar-xss avatar-4by3 mr-2" src="{{asset('theme/front/assets/svg/brands/pdf.svg')}}" alt="Image Description">
+                                                PDF
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- End Unfold -->
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Row -->
+                    </div>
+                    <!-- End Header -->
+
+    <div class="items_list  color-secondery icon_default">
+
         <div class="table-responsive">
             <table class="table" id="dataTable">
                 <thead>
@@ -31,6 +126,8 @@
                 </thead>
             </table>
         </div>
+    </div>
+                </div></div></div>
     </div>
 @endsection
 @section('script')

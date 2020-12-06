@@ -1,185 +1,182 @@
-@extends('admin.layout.app')
-@section('head')
-   <link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
-@endsection
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Add Building</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Add Building</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@extends('admin.layout.base')
 @section('content')
-<div class="submit_form color-secondery icon_primary bg-white p-3">
-	<form id="add_data_form" enctype="multipart/form-data" method="POST" autocomplete="off">
-		@csrf
-		<div class="property-location mt-4">
-			<h5 class="color-primary">Building Location</h5>
-			<hr>
-			 <div class="row">
-                 <div class="col-lg-12 col-md-12">
-                     <div class="form-group">
-                         <label>Building Name</label>
-                         <span class="ml-2 text-danger">*</span>
-                         <input type="text" name="title" id="title" class="form-control" value="{{old('title')}}">
-                     </div>
-                 </div>
-				 <div class="col-md-4">
-					 <div class="form-group">
-						 <label for="owner_id">Developer  <span class="ml-2 text-danger">*</span></label>
-						 <select class="form-control" name="owner_id" id="owner_id">
-							  <option value="">Select Developer</option>
-							 @foreach ($owners as $owner)
-						      <option value="{{$owner->id}}">{{$owner->name}}</option>
-							 @endforeach
-						 </select>
-					 </div>
 
-					<div class="form-group">
-						<label>Property Types  <span class="ml-2 text-danger">*</span></label>
-						<select class="form-control @error('type') is-invalid @enderror" name="type" id="type">
-							<option value="">Select Property Type</option>
-							@foreach($propertyTypes as $type)
-							@if($type->id==old('type'))
-							<option value="{{ $type->id }}" selected>{{ $type->title }}</option>
-							@else
-							<option value="{{ $type->id }}">{{ $type->title }}</option>
-							@endif
-							@endforeach
-						</select>
-					</div>
-						<div class="form-group">
-						<label>Purpose  <span class="ml-2 text-danger">*</span></label>
-						<select class="form-control" name="prop_for" id="prop_for">
 
-							@php
-							$purpose = get_property_purpose_modes()
-							@endphp
-							@foreach($purpose as $pKey=>$pVal)
-							@if($pKey==old('prop_for'))
-							<option value="{{$pKey}}" selected>{{$pVal}}</option>
-							@else
-							<option value="{{$pKey}}">{{$pVal}}</option>
-							@endif
-							@endforeach
-						</select>
-					</div>
-					 <div class="form-group">
-						<label>Country  <span class="ml-2 text-danger">*</span></label>
-						<select class="form-control" name="country_id" id="country_id">
-							@foreach($countries as $country)
-							@if($country->code==971)
-							<option value="{{ $country->id }}" selected>{{ $country->name }}</option>
-							@endif
-							@endforeach
-						</select>
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">Add Building</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add Building</li>
+            </ol>
+        </nav>
 
-					</div>
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
 
-					<div class="form-group">
-						<label>City  <span class="ml-2 text-danger">*</span></label>
-						<select class="form-control select2" name="city_id" id="city_id">
-							<option value="">Select City</option>
-                            @foreach($cities as $city)
-                                @php  $selected = ($city->id==old('city_id'))?"selected":null; @endphp
-                                    <option value="{{ $city->id }}" {{$selected}}>{{$city->name}}</option>
-                            @endforeach
-						</select>
+                <!-- Card -->
+                <div class="card">
+                    
+                    <div class="card-body">
+                    	<form id="add_data_form" enctype="multipart/form-data" method="POST" autocomplete="off">
+						@csrf
+						<div class="property-location mt-4">
+							<h5 class="color-primary">Building Location</h5>
+							<hr>
+							 <div class="row">
+				                 <div class="col-lg-12 col-md-12">
+				                     <div class="form-group">
+				                         <label>Building Name</label>
+				                         <span class="ml-2 text-danger">*</span>
+				                         <input type="text" name="title" id="title" class="form-control" value="{{old('title')}}">
+				                     </div>
+				                 </div>
+								 <div class="col-md-4">
+									 <div class="form-group">
+										 <label for="owner_id">Developer  <span class="ml-2 text-danger">*</span></label>
+										 <select class="js-select2-custom" name="owner_id" id="owner_id">
+											  <option value="">Select Developer</option>
+											 @foreach ($owners as $owner)
+										      <option value="{{$owner->id}}">{{$owner->name}}</option>
+											 @endforeach
+										 </select>
+									 </div>
 
-					</div>
-				 </div>
-				 <div class="col-md-8">
-					 <div class="mb-3">
-						<div class="single-map">
-							<div id="map"></div>
+									<div class="form-group">
+										<label>Property Types  <span class="ml-2 text-danger">*</span></label>
+										<select class="js-select2-custom @error('type') is-invalid @enderror" name="type" id="type">
+											<option value="">Select Property Type</option>
+											@foreach($propertyTypes as $type)
+											@if($type->id==old('type'))
+											<option value="{{ $type->id }}" selected>{{ $type->title }}</option>
+											@else
+											<option value="{{ $type->id }}">{{ $type->title }}</option>
+											@endif
+											@endforeach
+										</select>
+									</div>
+										<div class="form-group">
+										<label>Purpose  <span class="ml-2 text-danger">*</span></label>
+										<select class="js-select2-custom" name="prop_for" id="prop_for">
+
+											@php
+											$purpose = get_property_purpose_modes()
+											@endphp
+											@foreach($purpose as $pKey=>$pVal)
+											@if($pKey==old('prop_for'))
+											<option value="{{$pKey}}" selected>{{$pVal}}</option>
+											@else
+											<option value="{{$pKey}}">{{$pVal}}</option>
+											@endif
+											@endforeach
+										</select>
+									</div>
+									 <div class="form-group">
+										<label>Country  <span class="ml-2 text-danger">*</span></label>
+										<select class="js-select2-custom" name="country_id" id="country_id">
+											@foreach($countries as $country)
+											@if($country->code==971)
+											<option value="{{ $country->id }}" selected>{{ $country->name }}</option>
+											@endif
+											@endforeach
+										</select>
+
+									</div>
+
+									<div class="form-group">
+										<label>City  <span class="ml-2 text-danger">*</span></label>
+										<select class="js-select2-custom" name="city_id" id="city_id">
+											<option value="">Select City</option>
+				                            @foreach($cities as $city)
+				                                @php  $selected = ($city->id==old('city_id'))?"selected":null; @endphp
+				                                    <option value="{{ $city->id }}" {{$selected}}>{{$city->name}}</option>
+				                            @endforeach
+										</select>
+
+									</div>
+								 </div>
+								 <div class="col-md-8 col-lg-8">
+									 <div class="mb-3">
+										<div class="single-map">
+											<div id="map"></div>
+										</div>
+									</div>
+								 </div>
+							 </div>
+							<div class="row d-none">
+								<div class="col-6">
+									<div class="form-group">
+										<label for="latitude"></label>
+										<input type="text" name="latitude" id="latitude" class="form-control" value="" placeholder="Latitude">
+
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<label for="longitude"></label>
+										<input type="text" name="longitude" id="longitude" class="form-control" value="" placeholder="Longitude">
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-8 col-md-8">
+									<div class="form-group">
+										<label>Area  <span class="ml-2 text-danger">*</span></label>
+										<input type="text" name="address" id="address" class="form-control" value="{{old('address')}}">
+									</div>
+								</div>
+				                <div class="col-lg-4 col-md-4">
+									<div class="form-group">
+										<label>Land Mark </label>
+										<input type="text" class="form-control" name="landmark" id="landmark" value="{{old('landmark')}}">
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4">
+									<div class="form-group">
+										<label>Zip Code </label>
+										<input type="text" class="form-control" name="zip" id="zip" value="{{old('zip')}}">
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				 </div>
-			 </div>
-			<div class="row d-none">
-				<div class="col-6">
-					<div class="form-group">
-						<label for="latitude"></label>
-						<input type="text" name="latitude" id="latitude" class="form-control" value="" placeholder="Latitude">
-
-					</div>
-				</div>
-				<div class="col-6">
-					<div class="form-group">
-						<label for="longitude"></label>
-						<input type="text" name="longitude" id="longitude" class="form-control" value="" placeholder="Longitude">
-
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-8 col-md-8">
-					<div class="form-group">
-						<label>Area  <span class="ml-2 text-danger">*</span></label>
-						<input type="text" name="address" id="address" class="form-control" value="{{old('address')}}">
-					</div>
-				</div>
-                <div class="col-lg-4 col-md-4">
-					<div class="form-group">
-						<label>Land Mark </label>
-						<input type="text" class="form-control" name="landmark" id="landmark" value="{{old('landmark')}}">
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4">
-					<div class="form-group">
-						<label>Zip Code </label>
-						<input type="text" class="form-control" name="zip" id="zip" value="{{old('zip')}}">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="description">
-			<h5 class="color-primary">Building Details</h5>
-			<hr>
-			<div class="row">
-				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-						<label>Property Code  <span class="ml-2 text-danger">*</span></label>
-						<input type="text" name="propcode" id="prop_code" class="form-control" value="{{ old('propcode')}}" autocomplete="off" readonly>
-					</div>
-				</div>
-				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-					<label>Completion Date  <span class="ml-2 text-danger">*</span></label>
-						<input type="text" name="completion_date" id="completion_date" class="form-control" value="{{ old('building_age')}}" autocomplete="off">
-					</div>
-				</div>
-				<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-					<label>Total Floors  <span class="ml-2 text-danger">*</span></label>
-					<input type="text" name="total_floors" id="total_floors" class="form-control numeric" value="{{ old('total_floors')}}" autocomplete="off">
-					</div>
-				</div>
-				<div class=" col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-					<label>Total Number Of Flats  <span class="ml-2 text-danger">*</span></label>
-					<input type="text" name="total_flats" id="total_flats" class="form-control numeric" value="{{ old('total_flats')}}" autocomplete="off">
-					</div>
-				</div>
-				<div class=" col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-					<div class="form-group">
-					<label>Total Number Of Shops <span class="text-danger">(If Any)</span></label>
-					<input type="text" name="total_shops" id="total_shops" class="form-control numeric" value="{{ old('total_shops')}}" autocomplete="off">
-					</div>
-				</div>
-			</div>
-		</div>
+						<div class="description">
+							<h5 class="color-primary">Building Details</h5>
+							<hr>
+							<div class="row">
+								<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+									<div class="form-group">
+										<label>Property Code  <span class="ml-2 text-danger">*</span></label>
+										<input type="text" name="propcode" id="prop_code" class="form-control" value="{{ old('propcode')}}" autocomplete="off" readonly>
+									</div>
+								</div>
+								<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+									<div class="form-group">
+									<label>Completion Date  <span class="ml-2 text-danger">*</span></label>
+									<input type="text" name="completion_date" id="completion_date" class="form-control js-flatpickr  flatpickr-custom" value="{{ old('building_age')}}" autocomplete="off">
+									</div>
+								</div>
+								<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+									<div class="form-group">
+									<label>Total Floors  <span class="ml-2 text-danger">*</span></label>
+									<input type="text" name="total_floors" id="total_floors" class="form-control numeric" value="{{ old('total_floors')}}" autocomplete="off">
+									</div>
+								</div>
+								<div class=" col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+									<div class="form-group">
+									<label>Total Number Of Flats  <span class="ml-2 text-danger">*</span></label>
+									<input type="text" name="total_flats" id="total_flats" class="form-control numeric" value="{{ old('total_flats')}}" autocomplete="off">
+									</div>
+								</div>
+								<div class=" col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+									<div class="form-group">
+									<label>Total Number Of Shops <span class="text-danger">(If Any)</span></label>
+									<input type="text" name="total_shops" id="total_shops" class="form-control numeric" value="{{ old('total_shops')}}" autocomplete="off">
+									</div>
+								</div>
+							</div>
+						</div>
 		<div class="additional_feature mt-4">
 			<h5 class="color-primary">Floor Plans  <span class="ml-2 text-danger">*</span></h5>
 			<div class="table-responsive">
@@ -235,10 +232,20 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-12">
-						<div class="browse_submit">
-							<input type="file" name="images[]" id="images" class="hide" value="" multiple>
-							<label class="fileupload_label text-center w-100" for="images">Click here to Add Photo (770x390)</label>
-						</div>
+						<!-- File Attachment Input -->
+  <label class="custom-file-boxed" for="customFileInputBoxedEg">
+    <span id="customFileBoxedEg">Browse your device and upload documents</span>
+    <small class="d-block text-muted">Maximum file size 10MB</small>
+
+    <input id="customFileInputBoxedEg" name="images[]" type="file" class="js-file-attach custom-file-boxed-input"
+           data-hs-file-attach-options='{
+             "textTarget": "#customFileBoxedEg"
+           }'>
+  </label>
+  <!-- End File Attachment Input -->
+
+
+						
 					</div>
 
 					<div class="col-lg-12">
@@ -267,7 +274,18 @@
 				<input type="submit" name="name" class="btn btn-primary" value="Save Building">
 			</div>
 	</form>
-</div>
+                    </div>
+
+                    
+                </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
 @endsection
 @section('js')
 <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
@@ -276,7 +294,19 @@
 @endsection
 
 @section('script')
+
 <script>
+	$('.js-select2-custom').each(function () {
+      var select2 = $.HSCore.components.HSSelect2.init($(this));
+    });
+
+    $('.js-file-attach').each(function () {
+      var customFile = new HSFileAttach($(this)).init();
+    });
+
+    $('.js-flatpickr').each(function () {
+          $.HSCore.components.HSFlatpickr.init($(this));
+        });
     let autocomplete;
     function initAutocomplete() {
 
@@ -321,15 +351,14 @@
 	})(jQuery);
 </script>
 <script type="text/javascript">
+
 	let propAddLink = "{{route('property.store')}}";
 	(function($) {
-
+		
+	
 	    addRow();
 
-	    let pickers = ["completion_date"];
-           pickers.forEach(function(item){
-               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->format('d-m-Y')}}'});
-           });
+	    
 
 		$(document).on('click','.removeRowBtn',function(e){
 			e.preventDefault();
@@ -353,7 +382,7 @@
              option +=`<option value="${i}">${i}</option>`;
          }
           let html = `<tr>
-					<td> <select class="form-control width_150px" name="unit_series[]">
+					<td style="width:150px"> <select class="js-select2-custom" name="unit_series[]">
                               <option value="1">Series 1</option>
                               <option value="2">Series 2</option>
                               <option value="3">Series 3</option>
@@ -365,15 +394,15 @@
                          </select>
                            </td>
 					<td class="width_200px">
-                <select class="form-control width_80px d-inline" name="floor_from[]">
+                <select class="js-select2-custom d-inline" name="floor_from[]">
                     ${option}
                 </select>
-               <select class="form-control width_80px d-inline" name="floor_to[]">
+               <select class="js-select2-custom d-inline" name="floor_to[]">
                     ${option}
                 </select>
                          </td>
 					<td>
-						<select class="form-control width_100px" name="bedroom[]">
+						<select class="js-select2-custom" name="bedroom[]">
 						   <option value="1">1</option>
 						   <option value="2">2</option>
 						   <option value="3">3</option>
@@ -387,7 +416,7 @@
 					</td>
 					<td><input class="form-control width_100px" name="unit_size[]" value=""></td>
 					<td>
-					<select class="form-control width_80px" name="bathroom[]">
+					<select class="js-select2-custom" name="bathroom[]">
 					      <option value="1">1</option>
 					      <option value="2">2</option>
 					      <option value="3">3</option>
@@ -400,7 +429,7 @@
 					   </select>
 					</td>
 					<td>
-					   <select class="form-control width_80px" name="parking[]">
+					   <select class="js-select2-custom" name="parking[]">
 					      <option value="1">1</option>
 					      <option value="2">2</option>
 					      <option value="3">3</option>
@@ -413,7 +442,7 @@
 					   </select>
 					</td>
 					<td>
-					   <select class="form-control width_80px" name="balcony[]">
+					   <select class="js-select2-custom" name="balcony[]">
 					      <option value="1">1</option>
 					      <option value="2">2</option>
 					      <option value="3">3</option>
@@ -425,7 +454,15 @@
 					      <option value="NA">NA</option>
 					   </select>
 					</td>
-					<td><input type="file" class="form-control width_150px" name="floor_plan[]" value=""></td>
+					<td><div class="custom-file">
+
+                                <input type="file" name="floor_plan[]" class="js-file-attach custom-file-input"
+                                       data-hs-file-attach-options='{
+              "textTarget": "[for=\"floor_plan\"]"
+           }'>
+                                <label class="custom-file-label" for="floor_plan">Choose file</label>
+                            </div></td>
+					
 						<td>
 							<button  class="btn btn-danger removeRowBtn" type="button"><i class="fa fa-times text-white"></i></button>
 						</td>
@@ -482,7 +519,9 @@
 		}
 		$.fn_ajax_multipart(url,params,fn_success,fn_error);
 	});
-
+			$('.js-select2-custom').each(function () {
+			    var select2 = $.HSCore.components.HSSelect2.init($(this));
+			});
 	})(jQuery);
 
 </script>

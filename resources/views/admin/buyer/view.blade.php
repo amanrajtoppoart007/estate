@@ -1,10 +1,33 @@
-@extends("admin.layout.app")
+@extends("admin.layout.base")
 @include("admin.include.breadcrumb",["page_title"=>"View Buyer Detail"])
 @section("content")
-    <div class="card">
-        <div class="card-header bg-gradient-navy">
-            <h6>Personal Detail</h6>
-        </div>
+
+<!-- Content -->
+    <div class="content container-fluid">
+        <span class="float-right">View Buyer Detail</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">View Buyer Detail</li>
+            </ol>
+
+        </nav>
+
+        <div class="row gx-2 gx-lg-3 mt-3">
+            <div class="col-lg-12 mb-3 mb-lg-0">
+
+                <div class="card">
+       
+                <!-- Header -->
+                    <div class="card-header">
+                        <div class="row justify-content-between align-items-center flex-grow-1">
+                            <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+                                Personal Detail
+                            </div>
+                        </div>
+                        <!-- End Row -->
+                    </div>
+                    <!-- End Header -->
         <div class="card-body">
              <div class="row">
                  <div class="col-12 col-sm-6 col-md-8 col-xl-8 col-lg-8">
@@ -50,10 +73,18 @@
              </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header bg-gradient-navy">
-            <h6>Address Detail</h6>
-        </div>
+
+    <div class="card mt-3">
+        
+        <div class="card-header">
+                        <div class="row justify-content-between align-items-center flex-grow-1">
+                            <div class="col-sm-6 col-md-4 mb-3 mb-sm-0">
+                                Address Detail
+                            </div>
+                        </div>
+                        <!-- End Row -->
+                    </div>
+                    <!-- End Header -->
         <div class="card-body">
             <table class="table table-borderless">
                 <tbody>
@@ -78,4 +109,12 @@
 
         </div>
     </div>
+                <!-- End Card -->
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End Content -->
 @endsection

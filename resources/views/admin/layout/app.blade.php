@@ -22,7 +22,7 @@
   @yield('head')
   @yield('css')
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="sidebar-mini layout-fixed  sidebar-collapse">
   <div  id="custom-animated-loader" class="custom-animated-loader text-center">
       <img  class="custom-animated-loader-content" src="{{asset('assets/img/loader.gif')}}" alt="">
   </div>

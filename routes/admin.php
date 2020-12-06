@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home_old', 'Admin\DashboardController@index')->name('master.dashboard.old');
 Route::get('/home', 'Admin\DashboardController@index2')->name('master.dashboard');
-
+Route::get('/table', 'Admin\AdminController@table');
 Route::get('insert-some-data', 'TestController@insert_some_data');
 
 

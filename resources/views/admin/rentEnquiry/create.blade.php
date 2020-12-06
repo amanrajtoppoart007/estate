@@ -1,8 +1,8 @@
 @extends('admin.layout.base')
 @include("admin.include.breadcrumb",["page_title"=>"Create Rent Inquiry"])
 @section('content')
-<div class="card">
-    <div class="card-body">
+<div class="content container-fluid">
+    <div class="">
         {{Form::open(['route'=>'rentEnquiry.store','id'=>'add_data_form','autocomplete'=>'off'])}}
         <div class="card card-info">
             <div class="card-header">
@@ -223,12 +223,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group text-right">
+                    <input type="hidden" id="next_action_input" name="next_action" value="save">
+                    <button id="create_rent_breakdown" class="btn btn-outline-primary submit_form_btn"><i class="tio-tune"></i> Prepare BreakDown</button>
+                    <button id="create_rent_enquiry" class="btn btn-outline-success submit_form_btn"><i class="tio-save"></i> Save Detail</button>
+                </div>
             </div>
-            <div class="form-group text-right">
-                <input type="hidden" id="next_action_input" name="next_action" value="save">
-                <button id="create_rent_breakdown" class="btn btn-primary submit_form_btn">Prepare BreakDown</button>
-                <button id="create_rent_enquiry" class="btn btn-primary submit_form_btn">Save Detail</button>
-            </div>
+
         </div>
 
         {{Form::close()}}
