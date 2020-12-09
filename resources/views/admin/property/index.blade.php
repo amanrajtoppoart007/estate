@@ -1,21 +1,5 @@
 @extends('admin.layout.base')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Property Listing</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Property Listing</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+
 @section('content')
     <div class="content container-fluid">
         <span class="float-right">Property Listing</span>
@@ -115,7 +99,20 @@
     <div class="items_list  color-secondery icon_default">
 
         <div class="table-responsive">
-            <table class="table" id="dataTable">
+            <table  id="datatable" class="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+                    data-hs-datatables-options='{
+
+                     "order": [],
+                     "info": {
+                       "totalQty": "#datatableWithPaginationInfoTotalQty"
+                     },
+                     "search": "#datatableSearch",
+                     "entries": "#datatableEntries",
+
+                     "isResponsive": false,
+                     "isShowPaging": false,
+                     "pagination": "datatablePagination"
+                   }'>
                 <thead>
                     <tr>
                         <th>Image</th>
@@ -134,7 +131,16 @@
   <script>
      $(document).ready(function()
      {
-         var base_url = $('meta[name="base-url"]').attr('content');
+         let base_url = $('meta[name="base-url"]').attr('content');
+         // initialization of select2
+         $('.js-select2-custom').each(function () {
+             let select2 = $.HSCore.components.HSSelect2.init($(this));
+         });
+
+         // initialization of counters
+         $('.js-counter').each(function() {
+             let counter = new HSCounter($(this)).init();
+         });
          function renderStatusBtn(data)
         {
             let status   = (parseInt(data.is_disabled))?'InActive':'Active';
@@ -172,12 +178,12 @@
             return mode;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-        var dataTable = $("#dataTable").dataTable({
-                        dom   : '<"dt-buttons"Bf><"clear">lirtp',
-                 processing   : true,
+         let datatable = $.HSCore.components.HSDatatables.init($('#datatable'), {
+
+
                    serverSide : true,
 
-                    stateSave: true,
+
                     "order": [[ 0, "desc" ]],
                     rowId     : 'row_id',
                         ajax  : {
@@ -218,45 +224,93 @@
                                     }
                                 }
                               ],
-                              "buttons": ['colvis',
-                              {
-                                    extend: 'copyHtml5',
-                                    exportOptions: {
-                                        columns: [0,1,2,3,4]
-                                    }
-                                },
-                              {
-                                    extend: 'csvHtml5',
-                                    exportOptions: {
-                                        columns: [0,1,2,3,4]
-                                    }
-                                },
-                              {
-                                    extend: 'excelHtml5',
-                                    exportOptions: {
-                                        columns: [0,1,2,3,4]
-                                    }
-                                },
-                              {
-                                    extend: 'pdfHtml5',
-                                    exportOptions: {
-                                        columns: [0,1,2,3,4]
-                                    }
-                                },
-                              {
-                                    extend: 'print',
-                                    title : 'State List',
-                                    exportOptions:
-                                    {
-                                        columns: [0,1,2,3,4]
-                                    }
-                                }
-            ],
+             dom: 'Bfrtip',
+             buttons: [
+                 {
+                     extend: 'copy',
+                     className: 'd-none'
+                 },
+                 {
+                     extend: 'excel',
+                     className: 'd-none'
+                 },
+                 {
+                     extend: 'csv',
+                     className: 'd-none'
+                 },
+                 {
+                     extend: 'pdf',
+                     className: 'd-none'
+                 },
+                 {
+                     extend: 'print',
+                     className: 'd-none'
+                 },
+             ],
+             select: {
+                 style: 'multi',
+                 selector: 'td:first-child input[type="checkbox"]',
+                 classMap: {
+                     checkAll: '#datatableCheckAll',
+                     counter: '#datatableCounter',
+                     counterInfo: '#datatableCounterInfo'
+                 }
+             },
+             language: {
+                 zeroRecords: '<div class="text-center p-4">' +
+                     '<img class="mb-3" src="{{asset('theme/front/assets/svg/illustrations/sorry.svg')}}" alt="Image Description" style="width: 7rem;">' +
+                     '<p class="mb-0">No data to show</p>' +
+                     '</div>'
+             }
+
               });
-$(document).on('click','.changeStatusBtn',function(e){
+         $('#export-copy').click(function() {
+             datatable.button('.buttons-copy').trigger()
+         });
+
+         $('#export-excel').click(function() {
+             datatable.button('.buttons-excel').trigger()
+         });
+
+         $('#export-csv').click(function() {
+             datatable.button('.buttons-csv').trigger()
+         });
+
+         $('#export-pdf').click(function() {
+             datatable.button('.buttons-pdf').trigger()
+         });
+
+         $('#export-print').click(function() {
+             datatable.button('.buttons-print').trigger()
+         });
+
+         $('.js-datatable-filter').on('change', function() {
+             let $this = $(this),
+                 elVal = $this.val(),
+                 targetColumnIndex = $this.data('target-column-index');
+
+             datatable.column(targetColumnIndex).search(elVal).draw();
+         });
+
+         $('#datatableSearch').on('mouseup', function (e) {
+             var $input = $(this),
+                 oldValue = $input.val();
+
+             if (oldValue == "") return;
+
+             setTimeout(function(){
+                 var newValue = $input.val();
+
+                 if (newValue == ""){
+                     // Gotcha
+                     datatable.search('').draw();
+                 }
+             }, 1);
+         });
+                $(document).on('click','.changeStatusBtn',function(e){
                   let statusBtn = $(this);
                   e.preventDefault();
-                  var params = {
+                  let params = {
                       'id'          : $(this).attr('data-id'),
                       'is_disabled' : $(this).attr('data-status')
                   }

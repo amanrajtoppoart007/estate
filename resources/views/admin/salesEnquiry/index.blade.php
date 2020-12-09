@@ -203,6 +203,15 @@
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
+          // initialization of select2
+          $('.js-select2-custom').each(function () {
+              let select2 = $.HSCore.components.HSSelect2.init($(this));
+          });
+
+          // initialization of counters
+          $('.js-counter').each(function() {
+              let counter = new HSCounter($(this)).init();
+          });
         // initialization of datatables
         let datatable = $.HSCore.components.HSDatatables.init($('#datatable'), {
             serverSide : true,
