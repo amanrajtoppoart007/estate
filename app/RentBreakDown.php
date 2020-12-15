@@ -8,6 +8,16 @@ class RentBreakDown extends Model
 {
     protected $guarded = [];
 
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class,"tenant_id","id");
+    }
+
+    public function tenancy_contract()
+    {
+        return $this->hasOne(TenancyContract::class,"breakdown_id","id");
+    }
+
     public function property()
     {
         return $this->belongsTo(Property::class,"property_id","id");
@@ -30,6 +40,11 @@ class RentBreakDown extends Model
     }
     public function rent_break_down_items()
     {
-        return $this->hasMany(RentBreakDownItem::class,"rent_break_down_id","id");
+        return $this->hasOne(RentBreakDownItem::class,"rent_break_down_id","id");
+    }
+
+    public function rent_installments()
+    {
+        return $this->hasMany(RentInstallment::class,"rent_breakdown_id","id");
     }
 }

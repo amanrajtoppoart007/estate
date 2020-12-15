@@ -35,9 +35,9 @@
             </tr>
             <tr id="row9">
                 <td class="width200">Monthly Installment:</td>
-                <td class="padLeft100"><input type="text" name="monthly_installment[]" id="monthly_installment_1" class="numeric" readonly value="0"></td>
+                <td class="padLeft100"><input type="text" name="first_installment[]" id="first_installment_1" class="numeric" readonly value="0"></td>
             </tr>
             <tr id="row10">
                 <td class="width200">Total  Payment:</td>
-                <td class="padLeft100"><input type="text" class="numeric" name="total_monthly_installment[]" id="total_monthly_installment_1" readonly value="0"></td>
+                <td class="padLeft100"><input type="text" class="numeric" name="total_first_installment[]" id="total_first_installment_1" readonly value="0"></td>
             </tr>

@@ -22,6 +22,10 @@ Route::get('/clear', function() {
     return 'DONE'; //Return anything
 });
 
+Route::prefix('common')->group(function () {
+    Route::post('/get/bank/list', 'Common\CommonController@get_bank_list')->name('get.bank.list');
+});
+
 /**
  * user after login routes
  */

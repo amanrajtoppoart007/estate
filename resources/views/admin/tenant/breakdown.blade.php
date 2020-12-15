@@ -107,9 +107,9 @@
         let base_url = $('meta[name="base-url"]').attr('content');
     $('#add_data_form').submit(function(event){
         event.preventDefault();
-          var base_url = $('meta[name="base-url"]').attr('content');
-          var params   = $("#add_data_form").serialize();
-          var url      = '{{route('allot.property')}}';
+          let base_url = $('meta[name="base-url"]').attr('content');
+          let params   = $("#add_data_form").serialize();
+          let url      = '{{route('allot.property')}}';
           function fn_success(result)
           {
               toast('success', result.message, 'bottom-right');

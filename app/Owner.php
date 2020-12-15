@@ -13,6 +13,12 @@ class Owner extends Authenticatable
    protected $appends = ['edit_url','view_url'];
 
 
+   public function tenancy_contract()
+    {
+        return $this->hasMany(TenancyContract::class,"owner_id","id");
+    }
+
+
    public function documents()
    {
        return $this->morphMany(Document::class,'archive');

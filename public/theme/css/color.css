@@ -73,3 +73,8 @@
 .bg-gradient-blue {
   background: #007bff linear-gradient(180deg, #268fff, #007bff) repeat-x !important;
 }
+
+.btn-success
+{
+   color:  #1cc88a;
+}

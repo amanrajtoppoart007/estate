@@ -253,8 +253,8 @@
                   $("#row6").append(`<td class="dyn"><input class="form-control" type="text" name="contract[]" id="contract_${tr_count}" value="0"></td>`);
                   $("#row7").append("<td class='dyn'></td>");
                   $("#row8").append("<td class='dyn'></td>");
-                  $("#row9").append(`<td class="dyn"><input class="form-control" type="text" id="monthly_installment_${tr_count}" name="monthly_installment[]" value="${amtPer}" readonly></td>`);
-                  $("#row10").append(`<td class="dyn"><input class="form-control" type="text" id="total_monthly_installment_${tr_count}" name="total_monthly_installment[]" value="${total_rent}"></td>`);
+                  $("#row9").append(`<td class="dyn"><input class="form-control" type="text" id="first_installment_${tr_count}" name="first_installment[]" value="${amtPer}" readonly></td>`);
+                  $("#row10").append(`<td class="dyn"><input class="form-control" type="text" id="total_first_installment_${tr_count}" name="total_first_installment[]" value="${total_rent}"></td>`);
                   tr_count++;
               }
      generateInstNumber();
@@ -320,8 +320,8 @@ function rent_period_type_text(rent_period_type)
              let sewa_deposit = ($(`#sewa_deposit_${i}`).val())?$(`#sewa_deposit_${i}`).val():0;
              let remote_deposit = ($(`#remote_deposit_${i}`).val())?$(`#remote_deposit_${i}`).val():0;
              let total = parseFloat(monthly_rent) + parseFloat(security_deposit) + parseFloat(municipality_fees) + parseFloat(brokerage) + parseFloat(contract) + parseFloat(sewa_deposit) + parseFloat(remote_deposit);
-             $(`#monthly_installment_${i}`).val(monthly_rent);
-             $(`#total_monthly_installment_${i}`).val(total);
+             $(`#first_installment_${i}`).val(monthly_rent);
+             $(`#total_first_installment_${i}`).val(total);
              $(`#municipality_fees_${i}`).val(municipality_fees);
          }
 

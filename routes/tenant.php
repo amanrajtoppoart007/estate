@@ -14,3 +14,18 @@ Route::prefix('Rent')->group(function () {
 Route::get('/index', 'Tenant\RentController@index')->name('tenant.rent.index');
 
 });
+Route::prefix('breakdown')->group(function () {
+Route::get('/view/{id}', 'Tenant\BreakdownController@view')->name("tenant.breakdown.view");
+});
+Route::prefix('contracts')->group(function () {
+Route::get('/index', 'Tenant\TenancyContractController@index')->name('tenant.contract.index');
+Route::post('/fetch', 'Tenant\TenancyContractController@fetch')->name('tenant.contract.fetch');
+
+});
+
+Route::prefix('payment')->group(function () {
+Route::get('/index', 'Tenant\PaymentController@index')->name('tenant.payment.index');
+Route::post('/fetch', 'Tenant\PaymentController@fetch')->name('tenant.payment.fetch');
+Route::get('/view', 'Tenant\PaymentController@view')->name('tenant.payment.view');
+
+});

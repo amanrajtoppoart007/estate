@@ -49,7 +49,9 @@
         {
             if(data.status===1)
             {
-                return `<a title="Create Tenant"  href="javascript:void(0)"  class="btn btn-outline-success"><i class="fa fa-check"></i></a>`;
+                return `<a title="View Rent Enquiry"  href="${data.view_url}" data-id="${data.id}" class="btn btn-info"><i class="fa fa-eye text-white"></i></a>
+                  <a title="View Tenant Detail"  href="${data.tenant_url}" data-id="${data.id}" class="btn btn-info"><i class="fa fa-user text-white"></i></a>
+`;
             }
             return `
              <span class="form-group">
@@ -60,6 +62,8 @@
              </span>
              `;
         }
+
+
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         let dataTable = $("#dataTable").dataTable({
                         dom   : '<"dt-buttons"Bf><"clear">lirtp',

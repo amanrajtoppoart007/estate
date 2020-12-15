@@ -2,7 +2,7 @@
 @include("admin.include.breadcrumb",["page_title"=>"View Tenant Detail"])
 @section("content")
   <div class="card">
-      <div class="card-header bg-gradient-navy">
+      <div class="card-header bg-gradient-info">
           <h6>Personal Detail</h6>
       </div>
       <div class="card-body">
@@ -67,7 +67,7 @@
             </div>
           </div>
 
-            <div class="col-12 col-sm-6 col-md-3">
+            {{--<div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
               <span class="info-box-icon bg-gradient-teal elevation-1">
                   <i class="fa fa-city"></i>
@@ -77,9 +77,9 @@
                 <span class="info-box-text text-gray">City</span>
               </div>
             </div>
-          </div>
+          </div>--}}
 
-            <div class="col-12 col-sm-6 col-md-3">
+            {{--<div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
               <span class="info-box-icon bg-gradient-orange elevation-1">
                   <i class="fa fa-map-marked text-white"></i>
@@ -89,9 +89,9 @@
                 <span class="info-box-text text-gray">Address</span>
               </div>
             </div>
-          </div>
+          </div>--}}
 
-             <div class="col-12 col-sm-6 col-md-3">
+             {{--<div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
               <span class="info-box-icon bg-gradient-maroon elevation-1">
                   <i class="fa fa-user"></i>
@@ -101,7 +101,7 @@
                 <span class="info-box-text text-gray">Zipcode</span>
               </div>
             </div>
-          </div>
+          </div>--}}
 
               <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
@@ -132,11 +132,12 @@
   </div>
     @if(!$tenant->documents->isEmpty())
     <div class="card">
-        <div class="card-header bg-gradient-indigo">
+        <div class="card-header bg-gradient-info">
             <h6>Documents</h6>
         </div>
-        <div class="card-body table-responsive">
-            <table class="table table-head-fixed">
+        <div class="card-body">
+           <div class="table-responsive">
+                <table class="table">
                 <thead>
                   <tr>
                       <th>Document</th>
@@ -173,6 +174,7 @@
                 @endforeach
                 </tbody>
             </table>
+           </div>
         </div>
     </div>
     @endif
@@ -194,7 +196,7 @@
 
   @if(!empty($tenant->relations))
       <div class="card">
-          <div class="card-header bg-gradient-dark">
+          <div class="card-header bg-gradient-info">
               <h5>Extra Details</h5>
           </div>
           <div class="card-body">
@@ -255,18 +257,41 @@
     </div>
  @else
      <div class="card">
-         <div class="card-header bg-gradient-teal">
+         <div class="card-header bg-gradient-info">
              <h6>Allotted Apartment</h6>
          </div>
          <div class="card-body">
             <div class="row">
-                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                    Building
+                <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-1">
+                    <span class="font-weight-bold">Building</span>
                 </div>
-                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                    {{$tenant->allotment}}
+                 <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-1">
+                     {{$allotment->property->title}}
+
+                </div>
+                 <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-1">
+                    <span class="font-weight-bold">Flat Number</span>
+                </div>
+                 <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-1">
+                    {{$allotment->property_unit->unitcode}}
+                </div>
+                <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-1">
+                    <span class="font-weight-bold">Address</span>
+                </div>
+                 <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-1">
+                    {{$allotment->property->address}}
                 </div>
             </div>
+            @if(!$tenant->tenancy_contract->isEmpty())
+             <div class="row">
+
+             </div>
+             @else
+                <div class="row">
+
+                </div>
+             @endif
+
          </div>
      </div>
  @endif

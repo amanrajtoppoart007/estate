@@ -1,9 +1,19 @@
 @extends('admin.layout.app')
+@php
+  $menus  = [
+      [
+          "title"=>"Create Tenant",
+          "target"=>route("tenant.create"),
+          "icon"=>"fa fa-user-plus",
+          "btnColor"=>"btn-info"
+      ]
+];
+@endphp
+@include("admin.include.breadcrumb",["page_title"=>"Tenants","page_menus"=>$menus])
 @section('content')
-<h4 class="color-primary mb-4">All Tenants</h4>
-<div class="items_list bg_transparent color-secondery icon_default">
-    <a href="{{route('tenant.create')}}" class="btn btn-primary color-primary mb-4 float-right">Add New Tenant</a>
-    <table id="dataTable"  class="w-100 display table table-striped table-hover">
+<div class="card">
+    <div class="card-body">
+         <table id="dataTable"  class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -17,6 +27,7 @@
             </tr>
         </thead>
     </table>
+    </div>
 </div>
 @endsection
 @section('script')
@@ -149,7 +160,7 @@
 $(document).on('click','.changeStatusBtn',function(e){
     let statusBtn = $(this);
     e.preventDefault();
-    var params = {
+    let params = {
         'id'          : $(this).attr('data-id'),
         'is_disabled' : $(this).attr('data-status')
     }

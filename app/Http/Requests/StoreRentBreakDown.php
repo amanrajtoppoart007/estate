@@ -27,31 +27,34 @@ class StoreRentBreakDown extends FormRequest
     public function rules()
     {
         $rules = [
-            "tenant_id"=>"unique:rent_break_downs,tenant_id",
             "property_id"=>"required|numeric",
             "unit_id"=>"required|numeric",
-            "rent_period_type"=>"required",
+            "rent_frequency"=>"required",
             "rent_period"=>"required",
             "parking"=>"required",
-            "lease_start"=>"required|date",
-            "lease_end"=>"required|date",
+            "lease_start_date"=>"required|date",
+            "lease_end_date"=>"required|date",
             "rent_amount"=>"required|numeric",
             "installments"=>"required|numeric",
             "tenancy_type"=>"required",
             "unit_type"=>"required",
-            "security_deposit.*"=>"numeric",
-            "municipality_fees.*"=>"numeric",
-            "brokerage.*"=>"numeric",
-            "contract.*"=>"numeric",
-            "remote_deposit.*"=>"numeric",
-            "sewa_deposit.*"=>"numeric",
-            "monthly_installment.*"=>"numeric",
-            "total_monthly_installment.*"=>"numeric",
+            "security_deposit"=>"required|numeric",
+            "municipality_fees"=>"required|numeric",
+            "brokerage"=>"required|numeric",
+            "contract"=>"required|numeric",
+            "remote_deposit"=>"required|numeric",
+            "sewa_deposit"=>"required|numeric",
+            "first_installment"=>"required|numeric",
+            "total_first_installment"=>"required|numeric",
 
         ];
         if(request()->has("rent_enquiry_id"))
         {
             $rules["rent_enquiry_id"] = "required|numeric|unique:rent_break_downs,rent_enquiry_id";
+        }
+        if(request()->has("tenant_id"))
+        {
+            $rules["tenant_id"] = "nullable|numeric|unique:rent_break_downs,tenant_id";
         }
 
         if(request()->parking=="yes")
@@ -59,6 +62,13 @@ class StoreRentBreakDown extends FormRequest
             $rules['parking_number'] = "required";
         }
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            "tenant_id.unique"=>"A flat is already assigned to tenant"
+        ];
     }
 
     protected function failedValidation(Validator $validator)

@@ -69,18 +69,18 @@ class TenantController extends Controller
             $tenant->save();
             if($request->has('request_id'))
             {
-                $request_id = base64_decode($request->request_id);
+                $request_id = base64_decode($request->input('request_id'));
                 RentEnquiry::where(['id'=>$request_id])->update(['status'=>1]);
             }
             (new UploadEntityDocs($tenant_id,'tenant'))->handle();
 
-            if($request->tenant_type!='bachelor')
+            if($request->input('tenant_type')!='bachelor')
             {
                (new CreateTenantRelation())->execute($tenant_id);
             }
             if($request->has('next_action'))
             {
-                if($request->next_action=="allot_unit")
+                if($request->input('next_action')=="allot_unit")
                 {
                     $next_url  = route('tenant.allot.property',$tenant_id);
                     if ($request->has('request_id')) {
@@ -115,7 +115,9 @@ class TenantController extends Controller
         $tenant = Tenant::with(['allotment'])->find($id);
         if(!empty($tenant))
         {
-            return view('admin.tenant.view',compact('tenant'));
+           $allotment = PropertyUnitAllotment::with(['property_unit'])->where(['tenant_id'=>$tenant->id,'status'=>'1'])->first();
+
+            return view('admin.tenant.view',compact('tenant','allotment'));
         }
         else
         {
@@ -147,7 +149,7 @@ class TenantController extends Controller
             {
                 (new TenantAction())->update_data();
                 (new UploadEntityDocs($id,'tenant'))->handle();
-                if($request->tenant_type!='bachelor')
+                if($request->input('tenant_type')!='bachelor')
                 {
                    (new UpdateTenantRelation())->execute($id);
                 }
@@ -178,7 +180,7 @@ class TenantController extends Controller
             'is_disabled' => 'numeric',
         ]);
         if (!$validator->fails()) {
-            $status = ($request->is_disabled) ? '0' : '1';
+            $status = ($request->input('is_disabled')) ? '0' : '1';
             if (Tenant::where(['id' => $request->id])->update(['is_disabled' => $status]))
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => ['is_disabled' => $status, 'id' => $request->id], 'message' => 'Status updated successfully.']);

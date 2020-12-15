@@ -59,7 +59,7 @@ class UploadEntityDocs
                 ],
                 [
                     'document_title'=>'bank_passbook',
-                    'date_params'=>['EXPIRY_DATE','bank_passbook_exp_date']
+                    'date_params'=>['EXPIRY_DATE','bank_passbook_issue_date']
                 ],
                 [
                     'document_title'=>'last_sewa_id',
@@ -157,7 +157,7 @@ class UploadEntityDocs
         }
         if(request()->hasFile("$document_title"))
         {
-            $archive['file_url'] = GlobalHelper::singleFileUpload('local', "$document_title", "developers/$folder");
+            $archive['file_url'] = GlobalHelper::singleFileUpload('local', "$document_title", "documents/$folder");
         }
         $doc_check = Document::where(['document_title'=>"$document_title",'archive_id'=>$this->primary_key,'archive_type'=>"$this->table"])->first();
         if(!empty($doc_check))

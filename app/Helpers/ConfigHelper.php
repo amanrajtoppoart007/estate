@@ -94,8 +94,8 @@ if(!function_exists('get_breakdown_items')) {
             $output["contract"][$i] = $item->contract;
             $output["remote_deposit"][$i] = $item->remote_deposit;
             $output["sewa_deposit"][$i] = $item->sewa_deposit;
-            $output["monthly_installment"][$i] = $item->monthly_installment;
-            $output["total_monthly_installment"][$i] = $item->total_monthly_installment;
+            $output["first_installment"][$i] = $item->first_installment;
+            $output["total_first_payment"][$i] = $item->total_first_installment;
             $i++;
         }
         return $output;

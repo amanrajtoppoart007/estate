@@ -1,103 +1,420 @@
+$(document).ready(async function(){
+    // url variables
+    const calculateEndDateUrl   = $("#calculate_end_date_url").val();
+    const vacantUnitListUrl     = $("#vacant_unit_list_url").val();
+    const breakDownItemsUrl     = $("#breakdown_items_url").val();
+    const bankListUrl           = $("#bank_list_url").val();
+//form variables
+    let breakdown_grid_table    = $("#breakdown_item_grid");
+    let rent_frequency          = $("#rent_frequency");
+    let rent_period             = $("#rent_period");
+    let lease_start_date        = $("#lease_start_date");
+    let lease_end_date          = $("#lease_end_date");
+
+    let unit_id                 = $("#unit_id");
+    let property_id             = $("#property_id");
+    let security_deposit        = $("#security_deposit");
+    let municipality_fees       = $("#municipality_fees");
+    let brokerage               = $("#brokerage");
+    let contract                = $("#contract");
+    let remote_deposit          = $("#remote_deposit");
+    let sewa_deposit            = $("#sewa_deposit");
+    let first_installment       = $("#first_installment");
+    let total_first_installment = $("#total_first_installment");
+    let tenancy_type            = $("#tenancy_type");
+    let unit_type              = $("#unit_type");
+
+    let installments            = $("#installments");
+    let rent_amount             = $("#rent_amount");
+    let total_rent_amount       = $("#total_rent_amount");
+    let advance_payment         = $("#advance_payment");
+    let balance_amount          = $("#balance_amount");
 
 
-    $.render_breakdown_heading = function()
+    //primary constants for breakdown
+
+    let security_deposit_const  = $("#security_deposit_constant");
+    let municipality_fees_const = $("#municipality_fees_constant");
+    let brokerage_const         = $("#brokerage_constant");
+    let contract_const          = $("#contract_constant");
+    let remote_deposit_const    = $("#remote_deposit_constant");
+    let sewa_deposit_const      = $("#sewa_deposit_constant");
+
+
+    let CHECK_DATES             = $(".check_dates");
+    let BANK_LIST               = $(".bank_list");
+
+
+    CHECK_DATES.each(function(){
+                $(this).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy'});
+            });
+    BANK_LIST.each(function(){
+                $(this).select2();
+            });
+
+
+
+
+   function  render_primary_breakdown()
+   {
+
+       balance_amount.val(0);
+
+      let _total_installment         = parseInt((installments.val()!=="")?installments.val():0);
+      let _rent_amount               = parseFloat((rent_amount.val()!=="")?rent_amount.val():0);
+      let total_rent_value           = 0;
+      let brokerage_value            = parseFloat((brokerage_const.val()!=="")?brokerage_const.val():0);
+      let security_deposit_value     = parseFloat((security_deposit_const.val()!=="")?security_deposit_const.val():0);
+      let municipality_fees_constant = parseFloat((municipality_fees_const.val()!=="")?municipality_fees_const.val():0);
+      let contract_value             = parseFloat((contract_const.val()!=="")?contract_const.val():0);
+      let remote_deposit_value       = parseFloat((remote_deposit_const.val()!=="")?remote_deposit_const.val():0);
+      let sewa_deposit_value         = parseFloat((sewa_deposit_const.val()!=="")?sewa_deposit_const.val():0);
+      let municipality_fees_value    = (_rent_amount*_total_installment*municipality_fees_constant) / 100;
+      let first_installment_value    = _rent_amount;
+          let total_first_installment_value = 0;
+
+          total_first_installment_value = _rent_amount + brokerage_value + security_deposit_value + municipality_fees_value + contract_value
+              + remote_deposit_value + sewa_deposit_value;
+
+
+          total_rent_value = total_first_installment_value + (_rent_amount*(_total_installment-1));
+          security_deposit.val(security_deposit_value);
+          municipality_fees.val(municipality_fees_value);
+          brokerage.val(brokerage_value);
+          contract.val(contract_value);
+          sewa_deposit.val(sewa_deposit_value);
+          remote_deposit.val(remote_deposit_value);
+          first_installment.val(first_installment_value);
+          total_first_installment.val(total_first_installment_value);
+          total_rent_amount.val(total_rent_value);
+          const advance = (advance_payment.val()!=="")?(advance_payment.val()):0;
+          const balance = parseFloat(total_first_installment_value??0) - parseFloat(advance);
+          balance_amount.val(balance);
+
+  }
+
+
+   async function generateRentInstallments()
+  {
+      const rent_installment_grid = $("#rent_installment_grid");
+       rent_installment_grid.empty();
+
+           let option ='';
+
+             let banks = [];
+       let csrf_token = $('meta[name="csrf-token"]').attr('content');
+      jQuery.ajaxSetup({ headers: { 'X-CSRF-TOKEN': csrf_token, } });
+     await $.ajax({
+          url : bankListUrl,
+          method : 'POST',
+          success: function(result)
+          {
+              if(result.response==="success")
+              {
+                 banks = result.data;
+              }
+
+          }
+      });
+
+           if(banks!==undefined && banks.length>1)
+           {
+               $.each(banks,function(index,item){
+                   option+=`<option value="${item.name}">${item.name}</option>`;
+               });
+           }
+
+
+           for(let i=0;i<parseInt(installments.val());i++)
+          {
+              let _amount;
+             if(i===0)
+             {
+                  _amount = parseFloat(balance_amount.val());
+             }
+             else
+             {
+                  _amount = parseFloat(rent_amount.val());
+             }
+             let _prefix;
+
+              switch (i)
+              {
+                  case 0 :
+                      _prefix = '1st Remaining';
+                      break;
+                  case 1:
+                      _prefix = '2nd';
+                      break;
+                  case 2:
+                      _prefix = '3rd';
+                      break;
+                  default:
+                      _prefix = `${i+1}th`;
+                      break;
+              }
+
+              let id = '';
+
+              if(parseInt(i)===0)
+              {
+                  id+=`id="rent_first_installment_input"`;
+              }
+             console.log(id);
+
+              let _tableRow = `<tr>
+                 <td>
+                       ${_prefix} Installment
+                       <input type="hidden" name="installment[${i}][installment]"  value="${i+1}" >
+                </td>
+                <td>
+                  <input type="text"  name="installment[${i}][amount]]" ${id} value="${_amount}"/>
+                </td>
+                <td>
+                  <select class="bank_list" name="installment[${i}][bank_name]]">
+                       ${option}
+                  </select>
+                </td>
+                <td>
+                  <input type="text"  name="installment[${i}][cheque_no]]" value=""/>
+               </td>
+                <td>
+                  <input type="text" class="check_dates"  name="installment[${i}][cheque_date]]" value=""/>
+                </td>
+                <td>
+                   <input type="text"   name="installment[${i}][paid_to]]" value=""/>
+                 </td>
+            </tr>`;
+            rent_installment_grid.append(_tableRow);
+
+          }
+
+           CHECK_DATES.each(function(){
+                $(this).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy'});
+            });
+            BANK_LIST.each(function(){
+                $(this).select2();
+            });
+
+
+
+  }
+
+
+    let get_breakdown_const = function ()
     {
-        $("#rent_breakdown_grid").empty();
-        $("#rent_breakdown_grid").html(`
-                            <tr id="row_security_deposit">
-                                <th>Security Deposit</th>
-                            </tr>
-                            <tr id="row_municipality_fees">
-                                <th>Municipality Fees</th>
-                            </tr>
-                            <tr id="row_brokerage">
-                                <th>Commission + Vat</th>
-                            </tr>
-                            <tr id="row_contract">
-                                <th>Tenancy Contract</th>
-                            </tr>
-                            <tr id="row_remote_deposit">
-                                <th>Remote Deposit</th>
-                            </tr>
-                            <tr id="row_sewa_deposit">
-                                <th>S.E.W.A. Deposit</th>
-                            </tr>
-                            <tr id="row_monthly_installment">
-                                <th>First Installment</th>
-                            </tr>
-                            <tr id="row_total_monthly_installment">
-                                <th>Total Monthly Installment</th>
-                            </tr>`);
+          security_deposit_const.val('');
+          municipality_fees_const.val('');
+          brokerage_const.val('');
+          contract_const.val('');
+          remote_deposit_const.val('');
+          sewa_deposit_const.val('');
+
+        let params = {
+            tenancy_type: tenancy_type.val(),
+            unit_type    :unit_type.val(),
+        };
+
+        function fn_success(result)
+        {
+            if(result.data)
+            {
+                let items = result.data;
+                security_deposit_const.val(items.security_deposit??0);
+                municipality_fees_const.val(items.municipality_fees??0);
+                brokerage_const.val(items.brokerage??0);
+                contract_const.val(items.contract??0);
+                remote_deposit_const.val(items.remote_deposit??0);
+                sewa_deposit_const.val(items.sewa_deposit??0);
+                render_primary_breakdown();
+            }
+        }
+
+        function fn_error(result)
+        {
+            toast("error", result.message, "top-right");
+        }
+
+        $.fn_ajax(breakDownItemsUrl, params, fn_success, fn_error);
+  };
+
+
+   $("#tenancy_type,#unit_type,#rent_amount,#installments").on("change", function () {
+                    if (!$.trim(tenancy_type.val()))
+                    {
+                      tenancy_type.css({'border-color': 'aqua'}).trigger("focus");
+                        return false;
+                    }
+                    if (!$.trim(unit_type.val())) {
+                        unit_type.css({'border-color': 'aqua'}).trigger("focus");
+                        return false;
+                    }
+                    if (!$.trim(rent_amount.val()))
+                    {
+                        rent_amount.css({'border-color': 'aqua'}).trigger("focus");
+                        return false;
+                    }
+                    if (!$.trim(installments.val())) {
+                        installments.css({'border-color': 'aqua'}).trigger("focus");
+                        return false;
+                    }
+                    get_breakdown_const();
+                       (async () => {
+                           await generateRentInstallments();
+                       })();
+
+                });
+
+
+    function calculateEndDate()
+         {
+           if(!$.trim(rent_frequency.val()))
+                {
+                    rent_frequency.css({'border-color':'aqua'}).trigger("focus");
+                    return false;
+                }
+                if(!$.trim(rent_period.val()))
+                {
+                    rent_period.css({'border-color':'aqua'}).trigger("focus");
+                    return false;
+                }
+                if(!$.trim(lease_start_date.val()))
+                {
+                    lease_start_date.css({'border-color':'aqua'}).trigger("focus");
+                    return false;
+                }
+                let params = {
+                   'rent_period_type': rent_frequency.val(),
+                   'rent_period'     : rent_period.val(),
+                   'lease_start'     : lease_start_date.val(),
+                }
+                function fn_success(result)
+                {
+                   let minDate = lease_start_date.val();
+                   lease_end_date.datepicker().destroy();
+                   lease_end_date.datepicker({footer: true, modal: true,format: 'dd-mm-yyyy',value:`${result.endDate}`,minDate:`${minDate}`});
+                }
+                function fn_error(result)
+                {
+                  toast('error',result.message,'bottom-right');
+                }
+                $.fn_ajax(calculateEndDateUrl,params,fn_success,fn_error);
+         }
+
+    $(document).on("change","#breakdown_item_grid tbody tr input",function(){
+
+        const inputs = breakdown_grid_table.find("tbody").find("tr").find("input");
+        let total_first_payment=0;
+        inputs.each(function(index){
+            if(index<7)
+            {
+                if($(this).val()!=="")
+                {
+                  total_first_payment += parseFloat($(this).val());
+                }
+            }
+
+            total_first_installment.val(total_first_payment);
+            const balance = advance_payment.val()!==0?(total_first_payment-advance_payment.val()):total_first_payment;
+            balance_amount.val(balance);
+            $("#rent_first_installment_input").val(balance);
+
+
+        });
+
+    });
+
+    function rent_period_type_text(rent_period_type)
+    {
+        let rent_period_text;
+        switch (rent_period_type) {
+            case 'monthly':
+                rent_period_text = 'Month';
+                break;
+            case 'half_yearly':
+                rent_period_text = 'Half Years';
+                break;
+            case 'yearly':
+                rent_period_text = 'Years';
+                break;
+        }
+        return rent_period_text;
     }
- $.render_break_down_items =   function()
-  {
-      $.render_breakdown_heading();
-      let installments = parseInt($("#installments").val());
-      let rent_amount = parseFloat($("#rent_amount").val());
-      let monthly_amount = parseFloat(rent_amount / installments);
-      let brokerage_constant = $("#brokerage_constant").val();
-      let security_deposit_constant = $("#security_deposit_constant").val();
-      let municipality_fees_constant = $("#municipality_fees_constant").val();
-      let contract_constant = $("#contract_constant").val();
-      let remote_deposit_constant = $("#remote_deposit_constant").val();
-      let sewa_deposit_constant = $("#sewa_deposit_constant").val();
-      let municipality_fees = (monthly_amount * municipality_fees_constant) / 100;
 
-      for(let i=1;i<=1;i++)
-      {
-          let total_rent_amount =0;
-          if(i===1)
-          {
-              total_rent_amount = parseFloat(monthly_amount) + parseFloat(brokerage_constant) + parseFloat(security_deposit_constant) + parseFloat(municipality_fees) + parseFloat(contract_constant)
-              + parseFloat(remote_deposit_constant) + parseFloat(sewa_deposit_constant);
-          }
-          else
-          {
-              security_deposit_constant = remote_deposit_constant = sewa_deposit_constant = 0;
-              total_rent_amount = parseFloat(monthly_amount) + parseFloat(municipality_fees) + parseFloat(brokerage_constant) + parseFloat(contract_constant);
-          }
-          let readonly = null;
-          if($("#tenancy_type").val()==='company')
-          {
-               readonly = '';
-          }
-          else
-          {
-               readonly = 'readonly';
-          }
-          $("#row_security_deposit").append(`<td><input name="security_deposit[]" class="form-control numeric" value="${security_deposit_constant}" ${readonly}></td>`);
-          $("#row_municipality_fees").append(`<td><input name="municipality_fees[]" class="form-control numeric" value="${municipality_fees}" ${readonly}></td>`);
-          $("#row_brokerage").append(`<td><input name="brokerage[]" class="form-control numeric" value="${brokerage_constant}" ${readonly}></td>`);
-          $("#row_contract").append(`<td><input name="contract[]" class="form-control numeric" value="${contract_constant}" ${readonly}></td>`);
-          $("#row_remote_deposit").append(`<td><input name="remote_deposit[]" class="form-control numeric" value="${remote_deposit_constant}" ${readonly}></td>`);
-          $("#row_sewa_deposit").append(`<td><input name="sewa_deposit[]" class="form-control numeric" value="${sewa_deposit_constant}" ${readonly}></td>`);
-          $("#row_monthly_installment").append(`<td><input name="monthly_installment[]" class="form-control numeric" value="${monthly_amount}" ${readonly}></td>`);
-          $("#row_total_monthly_installment").append(`<td><input name="total_monthly_installment[]" class="form-control numeric" value="${total_rent_amount}" ${readonly}></td>`);
+      $("#rent_period_type").on('change',function(){
+              let rent_period_type = $(this).val();
+              $("#rent_period_text").text(rent_period_type_text(rent_period_type));
+        });
 
-      }
-  }
+    lease_start_date.datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',
+            change : function()
+            {
+                calculateEndDate();
+            }
+         });
 
+      $("#rent_period,#rent_period_type").on('change',function(){
+           calculateEndDate();
+         });
 
-  $.calculate_column_breakdown = function(index)
-  {
-        let monthly_installment = $('input[name="monthly_installment[]"]').eq(index).val();
-        let sewa_deposit        = $('input[name="sewa_deposit[]"]').eq(index).val();
-        let remote_deposit      = $('input[name="remote_deposit[]"]').eq(index).val();
-        let contract            = $('input[name="contract[]"]').eq(index).val();
-        let brokerage           = $('input[name="brokerage[]"]').eq(index).val();
-        let municipality_fees   = $('input[name="municipality_fees[]"]').eq(index).val();
-        let security_deposit    = $('input[name="security_deposit[]"]').eq(index).val();
-        let total_rent_amount   = 0;
-        if(index===0)
-        {
-            total_rent_amount = parseFloat(monthly_installment) + parseFloat(brokerage) + parseFloat(security_deposit) + parseFloat(municipality_fees) + parseFloat(contract)
-              + parseFloat(remote_deposit) + parseFloat(sewa_deposit);
-        }
-        else
-        {
-            total_rent_amount = parseFloat(monthly_installment) + parseFloat(municipality_fees) + parseFloat(brokerage) + parseFloat(contract);
-        }
-        $('input[name="total_monthly_installment[]"]').eq(index).val(total_rent_amount);
+         property_id.on('change', function ()
+         {
+                unit_id.html('');
+                let params = {'property_id': $(this).val()};
 
-  }
+                function fn_success(result)
+                {
+                    let options = `<option value="">Select Unit</option>`;
+                    $.each(result.data, function (i, item)
+                    {
+                        options += `<option value="${item.id}">${item.unitcode}</option>`;
 
+                    });
+                    unit_id.html(options);
+
+                }
+
+                function fn_error(result) {
+                    toast('error', result.message, 'bottom-right');
+                }
+
+                $.fn_ajax(vacantUnitListUrl, params, fn_success, fn_error);
+            });
+    $(document).on("change","#unit_id",function(){
+          let url    = $("#get_unit_type_url").val();
+		  let params = {"unit_id" : $(this).val() };
+		  function fn_success(result)
+		  {
+		      let $option;
+		      switch (result.data.bedroom)
+              {
+                  case "1":
+                      $option = `<option value="one_br">1 Br</option>`;
+                      break;
+                  case "2":
+                      $option = `<option value="two_br">2 Br</option>`;
+                      break;
+                  case "3":
+                       $option = `<option value="three_br">3 Br</option>`;
+                       break;
+                  case "studio":
+                      $option = `<option value="studio">Studio</option>`;
+                      break;
+                  default:
+                      $option = "";
+                      break;
+              }
+                unit_type.html('');
+		        unit_type.html($option);
+		        unit_type.prop({readOnly:true});
+		  }
+		  function fn_error(result)
+		  {
+             toast('error',result.message,'top-right');
+		  }
+		  $.fn_ajax(url,params,fn_success,fn_error);
+		});
+
+          $("#rent_period_text").text(rent_period_type_text(rent_frequency.val()));
+
+});

@@ -1,160 +1,179 @@
-@extends('admin.layout.app')
+@extends("admin.layout.app")
 @include("admin.include.breadcrumb",["page_title"=>"Create Tenant"])
-@section('content')
+ @section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+@endsection
+@section("content")
+    {{Form::open(['route'=>'tenant.store','id'=>'add_data_form','method'=>'post','autocomplete'=>'off','enctype'=>'multipart/form-data'])}}
+    <input type="hidden" name="request_id" id="request_id" value="{{request()->input('request_id') ? request()->input('request_id') : null}}">
     <div class="card">
         <div class="card-body">
-          {{Form::open(['route'=>'tenant.store','id'=>'add_data_form','method'=>'post','autocomplete'=>'off','enctype'=>'multipart/form-data'])}}
-            <input type="hidden" name="request_id" value="{{request()->request_id ? request()->request_id : null}}">
-             <div class="card card-info">
+            <div class="card">
                 <div class="card-header">
-                    <h6>Basic Detail</h6>
+                    <h6>Tenant Personal information</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                        <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                <img id="profile_image_grid" class="card-img-top" style="width: 150px" src="{{asset('theme/images/user.png')}}"  alt="">
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <label class="btn btn-primary mb-0" for="profile_image">
+                                            <i class="fa fa-upload" aria-hidden="true"></i>
+                                        </label>
+                                        <input id="profile_image" class="hide" type="file" name="profile_image">
+                                        <button type="button" id="remove_profile_image" class="btn btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10">
                             <div class="row">
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                                     <div class="form-group">
-                                        <label  for="tenant_type">Tenant Type <span class="text-danger">*</span></label>
+                                        <label for="tenant_type">Tenant Type <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                         <div class="input-group-prepend">
+                                            <div class="input-group-prepend">
                                              <span class="input-group-text">
                                                  <i class="fa fa-window-maximize" aria-hidden="true"></i>
                                              </span>
-                                         </div>
-                                        <select name="tenant_type" id="tenant_type" class="form-control">
-                                            <option value="">Select Tenancy</option>
-                                            @php $tenancy_types =
+                                            </div>
+                                            <select name="tenant_type" id="tenant_type" class="form-control">
+                                                <option value="">Select Tenancy</option>
+                                                @php $tenancy_types =
                                                  [
                                                      'family_husband_wife'=>'Family(Husband-Wife)',
                                                      'family_brother_sister'=>'Family(Brother-Sister)',
                                                      'company'=>'Company',
                                                      'bachelor'=>'Bachelor',
                                                  ];
-                                            @endphp
-                                            @foreach($tenancy_types as $type=>$text)
-                                                   @php  $selected = ($type== ($user ? $user->tenancy_type: null))?"selected":""; @endphp
-                                                <option value="{{$type}}" {{$selected}}>{{$text}}</option>
-                                            @endforeach
-                                        </select>
-                                     </div>
+                                                @endphp
+                                                @foreach($tenancy_types as $type=>$text)
+                                                    @php  $selected = ($type== ($user ? $user->tenancy_type: null))?"selected":""; @endphp
+                                                    <option value="{{$type}}" {{$selected}}>{{$text}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                                     <div class="form-group">
                                         <label for="name">Tenant Name <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                         </div>
-                                        <input class="form-control" name="name" id="name" type="text"  value="{{$user ? $user->name : null}}" autocomplete="off">
-                                     </div>
-
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input class="form-control" name="name" id="name" type="text"
+                                                   value="{{$user ? $user->name : null}}" autocomplete="off">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                                     <div class="form-group">
                                         <label for="email">Email <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                         </div>
-                                        <input type="text" name="email" id="email" class="form-control" autocomplete="off" value="{{$user ? $user->email : null}}">
-                                     </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            </div>
+                                            <input type="text" name="email" id="email" class="form-control"
+                                                   autocomplete="off" value="{{$user ? $user->email : null}}">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                                     <div class="form-group">
                                         <label for="password">Password <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                         </div>
-                                       <input type="text" name="password" class="choose_file form-control" autocomplete="off" value="">
-                                     </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                            </div>
+                                            <input type="text" name="password" id="password"
+                                                   class="choose_file form-control" autocomplete="off" value="">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                                     <div class="form-group">
                                         <label for="mobile">Mobile <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
                                              <span class="input-group-text">
                                                  <label for="country_code">
-                                                 <select  name="country_code" id="country_code" class="phone_code">
+                                                 <select name="country_code" id="country_code" class="phone_code">
                                                       @foreach($codes as $code)
                                                          <option value="{{$code->code}}">+{{$code->code}}</option>
                                                      @endforeach
                                                   </select>
                                                      </label>
                                              </span>
-                                         </div>
-                                        <input type="text" name="mobile" id="mobile" class="form-control numeric" autocomplete="off" value="{{$user ? $user->mobile : null}}">
-                                     </div>
-                                    </div>
-                                </div>
-                                 <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="country_id">Nationality <span class="text-danger">*</span></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
-                                         </div>
-                                             <select name="country_id" id="country_id" class="form-control">
-                                                 <option value="">Select Country</option>
-                                                 @foreach($countries as $country)
-                                                     @if(!empty($user))
-                                                       @php  $selected = ($country->code===$user->country_code)?"selected":""; @endphp
-                                                     @else
-                                                         @php $selected = null; @endphp
-                                                         @endif
-                                                     <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
-                                                 @endforeach
-                                             </select>
-                                     </div>
+                                            </div>
+                                            <input type="text" name="mobile" id="mobile" class="form-control numeric"
+                                                   autocomplete="off" value="{{$user ? $user->mobile : null}}">
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                    <div class="form-group">
+                                        <label for="country_id">Nationality <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <select name="country_id" id="country_id" class="form-control">
+                                                <option value="">Select Country</option>
+                                                @foreach($countries as $country)
+                                                    @if(!empty($user))
+                                                        @php  $selected = ($country->code===$user->country_code)?"selected":""; @endphp
+                                                    @else
+                                                        @php $selected = null; @endphp
+                                                    @endif
+                                                    <option
+                                                        value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                                     <div class="form-group">
                                         <label for="dob">Date Of Birth</label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
                                              <span class="input-group-text">
                                                  <i class="fa fa-birthday-cake" aria-hidden="true"></i>
                                              </span>
-                                         </div>
-                                         <input type="text" name="dob" id="dob" class="form-control" placeholder="DD-MM-YY (Optional)">
-                                     </div>
+                                            </div>
+                                            <input type="text" name="dob" id="dob" class="form-control"
+                                                   placeholder="DD-MM-YY (Optional)">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                                     <div class="form-group">
-                                        <label for="tenant_count">Tenant Count <span class="text-danger">*</span> <small>(Including the applicant/primary tenant)</small></label>
-                                         <div class="input-group">
-                                         <div class="input-group-prepend">
+                                        <label for="tenant_count">Tenant Count <span
+                                                class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
                                              <span class="input-group-text">
                                                  <i class="fa fa-calculator" aria-hidden="true"></i>
                                              </span>
-                                         </div>
-                                         <input type="text" name="tenant_count" id="tenant_count" class="form-control numeric" placeholder="Enter number of tenants">
-                                     </div>
+                                            </div>
+                                            <input type="text" name="tenant_count" id="tenant_count"
+                                                   class="form-control" value="{{$user->tenant_count}}">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
-                            <img id="profile_image_grid" src="{{asset('theme/images/4.png')}}"
-                                 style="width: 250px;margin-bottom: 10px;" alt="">
-                            <div style="position: absolute;top:211px;right:10px;">
-                                <label class="btn btn-primary mb-0" for="profile_image">
-                                    <i class="fa fa-upload" aria-hidden="true"></i>
-                                </label>
-                                <input id="profile_image" class="hide" type="file" name="profile_image">
-                                <button type="button" id="remove_profile_image" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -383,37 +402,31 @@
                     </div>
                 </div>
             </div>
-                <div class="form-group text-right">
-                    {{--@if(empty($tenant->rent_breakdown))
-                     <a href="{{route('')}}" class="btn btn-primary">Prepare BreakDown</a>
-                    @endif--}}
-                    <button class="btn btn-primary">Save</button>
-                    <button type="button" id="save_and_allot_unit" class="btn btn-primary">Save & Allot Unit</button>
-                </div>
 
-        {{Form::close()}}
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group text-right">
+                        <button class="btn btn-primary">Save</button>
+                        <button type="button" id="save_and_allot_unit" class="btn btn-primary">Save & Allot Unit
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-@endsection
- @section('head')
-    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+    {{Form::close()}}
 @endsection
 @section('js')
 <script src="{{asset('assets/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>
 <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
 @endsection
-@section('script')
-<script>
-    $(document).ready(function(){
 
-        $("#country_id").select2();
-
-        @php
-         if(!empty($user))
-        {
-            echo "tenancy_type_function();";
-        }
-        @endphp
+@section("script")
+    <script>
+        $(document).ready(function(){
+            let country_id = $("#country_id");
+            country_id.select2();
+            let extraRelationDetailTitle = $("#extra_relation_detail_title");
         function applied_class_hide(elements)
         {
             elements.forEach(function(item){
@@ -430,24 +443,23 @@
         function tenancy_type_function()
         {
                let tenancy_type = $("#tenant_type").val();
-				$("#tenant_count").val('').prop({readonly:false});
              	switch(tenancy_type)
 				{
 					case 'family_husband_wife':
 						applied_class_show(['family_hs_extra_detail','extra_relation_detail']);
 						applied_class_hide(['company_extra_detail','bachelor_extra_detail']);
-						$("#extra_relation_detail_title").text("Family Detail");
+						extraRelationDetailTitle.text("Family Detail");
 					break;
 					case 'family_brother_sister':
 						applied_class_show(['extra_relation_detail']);
 						applied_class_hide(['family_hs_extra_detail','company_extra_detail','bachelor_extra_detail']);
-						$("#extra_relation_detail_title").text("Family Detail");
+						extraRelationDetailTitle.text("Family Detail");
 					break;
 					case 'company':
 
 						applied_class_show(['extra_relation_detail','company_extra_detail']);
 						applied_class_hide(['family_hs_extra_detail','bachelor_extra_detail']);
-						$("#extra_relation_detail_title").text("Employees Detail");
+						extraRelationDetailTitle.text("Employees Detail");
 					break;
 					case 'bachelor':
 						applied_class_show(['bachelor_extra_detail']);
@@ -461,8 +473,9 @@
 
 				}
         }
-     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYears(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
-     let pickers =
+        $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYears(18)->format('d-m-Y')}}', value : '{{now()->addYears(-18)->format('d-m-Y')}}'});
+
+        let pickers =
                [
                    'emirates_id_exp_date',
                    'visa_exp_date',
@@ -473,7 +486,7 @@
            pickers.forEach(function(item){
                $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',/* minDate : '{{now()->format('d-m-Y')}}'*/});
            });
-		$("#tenant_type").on('change',function(e){
+           $("#tenant_type").on('change',function(e){
 		    $("#family_detail_grid").html('');
 			if(!$.trim($("#tenant_type").val()).length)
 			{
@@ -485,7 +498,18 @@
 				tenancy_type_function();
 
 			}
-		})
+		});
+              @php
+         if(!empty($user))
+        {
+            echo "tenancy_type_function();";
+        }
+        @endphp
+
+
+
+
+
      $('#add_data_form').on("submit",function(e){
 	  e.preventDefault();
 
@@ -557,7 +581,7 @@ $("#tenant_count").on("change",function(){
      let counter = $("#tenant_count").val();
     if(counter>1)
     {
-        for(i=0;i<(counter-1);i++)
+        for(let i=0;i<(counter-1);i++)
         {
             render_family_detail_form();
         }
@@ -593,6 +617,6 @@ function render_image(input)
    $("#profile_image_grid").on('click',function(){
       $("#profile_image").click();
   });
-    });
-</script>
+        });
+    </script>
 @endsection

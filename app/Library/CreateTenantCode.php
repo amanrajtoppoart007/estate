@@ -17,7 +17,7 @@ class CreateTenantCode
     private function generate($counter=0)
     {
         $country_name = pluck_single_value("countries","id",request()->country_id,"name");
-        $country_name = substr($country_name,0,2);
+        $country_name = strtoupper(substr($country_name,0,2));
 
         if(empty($counter))
         {
@@ -34,7 +34,6 @@ class CreateTenantCode
     }
     public function counter()
     {
-        return Tenant::where(['country_id'=>request()->country_id,'state_id'=>request()->state_id,'city_id'=>request()->city_id])->count();
-
+        return Tenant::where(['country_id'=>request()->country_id])->count();
     }
 }

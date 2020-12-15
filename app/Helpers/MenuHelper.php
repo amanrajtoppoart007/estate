@@ -3,6 +3,7 @@ function get_quick_links()
 {
     return [
         [
+            "module"=>"LEASING",
             "title"=>"Rent Enquiry",
             "bg_color"=>"white",
             "color"=>"purple",
@@ -10,6 +11,7 @@ function get_quick_links()
             "url"=>route("rentEnquiry.list")
         ],
         [
+            "module"=>"LEASING",
             "title"=>"Sales Enquiry",
             "bg_color"=>"white",
             "color"=>"navy",
@@ -17,6 +19,7 @@ function get_quick_links()
             "url"=>route("salesEnquiry.list")
         ],
         [
+            "module"=>"LEASING",
             "title"=>"Tenants",
             "bg_color"=>"white",
             "color"=>"teal",
@@ -24,6 +27,7 @@ function get_quick_links()
             "url"=>route("tenant.list")
         ],
         [
+            "module"=>"PROPERTY",
             "title"=>"Agents",
             "bg_color"=>"white",
             "color"=>"lightblue",
@@ -31,6 +35,7 @@ function get_quick_links()
             "url"=>route("agent.list")
         ],
         [
+            "module"=>"LEASING",
             "title"=>"Buyers",
             "bg_color"=>"white",
             "color"=>"maroon",
@@ -38,6 +43,7 @@ function get_quick_links()
             "url"=>route("buyer.list")
         ],
         [
+            "module"=>"PROPERTY",
             "title"=>"Developers",
             "bg_color"=>"white",
             "color"=>"lime",
@@ -46,6 +52,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"PROPERTY",
             "title"=>"Flat Owners",
             "bg_color"=>"white",
             "color"=>"indigo",
@@ -54,6 +61,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"PROPERTY",
             "title"=>"Properties",
             "bg_color"=>"white",
             "color"=>"olive",
@@ -62,6 +70,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"LEASING",
             "title"=>"Sales",
             "bg_color"=>"white",
             "color"=>"info",
@@ -72,6 +81,7 @@ function get_quick_links()
 
 
         [
+            "module"=>"WORK_ORDER",
             "title"=>"Maintenance",
             "bg_color"=>"white",
             "color"=>"pink",
@@ -80,6 +90,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"WORK_ORDER",
             "title"=>"Task",
             "bg_color"=>"white",
             "color"=>"orange",
@@ -88,6 +99,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"PAYROLL",
             "title"=>"Department",
             "bg_color"=>"white",
             "color"=>"teal",
@@ -96,6 +108,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"PAYROLL",
             "title"=>"Employee",
             "bg_color"=>"white",
             "color"=>"primary",
@@ -104,6 +117,7 @@ function get_quick_links()
         ],
 
         [
+             "module"=>"PAYROLL",
             "title"=>"Attendance",
             "bg_color"=>"white",
             "color"=>"secondary",
@@ -112,6 +126,7 @@ function get_quick_links()
         ],
 
         [
+             "module"=>"PAYROLL",
             "title"=>"Designation",
             "bg_color"=>"white",
             "color"=>"lime",
@@ -120,6 +135,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"PAYROLL",
             "title"=>"Salary",
             "bg_color"=>"white",
             "color"=>"teal",
@@ -128,6 +144,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"SETTINGS",
             "title"=>"Settings",
             "bg_color"=>"white",
             "color"=>"navy",
@@ -136,6 +153,7 @@ function get_quick_links()
         ],
 
         [
+             "module"=>"NOTIFICATION",
             "title"=>"Contact Queries",
             "bg_color"=>"white",
             "color"=>"orange",
@@ -144,6 +162,7 @@ function get_quick_links()
         ],
 
         [
+            "module"=>"NOTIFICATION",
             "title"=>"Document Renewal",
             "bg_color"=>"white",
             "color"=>"lime",

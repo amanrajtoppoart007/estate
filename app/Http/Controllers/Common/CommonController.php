@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Bank;
 use App\City;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CountryRequest;
+use App\Http\Resources\BankResource;
 use App\Http\Resources\PropertyUnitResource;
 use App\PropertyUnit;
 use App\RentBreakDownSetting;
@@ -13,6 +15,20 @@ use Illuminate\Support\Facades\Validator;
 
 class CommonController extends Controller
 {
+
+    public function get_bank_list()
+    {
+        $list = Bank::where(['status'=>1])->get();
+        if(!$list->isEmpty())
+         {
+             $result = ['status'=>'1','response' => 'success','data'=>BankResource::collection($list), 'message' => 'Data found'];
+         }
+         else
+         {
+             $result = ['status'=>'0','response' => 'error', 'message' => 'Data not found'];
+         }
+         return response()->json($result,200);
+    }
 
     public function get_breakdown_constants(Request $request)
     {

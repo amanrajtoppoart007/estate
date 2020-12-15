@@ -27,24 +27,17 @@ class AllotProperty extends FormRequest
     public function rules()
     {
         return [
-                'lease_start' => 'required',
-                'lease_end' => 'required',
-                'tenant_id' => 'required|numeric',
-                'state_id' => 'numeric',
-                'city_id' => 'required|numeric',
-                'property_id' => 'required|numeric',
-                'unit_id' => 'required|numeric',
-                'security_deposit.*' => 'required|numeric',
-                'rent_amount' => 'required|numeric',
-                'installments' => 'required|numeric',
-                'installment_amount.*' => 'required|numeric',
-                'sewa_deposit.*'=>'required|numeric',
-                'municipality_fees.*'=>'required|numeric',
-                'brokerage.*'=>'required|numeric',
-                'contract.*'=>'required|numeric',
-                'remote_deposit.*'=>'required|numeric',
+                'tenant_id' => 'required|numeric|unique:property_unit_allotment,tenant_id',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            "tenant_id.unique"=>"Unit already assigned to tenant"
+        ];
+    }
+
     protected function failedValidation(Validator $validator)
     {
         $res['status']   = '0';

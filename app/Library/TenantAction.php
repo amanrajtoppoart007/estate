@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class TenantAction
 {
 
-   public function data()
+   public function data(): array
    {
         $store = request()->only(["name","email","mobile","tenant_type","country_id","tenant_count","company_name","country_code"]);
         if(request()->has("password"))
@@ -19,6 +19,10 @@ class TenantAction
         if(request()->has("dob"))
         {
             $store['dob'] =  date("Y-m-d",strtotime(request()->dob));
+        }
+        if(request()->has("request_id"))
+        {
+            $store['rent_enquiry_id'] = base64_decode(request()->input('request_id'));
         }
 
         if(auth("admin")->user()->id)
@@ -34,7 +38,7 @@ class TenantAction
         return $store;
    }
 
-   public function store_data()
+   public function store_data(): int
    {
        if($tenant = Tenant::create($this->data()))
        {
@@ -43,13 +47,13 @@ class TenantAction
        return false;
    }
 
-   public function update_data()
+   public function update_data(): int
    {
        if(request()->has("tenant_id"))
        {
            if(Tenant::where(['id'=>request()->tenant_id])->update($this->data()))
            {
-               return request()->tenant_id;
+               return request()->input('tenant_id');
            }
        }
        return false;

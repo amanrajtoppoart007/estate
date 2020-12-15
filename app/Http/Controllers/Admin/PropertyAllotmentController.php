@@ -10,6 +10,8 @@ use App\Http\Requests\AllotProperty;
 use App\Http\Requests\RenewPropertyAllotment;
 use App\Library\CreateInstallments;
 use App\Library\CreateRentBreakDown;
+use App\Library\RentBreakDownLib;
+use App\Library\RentEnquiryUser;
 use App\Library\UpdateRentBreakDown;
 use App\RentBreakDown;
 use Illuminate\Support\Facades\Auth;
@@ -36,92 +38,47 @@ class PropertyAllotmentController extends Controller
         echo json_encode((new Api((new PropertyUnitAllotment())))->getResult());
     }
 
-    public function index(Request $request, $id, $property_unit_id = null)
+    public function index(Request $request, $id)
     {
-        if ((isset($id)) && !empty($id)) {
-            $property_unit = [];
-            $unit_list = [];
-            $breakdown = [];
-            $tenant = Tenant::with('relations')->where(['id' => $id])->first();
-            $properties = Property::where(['is_disabled' => '0'])->get();
-            $cities = City::whereHas('country',function($q){
-                $q->where('name','like','%United Arab Emirates%');
-            })->get();
-            $agents = Agent::where(['is_disabled' => 0])->get();
-            if (!empty($property_unit_id)) {
-                $property_unit = PropertyUnit::with(['property'])->find($property_unit_id);
-                $unit_list = PropertyUnit::where(['property_id' => $property_unit->property_id])->get();
-
-            }
-            if ($request->has("request_id")) {
-                $request_id = base64_decode($request->request_id);
-                $breakdown = RentBreakDown::where(['rent_enquiry_id' => $request_id])->first();
-                if (!empty($breakdown)) {
-                    $property_unit = PropertyUnit::with(['property'])->find($breakdown->unit_id);
-
-                    $unit_list = PropertyUnit::where(['property_id' => $breakdown->property_id])->get();
-                }
-            }
-            return view('admin.allotProperty.init', \compact('tenant', 'properties', 'property_unit', 'cities', 'breakdown', 'agents', 'unit_list'));
-        } else {
-            return view('blank');
-        }
-    }
-
-    public function allotProperty(AllotProperty $request)
-    {
-        $request->validated();
-        $admin_id = Auth::guard('admin')->user()->id;
-        $checkExist = PropertyUnitAllotment::where(['unit_id' => $request->unit_id, 'status' => '1'])->first();
-
-        $checkBreakDown = RentBreakDown::where(['unit_id' => $request->input('unit_id'), 'tenant_id' => $request->input('tenant_id')])->get();
-        if($checkBreakDown->isEmpty())
+        $breakdown = RentBreakDown::where(['tenant_id'=>$id])->first();
+        $breakdown = (new RentBreakDownLib())->view($breakdown);
+        if(!empty($breakdown))
         {
-          $breakdown_id =  (new CreateRentBreakDown())->handle();
+            return view("admin.allotProperty.init",compact("breakdown"));
         }
         else
         {
-           $breakdown_id = (new UpdateRentBreakDown($request->rent_breakdown_id))->handle();
+            $query = (new RentEnquiryUser())->get(Tenant::find($id),"tenant");
+            if (!empty($query))
+            {
+                $properties = Property::where(['is_disabled' => 0])->get();
+                return view("admin.rentEnquiry.breakdown", compact("query", "properties"));
+            } else
+            {
+                return view("blank")->with(["msg" => "Invalid Enquiry Detail"]);
+            }
         }
+    }
+
+    public function allotProperty(AllotProperty $request): \Illuminate\Http\JsonResponse
+    {
+          $request->validated();
+          $checkExist = PropertyUnitAllotment::where(['unit_id' => request()->input('unit_id'), 'status' => '1'])->first();
          if(empty($checkExist))
          {
-            $params = $request->only(['tenant_id','agent_id','property_id', 'unit_id', 'rent_amount', 'installments']);
-             if(!empty($request->unit_id))
-             {
-                 $unit = PropertyUnit::find($request->unit_id);
-                 $params['property_unit_type_id'] = $unit->property_unit_type_id;
-             }
-               $params['lease_start'] = date('Y-m-d', strtotime($request->lease_start));
-               $params['lease_end'] = date('Y-m-d', strtotime($request->lease_end));
-               $params['admin_id'] = $admin_id;
-               $params['status'] = 1;
-               $params['rent_break_down_id'] = $breakdown_id;
+            $allotment = (new \App\Services\AllotProperty())->allot();
+            $next_url = route('allotment.detail', [$request->input('tenant_id'), $allotment]);
 
-            if ($unitAllotment = PropertyUnitAllotment::create($params))
-            {
-                PropertyUnit::where(['id' => $request->unit_id])->update(['allotment_id' => $unitAllotment->id, 'allotment_type' => 'rent', 'unit_status' => 2]);
-                $action = new CreateInstallments($unitAllotment->id, $admin_id);
-                $action->execute();
-                $breakdown = RentBreakDown::find($breakdown_id);
-                $breakdown->unit_allotment_id = $unitAllotment->id;
-                $breakdown->save();
-                $res['status'] = 1;
-                $res['next_url'] = route('allotment.detail', [$request->tenant_id, $unitAllotment->id]);
-                $res['response'] = 'success';
-                $res['message'] = 'Property allotment successful to tenant';
-            } else {
-                $res['status'] = 0;
-                $res['response'] = 'error';
-                $res['message'] = 'Property allocation failed';
-            }
+            $result = ["status"=>1,"response"=>"success","next_url"=>$next_url,"message"=>"Property Successfully Allotted"];
 
-        } else
-        {
-            $res['status'] = 0;
-            $res['response'] = 'error';
-            $res['message'] = 'Property already allocated to someone else';
         }
-        return response()->json($res);
+         else
+        {
+            $result = ["status"=>0,"response"=>"error","message"=>"Property already allotted"];
+
+        }
+        return response()->json($result);
+
     }
 
     public function renewTenancy(RenewPropertyAllotment $request)
@@ -161,16 +118,17 @@ class PropertyAllotmentController extends Controller
 
     public function view($tenant_id, $allotmentId)
     {
-        $allotment = PropertyUnitAllotment::with(['tenant', 'property_unit', 'rent_installments'])->where(['id' => $allotmentId, 'tenant_id' => $tenant_id])->
-        whereHas('property_unit', function ($query) {
-            $query->with('propertyUnitType');
-        })->first();
-        if (!empty($allotment)) {
-            return view('admin.allotProperty.view', \compact('allotment'));
-        } else {
-            return view('blank')->with('msg', 'No entry found');
-        }
 
+        $breakdown = RentBreakDown::where(["tenant_id"=>$tenant_id])->first();
+        $breakdown = (new RentBreakDownLib())->view($breakdown);
+        if(!empty($breakdown))
+        {
+            return view("admin.allotProperty.view",compact("breakdown"));
+        }
+        else
+        {
+            return view("blank")->with(["msg"=>"Invalid Detail"]);
+        }
     }
 
     public function getPropertyList(Request $request)
@@ -292,8 +250,8 @@ class PropertyAllotmentController extends Controller
             "contract.*"=>"numeric",
             "remote_deposit.*"=>"numeric",
             "sewa_deposit.*"=>"numeric",
-            "monthly_installment.*"=>"numeric",
-            "total_monthly_installment.*"=>"numeric",
+            "first_installment.*"=>"numeric",
+            "total_first_installment.*"=>"numeric",
 
         ]);
           if(!$validator->fails())

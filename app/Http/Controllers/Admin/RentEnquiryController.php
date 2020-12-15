@@ -10,8 +10,10 @@ use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditRentEnquiry;
 use App\Http\Requests\StoreRentEnquiry;
+use App\Library\RentBreakDownLib;
 use App\Property;
 use App\PropertyUnit;
+use App\RentBreakDown;
 use App\RentEnquiry;
 use App\State;
 use Illuminate\Http\Request;
@@ -43,12 +45,11 @@ class RentEnquiryController extends Controller
 
     public function create_breakdown($id)
     {
-        $enquiry = RentEnquiry::find($id);
-        if(!empty($enquiry))
+        $query = RentEnquiry::find($id);
+        if(!empty($query))
         {
-            $cities = City::where(['is_disabled' => '0','country_id'=>231])->get();
-            $properties = Property::where(['is_disabled' => 0])->get();
-            return view("admin.rentEnquiry.breakdown", compact("enquiry","cities", "properties"));
+             $properties = Property::where(['is_disabled' => 0])->get();
+            return view("admin.rentEnquiry.breakdown", compact("query", "properties"));
         }
         else
         {

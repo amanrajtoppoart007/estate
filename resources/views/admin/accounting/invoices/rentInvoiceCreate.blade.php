@@ -2,7 +2,7 @@
 @section('js')
 <script src="{{asset('plugin/print/printThis.js')}}"></script>
 @endsection
-@include("admin.include.breadcrumb",["page_title"=>"Rent Invoi"])
+@include("admin.include.breadcrumb",["page_title"=>"Create Rent Invoice"])
 @section('content')
 
         <div class="card">

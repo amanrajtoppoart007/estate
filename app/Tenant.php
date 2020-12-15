@@ -11,6 +11,28 @@ class Tenant extends Authenticatable
 
     protected $appends = ['country_name'];
 
+
+    public function breakdown()
+    {
+        return $this->hasOne(RentBreakDown::class,"tenant_id","id");
+    }
+
+
+    public function rent_enquiry()
+    {
+        return $this->belongsTo(RentEnquiry::class,"rent_enquiry_id","id");
+    }
+
+    public function tenancy_contract()
+    {
+        return $this->hasMany(TenancyContract::class,"tenant_id","id");
+    }
+
+    public function country()
+    {
+         return $this->belongsTo(Country::class,'country_id','id');
+    }
+
     public function getCountryNameAttribute()
     {
          return ($this->country)?$this->country->name:null;
@@ -31,10 +53,7 @@ class Tenant extends Authenticatable
     {
          return $this->hasMany(TenantRelation::class);
     }
-    public function country()
-    {
-         return $this->belongsTo(Country::class,'country_id','id');
-    }
+
     public function state()
     {
          return $this->belongsTo(State::class,'state_id','id');

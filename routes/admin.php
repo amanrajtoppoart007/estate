@@ -4,13 +4,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', 'Admin\DashboardController@index')->name('master.dashboard');
 Route::get('insert-some-data', 'TestController@insert_some_data');
 
-////Accounting routes
+/**Accounting routes **/
 Route::prefix('accounting')->group(function () {
 
 });
-/**Accounting routes end -----------//------------- Accounting routes end **/
+/**Accounting routes end  **/
 /**rent breakdown routes **/
 Route::prefix("rent-breakdown")->group(function(){
+    Route::get('create/{id}', 'Admin\RentBreakDownController@create')->name('create.rent.breakdown');
+    Route::post('store/data', 'Admin\RentBreakDownController@store')->name('store.breakdown.data');
     Route::get('setting', 'Admin\RentBreakDownSettingController@index')->name('setting.rent.breakdown');
     Route::post('store', 'Admin\RentBreakDownController@store')->name('save.rent.breakdown');
     Route::post('update', 'Admin\RentBreakDownController@update')->name('update.rent.breakdown');
@@ -350,7 +352,7 @@ Route::prefix('system-setting')->group(function () {
 Route::prefix('contact-request')->group(function () {
     Route::get('list', 'Admin\ContactRequestController@index')->name('contact-request.list');
 });
-Route::prefix('rent-inquiry')->group(function () {
+Route::prefix('rent-enquiry')->group(function () {
     Route::get('list', 'Admin\RentEnquiryController@index')->name('rentEnquiry.list');
     Route::get('create/breakdown/{id}', 'Admin\RentEnquiryController@create_breakdown')->name('rentEnquiry.create.breakdown');
     Route::get('edit/breakdown/{id}', 'Admin\RentEnquiryController@edit_breakdown')->name('rentEnquiry.edit.breakdown');

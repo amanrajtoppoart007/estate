@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Agent;
 use App\Buyer;
 use App\Property;
+use App\PropertyUnitAllotment;
 use App\Tenant;
 use App\UnitPrice;
 use Carbon\Carbon;
@@ -162,11 +163,13 @@ class PropertyUnitController extends Controller
                 {
                     try {
 
-
-                        $data['unit_allotment'] = \App\PropertyUnitAllotment::with(['tenant', 'property_unit', 'rent_installments'])->where(['id' => $allotment_id, 'unit_id' => $request->unit_id])->whereHas('property_unit', function ($query) {
+                        $data['unit_allotment'] = PropertyUnitAllotment::with(['tenant', 'property_unit', 'rent_installments'])->where(['id' => $allotment_id, 'unit_id' => $request->unit_id])->whereHas('property_unit', function ($query) {
                             $query->with(['propertyUnitType', 'owner', 'agent']);
                         })->first();
-                        $data['client'] = Tenant::with(['relations', 'documents', 'profile','country'])->find($data['unit_allotment']->tenant_id);
+                        if(!empty($data['unit_allotment']))
+                        {
+                         $data['client'] = Tenant::with(['relations', 'documents', 'profile','country'])->find($data['unit_allotment']->tenant_id);
+                        }
                     }
                     catch (Exception $exception)
                     {

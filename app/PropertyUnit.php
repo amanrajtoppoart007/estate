@@ -192,4 +192,9 @@ class PropertyUnit extends Model
     {
         return $this->hasMany(OwnerAllotmentHistory::class,"unit_id","id");
     }
+
+    public function tenancy_contract()
+    {
+        return $this->hasMany(TenancyContract::class,"unit_id","id");
+    }
 }

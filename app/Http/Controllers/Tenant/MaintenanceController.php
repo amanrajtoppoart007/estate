@@ -11,6 +11,7 @@ use App\MaintenanceWork;
 use App\MaintenanceWorkCategory;
 use App\Property;
 use App\PropertyUnit;
+use App\PropertyUnitAllotment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,17 +33,18 @@ class MaintenanceController extends Controller
     }
     public function create()
     {
-        $building = Property::whereHas('allotment',function($query){
-            $query->where(['tenant_id'=>auth('tenant')->user()->id]);
-        })->first();
-
-        $unit = PropertyUnit::whereHasMorph('allotment',function($query){
-            $query->where(['tenant_id'=>auth('tenant')->user()->id]);
-        })->first();
-
-        $tenant = auth('tenant')->user();
-        $categories = MaintenanceWorkCategory::all();
-       return view('tenant.maintenance.create',compact('building','categories','unit'));
+        $allotment =PropertyUnitAllotment::where(['tenant_id'=>auth('tenant')->user()->id])->first();
+        if(!empty($allotment))
+        {
+            $building = $allotment->property;
+            $unit     = $allotment->unit;
+            $categories = MaintenanceWorkCategory::all();
+            return view('tenant.maintenance.create',compact('building','categories','unit'));
+        }
+        else
+        {
+            dd("error accrued");
+        }
     }
 
 
@@ -112,7 +114,7 @@ class MaintenanceController extends Controller
         }
         else
         {
-            show_error();
+            dd("error accrued");
         }
     }
 }

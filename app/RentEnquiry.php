@@ -10,7 +10,20 @@ class RentEnquiry extends Model
     use SoftDeletes;
     protected $guarded = [];
 
-    protected $appends = ['create_tenant_url','country_name','view_rent_breakdown','edit_url','view_url','create_breakdown_url'];
+    protected $appends = ['create_tenant_url','country_name','view_rent_breakdown','edit_url','view_url','create_breakdown_url','tenant_url'];
+
+    public function tenant()
+    {
+        return $this->hasOne(Tenant::class,"rent_enquiry_id","id");
+    }
+    public function getTenantUrlAttribute()
+    {
+        if(!empty($this->tenant))
+        {
+            return route('tenant.view', $this->tenant->id??null);
+        }
+        return null;
+    }
 
     public function getEditUrlAttribute()
     {

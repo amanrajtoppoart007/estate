@@ -53,7 +53,7 @@
             return `<a href="${data.edit_url}"  class="text-primary"><i class="fa fa-edit"></i></a><a href="${data.view_url}"  class="text-primary"><i class="fa fa-eye"></i></a>`;
         }
         $.ajaxSetup({ headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-        var dataTable = $("#dataTable").dataTable({
+        let dataTable = $("#dataTable").dataTable({
                         dom   : '<"dt-buttons"Bf><"clear">lirtp',
                  processing   : true,
                    serverSide : true,

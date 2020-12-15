@@ -14,7 +14,7 @@ class StoreTenant extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -24,14 +24,14 @@ class StoreTenant extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $request = request()->all();
 
         $validate = [
             'tenant_type'=>'required',
             'country_id'=>'required|numeric',
-
+            'request_id'=>'required',
             'name'=>'required|unique:tenants,name',
             'email'=>'required|email|unique:tenants,email',
             'mobile'=>'required|numeric|digits:10|unique:tenants,email',

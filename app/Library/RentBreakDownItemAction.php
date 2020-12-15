@@ -15,39 +15,27 @@ class RentBreakDownItemAction
 
     public function handle()
     {
-        try {
-             $this->delete_existing_breakdown_items($this->rent_breakdown_id);
-            $i = 0;
-            $j = 0;
-
-            foreach (request()->total_monthly_installment as $total_installment) {
-                $item["security_deposit"] = (!empty(request()->security_deposit[0])) ? request()->security_deposit[0] : 0;
-                $item["municipality_fees"] = (!empty(request()->municipality_fees[0])) ? request()->municipality_fees[0] : 0;
-                $item["brokerage"] = (!empty(request()->brokerage[0])) ? request()->brokerage[0] : 0;
-                $item["contract"] = (!empty(request()->contract[0])) ? request()->contract[0] : 0;
-                $item["remote_deposit"] = (!empty(request()->remote_deposit[0])) ? request()->remote_deposit[0] : 0;
-                $item["sewa_deposit"] = (!empty(request()->sewa_deposit[0])) ? request()->sewa_deposit[0] : 0;
-                $item["monthly_installment"] = (!empty(request()->monthly_installment[0])) ? request()->monthly_installment[0] : 0;
-                $item["total_monthly_installment"] = (!empty(request()->total_monthly_installment[0])) ? request()->total_monthly_installment[0] : 0;
-                $item["rent_break_down_id"] = $this->rent_breakdown_id;
-                if(RentBreakDownItem::create($item))
-                {
-                    $j++;
-                }
-
-                $i++;
-            }
-            return $j;
-        } catch (\Exception $exception) {
-
+        try
+        {
+            $this->delete_existing_breakdown_items($this->rent_breakdown_id);
+            $item["security_deposit"] = (!empty(request()->security_deposit)) ? request()->security_deposit : 0;
+            $item["municipality_fees"] = (!empty(request()->municipality_fees)) ? request()->municipality_fees : 0;
+            $item["brokerage"] = (!empty(request()->brokerage)) ? request()->brokerage : 0;
+            $item["contract"] = (!empty(request()->contract)) ? request()->contract : 0;
+            $item["remote_deposit"] = (!empty(request()->remote_deposit)) ? request()->remote_deposit : 0;
+            $item["sewa_deposit"] = (!empty(request()->sewa_deposit)) ? request()->sewa_deposit : 0;
+            $item["first_installment"] = (!empty(request()->first_installment)) ? request()->first_installment : 0;
+            $item["total_first_installment"] = (!empty(request()->total_first_installment)) ? request()->total_first_installment : 0;
+            $item["advance_payment"] = (!empty(request()->advance_payment)) ? request()->advance_payment : 0;
+            $item["balance_amount"] = (!empty(request()->balance_amount)) ? request()->balance_amount :0;
+            $item["rent_break_down_id"] = $this->rent_breakdown_id;
+            $breakDownItem = RentBreakDownItem::create($item);
+            return $breakDownItem->id;
+        }
+        catch (\Exception $exception)
+        {
             return false;
         }
-    }
-
-    private function check($item_id)
-    {
-        $check = RentBreakDownItem::find($item_id);
-        return !empty($check);
     }
     private function delete_existing_breakdown_items($rent_break_down_id)
     {

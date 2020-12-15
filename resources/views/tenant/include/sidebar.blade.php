@@ -32,6 +32,31 @@
             </a>
           </li>
 
+            <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                Tenancy Contract
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('tenant.contract.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>List</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('tenant.contract.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Renewal</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
             <li class="nav-item">
             <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
               <i class="nav-icon fa fa-question"></i>
@@ -41,14 +66,33 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
-              <i class="nav-icon fa fa-question"></i>
+
+            <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
               <p>
-                Maintenance Requests
+                Maintenance Request
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>List</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('tenant.maintenance.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Create New</p>
+                </a>
+              </li>
+            </ul>
           </li>
+
+
 
             <li class="nav-item">
             <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
