@@ -11,4 +11,14 @@ class PaymentController extends Controller
     {
         return view("tenant.payment.index");
     }
+
+    public function view()
+    {
+        return view("tenant.payment.view");
+    }
+
+    public function refund()
+    {
+        return view("tenant.payment.refund");
+    }
 }

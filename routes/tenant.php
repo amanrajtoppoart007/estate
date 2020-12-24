@@ -29,3 +29,9 @@ Route::post('/fetch', 'Tenant\PaymentController@fetch')->name('tenant.payment.fe
 Route::get('/view', 'Tenant\PaymentController@view')->name('tenant.payment.view');
 
 });
+Route::prefix('support')->group(function () {
+Route::get('/index', 'Tenant\SupportController@index')->name('tenant.support.index');
+Route::post('/fetch', 'Tenant\SupportController@fetch')->name('tenant.support.fetch');
+Route::get('/faq', 'Tenant\SupportController@faq')->name('tenant.support.faq');
+
+});

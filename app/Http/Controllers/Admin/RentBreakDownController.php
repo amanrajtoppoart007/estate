@@ -28,6 +28,7 @@ class RentBreakDownController extends Controller
     public function create()
     {
         $query = (new RentEnquiryUser())->get(RentEnquiry::find($id),"tenant");
+
         if(!empty($query))
         {
              $properties = Property::where(['is_disabled' => 0])->get();

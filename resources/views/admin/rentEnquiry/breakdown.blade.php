@@ -83,8 +83,13 @@
                     <h6><strong>Rent BreakDown</strong></h6>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            For Lease End Date Calculation Only
+                        </div>
+                        <div class="body">
+                            <div class="row m-2">
+                                <div class="col-md-3">
                             <div class="form-group">
                                 <label for="rent_frequency">Rent Period</label>
                                 <select class="form-control" name="rent_frequency" id="rent_frequency">
@@ -117,24 +122,19 @@
                                 <input type="text" class="form-control" name="lease_end_date" id="lease_end_date" value="">
                             </div>
                         </div>
-
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                          <div class="col-md-3">
                         <div class="form-group">
-                            <label for="unit_type">Flat Type</label>
+                            <label for="unit_type">No. Of Bedrooms</label>
                             <select class="form-control" name="unit_type" id="unit_type">
                                 @php $unit_types = get_unit_types() @endphp
-                                @if(!empty($breakdown))
-                                    <option value="">Select Flat Type</option>
-                                    @foreach($unit_types as $key=>$value)
-
-                                        <option value="{{$key}}">{{$value}}</option>
-                                    @endforeach
-                                @else
-                                    <option value="">Select Flat Type</option>
+                                    <option value="">Select Bedrooms</option>
                                     @foreach($unit_types as $key=>$value)
                                         <option value="{{$key}}">{{$value}}</option>
                                     @endforeach
-                                @endif
                             </select>
                         </div>
                     </div>
@@ -151,12 +151,12 @@
                                 <input type="text" class="form-control" name="installments" id="installments" value="">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        {{--<div class="col-md-3">
                             <div class="form-group">
                                 <label for="total_rent_amount">Total Rent Amount</label>
                                 <input type="text" class="form-control" name="total_rent_amount" id="total_rent_amount" value="">
                             </div>
-                        </div>
+                        </div>--}}
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="parking">Parking <i id="parking"></i> </label>
@@ -212,7 +212,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Contract</th>
+                                <th>Tenancy Contract</th>
                                 <td>
                                     <label for="">
                                         <input type="text" name="contract" id="contract" value="">
@@ -292,12 +292,17 @@
                                   <th>Cheque No.</th>
                                   <th>Cheque Date</th>
                                   <th>Name</th>
+                                  <th>Remark</th>
+                                  <th>Action</th>
                               </tr>
                             </thead>
                             <tbody id="rent_installment_grid">
 
                             </tbody>
                         </table>
+                        <div class="form-group">
+                            <button id="addMoreChequesBtn" type="button" class="btn btn-primary">Add More Cheques</button>
+                        </div>
                     </div>
                 </div>
             </div>

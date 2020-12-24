@@ -18,6 +18,8 @@ class Installment
            {
                $installment[$i]['installment']  = $item['installment'];
                $installment[$i]['amount']       = $item['amount'];
+               $installment[$i]['cheque_no']    = $item['cheque_no'];
+               $installment[$i]['remark']       = $item['remark'];
                $installment[$i]['bank_name']    = $item['bank_name'];
                $installment[$i]['cheque_date']  = $item['cheque_date']?date("Y-m-d",strtotime($item['cheque_date'])):null;
                $installment[$i]['paid_to']      = $item['paid_to'];

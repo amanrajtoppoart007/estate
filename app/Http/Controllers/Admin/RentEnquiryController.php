@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EditRentEnquiry;
 use App\Http\Requests\StoreRentEnquiry;
 use App\Library\RentBreakDownLib;
+use App\Library\RentEnquiryUser;
 use App\Property;
 use App\PropertyUnit;
 use App\RentBreakDown;
@@ -45,7 +46,7 @@ class RentEnquiryController extends Controller
 
     public function create_breakdown($id)
     {
-        $query = RentEnquiry::find($id);
+        $query = (new RentEnquiryUser())->get(RentEnquiry::find($id),"rent_enquiry");
         if(!empty($query))
         {
              $properties = Property::where(['is_disabled' => 0])->get();
@@ -191,10 +192,10 @@ class RentEnquiryController extends Controller
 
     public function view($id)
     {
-        $rent_enquiry = RentEnquiry::find($id);
-        if(!empty($rent_enquiry))
+        $enquiry = RentEnquiry::find($id);
+        if(!empty($enquiry))
         {
-            return view("admin.rentEnquiry.view",compact("rent_enquiry"));
+            return view("admin.rentEnquiry.view",compact("enquiry"));
         }
         else
         {

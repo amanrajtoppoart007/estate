@@ -46,7 +46,6 @@ if (!function_exists('get_rent_period_types'))
   {
     return   array(
           "monthly"=>"Monthly",
-          "half_yearly"=>"Half Yearly",
           "yearly"=>"Yearly",
       );
 

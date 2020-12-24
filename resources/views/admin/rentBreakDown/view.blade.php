@@ -153,7 +153,7 @@
                                        <td>{{$item['amount']}}</td>
                                        <td>{{$item['bank_name']}}</td>
                                        <td>{{$item['cheque_no']}}</td>
-                                       <td>{{$item['cheque_date']}}</td>
+                                       <td>{{date('d-m-Y',strtotime($item['cheque_date']))}}</td>
                                        <td>{{$item['paid_to']}}</td>
                                    </tr>
                                @endforeach
@@ -185,8 +185,8 @@
 
                 let url = "{{route('send.breakdown.mail')}}";
                 let params = {
-                    break_down_id : {{$breakdown['id']}},
-                    rent_enquiry_id : {{$breakdown['rent_enquiry_id']}}
+                    break_down_id : "{{$breakdown['id']}}",
+                    rent_enquiry_id : "{{$breakdown['rent_enquiry_id']}}"
                 };
                 function fn_success(result)
                 {

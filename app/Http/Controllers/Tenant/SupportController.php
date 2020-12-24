@@ -7,5 +7,13 @@ use Illuminate\Http\Request;
 
 class SupportController extends Controller
 {
-    //
+    public function index()
+    {
+
+    }
+
+    public function faq()
+    {
+        return view("tenant.support.faq");
+    }
 }

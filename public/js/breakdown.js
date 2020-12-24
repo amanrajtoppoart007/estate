@@ -26,7 +26,7 @@ $(document).ready(async function(){
 
     let installments            = $("#installments");
     let rent_amount             = $("#rent_amount");
-    let total_rent_amount       = $("#total_rent_amount");
+    //let total_rent_amount       = $("#total_rent_amount");
     let advance_payment         = $("#advance_payment");
     let balance_amount          = $("#balance_amount");
 
@@ -69,15 +69,13 @@ $(document).ready(async function(){
       let contract_value             = parseFloat((contract_const.val()!=="")?contract_const.val():0);
       let remote_deposit_value       = parseFloat((remote_deposit_const.val()!=="")?remote_deposit_const.val():0);
       let sewa_deposit_value         = parseFloat((sewa_deposit_const.val()!=="")?sewa_deposit_const.val():0);
-      let municipality_fees_value    = (_rent_amount*_total_installment*municipality_fees_constant) / 100;
-      let first_installment_value    = _rent_amount;
+      let municipality_fees_value    = (_rent_amount*municipality_fees_constant) / 100;
+      let first_installment_value    = _rent_amount/_total_installment;
           let total_first_installment_value = 0;
 
-          total_first_installment_value = _rent_amount + brokerage_value + security_deposit_value + municipality_fees_value + contract_value
+          total_first_installment_value = (_rent_amount/_total_installment) + brokerage_value + security_deposit_value + municipality_fees_value + contract_value
               + remote_deposit_value + sewa_deposit_value;
 
-
-          total_rent_value = total_first_installment_value + (_rent_amount*(_total_installment-1));
           security_deposit.val(security_deposit_value);
           municipality_fees.val(municipality_fees_value);
           brokerage.val(brokerage_value);
@@ -86,12 +84,125 @@ $(document).ready(async function(){
           remote_deposit.val(remote_deposit_value);
           first_installment.val(first_installment_value);
           total_first_installment.val(total_first_installment_value);
-          total_rent_amount.val(total_rent_value);
+
           const advance = (advance_payment.val()!=="")?(advance_payment.val()):0;
           const balance = parseFloat(total_first_installment_value??0) - parseFloat(advance);
           balance_amount.val(balance);
 
   }
+
+  $("#addMoreChequesBtn").on("click",async function(){
+      $(this).css("pointer-events", "none");
+         const rows = $("#rent_installment_grid").find("tr").length;
+         let i=rows;
+         if(i<0)
+         {
+             i=0;
+         }
+         const installment = rows;
+         const amount =0.00;
+         let option ='';
+
+           let banks = [];
+       let csrf_token = $('meta[name="csrf-token"]').attr('content');
+      jQuery.ajaxSetup({ headers: { 'X-CSRF-TOKEN': csrf_token, } });
+     await $.ajax({
+          url : bankListUrl,
+          method : 'POST',
+          success: function(result)
+          {
+              if(result.response==="success")
+              {
+                 banks = result.data;
+              }
+
+          }
+      });
+
+           if(banks!==undefined && banks.length>1)
+           {
+               $.each(banks,function(index,item){
+                   option+=`<option value="${item.name}">${item.name}</option>`;
+               });
+           }
+         generateInstallmentTableRow(i,option,amount,installment);
+           $(this).css("pointer-events", "auto");
+
+  });
+
+   $(document).on("click",".removeInstallmentBtn",function(){
+
+       $(this).closest("td").closest("tr").remove();
+
+   })
+
+
+   function generateInstallmentTableRow(i,banks,_amount,installment)
+   {
+
+         let _prefix;
+
+              switch (i)
+              {
+                  case 0 :
+                      _prefix = '1st Remaining';
+                      break;
+                  case 1:
+                      _prefix = '2nd';
+                      break;
+                  case 2:
+                      _prefix = '3rd';
+                      break;
+                  default:
+                      _prefix = `${i+1}th`;
+                      break;
+              }
+
+              let id = '';
+
+              if(parseInt(i)===0)
+              {
+                  id+=`id="rent_first_installment_input"`;
+              }
+
+
+              let _tableRow = `<tr>
+                 <td>
+                       ${_prefix} Installment
+                       <input type="hidden" name="installment[${i}][installment]"  value="${installment}" >
+                </td>
+                <td>
+                  <input style="width:80px" type="text"  name="installment[${i}][amount]]"  value="${_amount}"/>
+                </td>
+                <td>
+                  <select class="bank_list" name="installment[${i}][bank_name]]">
+                       ${banks}
+                  </select>
+                </td>
+                <td>
+                  <input style="width:120px" type="text"  name="installment[${i}][cheque_no]]" value=""/>
+               </td>
+                <td>
+                  <input type="text" class="check_dates"  name="installment[${i}][cheque_date]]" value=""/>
+                </td>
+                <td>
+                   <input type="text"   name="installment[${i}][paid_to]]" value=""/>
+                 </td>
+                  <td>
+                   <input type="text"   name="installment[${i}][remark]]" value=""/>
+                 </td>
+                 <td>
+                    <button type="button" class="btn btn-danger removeInstallmentBtn">
+                      <i class="fa fa-times"></i>
+                     </button>
+                 </td>
+            </tr>`;
+              const rent_installment_grid = $("#rent_installment_grid");
+              rent_installment_grid.append(_tableRow);
+   }
+
+
+
 
 
    async function generateRentInstallments()
@@ -101,7 +212,7 @@ $(document).ready(async function(){
 
            let option ='';
 
-             let banks = [];
+           let banks = [];
        let csrf_token = $('meta[name="csrf-token"]').attr('content');
       jQuery.ajaxSetup({ headers: { 'X-CSRF-TOKEN': csrf_token, } });
      await $.ajax({
@@ -134,59 +245,9 @@ $(document).ready(async function(){
              }
              else
              {
-                  _amount = parseFloat(rent_amount.val());
+                  _amount = parseFloat(rent_amount.val()/installments.val());
              }
-             let _prefix;
-
-              switch (i)
-              {
-                  case 0 :
-                      _prefix = '1st Remaining';
-                      break;
-                  case 1:
-                      _prefix = '2nd';
-                      break;
-                  case 2:
-                      _prefix = '3rd';
-                      break;
-                  default:
-                      _prefix = `${i+1}th`;
-                      break;
-              }
-
-              let id = '';
-
-              if(parseInt(i)===0)
-              {
-                  id+=`id="rent_first_installment_input"`;
-              }
-             console.log(id);
-
-              let _tableRow = `<tr>
-                 <td>
-                       ${_prefix} Installment
-                       <input type="hidden" name="installment[${i}][installment]"  value="${i+1}" >
-                </td>
-                <td>
-                  <input type="text"  name="installment[${i}][amount]]" ${id} value="${_amount}"/>
-                </td>
-                <td>
-                  <select class="bank_list" name="installment[${i}][bank_name]]">
-                       ${option}
-                  </select>
-                </td>
-                <td>
-                  <input type="text"  name="installment[${i}][cheque_no]]" value=""/>
-               </td>
-                <td>
-                  <input type="text" class="check_dates"  name="installment[${i}][cheque_date]]" value=""/>
-                </td>
-                <td>
-                   <input type="text"   name="installment[${i}][paid_to]]" value=""/>
-                 </td>
-            </tr>`;
-            rent_installment_grid.append(_tableRow);
-
+             generateInstallmentTableRow(i,option,_amount,i+1);
           }
 
            CHECK_DATES.each(function(){
@@ -303,25 +364,13 @@ $(document).ready(async function(){
 
     $(document).on("change","#breakdown_item_grid tbody tr input",function(){
 
-        const inputs = breakdown_grid_table.find("tbody").find("tr").find("input");
-        let total_first_payment=0;
-        inputs.each(function(index){
-            if(index<7)
-            {
-                if($(this).val()!=="")
-                {
-                  total_first_payment += parseFloat($(this).val());
-                }
-            }
+           const total_first_payment = parseFloat(security_deposit.val()) + parseFloat(municipality_fees.val()) + parseFloat(brokerage.val()) + parseFloat(contract.val()) + parseFloat(sewa_deposit.val())
+             + parseFloat(first_installment.val()) + parseFloat(remote_deposit.val());
 
             total_first_installment.val(total_first_payment);
             const balance = advance_payment.val()!==0?(total_first_payment-advance_payment.val()):total_first_payment;
             balance_amount.val(balance);
             $("#rent_first_installment_input").val(balance);
-
-
-        });
-
     });
 
     function rent_period_type_text(rent_period_type)
@@ -341,10 +390,12 @@ $(document).ready(async function(){
         return rent_period_text;
     }
 
-      $("#rent_period_type").on('change',function(){
+    rent_frequency.on("change",function(){
               let rent_period_type = $(this).val();
               $("#rent_period_text").text(rent_period_type_text(rent_period_type));
         });
+
+
 
     lease_start_date.datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',
             change : function()
@@ -364,10 +415,10 @@ $(document).ready(async function(){
 
                 function fn_success(result)
                 {
-                    let options = `<option value="">Select Unit</option>`;
+                    let options = `<option value="">Select Flat</option>`;
                     $.each(result.data, function (i, item)
                     {
-                        options += `<option value="${item.id}">${item.unitcode}</option>`;
+                        options += `<option value="${item.id}">${item.flat_number}</option>`;
 
                     });
                     unit_id.html(options);

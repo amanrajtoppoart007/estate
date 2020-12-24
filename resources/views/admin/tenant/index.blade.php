@@ -1,13 +1,6 @@
 @extends('admin.layout.app')
 @php
-  $menus  = [
-      [
-          "title"=>"Create Tenant",
-          "target"=>route("tenant.create"),
-          "icon"=>"fa fa-user-plus",
-          "btnColor"=>"btn-info"
-      ]
-];
+  $menus  = [];
 @endphp
 @include("admin.include.breadcrumb",["page_title"=>"Tenants","page_menus"=>$menus])
 @section('content')

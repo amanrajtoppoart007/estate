@@ -92,13 +92,11 @@
             </ul>
           </li>
 
-
-
             <li class="nav-item">
-            <a href="{{route('tenant.maintenance.list')}}" class="nav-link">
+            <a href="{{route('tenant.support.faq')}}" class="nav-link">
               <i class="nav-icon fa fa-question"></i>
               <p>
-                Support
+                Frequently Asked Questions
               </p>
             </a>
           </li>

@@ -94,6 +94,7 @@ class RentBreakDownLib
                $view['rent_installments'][$i]['amount'] = $item->amount;
                $view['rent_installments'][$i]['bank_name'] = $item->bank_name;
                $view['rent_installments'][$i]['cheque_no'] = $item->cheque_no;
+               $view['rent_installments'][$i]['remark'] = $item->remark;
                $view['rent_installments'][$i]['cheque_date'] = $item->cheque_date;
                $view['rent_installments'][$i]['paid_to'] = $item->paid_to;
                $i++;

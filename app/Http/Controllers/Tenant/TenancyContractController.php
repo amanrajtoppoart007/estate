@@ -17,4 +17,13 @@ class TenancyContractController extends Controller
     {
         return view("tenant.contract.index");
     }
+
+    public function renew()
+    {
+        return view("tenant.contract.renew");
+    }
+    public function break()
+    {
+        return view("tenant.contract.break");
+    }
 }

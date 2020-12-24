@@ -162,12 +162,7 @@
                                        value="{{$breakdown['installments']}}">
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="total_rent_amount">Total Rent Amount</label>
-                                <input type="text" class="form-control" name="total_rent_amount" id="total_rent_amount" value="{{$breakdown['total_rent_amount']}}">
-                            </div>
-                        </div>
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="parking">Parking <i id="parking"></i> </label>
@@ -227,7 +222,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Contract</th>
+                                <th>Tenancy Contract</th>
                                 <td>
                                     <label for="">
                                         <input type="text" name="contract" id="contract"
@@ -309,6 +304,8 @@
                                   <th>Cheque No.</th>
                                   <th>Cheque Date</th>
                                   <th>Name</th>
+                                  <th>Remark</th>
+                                  <th>Action</th>
                               </tr>
                             </thead>
                             <tbody id="rent_installment_grid">
@@ -328,7 +325,7 @@
                                            <input type="hidden" name="installment[{{$i}}][installment]"   value="{{$item['installment']}}"/>
                                        </td>
                                        <td>
-                                           <input type="text" name="installment[{{$i}}][amount]" {!!$id!!} value="{{$item['amount']}}"/>
+                                           <input style="width:80px" type="text" name="installment[{{$i}}][amount]" {!!$id!!} value="{{$item['amount']}}"/>
                                        </td>
                                        <td>
                                            <select class="bank_list" name="installment[{{$i}}][bank_name]">
@@ -339,14 +336,22 @@
                                            </select>
                                        </td>
                                        <td>
-                                           <input type="text" name="installment[{{$i}}][cheque_no]" value="{{$item['cheque_no']}}"/>
+                                           <input style="width:120px" type="text" name="installment[{{$i}}][cheque_no]" value="{{$item['cheque_no']}}"/>
 
                                        </td>
                                        <td>
-                                           <input type="text" class="check_dates" name="installment[{{$i}}][cheque_date]" value="{{$item['cheque_date']}}"/>
+                                           <input type="text" class="check_dates" name="installment[{{$i}}][cheque_date]" value="{{date('d-m-Y',strtotime($item['cheque_date']))}}"/>
                                        </td>
                                        <td>
                                            <input type="text" name="installment[{{$i}}][paid_to]" value="{{$item['paid_to']}}"/>
+                                       </td>
+                                       <td>
+                                           <input type="text" name="installment[{{$i}}][remark]" value="{{$item['remark']}}"/>
+                                       </td>
+                                       <td>
+                                           <button type="button" class="btn btn-danger removeInstallmentBtn">
+                                               <i class="fa fa-times"></i>
+                                           </button>
                                        </td>
                                    </tr>
                                    @php $i++; @endphp
@@ -354,6 +359,9 @@
                              @endif
                             </tbody>
                         </table>
+                        <div class="form-group">
+                            <button id="addMoreChequesBtn" type="button" class="btn btn-primary">Add More Cheques</button>
+                        </div>
                     </div>
                 </div>
             </div>

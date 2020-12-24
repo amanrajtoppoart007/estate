@@ -22,7 +22,7 @@ class RentEnquiryUser
         {
             $user['tenant_id'] = $query->tenant->id ?? null;
             $user['tenancy_type'] = $query->tenancy_type;
-            $user['rent_enquiry_id'] = $query->rent_enquiry_id;
+            $user['rent_enquiry_id'] = $query->id;
         }
         return $user;
     }
