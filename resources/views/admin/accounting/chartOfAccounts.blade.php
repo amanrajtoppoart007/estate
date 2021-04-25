@@ -90,7 +90,7 @@
                  @if($acc->coa_category_id==$cat->id)
                 <tr>
                     <td>#</td>
-                       <td>-{{$acc->name}}</td>
+                       <td>-<a href="{{route('chart.of.account.view',['id'=>$acc->id])}}"> {{$acc->name}}</a></td>
                        <td>{{$acc->code}}</td>
                        <td></td>
                        <td></td>

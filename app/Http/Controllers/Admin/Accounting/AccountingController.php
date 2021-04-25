@@ -126,6 +126,14 @@ class AccountingController extends Controller
         $data['accounts'] = ChartOfAccount::where('is_disabled','0')->with('category','parent')->get();
         return view('admin.accounting.chartOfAccounts')->with($data);
     }
+    public function view_chart_of_acccoutn($acc = '')
+    {
+        $data = array();
+        $data['category'] = CoaCategory::where('is_disabled','0')->get();
+        $data['account'] = ChartOfAccount::where('id',$acc)->first();
+        $data['balance']  = 5000;
+        return view('admin.accounting.viewChartOfAcc')->with($data);
+    }
 
 
     ///////// Lease Contracts//////////

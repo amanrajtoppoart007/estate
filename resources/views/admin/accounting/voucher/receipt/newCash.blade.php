@@ -107,7 +107,6 @@
                         <tr>
                             <th>Description</th>
                             <th>Amount</th>
-                            <th>Remark/Note</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -119,7 +118,7 @@
                                 </select>
                             </td>
                             <td><input type="number" class="form-control amount decimal" name="amount[]"></td>
-                            <td><textarea rows="1" name="remark[]" class="form-control"></textarea></td>
+
                             <td>
                                 <button type="button" data-target="firstrow"
                                         class="btn btn-sm removeRow bg-gradient-danger"><i class="fa fa-times"></i>
@@ -171,7 +170,7 @@
             $(".vDescription").append(td);
             $("#addmore").click(function () {
                 let uuid = uuidv4();
-                $("#itembody").append('<tr id="' + uuid + '"><td><select class="form-control vDescription" name="type[]">' + td + '</select></td><td><input type="number" class="form-control amount decimal" name="amount[]"></td><td><textarea rows="1" name="remark[]" class="form-control"></textarea></td><td><button type="button" data-target="' + uuid + '" class="btn btn-sm removeRow bg-gradient-danger"><i class="fa fa-times"></i></button></td></tr>');
+                $("#itembody").append('<tr id="' + uuid + '"><td><select class="form-control vDescription" name="type[]">' + td + '</select></td><td><input type="number" class="form-control amount decimal" name="amount[]"></td><td><button type="button" data-target="' + uuid + '" class="btn btn-sm removeRow bg-gradient-danger"><i class="fa fa-times"></i></button></td></tr>');
             });
 
             function amount_calculate(){
