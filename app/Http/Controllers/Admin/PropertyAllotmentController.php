@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AllotProperty;
 use App\Http\Requests\RenewPropertyAllotment;
 use App\Library\CreateInstallments;
+use App\Library\CreateRentBreakDown;
+use App\Library\UpdateRentBreakDown;
 use App\RentBreakDown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +31,7 @@ class PropertyAllotmentController extends Controller
         $this->middleware('auth:admin');
     }
 
-    public function fetch_alloted_properties(Request $request)
+    public function fetch_allotted_properties(Request $request)
     {
         echo json_encode((new Api((new PropertyUnitAllotment())))->getResult());
     }
@@ -42,7 +44,9 @@ class PropertyAllotmentController extends Controller
             $breakdown = [];
             $tenant = Tenant::with('relations')->where(['id' => $id])->first();
             $properties = Property::where(['is_disabled' => '0'])->get();
-            $cities = $tenant->country->cities;
+            $cities = City::whereHas('country',function($q){
+                $q->where('name','like','%United Arab Emirates%');
+            })->get();
             $agents = Agent::where(['is_disabled' => 0])->get();
             if (!empty($property_unit_id)) {
                 $property_unit = PropertyUnit::with(['property'])->find($property_unit_id);
@@ -69,22 +73,38 @@ class PropertyAllotmentController extends Controller
         $request->validated();
         $admin_id = Auth::guard('admin')->user()->id;
         $checkExist = PropertyUnitAllotment::where(['unit_id' => $request->unit_id, 'status' => '1'])->first();
-        if (empty($checkExist)) {
+
+        $checkBreakDown = RentBreakDown::where(['unit_id' => $request->input('unit_id'), 'tenant_id' => $request->input('tenant_id')])->get();
+        if($checkBreakDown->isEmpty())
+        {
+          $breakdown_id =  (new CreateRentBreakDown())->handle();
+        }
+        else
+        {
+           $breakdown_id = (new UpdateRentBreakDown($request->rent_breakdown_id))->handle();
+        }
+         if(empty($checkExist))
+         {
             $params = $request->only(['tenant_id','agent_id','property_id', 'unit_id', 'rent_amount', 'installments']);
              if(!empty($request->unit_id))
              {
                  $unit = PropertyUnit::find($request->unit_id);
                  $params['property_unit_type_id'] = $unit->property_unit_type_id;
              }
-            $params['lease_start'] = date('Y-m-d', strtotime($request->lease_start));
-            $params['lease_end'] = date('Y-m-d', strtotime($request->lease_end));
-            $params['admin_id'] = $admin_id;
-            $params['status'] = 1;
+               $params['lease_start'] = date('Y-m-d', strtotime($request->lease_start));
+               $params['lease_end'] = date('Y-m-d', strtotime($request->lease_end));
+               $params['admin_id'] = $admin_id;
+               $params['status'] = 1;
+               $params['rent_break_down_id'] = $breakdown_id;
 
-            if ($unitAllotment = PropertyUnitAllotment::create($params)) {
+            if ($unitAllotment = PropertyUnitAllotment::create($params))
+            {
                 PropertyUnit::where(['id' => $request->unit_id])->update(['allotment_id' => $unitAllotment->id, 'allotment_type' => 'rent', 'unit_status' => 2]);
-                $action = new CreateInstallments($unitAllotment->id, $admin_id, $request->all());
+                $action = new CreateInstallments($unitAllotment->id, $admin_id);
                 $action->execute();
+                $breakdown = RentBreakDown::find($breakdown_id);
+                $breakdown->unit_allotment_id = $unitAllotment->id;
+                $breakdown->save();
                 $res['status'] = 1;
                 $res['next_url'] = route('allotment.detail', [$request->tenant_id, $unitAllotment->id]);
                 $res['response'] = 'success';
@@ -95,7 +115,8 @@ class PropertyAllotmentController extends Controller
                 $res['message'] = 'Property allocation failed';
             }
 
-        } else {
+        } else
+        {
             $res['status'] = 0;
             $res['response'] = 'error';
             $res['message'] = 'Property already allocated to someone else';
@@ -180,22 +201,24 @@ class PropertyAllotmentController extends Controller
         $validator = Validator::make($request->all(), [
             'property_id' => 'required',
         ]);
-        if (!$validator->fails()) {
+        if(!$validator->fails())
+        {
             $params['property_id'] = $request->property_id;
-            $propertyUnitTypes = PropertyUnitType::where($params)->get();
-            if (!$propertyUnitTypes->isEmpty()) {
-                $res['status'] = 1;
-                $res['response'] = 'success';
-                $res['message'] = 'Data found';
-                $res['data'] = $propertyUnitTypes;
-            } else {
-                $res['status'] = 0;
-                $res['response'] = 'error';
-                $res['message'] = 'Data not found';
+            $propertyUnitTypes = PropertyUnitType::where($params)->orderBy('flat_number','ASC')->get();
+            if (!$propertyUnitTypes->isEmpty())
+            {
+                $result = ["status"=>1,"response"=>"success","data"=>$propertyUnitTypes,"message"=>"data found"];
             }
-            return response()->json($res);
+            else
+            {
+                $result = ["status"=>0,"response"=>"error","message"=>"data not found"];
+            }
         }
-        return response()->json(['response' => 'error', 'message' => $validator->errors()->all()]);
+        else
+        {
+            $result = ['status'=>0,'response' => 'error', 'message' => $validator->errors()->all()];
+        }
+        return response()->json($result,200);
     }
 
     /* ************ get property unit  list************* */
@@ -226,27 +249,16 @@ class PropertyAllotmentController extends Controller
 
     public function renewal_break_down(Request $request, $id)
     {
-        $breakdown_template = array();
-        if ((isset($id)) && !empty($id)) {
-            $current = PropertyUnitAllotment::where('id', $id)
-                ->with('property', 'property_unit')
-                ->first();
-
-            $tenant = Tenant::with('profile', 'relations')->where(['id' => $current->tenant_id])->first();
-
-            if (!empty($current)) {
-
-                $breakdown = DB::table('break_down_history')->where('tenant_id', $current->tenant_id)->where('allotment_id', $current->id)->get();
-
-            }
-            if (isset($_GET['template']) && !empty($_GET['template'])) {
-                $breakdown_template = DB::table('break_down_history')->where('id', $_GET['template'])->get();
-
-            }
-            return view('admin.allotProperty.breakDown', \compact('tenant', 'current', 'breakdown', 'breakdown_template'));
-        } else {
-            return view("blank")->with(["msg" => "Invalid request"]);
+        $allotment = PropertyUnitAllotment::with(['tenant','property','unit','breakdown'])->find($id);
+        if(!empty($allotment))
+        {
+              return view("admin.allotProperty.breakDown",compact("allotment"));
         }
+        else
+        {
+            return view("blank")->with(["message"=>"Invalid Allotment Detail"]);
+        }
+
     }
 
     public function breakdown_pdf_view($breakdown = '')
@@ -255,23 +267,70 @@ class PropertyAllotmentController extends Controller
         $data = array();
         $data['break_down'] = DB::table('break_down_history')->where('id', $breakdown)->first();
         $data['tenant'] = Tenant::where('id', $data['break_down']->tenant_id)->first();
-
-
         return view('pdf.property.renewalBreakDown')->with($data);
     }
 
-    public function tenancy_breakdown_save_send(Request $request)
+    public function store_renewal_breakdown(Request $request)
     {
-        $data = array();
-        $arr = $request->all();
-        $formdata = json_encode($arr);
-        $array = array('tenant_id' => $request->tenant_id, 'allotment_id' => $request->allotment, 'form_data' => $formdata, 'admin_id' => auth()->user()->id); //
-        $insertId = DB::table('break_down_history')->insertGetId($array);
-        $data['req'] = $request;
+          $validator = Validator::make($request->all(),
+          [
+            "tenant_id"=>"required|numeric",
+            "property_id"=>"required|numeric",
+            "unit_id"=>"required|numeric",
+            "rent_period_type"=>"required",
+            "rent_period"=>"required",
+            "parking"=>"required",
+            "lease_start"=>"required|date",
+            "lease_end"=>"required|date",
+            "rent_amount"=>"required|numeric",
+            "installments"=>"required|numeric",
+            "tenancy_type"=>"required",
+            "unit_type"=>"required",
+            "security_deposit.*"=>"numeric",
+            "municipality_fees.*"=>"numeric",
+            "brokerage.*"=>"numeric",
+            "contract.*"=>"numeric",
+            "remote_deposit.*"=>"numeric",
+            "sewa_deposit.*"=>"numeric",
+            "monthly_installment.*"=>"numeric",
+            "total_monthly_installment.*"=>"numeric",
 
-        $result = array('status' => '1', 'message' => 'Successfully saved', 'breakdown' => $insertId);
+        ]);
+          if(!$validator->fails())
+          {
 
-        return json_encode($result);
+         if($id = (new CreateRentBreakDown('renewal'))->handle())
+        {
+            $next_url = null;
+            if($request->has("next_action"))
+            {
+                $action = $request->input('next_action');
+                switch ($action)
+                {
+                    case "print_breakdown":
+                        $next_url = route('print.rent.breakdown',$id);
+                        break;
+                    case "preview":
+                    default:
+                         $next_url = route('view.rent.breakdown',$id);
+                         break;
+                }
+            }
+
+            $result = ['status'=>1,'response' => 'success','next_url'=>$next_url, 'message' => 'Rent breakdown renewed successfully'];
+        }
+         else
+        {
+            $result = ['status'=>0,'response' => 'error', 'message' => 'Rent breakdown not created.'];
+        }
+
+          }
+          else
+          {
+              $result = ["status"=>0,"response"=>"validation_error","message"=>$validator->errors()->all()];
+          }
+
+           return response()->json($result,200);
 
     }
 

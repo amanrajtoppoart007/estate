@@ -31,7 +31,7 @@ class OwnerAllotmentHistory extends Model
     }
     public function getFlatNumberAttribute()
     {
-        return $this->property_unit ? $this->property_unit->flat_house_no : null;
+        return $this->property_unit ? $this->property_unit->flat_number : null;
     }
 
     public function getOwnerNameAttribute()

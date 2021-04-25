@@ -111,6 +111,8 @@ Route::prefix('allot-property')->group(function () {
 
     Route::post('breakdown-save-send', 'Admin\PropertyAllotmentController@tenancy_breakdown_save_send')->name('tenancy.breakdown.save.send');
 
+    Route::post('store-renewal-breakdown', 'Admin\PropertyAllotmentController@store_renewal_breakdown')->name('store.renewal.breakdown');
+
     Route::post('renewal-tenancy', 'Admin\PropertyAllotmentController@renewTenancy')->name('tenancy.renewal.post');
 
     Route::get('renewal-tenancy-breakdown-pdf/{breakdown}', 'Admin\PropertyAllotmentController@breakdown_pdf_view')->name('renewal.breakdown.pdf');
@@ -377,9 +379,8 @@ Route::prefix('property')->group(function () {
 
     Route::post('fetch-property-for-select2', 'Admin\AjaxController@select2_get_property')->name('select2.property.post');
 
-    Route::post('fetch-unit-by-prop', 'Admin\AjaxController@get_units_by_porperty')->name('select.units.by.prop');
-
-    Route::post('fetch/alloted/property', 'Admin\PropertyAllotmentController@fetch_alloted_properties')->name('fetch.allocated.properties');
+    Route::post('fetch-unit-by-prop', 'Admin\AjaxController@get_units_by_property')->name('select.units.by.prop');
+    Route::post('fetch/alloted/property', 'Admin\PropertyAllotmentController@fetch_allotted_properties')->name('fetch.allocated.properties');
 
 });
 

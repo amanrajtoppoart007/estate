@@ -62,7 +62,7 @@ class RentEnquiryController extends Controller
         $enquiry = RentEnquiry::find($id);
         if((!empty($enquiry))&&(!empty($enquiry->rent_breakdown)))
         {
-            $cities = City::where(['is_disabled' => '0'])->get();
+            $cities = City::where(['is_disabled' => '0','country_id'=>231])->get();
             $prop_params['is_disabled'] = '0';
             if(!empty($enquiry->city_id))
             {

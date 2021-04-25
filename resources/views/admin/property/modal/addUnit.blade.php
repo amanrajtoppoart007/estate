@@ -31,12 +31,12 @@
 				</div>
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label for="flat_house_no">Flat No.</label>
+						<label for="flat_number">Flat No.</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-building text-primary"></i></span>
 							</div>
-							<input type="text" class="form-control" name="flat_house_no" id="flat_house_no" value="">
+							<input type="text" class="form-control" name="flat_number" id="flat_number" value="">
 						</div>
 					</div>
 				</div>

@@ -27,6 +27,7 @@ class StoreRentBreakDown extends FormRequest
     public function rules()
     {
         $rules = [
+            "tenant_id"=>"unique:rent_break_downs,tenant_id",
             "property_id"=>"required|numeric",
             "unit_id"=>"required|numeric",
             "rent_period_type"=>"required",

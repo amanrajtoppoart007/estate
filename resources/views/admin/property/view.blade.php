@@ -619,7 +619,7 @@ $(document).on('click','.changeStatusBtn',function(e){
 		  function fn_success(result)
 		  {
 			  $("#edit_property_unit_id").val(result.data.id);
-			  $("#edit_flat_house_no").val(result.data.flat_house_no);
+			  $("#edit_flat_number").val(result.data.flat_number);
 			  $("#edit_floor_no").val(result.data.floor_no);
 			  $("#edit_unit_size").val(result.data.unit_size);
 			  $("#edit_bedroom").val(result.data.bedroom);

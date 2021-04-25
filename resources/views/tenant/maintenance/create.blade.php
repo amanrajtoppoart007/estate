@@ -1,25 +1,11 @@
 @extends('tenant.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-    <div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Maintenance Request</h1>
-        </div>
-        <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{route('tenant.dashboard')}}">Home</a></li>
-            <li class="breadcrumb-item active">Maintenance Request</li>
-        </ol>
-        </div>
-    </div>
-    </div>
-</div>
-@endsection
+@include("tenant.include.breadcrumb",["page_title"=>"Create Maintenance Request"])
 @section('content')
    <div class="card">
        <div class="card-body">
            {{Form::open(['route'=>'tenant.maintenance.store','id'=>'add_data_form'])}}
+           <input type="hidden" name="property_id" id="property_id" value="">
+           <input type="hidden" name="flat_number" id="flat_number" value="">
              <div class="row">
                <div class="col-md-12 col-lg-12">
                   <div class="card card-info">
@@ -27,37 +13,29 @@
                           <h6>Maintenance Request Detail</h6>
                       </div>
                       <div class="card-body">
-                          <div class="row">
-                      <div class="col-md-6">
-                          <div class="form-group">
-                              <label for="name">Building Name</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                  </div>
-                                  <select class="form-control select2" name="property_id" id="property_id">
-                                      <option value="">Select Property</option>
-                                      @foreach($buildings as $building)
-                                          <option value="{{$building->id}}">{{$building->title}} ({{$building->city->name}})</option>
-                                      @endforeach
-                                  </select>
+                       <div class="row">
+                          <div class="col-md-6 col-sm-6 col-12">
+                            <div class="info-box">
+                              <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+
+                              <div class="info-box-content">
+                                <span class="info-box-text">Building</span>
+                                <span class="info-box-number">{{$building->title}}</span>
                               </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-sm-6 col-12">
+                            <div class="info-box">
+                              <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+
+                              <div class="info-box-content">
+                                <span class="info-box-text">Bookmarks</span>
+                                <span class="info-box-number">410</span>
+                              </div>
+                            </div>
                           </div>
                       </div>
-                      <div class="col-md-6">
-                          <div class="form-group">
-                              <label for="email">Unit/Flat No</label>
-                              <div class="input-group">
-                                  <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                  </div>
-                                  <select class="form-control" name="property_unit_id" id="property_unit_id">
-                                      <option value="">Select Unit</option>
-                                  </select>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+
                   <div class="row">
                       <div class="col-md-6">
                           <div class="form-group">
@@ -258,7 +236,7 @@
                    toast('success',result.message,'bottom-right');
 
                    $.each(result.data,function(index,item){
-                         $("#property_unit_id").append(`<option value="${item.id}">${item.unitcode} {${item.flat_house_no}}</option>`);
+                         $("#property_unit_id").append(`<option value="${item.id}">${item.unitcode} {${item.flat_number}}</option>`);
                    });
                    $("#property_unit_id").select2({
                        theme: 'bootstrap4'

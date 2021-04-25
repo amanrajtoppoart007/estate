@@ -112,7 +112,7 @@ class AjaxController extends Controller
 
         return json_encode($data);
     }
-    public function get_units_by_porperty(Request $request)
+    public function get_units_by_property(Request $request)
     {
         $id = $request->propid;
         $data = PropertyUnit::select('id', 'unitcode', 'title','flat_number')->where('property_id', '=', $id)->get();

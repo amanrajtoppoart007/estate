@@ -45,7 +45,8 @@ class TenantController extends Controller
     public function create(Request $request)
     {
         $data               = array();
-        $data['countries']  = Country::where('is_disabled', '0')->get();
+        $data['countries']  = Country::where(['is_disabled'=>'0'])->orderBy('name','ASC')->get();
+        $data['codes']      = Country::where(['is_disabled'=>'0'])->where('name','like','%United Arab Emirates%')->get();
         if(!empty($request->request_id))
         {
             $data['user'] = RentEnquiry::find(base64_decode($request->request_id));
@@ -112,7 +113,7 @@ class TenantController extends Controller
 
     public function show($id)
     {
-        $tenant = Tenant::find($id);
+        $tenant = Tenant::with(['allotment'])->find($id);
         if(!empty($tenant))
         {
             return view('admin.tenant.view',compact('tenant'));
@@ -225,7 +226,7 @@ class TenantController extends Controller
         }
 
 
-        $day60 = date('Y-m-d', strtotime("+60 days"));
+        $day60 = date('Y-m-d', strtotime("+1000 days"));
         $totalData      =   PropertyUnitAllotment::where('lease_end', '<=', $day60)
             ->count();
         $totalFiltered  =   $totalData;

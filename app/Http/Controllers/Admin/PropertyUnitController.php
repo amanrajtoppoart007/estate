@@ -40,7 +40,7 @@ class PropertyUnitController extends Controller
     public function store(StorePropertyUnit $request)
     {
         $request->validated();
-        $input               = $request->only(['flat_house_no','property_unit_type_id','property_id','title',
+        $input               = $request->only(['flat_number','property_unit_type_id','property_id','title',
         'owner_id','agent_id','unit_size','rent_type','bathroom','bedroom','furnishing',
          'balcony','parking','purpose','unit_status']);
         if($request->has("unit_price"))
@@ -266,7 +266,7 @@ class PropertyUnitController extends Controller
     {
         $validator = Validator::make($request->all(),
          [  'unit_id' => 'required|numeric',
-            'flat_house_no'=>'required',
+            'flat_number'=>'required',
             'unit_size' => 'required|numeric',
             'bedroom' => 'required|numeric',
             'bathroom' => 'required|numeric',
@@ -280,7 +280,7 @@ class PropertyUnitController extends Controller
             $property_unit = PropertyUnit::find($request->unit_id);
             if(!empty($property_unit))
             {
-                $update = $request->only(['flat_house_no','floor_no','unit_size','bedroom','bathroom','furnishing','balcony','parking','unit_status','purpose']);
+                $update = $request->only(['flat_number','floor_no','unit_size','bedroom','bathroom','furnishing','balcony','parking','unit_status','purpose']);
 
                 if(!empty($request->rent_type))
                 {

@@ -76,25 +76,7 @@
 
       }
   }
-  $.render_installment_title = function(count)
-  {
-      let set = null;
-      switch (count) {
-          case 1:
-              set = 'st Installment';
-              break;
-          case 2:
-              set = 'nd Installment';
-              break;
-          case 3:
-              set = 'rd Installment';
-              break;
-          default :
-              set = 'th Installment';
-              break;
-      }
-      return count + set;
-  }
+
 
   $.calculate_column_breakdown = function(index)
   {

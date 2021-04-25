@@ -172,8 +172,8 @@ function callagain(){
                     }
                     var x = i+1;
                     var flat = '';
-                    if(result.flat_house_no!=null){
-                        var flat = result.flat_house_no;
+                    if(result.flat_number!=null){
+                        var flat = result.flat_number;
                     }
                     newOpt+='<option value="'+result.id+'" '+status+'>Unit '+x+' '+result.unitcode+'-'+flat+'</option>';
                     //newOpt+= new Option(result.id, result.unit_code, false, false);

@@ -21,14 +21,14 @@ class RentBreakDownItemAction
             $j = 0;
 
             foreach (request()->total_monthly_installment as $total_installment) {
-                $item["security_deposit"] = (!empty(request()->security_deposit[$i])) ? request()->security_deposit[$i] : 0;
-                $item["municipality_fees"] = (!empty(request()->municipality_fees[$i])) ? request()->municipality_fees[$i] : 0;
-                $item["brokerage"] = (!empty(request()->brokerage[$i])) ? request()->brokerage[$i] : 0;
-                $item["contract"] = (!empty(request()->contract[$i])) ? request()->contract[$i] : 0;
-                $item["remote_deposit"] = (!empty(request()->remote_deposit[$i])) ? request()->remote_deposit[$i] : 0;
-                $item["sewa_deposit"] = (!empty(request()->sewa_deposit[$i])) ? request()->sewa_deposit[$i] : 0;
-                $item["monthly_installment"] = (!empty(request()->monthly_installment[$i])) ? request()->monthly_installment[$i] : 0;
-                $item["total_monthly_installment"] = (!empty(request()->total_monthly_installment[$i])) ? request()->total_monthly_installment[$i] : 0;
+                $item["security_deposit"] = (!empty(request()->security_deposit[0])) ? request()->security_deposit[0] : 0;
+                $item["municipality_fees"] = (!empty(request()->municipality_fees[0])) ? request()->municipality_fees[0] : 0;
+                $item["brokerage"] = (!empty(request()->brokerage[0])) ? request()->brokerage[0] : 0;
+                $item["contract"] = (!empty(request()->contract[0])) ? request()->contract[0] : 0;
+                $item["remote_deposit"] = (!empty(request()->remote_deposit[0])) ? request()->remote_deposit[0] : 0;
+                $item["sewa_deposit"] = (!empty(request()->sewa_deposit[0])) ? request()->sewa_deposit[0] : 0;
+                $item["monthly_installment"] = (!empty(request()->monthly_installment[0])) ? request()->monthly_installment[0] : 0;
+                $item["total_monthly_installment"] = (!empty(request()->total_monthly_installment[0])) ? request()->total_monthly_installment[0] : 0;
                 $item["rent_break_down_id"] = $this->rent_breakdown_id;
                 if(RentBreakDownItem::create($item))
                 {

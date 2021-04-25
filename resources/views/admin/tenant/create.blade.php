@@ -81,13 +81,13 @@
                                          <div class="input-group">
                                          <div class="input-group-prepend">
                                              <span class="input-group-text">
+                                                 <label for="country_code">
                                                  <select  name="country_code" id="country_code" class="phone_code">
-                                                     <option value="">000</option>
-                                                      @foreach($countries as $country)
-                                                             @php  $selected = ($country->code==($user ? $user->country_code: null))?"selected":""; @endphp
-                                                         <option value="{{$country->code}}" {{$selected}}>+{{$country->code}}</option>
+                                                      @foreach($codes as $code)
+                                                         <option value="{{$code->code}}">+{{$code->code}}</option>
                                                      @endforeach
                                                   </select>
+                                                     </label>
                                              </span>
                                          </div>
                                         <input type="text" name="mobile" id="mobile" class="form-control numeric" autocomplete="off" value="{{$user ? $user->mobile : null}}">
@@ -102,9 +102,13 @@
                                              <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                          </div>
                                              <select name="country_id" id="country_id" class="form-control">
-                                                 <option>Select Country</option>
+                                                 <option value="">Select Country</option>
                                                  @foreach($countries as $country)
-                                                     @php  $selected = ($country->code==($user ? $user->country_code: null))?"selected":""; @endphp
+                                                     @if(!empty($user))
+                                                       @php  $selected = ($country->code===$user->country_code)?"selected":""; @endphp
+                                                     @else
+                                                         @php $selected = null; @endphp
+                                                         @endif
                                                      <option value="{{$country->id}}" {{$selected}}>{{$country->name}}</option>
                                                  @endforeach
                                              </select>
@@ -402,6 +406,8 @@
 <script>
     $(document).ready(function(){
 
+        $("#country_id").select2();
+
         @php
          if(!empty($user))
         {
@@ -455,7 +461,7 @@
 
 				}
         }
-     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
+     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYears(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
      let pickers =
                [
                    'emirates_id_exp_date',
@@ -465,7 +471,7 @@
                    'trade_license_exp_date'
                ];
            pickers.forEach(function(item){
-               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',/* minDate : '{{now()->format('d-m-Y')}}'*/});
            });
 		$("#tenant_type").on('change',function(e){
 		    $("#family_detail_grid").html('');

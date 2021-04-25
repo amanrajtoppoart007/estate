@@ -106,7 +106,7 @@
                     let units = result.data;
                     let html = `<option value="">Select Unit</option>`;
                     $.each(units, function (index, item) {
-                        html += `<option value="${item.id}">${item.flat_house_no}</option>`;
+                        html += `<option value="${item.id}">${item.flat_number}</option>`;
                     })
                     $("#unit_id").html(html);
                 }

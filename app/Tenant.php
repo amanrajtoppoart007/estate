@@ -25,19 +25,15 @@ class Tenant extends Authenticatable
     {
         return $this->morphMany(Document::class,'archive');
     }
-    /******tenant profile  **********/
-    public function profile()
-    {
-         return $this->hasOne('App\TenantProfile','tenant_id','id');
-    }
+
      /******tenant relations  **********/
     public function relations()
     {
-         return $this->hasMany('App\TenantRelation');
+         return $this->hasMany(TenantRelation::class);
     }
     public function country()
     {
-         return $this->belongsTo('App\Country','country_id','id');
+         return $this->belongsTo(Country::class,'country_id','id');
     }
     public function state()
     {
@@ -49,7 +45,7 @@ class Tenant extends Authenticatable
     }
      public function invoices()
      {
-          return $this->morphMany('App\Invoice', 'party');
+          return $this->morphMany(Invoice::class, 'party');
      }
      public function maintenance_work()
      {

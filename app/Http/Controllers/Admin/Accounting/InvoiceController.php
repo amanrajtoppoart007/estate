@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\BillInvData;
 use App\Invoice;
 use App\Item;
-use App\TenantProfile;
 use App\RentInstallment;
 use App\Tenant;
 use App\Task;
@@ -28,11 +27,7 @@ class InvoiceController extends Controller
         $this->middleware('auth:admin');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function invoice_create($id = '')
     {
         $data = array();
@@ -60,6 +55,7 @@ class InvoiceController extends Controller
             $data['payment']      =  AccountTimeline::where('invoice_id', $data['invoice_no'])->get();
             $data['invoice_data'] = BillInvData::where('invoice_id', $data['invoice_no'])->with('unit')->get();
 
+
             return view('admin.accounting.invoices.view')->with($data);
         }
         else {
@@ -80,7 +76,7 @@ class InvoiceController extends Controller
 
        $data['item'] = Item::where('id','1')->first();
        $data['installment'] = RentInstallment::where('id',base64_decode($id))->with('property_unit_allotment.property_unit')->first();
-       $data['tenant'] = TenantProfile::where('tenant_id', $data['installment']->tenant_id)->first();
+       $data['tenant'] = Tenant::where('id', $data['installment']->tenant_id)->first();
 
        return view('admin.accounting.invoices.rentInvoiceCreate')->with($data);
     }

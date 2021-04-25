@@ -6,10 +6,10 @@ class CreateInstallments
 {
     var $params;
     var $unit_allotment_id;
-    public function __construct($unit_allotment_id,$admin_id,$params)
+    public function __construct($unit_allotment_id,$admin_id)
     {
         $this->unit_allotment_id = $unit_allotment_id;
-        $this->params            = $params;
+        $this->params            = request()->all();
         $this->admin_id          = $admin_id;
     }
 
@@ -19,13 +19,13 @@ class CreateInstallments
         $count   = count($request['monthly_installment']);
         for($i=0;$i<$count;$i++)
         {
-            $security_deposit   = isset($request['security_deposit'][0])?$request['security_deposit'][0]:0;
-            $municipality_fees  = isset($request['municipality_fees'][0])?(($request['monthly_installment'][0]*4)/100):0;
-            $brokerage          = isset($request['brokerage'][0])?$request['brokerage'][0]:0;
-            $contract           = isset($request['contract'][0])?$request['contract'][0]:0;
-            $remote_deposit     = isset($request['remote_deposit'][0])?$request['remote_deposit'][0]:0;
-            $sewa_deposit       = isset($request['sewa_deposit'][0])?$request['sewa_deposit'][0]:0;
-            $amount             = isset($request['monthly_installment'][0])?$request['monthly_installment'][0]:0;
+            $security_deposit   = (!empty($request['security_deposit'][0]))?$request['security_deposit'][0]:0;
+            $municipality_fees  = (!empty($request['municipality_fees'][0]))?(($request['monthly_installment'][0]*4)/100):0;
+            $brokerage          = (!empty($request['brokerage'][0]))?$request['brokerage'][0]:0;
+            $contract           = (!empty($request['contract'][0]))?$request['contract'][0]:0;
+            $remote_deposit     = (!empty($request['remote_deposit'][0]))?$request['remote_deposit'][0]:0;
+            $sewa_deposit       = (!empty($request['sewa_deposit'][0]))?$request['sewa_deposit'][0]:0;
+            $amount             = (!empty($request['monthly_installment'][0]))?$request['monthly_installment'][0]:0;
             $total_amount       = GlobalHelper::get_sum($security_deposit,$municipality_fees,$brokerage,$contract,$remote_deposit,$sewa_deposit,$amount);
 
             $installment['property_unit_allotment_id'] = $this->unit_allotment_id;

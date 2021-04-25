@@ -462,10 +462,10 @@
                             </tr>
                         </thead>
                         <tbody id="family_detail_grid">
-                        @if(!empty($tenant->relation))
+                        @if(!empty($tenant->relations))
                           @foreach($tenant->relations as $relation)
                               @php
-                                $rel_emirates_id =  $rel_passport = $rel_visa = 'javascript:void(0)';
+                                $rel_emirates_id =  $rel_passport = $rel_visa = null;
                                    if(!empty($relation->emirates_id))
                                    {
                                        $rel_emirates_id = route('get.doc',base64_encode($relation->emirates_id));
@@ -635,7 +635,7 @@
                 $(`.${item}`).show();
             });
         }
-     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYear(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
+     $("#dob").datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', maxDate : '{{now()->addYears(18)->format('d-m-Y')}}', value : '{{now()->addYear(-18)->format('d-m-Y')}}'});
      let pickers =
                [
                    'emirates_id_exp_date',
@@ -644,7 +644,7 @@
                    'bank_passbook_exp_date',
                ];
            pickers.forEach(function(item){
-               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy'/*, minDate : '{{now()->format('d-m-Y')}}'*/});
            });
 		$("#tenant_type").on('change',function(e){
 		    $("#family_detail_grid").html('');

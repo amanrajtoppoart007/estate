@@ -294,7 +294,7 @@
 		  {
 			 let option =  '<option value="">Select Property Unit</option>';
               $.each(result.data,function(index,item){
-                option += `<option value="${item.id}">${item.unitcode}/${item.flat_house_no?item.flat_house_no:''}</option>`;
+                option += `<option value="${item.id}">${item.unitcode}/${item.flat_number?item.flat_number:''}</option>`;
 			  });
 			  $("#property_unit_id").html(option);
 		  };

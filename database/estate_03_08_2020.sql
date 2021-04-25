@@ -1017,7 +1017,7 @@ CREATE TABLE `property_units` (
   `agent_id` bigint DEFAULT NULL,
   `admin_id` bigint DEFAULT NULL,
   `purpose` int DEFAULT NULL,
-  `flat_house_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `flat_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `floor_no` int DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `unit_desc` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,

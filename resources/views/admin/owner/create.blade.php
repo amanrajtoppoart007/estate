@@ -809,7 +809,7 @@
                 {
                     let html = `<option value="">Select Flat</option>`;
                     $.each(result.data,function(index,item){
-                        html+=`<option value="${item.id}">${item.flat_house_no}</option>`;
+                        html+=`<option value="${item.id}">${item.flat_number}</option>`;
                     });
                     $("#unit_id").append(html);
                 }

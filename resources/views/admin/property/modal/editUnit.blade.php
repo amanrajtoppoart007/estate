@@ -13,12 +13,12 @@
 			<div class="row">
 				<div class="col col-md-3 col-lg-3 col-xl-3">
 					<div class="form-group">
-						<label for="flat_house_no">Flat/House No.</label>
+						<label for="flat_number">Flat/House No.</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-building text-primary"></i></span>
 							</div>
-							<input type="text" class="form-control" name="flat_house_no" id="edit_flat_house_no" value="">
+							<input type="text" class="form-control" name="flat_number" id="edit_flat_number" value="">
 						</div>
 					</div>
 				</div>

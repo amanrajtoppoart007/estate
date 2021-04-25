@@ -4,7 +4,7 @@
 @endsection
 @include("admin.include.breadcrumb",["page_title"=>"Edit Rent BreakDown"])
  @section('content')
-<div class="submit_form color-secondery icon_primary p-5 bg-white">
+<div class="submit_form color-secondary icon_primary p-5 bg-white">
     {{Form::open(['id'=>'edit_data_form','autocomplete'=>'off'])}}
     <input type="hidden" name="rent_enquiry_id" value="{{$enquiry->id}}">
     <input type="hidden" name="tenant_id" value="{{$enquiry->tenant_id}}">
@@ -42,12 +42,12 @@
               </div>
                   <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                       <div class="form-group">
-                          <label for="unit_id">Property Unit</label>
+                          <label for="unit_id">Flat No.</label>
                           <select class="form-control" name="unit_id" id="unit_id">
                               <option value="">Select Unit</option>
                               @foreach($property_units as $unit)
                                   @php $selected = ($unit->id == $enquiry->rent_breakdown->unit_id)?"selected":null;  @endphp
-                                  <option value="{{$unit->id}}" {{$selected}}>{{$unit->unitcode}}</option>
+                                  <option value="{{$unit->id}}" {{$selected}}>{{$unit->flat_number}}</option>
                               @endforeach
                           </select>
                       </div>
@@ -282,7 +282,7 @@ function rent_period_type_text(rent_period_type)
               $("#rent_period_text").text(rent_period_type_text(rent_period_type));
         });
           let start_date =  $('#lease_start').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',
-            minDate : '{{now()->format('d-m-Y')}}',
+            /*minDate : '{{now()->format('d-m-Y')}}',*/
             change : function(e)
             {
                 calculateEndDate();
@@ -329,20 +329,17 @@ function rent_period_type_text(rent_period_type)
          {
            if(!$.trim($('#rent_period_type').val()))
                 {
-                    toast('error','Please select rent period type','bottom-right');
-                    $('#rent_period_type').css({'border-color':'aqua'}).focus();
+                    $('#rent_period_type').css({'border-color':'aqua'}).trigger("focus");
                     return false;
                 }
                 if(!$.trim($('#rent_period').val()))
                 {
-                    toast('error','Please select Enter rent period','bottom-right');
-                    $('#rent_period').css({'border-color':'aqua'}).focus();
+                    $('#rent_period').css({'border-color':'aqua'}).trigger("focus");
                     return false;
                 }
                 if(!$.trim($('#lease_start').val()))
                 {
-                    toast('error','Please select Enter rent start date','bottom-right');
-                    $('#lease_start').css({'border-color':'aqua'}).focus();
+                    $('#lease_start').css({'border-color':'aqua'}).trigger("focus");
                     return false;
                 }
                 let url    = "{{route('calculate.endDate')}}";
@@ -356,11 +353,11 @@ function rent_period_type_text(rent_period_type)
                   let minDate = $("#lease_start").val();
                   $('#lease_end').datepicker().destroy();
                    $('#lease_end').datepicker({footer: true, modal: true,format: 'dd-mm-yyyy',value:`${result.endDate}`,minDate:`${minDate}`});
-                };
+                }
                 function fn_error(result)
                 {
                   toast('error',result.message,'bottom-right');
-                };
+                }
                 $.fn_ajax(url,params,fn_success,fn_error);
          }
 
