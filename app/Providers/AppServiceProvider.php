@@ -37,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
             'sale' => \App\PropertySale::class,
             'maintenance' => \App\MaintenanceWork::class,
             'property' => \App\Property::class,
+            'tenancy_contracts' => \App\TenancyContract::class,
         ]);
     }
 }

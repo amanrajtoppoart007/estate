@@ -6,6 +6,7 @@ use App\Library\RentBreakDownLib;
 use App\PropertyUnit;
 use App\PropertyUnitAllotment;
 use App\RentBreakDown;
+use App\Tenant;
 
 class AllotProperty
 {
@@ -16,6 +17,17 @@ class AllotProperty
         if (empty($checkExist)) {
             $breakdown = RentBreakDown::where(['tenant_id' => request()->input('tenant_id')])->first();
             $breakdown = (new RentBreakDownLib())->view($breakdown);
+            if(empty($breakdown))
+        {
+            $tenant = Tenant::find(request()->input('tenant_id'));
+            $rentEnquiryId = $tenant->rent_enquiry_id;
+            if(!empty($rentEnquiryId))
+            {
+                $breakdown = RentBreakDown::where(['rent_enquiry_id'=>$rentEnquiryId])->first();
+                $breakdown = (new RentBreakDownLib())->view($breakdown);
+                $breakdown['tenant_id'] = request()->input('tenant_id');
+            }
+         }
             if (!empty($breakdown)) {
                 $allotment = [
                     "tenant_id" => $breakdown['tenant_id'],
@@ -38,6 +50,6 @@ class AllotProperty
             }
 
         }
-        return 0;
+        return false;
     }
 }

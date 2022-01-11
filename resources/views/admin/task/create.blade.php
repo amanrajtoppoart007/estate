@@ -1,20 +1,7 @@
 @extends('admin.layout.app')
-@section('breadcrumb')
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-12">
-            <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active">Create/Assign Task</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-@endsection
+@include("admin.include.breadcrumb",["page_title"=>"Create Task"])
 @section('content')
-  <div class="card" style="box-shadow: none;">
+  <div class="card">
 
 	  <div class="card-body">
           {{Form::open(['route'=>'task.store','id'=>'create_new_task_form'])}}
@@ -70,6 +57,34 @@
                     </div>
                 </div>
           </div>
+              </div>
+          </div>
+          <div class="card card-info">
+              <div class="card-header">
+                  <h6>Property Detail</h6>
+              </div>
+              <div class="card-body">
+                  <div class="row">
+
+			  <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                     <div class="form-group">
+                        <label for="property_id"><i class="fas fa-building"></i> Property</label>
+                        <div class="input-group">
+                            <select  class="form-control" name="property_id" id="property_id">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="property_unit_id"><i class="fa fa-university"></i> Flat Number</label>
+                        <div class="input-group">
+							<select  class="form-control" name="property_unit_id" id="property_unit_id">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+		  </div>
               </div>
           </div>
 		  <div class="card card-info">
@@ -142,67 +157,7 @@
 		  </div>
               </div>
           </div>
-		  <div class="card card-info">
-              <div class="card-header">
-                  <h6>Property Allocation</h6>
-              </div>
-              <div class="card-body">
-                  <div class="row">
-			  <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                     <div class="form-group">
-                        <label for="state_id">State</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-building"></i></span>
-                            </div>
-                            <select  class="form-control" name="state_id" id="state_id">
-								<option value="">Select State</option>
-								@foreach($states as $state)
-							     <option value="{{$state->id}}">{{$state->name}}</option>
-								@endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-			  <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                     <div class="form-group">
-                        <label for="city_id">City</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-building"></i></span>
-                            </div>
-                            <select  class="form-control" name="city_id" id="city_id">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-			  <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                     <div class="form-group">
-                        <label for="property_id">Property</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-building"></i></span>
-                            </div>
-                            <select  class="form-control" name="property_id" id="property_id">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                    <div class="form-group">
-                        <label for="property_unit_id">UnitCode / Flat Number</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-university"></i></span>
-                            </div>
-							<select  class="form-control" name="property_unit_id" id="property_unit_id">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-		  </div>
-              </div>
-          </div>
+
 
           <div class="row">
               <div class="col text-right">
@@ -218,14 +173,17 @@
 
 @section('head')
     <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugin/select2/css/select2.min.css')}}">
 @endsection
 @section('js')
     <script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
+    <script src="{{asset('plugin/select2/js/select2.full.min.js')}}"></script>
 @endsection
 
 @section('script')
 <script>
 	$(document).ready(function(){
+	    let property_id = $("#property_id");
       $('#deadline').datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy', minDate : '{{now()->format('d-m-Y')}}'});
     $("#create_new_task_form").on('submit',function(e){
 		e.preventDefault();
@@ -233,60 +191,38 @@
 		let url    = "{{route('task.store')}}";
 		function fn_success(result)
 		{
-			if(result.status=='1')
+			if(result.response==="success")
 			{
 				toast('success', result.message, 'top-right');
 				location.reload();
 			}
-		};
+		}
 		function fn_error(result)
 		{
             toast('error', result.message, 'top-right');
-		};
+		}
 		$.fn_ajax_multipart(url,params,fn_success,fn_error);
 	});
-       $("#state_id").on('change',function(){
-		   $("#city_id").html('');
-		   $("#property_id").html('');
-		   $("#property_unit_id").html('');
-          let url = "{{route('task.get.ciy.list')}}";
-		  let params = { 'state_id': $("#state_id").val()};
-		  function fn_success(result)
-		  {
-			 let option =  '<option value="">Select City</option>';
-              $.each(result.data,function(index,item){
-                option += `<option value="${item.id}">${item.name}</option>`;
-			  });
-			  $("#city_id").html(option);
-		  };
-		  function fn_error(result)
-		  {
-             $("#city_id").html('');
-			 toast('error',result.message,'top-right');
-		  };
-		  $.fn_ajax(url,params,fn_success,fn_error);
-	   });
-       $("#city_id").on('change',function(){
-		   $("#property_id").html('');
-		   $("#property_unit_id").html('');
-          let url = "{{route('task.get.property.list')}}";
-		  let params = { 'city_id': $("#city_id").val()};
-		  function fn_success(result)
-		  {
-			 let option =  '<option value="">Select Property</option>';
-              $.each(result.data,function(index,item){
-                option += `<option value="${item.id}">${item.title}</option>`;
-			  });
-			  $("#property_id").html(option);
-		  };
-		  function fn_error(result)
-		  {
-             $("#property_id").html('');
-			 toast('error',result.message,'top-right');
-		  };
-		  $.fn_ajax(url,params,fn_success,fn_error);
-	   });
-       $("#property_id").on('change',function(){
+        property_id.select2({
+            ajax : {
+                url: "{{route('task.get.property.list')}}",
+                method : "POST",
+                dataType: "json",
+                data: function (params) {
+                    return {title: params.term , _token : "{{ csrf_token() }}" }
+                },
+                processResults: function (data)
+                {
+                return {
+                           results: data.data
+                       };
+                    }
+            },
+
+
+        });
+
+       property_id.on('change',function(){
 		   $("#property_unit_id").html('');
           let url = "{{route('task.get.property_unit.list')}}";
 		  let params = { 'property_id': $("#property_id").val()};

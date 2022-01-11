@@ -9,6 +9,7 @@ use App\Http\Requests\StoreRentBreakDown;
 use App\Http\Resources\BankResource;
 use App\Library\RentBreakDownLib;
 use App\Library\RentEnquiryUser;
+use App\Library\ViewRentBreakDown;
 use App\Mail\SendRentBreakDownEmail;
 use App\Property;
 use App\PropertyUnit;
@@ -97,8 +98,7 @@ class RentBreakDownController extends Controller
 
     public function print_breakdown($id)
     {
-        $breakdown = RentBreakDown::find($id);
-        $breakdown = (new RentBreakDownLib())->view($breakdown);
+        $breakdown = (new ViewRentBreakDown("breakdown",$id))->view();
         if(!empty($breakdown))
         {
             return view("admin.rentBreakDown.print",compact("breakdown"));
@@ -112,8 +112,7 @@ class RentBreakDownController extends Controller
 
     public function view($id)
     {
-        $breakdown = RentBreakDown::find($id);
-        $breakdown = (new RentBreakDownLib())->view($breakdown);
+        $breakdown = (new ViewRentBreakDown("breakdown",$id))->view();
         if(!empty($breakdown))
         {
             return view("admin.rentBreakDown.view",compact("breakdown"));
@@ -128,7 +127,7 @@ class RentBreakDownController extends Controller
     public function edit($id)
     {
          $properties = Property::where(['is_disabled'=>0])->get();
-         $breakdown = (new RentBreakDownLib())->view(RentBreakDown::find($id));
+         $breakdown = (new ViewRentBreakDown("breakdown",$id))->view();
          $banks     = BankResource::collection(Bank::where(['status'=>1])->get());
         if(!empty($breakdown))
         {

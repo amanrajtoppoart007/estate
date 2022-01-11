@@ -20,6 +20,7 @@ class TenantResource extends JsonResource
             'name'=>$this->name,
             'broker'=>$this->broker,
             'contract_status'=>$this->contract_status,
+            'tenancy_contract_url'=>$this->tenancy_contract_url,
             'email'=>$this->email,
             'mobile'=>$this->mobile,
             'country_name'=>$this->country_name,

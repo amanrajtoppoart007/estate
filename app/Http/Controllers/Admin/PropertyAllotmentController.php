@@ -13,6 +13,7 @@ use App\Library\CreateRentBreakDown;
 use App\Library\RentBreakDownLib;
 use App\Library\RentEnquiryUser;
 use App\Library\UpdateRentBreakDown;
+use App\Library\ViewRentBreakDown;
 use App\RentBreakDown;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +43,18 @@ class PropertyAllotmentController extends Controller
     {
         $breakdown = RentBreakDown::where(['tenant_id'=>$id])->first();
         $breakdown = (new RentBreakDownLib())->view($breakdown);
+
+        if(empty($breakdown))
+        {
+            $tenant = Tenant::find($id);
+            $rentEnquiryId = $tenant->rent_enquiry_id;
+            if(!empty($rentEnquiryId))
+            {
+                $breakdown = RentBreakDown::where(['rent_enquiry_id'=>$rentEnquiryId])->first();
+                $breakdown = (new RentBreakDownLib())->view($breakdown);
+                $breakdown['tenant_id'] = $id;
+            }
+        }
         if(!empty($breakdown))
         {
             return view("admin.allotProperty.init",compact("breakdown"));
@@ -66,10 +79,15 @@ class PropertyAllotmentController extends Controller
           $checkExist = PropertyUnitAllotment::where(['unit_id' => request()->input('unit_id'), 'status' => '1'])->first();
          if(empty($checkExist))
          {
-            $allotment = (new \App\Services\AllotProperty())->allot();
-            $next_url = route('allotment.detail', [$request->input('tenant_id'), $allotment]);
-
-            $result = ["status"=>1,"response"=>"success","next_url"=>$next_url,"message"=>"Property Successfully Allotted"];
+            if($allotment = (new \App\Services\AllotProperty())->allot())
+            {
+              $next_url = route('allotment.detail', [$request->input('tenant_id'), $allotment]);
+              $result = ["status"=>1,"response"=>"success","next_url"=>$next_url,"message"=>"Property Successfully Allotted"];
+            }
+            else
+            {
+                $result = ["status"=>0,"response"=>"error","message"=>"Property allotment failed"];
+            }
 
         }
          else
@@ -118,9 +136,7 @@ class PropertyAllotmentController extends Controller
 
     public function view($tenant_id, $allotmentId)
     {
-
-        $breakdown = RentBreakDown::where(["tenant_id"=>$tenant_id])->first();
-        $breakdown = (new RentBreakDownLib())->view($breakdown);
+        $breakdown = (new ViewRentBreakDown("tenant",$tenant_id))->view();
         if(!empty($breakdown))
         {
             return view("admin.allotProperty.view",compact("breakdown"));

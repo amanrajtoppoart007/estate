@@ -123,6 +123,15 @@ class UploadEntityDocs
                 ],
             );
         }
+        else if($this->table=="tenancy_contracts")
+        {
+            $documents = array(
+                [
+                    'document_title' => 'tenancy_contract',
+                    'date_params' => ['EXPIRY_DATE', 'effective_upto']
+                ],
+            );
+        }
         else
         {
             $documents = [];
@@ -144,7 +153,7 @@ class UploadEntityDocs
     {
         $date_key     = $date_params[0] ? $date_params[0] : "EXPIRY_DATE";
         $date_key_name = $date_params[1] ? $date_params[1] : null;
-        $folder = request()->name ? Str::studly(strtolower(request()->name)):$this->table;
+        $folder = request()->input('name') ? Str::studly(strtolower(request()->input('name'))):$this->table;
         $archive['document_title'] = "$document_title";
         $archive['date_key']       = "$date_key";
         $archive['archive_type']   = $this->table;
@@ -153,7 +162,7 @@ class UploadEntityDocs
         $archive['archive_id']     = $this->primary_key;
         if(request()->has("$date_key_name"))
         {
-            $archive['date_value'] = date('Y-m-d', strtotime(request()->$date_key_name));
+            $archive['date_value'] = date('Y-m-d', strtotime(request()->input("$date_key_name")));
         }
         if(request()->hasFile("$document_title"))
         {

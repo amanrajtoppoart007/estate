@@ -139,11 +139,11 @@
                             <td>
                                 <select class="form-control" name="bedroom" id="bedroom">
                                     <option value="">Select no.</option>
-                                    @for($i=1;$i<7;$i++)
-                                        @php $selected = ($i==$rent_enquiry->bedroom)?"selected":null; @endphp
-                                        <option value="{{$i}}" {{$selected}}>{{$i}}</option>
-                                    @endfor
-                                    <option value="7+" {{$rent_enquiry->bedroom=='7+'?'selected':null}}>7+</option>
+                                    @php $bedrooms = ["studio"=>"Studio","1"=>1,"2"=>2,"3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"7+"=>"7+"]; @endphp
+                                    @foreach($bedrooms as $key=>$value)
+                                        @php $selected = ($key==$rent_enquiry->bedroom)?"selected":null; @endphp
+                                        <option value="{{$key}}" {{$selected}}>{{$value}}</option>
+                                    @endforeach
                                 </select>
                             </td>
                         </tr>

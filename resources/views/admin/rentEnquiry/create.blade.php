@@ -117,6 +117,7 @@
                         </div>
                     </div>
                 </div>
+<<<<<<< Updated upstream
                 <div class="row">
                     <div class="col-lg-6 col-sm-6 col-12">
                         <div class="form-group">
@@ -194,6 +195,100 @@
                             <input type="text" class="form-control" name="website" id="website" value="">
                         </div>
                     </div>
+=======
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Category</th>
+                            <td>
+                                <select name="category" id="category" class="form-control">
+                                    <option value="">Select Category</option>
+                                    <option value="residential">Residential</option>
+                                    <option value="commercial">Commercial</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Property Type</th>
+                            <td>
+                                <select name="property_type" id="property_type" class="form-control">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Preferred Location</th>
+                            <td>
+                                <input type="text" class="form-control" name="preferred_location" id="preferred_location" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>No. Of Bedrooms</th>
+                            <td>
+                                <select class="form-control" name="bedroom" id="bedroom">
+                                    <option value="">Select no.</option>
+                                     @php $bedrooms = ["studio"=>"Studio","1"=>1,"2"=>2,"3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"7+"=>"7+"]; @endphp
+                                    @foreach($bedrooms as $key=>$value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Budget</th>
+                            <td>
+                                <input type="text" class="form-control numeric" name="budget" id="budget" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Tenancy Type</th>
+                            <td>
+                                <select name="tenancy_type" id="tenancy_type" class="form-control">
+                                    <option value="">Select Tenancy</option>
+                                    <option value="family_husband_wife">Family (Husband & Wife)</option>
+                                    <option value="family_brother_sister">Family (Brother & Sister)</option>
+                                    <option value="company">Company</option>
+                                    <option value="bachelor">Bachelor</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Number Of Tenants</th>
+                            <td>
+                                <input type="text" class="form-control numeric" name="tenant_count" id="tenant_count" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Agent</th>
+                            <td>
+                                <select name="agent_id" id="agent_id" class="form-control">
+                                    <option value="">Select Agent</option>
+                                    @foreach($agents as $agent)
+                                        <option value="{{$agent->id}}">{{$agent->name}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Source</th>
+                            <td>
+                                <select name="source" id="source" class="form-control">
+                                    <option value="">Select Source</option>
+                                    <option value="website">Website</option>
+                                    <option value="walk_in">Walk In</option>
+                                    <option value="broker">Broker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="website_grid" class="d-none">
+                            <th>WebSite</th>
+                            <td>
+                                 <input type="text" class="form-control" name="website" id="website" value="">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>

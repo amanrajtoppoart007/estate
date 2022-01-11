@@ -67,41 +67,6 @@
             </div>
           </div>
 
-            {{--<div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-gradient-teal elevation-1">
-                  <i class="fa fa-city"></i>
-              </span>
-              <div class="info-box-content">
-                <h6 class="font-weight-bold">{{($tenant->city)?$tenant->city->name:null}}</h6>
-                <span class="info-box-text text-gray">City</span>
-              </div>
-            </div>
-          </div>--}}
-
-            {{--<div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-gradient-orange elevation-1">
-                  <i class="fa fa-map-marked text-white"></i>
-              </span>
-              <div class="info-box-content">
-                <h6 class="font-weight-bold">{{$tenant->address}}</h6>
-                <span class="info-box-text text-gray">Address</span>
-              </div>
-            </div>
-          </div>--}}
-
-             {{--<div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-gradient-maroon elevation-1">
-                  <i class="fa fa-user"></i>
-              </span>
-              <div class="info-box-content">
-                <h6 class="font-weight-bold">{{$tenant->zip}}</h6>
-                <span class="info-box-text text-gray">Zipcode</span>
-              </div>
-            </div>
-          </div>--}}
 
               <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
@@ -247,6 +212,7 @@
           </div>
       </div>
   @endif
+
  @if($tenant->allotment->isEmpty())
     <div class="row">
         <div class="col-md-12">
@@ -273,7 +239,7 @@
                     <span class="font-weight-bold">Flat Number</span>
                 </div>
                  <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-1">
-                    {{$allotment->property_unit->unitcode}}
+                    {{$allotment->property_unit->flat_number}}
                 </div>
                 <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-1">
                     <span class="font-weight-bold">Address</span>
@@ -282,13 +248,41 @@
                     {{$allotment->property->address}}
                 </div>
             </div>
-            @if(!$tenant->tenancy_contract->isEmpty())
+            @if($tenant->tenancy_contract->isEmpty())
              <div class="row">
-
+                <div class="col">
+                    <div class="form-group">
+                        <button data-toggle="modal" data-target="#uploadTenancyContractModal" class="btn btn-primary" type="button">Upload Tenancy Contract</button>
+                    </div>
+                </div>
              </div>
              @else
                 <div class="row">
-
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <table class="table">
+                            <thead>
+                               <tr>
+                                   <th>Effective From</th>
+                                   <th>Effective Upto</th>
+                                   <th>Signature Date</th>
+                                   <th>Tenancy Contract</th>
+                               </tr>
+                            </thead>
+                            <tbody>
+                               @foreach($tenant->tenancy_contract as $contract)
+                                   <tr>
+                                       <td>{{date("d-m-Y",strtotime($contract->effective_from))}}</td>
+                                       <td>{{date("d-m-Y",strtotime($contract->effective_upto))}}</td>
+                                       <td>{{date("d-m-Y",strtotime($contract->signature_date))}}</td>
+                                       <td>
+                                           <a href="{{route('get.doc',base64_encode($contract->contract_doc_url))}}" class="btn btn-primary">View</a>
+                                           <a href="{{route('get.doc',base64_encode($contract->contract_doc_url))}}" class="btn btn-primary" download>Download</a>
+                                       </td>
+                                   </tr>
+                               @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
              @endif
 
@@ -296,47 +290,171 @@
      </div>
  @endif
 @endsection
+@section("modal")
+
+    <form method="post" action="{{route('tenancy.contract.store')}}" enctype="multipart/form-data" id="uploadTenancyContractForm">
+        @csrf
+        <input type="hidden" name="breakdown_id" value="{{$allotment->breakdown->id}}">
+        <input type="hidden" name="unit_id" value="{{$allotment->unit_id}}">
+        <input type="hidden" name="tenant_id" value="{{$allotment->tenant_id}}">
+        <input type="hidden" name="unit_allotment_id" value="{{$allotment->id}}">
+        <div class="modal" tabindex="-1" role="dialog" id="uploadTenancyContractModal">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Upload Tenancy Contract</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <div class="form-group">
+                    <label for="effective_from">Effective From</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                         <span class="input-group-text">
+                             <i class="fa fa-calendar" aria-hidden="true"></i>
+                         </span>
+                        </div>
+                        <input type="text" name="effective_from" id="effective_from" class="form-control" placeholder="DD-MM-YY" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <div class="form-group">
+                    <label for="effective_upto">Effective From</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                         <span class="input-group-text">
+                             <i class="fa fa-calendar" aria-hidden="true"></i>
+                         </span>
+                        </div>
+                        <input type="text" name="effective_upto" id="effective_upto" class="form-control" placeholder="DD-MM-YY" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <div class="form-group">
+                    <label for="signature_date">Signature Date</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                         <span class="input-group-text">
+                             <i class="fa fa-calendar" aria-hidden="true"></i>
+                         </span>
+                        </div>
+                        <input type="text" name="signature_date" id="signature_date" class="form-control" placeholder="DD-MM-YY" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <div class="form-group">
+                    <label for="effective_upto">Tenancy Contract</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                         <span class="input-group-text">
+                             <i class="fa fa-file" aria-hidden="true"></i>
+                         </span>
+                        </div>
+                        <input type="file" name="tenancy_contract" id="tenancy_contract" class="form-control" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Upload Contract</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    </form>
+@endsection
+@section('head')
+    <link rel="stylesheet" href="{{asset('plugin/datetimepicker/css/gijgo.min.css')}}">
+@endsection
+@section('js')
+<script src="{{asset('plugin/datetimepicker/js/gijgo.min.js')}}"></script>
+@endsection
 @section("script")
        <script>
        $(document).ready(function(){
+
+
+           let pickers =
+               [
+                   'effective_from',
+                   'effective_upto',
+                   'signature_date',
+               ];
+           pickers.forEach(function(item){
+               $(`#${item}`).datepicker({ footer: true, modal: true,format: 'dd-mm-yyyy',/* minDate : '{{now()->format('d-m-Y')}}'*/});
+           });
+
+
+           $("#uploadTenancyContractForm").on("submit",function(e){
+               e.preventDefault();
+               const url = "{{route('tenancy.contract.store')}}";
+               const params = new FormData(document.getElementById("uploadTenancyContractForm"));
+               function fn_success(result)
+               {
+                   toast("success",result.message,"top-right");
+                   $("#uploadTenancyContractModal").modal("hide");
+                   window.location.href=window.location.href;
+               }
+               function fn_error(result)
+               {
+                   toast("error",result.message,"top-right");
+               }
+
+               $.fn_ajax_multipart(url,params,fn_success,fn_error);
+
+           });
+
+           let family_hs_extra_detail = $("#family_hs_extra_detail");
+           let extra_relation_detail = $("#extra_relation_detail");
+           let company_extra_detail = $("#company_extra_detail");
+           let bachelor_extra_detail = $("#bachelor_extra_detail");
             function switch_tenant_type(tenant_type)
         {
             switch(tenant_type)
 				{
 					case 'family_husband_wife':
-						$("#family_hs_extra_detail").show();
-						$("#extra_relation_detail").show();
-						$("#company_extra_detail").hide();
-						$("#bachelor_extra_detail").hide();
+						family_hs_extra_detail.show();
+						extra_relation_detail.show();
+						company_extra_detail.hide();
+						bachelor_extra_detail.hide();
 					break;
 					case 'family_brother_sister':
-						$("#family_hs_extra_detail").hide();
-						$("#extra_relation_detail").show();
-						$("#company_extra_detail").hide();
-						$("#bachelor_extra_detail").hide();
+						family_hs_extra_detail.hide();
+						extra_relation_detail.show();
+						company_extra_detail.hide();
+						bachelor_extra_detail.hide();
 					break;
 					case 'company':
-						$("#family_hs_extra_detail").hide();
-						$("#extra_relation_detail").show();
-						$("#company_extra_detail").show();
-						$("#bachelor_extra_detail").hide();
+						family_hs_extra_detail.hide();
+						extra_relation_detail.show();
+						company_extra_detail.show();
+						bachelor_extra_detail.hide();
 					break;
 					case 'bachelor':
-						$("#family_hs_extra_detail").hide();
-						$("#extra_relation_detail").hide();
-						$("#company_extra_detail").hide();
-						$("#bachelor_extra_detail").show();
+						family_hs_extra_detail.hide();
+						extra_relation_detail.hide();
+						company_extra_detail.hide();
+						bachelor_extra_detail.show();
 					break;
 					default:
-						$("#family_hs_extra_detail").show();
-						$("#extra_relation_detail").show();
-						$("#company_extra_detail").show();
-						$("#bachelor_extra_detail").show();
+						family_hs_extra_detail.show();
+						extra_relation_detail.show();
+						company_extra_detail.show();
+						bachelor_extra_detail.show();
 					break;
 
 				}
         }
         switch_tenant_type('{{$tenant->tenant_type}}');
-       })
+       });
    </script>
 @endsection

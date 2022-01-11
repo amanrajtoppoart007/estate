@@ -9,7 +9,44 @@ class Tenant extends Authenticatable
     use Notifiable;
     protected $guarded = [];
 
-    protected $appends = ['country_name'];
+    protected $appends = ['country_name','tenancy_contract_url','contract_status'];
+
+
+    public function getTenancyContractUrlAttribute()
+    {
+        $contract = $this->tenancy_contract->where('status',1)->first();
+
+        if(!empty($contract))
+        {
+          return route("get.doc",base64_encode($contract->contract_doc_url));
+        }
+       return false;
+    }
+
+    public function getContractStatusAttribute()
+    {
+        $contract = $this->tenancy_contract->first();
+
+        if(!empty($contract))
+        {
+          $start_date = strtotime($contract->effective_from);
+          $end_date   = strtotime($contract->effective_upto);
+          $now        = strtotime(date("d-m-Y"));
+          if(($now>$start_date) && ($now<$end_date))
+          {
+              $status = "Active";
+          }
+          else
+          {
+              $status = "Expired";
+          }
+        }
+        else
+        {
+            $status = "NA";
+        }
+       return $status;
+    }
 
 
     public function breakdown()

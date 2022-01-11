@@ -137,36 +137,29 @@ class TaskController extends Controller
     }
 
 
-    public function get_city_list(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'state_id' => 'numeric|required'
-        ]);
-        if(!$validator->fails())
-        {
-            if($data = City::where(['state_id' => $request->state_id,'is_disabled'=>'0'])->get())
-            {
-                return response()->json(['status'=>1,'response' => 'success', 'data' => $data, 'message' => 'Data Found.']);
-            }
-             else
-            {
-                return response()->json(['status'=>'0','response' => 'error', 'message' => 'No city found.']);
-            }
-        }
-        return response()->json(['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()]);
-    }
+
 
 
     public function get_property_list(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'city_id' => 'numeric|required'
+            'title' => 'required'
         ]);
         if(!$validator->fails())
         {
-            if($data = Property::where(['city_id' => $request->city_id,'is_disabled'=>'0'])->get())
+            $title = $request->input('title');
+            $data = Property::where('title','like',"%$title%")->where(['is_disabled'=>'0'])->get();
+            if(!$data->isEmpty())
             {
-                return response()->json(['status'=>1,'response' => 'success', 'data' => $data, 'message' => 'Data Found.']);
+                $i=0;
+                $items = array();
+                foreach($data as $item)
+                {
+                    $items[$i]['id'] = $item->id;
+                    $items[$i]['text'] = $item->title;
+                    $i++;
+                }
+                return response()->json(['status'=>1,'response' => 'success', 'data' => $items, 'message' => 'Data Found.']);
             }
              else
             {
@@ -247,16 +240,16 @@ class TaskController extends Controller
             $task['task_code']     = (new GenerateTaskCode())->execute();
             $task['assignor_id']   = Auth::guard('admin')->user()->id;
             $task['assignor_type'] = Auth::guard('admin')->user()->role;
-            $role                  = Designation::where(['id' => $request->designation_id])->pluck('name');
+            $role                  = Designation::where(['id' => $request->input('designation_id')])->pluck('name');
             $role                  = ($role) ? Str::snake(strtolower($role[0])) : null;
             $task['assignee_id']   = $request->assignee_id;
             $task['assignee_type'] = $role;
             $task['status']        = 0;
-            $task['deadline']      = date('Y-m-d',strtotime($request->deadline));
+            $task['deadline']      = date('Y-m-d',strtotime($request->input('deadline')));
             if($task=Task::create($task))
             {
                 $task_assign['task_id']       = $task->id;
-                $task_assign['assignee_id']   = $request->assignee_id;
+                $task_assign['assignee_id']   = $request->input('assignee_id');
                 $task_assign['assignee_type'] = $role;
                 $task_assign['assignor_id']   = Auth::guard('admin')->user()->id;
                 $task_assign['assignor_type'] = Auth::guard('admin')->user()->role;

@@ -46,7 +46,13 @@ Route::prefix("rent-breakdown")->group(function(){
     Route::any('send/breakdown/mail', 'Admin\RentBreakDownController@mail')->name('send.breakdown.mail');
 
 });
+<<<<<<< Updated upstream
 
+=======
+Route::prefix("tenancy-contract")->group(function(){
+    Route::post('store/tenancy/contract','Admin\TenancyContractController@store')->name("tenancy.contract.store");
+});
+>>>>>>> Stashed changes
 /*** Tenant Routes ***/
 
 Route::get('pw-gen', 'Admin\UserController@pw_gen');

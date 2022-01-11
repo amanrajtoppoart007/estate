@@ -73,15 +73,18 @@
                                 { data : null, name : "broker", render : function(data,type,row,meta){
                                     return null;
                                 }},
-                                { data : null, name : "contract_status",
-                                render : function(data,type,row,meta){
-                                    return null;
-                                }
-                                },
+                                { data : "contract_status", name : "contract_status"},
                                 {
                                     data: null, name: "view_contract",
                                     render: function (data, type, row, meta) {
-                                        return null;
+                                        if(row.tenancy_contract_url)
+                                        {
+                                          return `<a class="btn btn-primary" href="${row.tenancy_contract_url}" target="_blank">View</>`;
+                                        }
+                                        else
+                                        {
+                                            return `<a href="${row.view_url}" class="btn btn-warning">Upload</a>`;
+                                        }
                                     }
                                 },
                                 { data : "is_disabled", name : 'is_disabled',

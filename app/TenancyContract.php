@@ -8,11 +8,20 @@ class TenancyContract extends Model
 {
     protected $guarded = [];
 
-    protected $appends = ["flat_number","owner_name","breakdown_url"];
+    protected $appends = ["flat_number","owner_name","breakdown_url","contract_doc_url"];
 
     public function getFlatNumberAttribute()
     {
         return $this->unit->flat_number ??null;
+    }
+
+    public function getContractDocUrlAttribute()
+    {
+        if(!empty($this->contract))
+        {
+           return $this->contract->file_url;
+        }
+        return false;
     }
 
     public function getOwnerNameAttribute()
@@ -40,5 +49,10 @@ class TenancyContract extends Model
     public function unit()
     {
         return $this->belongsTo(PropertyUnit::class,"unit_id","id");
+    }
+
+    public function contract()
+    {
+         return $this->morphOne(Document::class,'archive');
     }
 }

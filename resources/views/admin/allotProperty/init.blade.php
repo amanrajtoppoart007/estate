@@ -183,12 +183,13 @@
                 let url = "{{route('allot.property')}}";
                 let params = {
                     "tenant_id" : {!!$breakdown['tenant_id']??"''"!!},
+                    "unit_id" : {!!$breakdown['unit_id']??"''"!!}
 
                 };
                 function fn_success(result)
                 {
                     toast("success",result.message,"top-right");
-                    window.open(result.next_url);
+                    window.location.href = result.next_url;
                 }
                 function fn_error(result)
                 {

@@ -67,7 +67,8 @@ class StoreRentBreakDown extends FormRequest
     public function messages()
     {
         return [
-            "tenant_id.unique"=>"A flat is already assigned to tenant"
+            "tenant_id.unique"=>"A flat is already assigned to tenant",
+            "rent_enquiry_id.unique"=>"A breakdown is already created for the tenant"
         ];
     }
 

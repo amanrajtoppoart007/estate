@@ -12,11 +12,11 @@ use App\Http\Requests\StoreEmployee;
 use App\Http\Requests\UpdateEmployee;
 use App\State;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Hash;
 use App\Admin;
 
 
@@ -47,19 +47,19 @@ class EmployeeController extends Controller
         $request->validated();
         $data = $request->only(['name','mobile','email','password','emirates_id','gender','civil_status','age','bank_name','bank_ifsc_code','is_admin',
             'bank_account','banking_name','country_id','state_id','city_id','address','department_id','designation_id','id_number','official_email','status','work_permit_number','iban_number','fixed_salary']);
-        $folder               = Str::studly(strtolower($request->name));
-        $data['dob']          = date('Y-m-d',strtotime($request->dob));
-        $data['joining_date'] = date('Y-m-d',strtotime($request->joining_date));
+        $folder               = Str::studly(strtolower($request->input('name')));
+        $data['dob']          = date('Y-m-d',strtotime($request->input("dob")));
+        $data['joining_date'] = date('Y-m-d',strtotime($request->input('joining_date')));
         if($request->hasfile('photo'))
         {
             $data['photo']    = GlobalHelper::singleFileUpload('local','photo',"employees/$folder");
         }
         if($employee = Employee::create($data))
         {
-            if($request->is_admin==1)
+            if($request->input('is_admin')==1)
             {
-               $role   = pluck_single_value('designations','designation_id',$request->designation_id,'name');
-               $admin  = array('employee_id'=>$employee->id,'name'=>$request->name,'email'=>$request->email,'role'=>$role,'password'=>Hash::make($request->password));
+               $role   = pluck_single_value('designations','id',$request->input('designation_id'),'name');
+               $admin  = array('employee_id'=>$employee->id,'name'=>$request->input('name'),'email'=>$request->input('official_email'),'role'=>$role,'password'=>Hash::make($request->password));
                Admin::create($admin);
             }
 
@@ -165,7 +165,7 @@ class EmployeeController extends Controller
         ]);
         if(!$validator->fails())
         {
-            $status = ($request->status) ? '0' : '1';
+            $status = ($request->input('status')) ? '0' : '1';
             if (Employee::where(['id' => $request->id])->update(['status' => $status]))
             {
                 return response()->json(['status'=>1,'response' => 'success', 'data' => ['status' => $status, 'id' => $request->id], 'message' => 'Status updated successfully.']);
