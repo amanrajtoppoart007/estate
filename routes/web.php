@@ -76,7 +76,7 @@ Route::prefix('master')->group(function () {
     Route::get('/', 'AdminAuth\LoginController@showLoginForm')->name('admin.login');
 
     Route::get('/login', 'AdminAuth\LoginController@showLoginForm')->name('admin.login');
-    Route::get('/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
+    Route::get('/dashboard', 'Admin\DashboardController@index2')->name('admin.dashboard');
     Route::post('/login', 'AdminAuth\LoginController@login')->name('admin.login.submit');
 //forgot password routes
     Route::post('/password/email', 'AdminAuth\ForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');

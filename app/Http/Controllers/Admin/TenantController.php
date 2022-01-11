@@ -15,6 +15,7 @@ use App\RentEnquiry;
 use App\State;
 use App\Tenant;
 use App\Country;
+use App\TenantRelation;
 use App\DataTable\Api;
 use App\PropertyUnitAllotment;
 use App\Library\UpdateTenantRelation;
@@ -191,6 +192,21 @@ class TenantController extends Controller
             }
         }
         return response()->json(['status'=>'0','response' => 'error', 'message' => $validator->errors()->all()]);
+    }
+    public function tenant_relation_remove(Request $request)
+    {
+       
+           
+            if (TenantRelation::where(['id' => $request->id])->delete())
+            {
+                return response()->json(['status'=>1,'response' => 'success',  'message' => 'Relation removed successfully.']);
+            }
+             else
+            {
+                return response()->json(['status'=>'0','response' => 'error', 'message' => 'Something went wrong!!']);
+            }
+        
+     
     }
     public function renewal_list()
     {

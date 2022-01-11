@@ -9,7 +9,7 @@ Route::prefix('accounts')->group(function () {
     Route::get('new-lease-contract', 'Admin\Accounting\AccountingController@new_lease_contracts')->name('contracts.lease.new');
     //// Voucher
     Route::get('new-cash-receipt', 'Admin\Accounting\AccountingController@receipt_cash_new')->name('new.receipt.cash');
-    Route::post('new-cash-voucher-create', 'Admin\Accounting\VoucherController@store_new_cash_voucher')->name('new.cash.voucher.store');
+    Route::post('new-cash-receipt-voucher-create', 'Admin\Accounting\VoucherController@store_new_receipt_cash_voucher')->name('new.cash.voucher.store');
     Route::get('new-cheque-receipt', 'Admin\Accounting\AccountingController@receipt_cheque_new')->name('new.receipt.cheque');
     Route::post('new-cheque-voucher-create', 'Admin\Accounting\VoucherController@store_new_cheque_voucher')->name('new.cheque.voucher.store');
     Route::get('view-receipt-voucher/{id}', 'Admin\Accounting\AccountingController@view_receipt_voucher')->name('view.receipt.voucher');
@@ -27,6 +27,7 @@ Route::prefix('accounts')->group(function () {
     Route::post('fetch-chart-of-dt', 'Admin\Accounting\CoaController@datatable_coa')->name('chart.of.accounts.dt');
     Route::post('store-chart-of-acc', 'Admin\Accounting\CoaController@store_new_account')->name('chart.of.accounts.store');
     Route::post('get-coa-by-cat', 'Admin\Accounting\CoaController@get_account_by_category')->name('get.coa.by.category');
+    Route::get('view-chart-of-account/{id}', 'Admin\Accounting\AccountingController@view_chart_of_acccoutn')->name('chart.of.account.view');
 
     Route::get('bank-accounts', 'Admin\Accounting\AccountingController@bank_accounts')->name('acc.bank.accounts');
 

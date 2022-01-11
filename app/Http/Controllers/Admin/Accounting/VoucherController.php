@@ -7,7 +7,7 @@ use App\BankAccount;
 use App\Http\Controllers\Controller;
 use App\PaymentData;
 use App\PaymentVoucher;
-use App\ReceiptData;
+use App\VoucherData;
 use App\ReceiptVoucher;
 use Illuminate\Http\Request;
 use App\TenantProfile;
@@ -37,7 +37,7 @@ class VoucherController extends Controller
         }
     }
 
-    public function store_new_cash_voucher(Request $request)
+    public function store_new_receipt_cash_voucher(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'voucher_number' => 'required',
@@ -68,12 +68,15 @@ class VoucherController extends Controller
         if ($vou->save()) {
             $i = 0;
             foreach ($request->type as $des){
-            $data               = new ReceiptData();
-            $data->receipt_vouchers_id   = $vou->id;
-            $data->description  = $request->type[$i];
-            $data->amount       = $request->amount[$i];
-            $data->remark      = $request->remark[$i];
+            $data                       = new VoucherData();
+            $data->receipt_vouchers_id  = $vou->id;
+            $data->description          = $request->type[$i];
+            $data->amount               = $request->amount[$i];
             $data->save();
+            if($request->type[$i]=='BOOKING_FEES'){
+
+            }
+
             $i++;
             }
 
@@ -154,7 +157,7 @@ class VoucherController extends Controller
         if ($vou->save()) {
             $i = 0;
             foreach ($request->type as $des){
-                $data               = new ReceiptData();
+                $data               = new VoucherData();
                 $data->receipt_vouchers_id   = $vou->id;
                 $data->bank         = $request->bank[$i];
                 $data->description  = $request->type[$i];
